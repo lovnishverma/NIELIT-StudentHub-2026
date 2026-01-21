@@ -1298,6 +1298,7 @@ To create skilled IT professionals and promote research and development in emerg
 
 ### Version 1.0 ✅ (Current - Completed)
 - [x] User authentication with SHA-256 hashing
+- [x] Share your project with anyone (no need to signup to view shared project)
 - [x] Profile management with Cloudinary images
 - [x] Project posting with images
 - [x] Upvote system
