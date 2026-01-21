@@ -2097,6 +2097,11 @@
             if (!container) return;
             const list = profiles || allProfiles;
             
+            if (list.length === 0) {
+                 container.innerHTML = `<div class="empty-state"><h3>No Profiles Found</h3></div>`;
+                 return;
+            }
+
             container.innerHTML = `<div class="profiles-grid">` + list.map(p => `
                 <div class="profile-card" onclick="viewUserProfile('${p.email}')">
                     ${p.profilePicture ? `<img src="${p.profilePicture}" class="profile-card-avatar">` : `<div class="profile-card-avatar placeholder">${p.name[0]}</div>`}
@@ -2338,13 +2343,16 @@
         function closeModal(id) { document.getElementById(id+'Modal').classList.remove('active'); }
         function openModal(id) { document.getElementById(id+'Modal').classList.add('active'); }
         
-        function showProfiles() {
+        async function showProfiles() {
             currentView = 'profiles';
             document.getElementById('feedView').style.display = 'none';
             document.getElementById('profilesView').style.display = 'block';
             document.getElementById('userProfileView').style.display = 'none';
             document.querySelectorAll('.nav-link').forEach(el => el.classList.remove('active'));
             document.querySelector('.nav-link[data-view="profiles"]').classList.add('active');
+            
+            // Force refresh data when showing profiles to ensure latest list
+            await loadData();
             renderProfiles();
         }
 
