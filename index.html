@@ -8,10 +8,10 @@
     <style>
         :root {
             /* NIELIT Theme Colors */
-            --primary: #003366;        /* NIELIT Dark Blue */
-            --secondary: #FF6B35;      /* Accent Orange */
-            --accent: #0066CC;         /* NIELIT Light Blue */
-            --nielit-red: #DC143C;     /* NIELIT Red accent */
+            --primary: #003366;
+            --secondary: #FF6B35;
+            --accent: #0066CC;
+            --nielit-red: #DC143C;
             --background: #F5F7FA;
             --card-bg: #FFFFFF;
             --text-primary: #1A1A1A;
@@ -281,7 +281,7 @@
             background: var(--background);
         }
 
-        /* Main Container */
+        /* Container */
         .container {
             max-width: 1400px;
             margin: 0 auto;
@@ -1017,6 +1017,81 @@
             color: var(--accent);
         }
 
+        /* Comments Section */
+        .comments-section {
+            margin-top: 1.5rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid var(--border);
+        }
+
+        .comment-input-container {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .comment-input {
+            flex: 1;
+            padding: 0.75rem;
+            border: 2px solid var(--border);
+            border-radius: 10px;
+            font-family: 'Poppins', sans-serif;
+            resize: vertical;
+            min-height: 60px;
+        }
+
+        .comment-input:focus {
+            outline: none;
+            border-color: var(--accent);
+            box-shadow: 0 0 0 3px rgba(0, 102, 204, 0.1);
+        }
+
+        .comment {
+            padding: 1rem;
+            background: var(--background);
+            border-radius: 10px;
+            margin-bottom: 1rem;
+        }
+
+        .comment-header {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .comment-avatar {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+        .comment-avatar.placeholder {
+            background: var(--gradient-accent);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 0.9rem;
+        }
+
+        .comment-author {
+            font-weight: 600;
+            font-size: 0.95rem;
+        }
+
+        .comment-time {
+            color: var(--text-secondary);
+            font-size: 0.85rem;
+        }
+
+        .comment-text {
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+
         .toast {
             position: fixed;
             bottom: 2rem;
@@ -1090,7 +1165,7 @@
             display: none !important;
         }
 
-        /* Profile Grid for Profiles View */
+        /* Profile Grid */
         .profiles-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
@@ -1258,7 +1333,7 @@
     <div id="loginPage" class="auth-page">
         <div class="auth-container">
             <div class="auth-logo-container">
-                <img src="logo.png" alt="NIELIT Logo" class="auth-nielit-logo">
+                <img src="logo.png" alt="NIELIT Logo" class="auth-nielit-logo" onerror="this.style.display='none'">
                 <div class="auth-logo">StudentHub</div>
                 <div style="color: var(--text-secondary); font-size: 0.85rem;">NIELIT Ropar</div>
             </div>
@@ -1275,7 +1350,7 @@
                 <button type="submit" class="btn btn-primary" style="width: 100%; margin-top: 1rem;">Log In</button>
             </form>
             <div class="auth-switch">
-                Don't have an account? <a href="#" onclick="showSignup()">Sign up</a>
+                Don't have an account? <a href="#" onclick="showSignup(); return false;">Sign up</a>
             </div>
         </div>
     </div>
@@ -1284,7 +1359,7 @@
     <div id="signupPage" class="auth-page hidden">
         <div class="auth-container">
             <div class="auth-logo-container">
-                <img src="logo.png" alt="NIELIT Logo" class="auth-nielit-logo">
+                <img src="logo.png" alt="NIELIT Logo" class="auth-nielit-logo" onerror="this.style.display='none'">
                 <div class="auth-logo">StudentHub</div>
                 <div style="color: var(--text-secondary); font-size: 0.85rem;">NIELIT Ropar</div>
             </div>
@@ -1320,12 +1395,12 @@
                 <button type="submit" class="btn btn-primary" style="width: 100%; margin-top: 1rem;">Create Account</button>
             </form>
             <div class="auth-switch">
-                Already have an account? <a href="#" onclick="showLogin()">Log in</a>
+                Already have an account? <a href="#" onclick="showLogin(); return false;">Log in</a>
             </div>
         </div>
     </div>
 
-    <!-- Main App (hidden until logged in) -->
+    <!-- Main App -->
     <div id="mainApp" class="hidden">
         <!-- Mobile Overlay -->
         <div id="mobileOverlay" class="mobile-overlay" onclick="closeMobileMenu()"></div>
@@ -1337,11 +1412,11 @@
                 <button class="close-btn" onclick="closeMobileMenu()">&times;</button>
             </div>
             <div class="mobile-nav-links">
-                <a href="#" class="mobile-nav-link active" data-view="feed" onclick="mobileNavClick('feed')">🏠 Feed</a>
-                <a href="#" class="mobile-nav-link" data-view="profiles" onclick="mobileNavClick('profiles')">👥 Profiles</a>
-                <a href="#" class="mobile-nav-link" onclick="closeMobileMenu(); openModal('project')">➕ Post Project</a>
-                <a href="#" class="mobile-nav-link" onclick="closeMobileMenu(); openModal('editProfile')">👤 Edit Profile</a>
-                <a href="#" class="mobile-nav-link" onclick="logout()">🚪 Logout</a>
+                <a href="#" class="mobile-nav-link active" data-view="feed" onclick="mobileNavClick('feed'); return false;">🏠 Feed</a>
+                <a href="#" class="mobile-nav-link" data-view="profiles" onclick="mobileNavClick('profiles'); return false;">👥 Profiles</a>
+                <a href="#" class="mobile-nav-link" onclick="closeMobileMenu(); openModal('project'); return false;">➕ Post Project</a>
+                <a href="#" class="mobile-nav-link" onclick="closeMobileMenu(); openModal('editProfile'); return false;">👤 Edit Profile</a>
+                <a href="#" class="mobile-nav-link" onclick="logout(); return false;">🚪 Logout</a>
             </div>
         </nav>
 
@@ -1350,15 +1425,15 @@
             <div class="nav-container">
                 <button class="mobile-menu-btn" onclick="openMobileMenu()">☰</button>
                 <div class="logo-container" onclick="loadFeed()">
-                    <img src="logo.png" alt="NIELIT" class="nielit-logo">
+                    <img src="logo.png" alt="NIELIT" class="nielit-logo" onerror="this.style.display='none'">
                     <div>
                         <div class="logo">StudentHub</div>
                         <div class="logo-subtitle">NIELIT Ropar</div>
                     </div>
                 </div>
                 <div class="nav-links">
-                    <a href="#" class="nav-link active" data-view="feed">Feed</a>
-                    <a href="#" class="nav-link" data-view="profiles">Profiles</a>
+                    <a href="#" class="nav-link active" data-view="feed" onclick="return false;">Feed</a>
+                    <a href="#" class="nav-link" data-view="profiles" onclick="return false;">Profiles</a>
                     <button class="btn btn-primary" onclick="openModal('project')">Post Project</button>
                     <button class="btn-ghost" onclick="logout()">Logout</button>
                 </div>
@@ -1584,6 +1659,56 @@
         </div>
     </div>
 
+    <!-- Comments Modal -->
+    <div id="commentsModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Comments</h2>
+                <button class="close-btn" onclick="closeModal('comments')">&times;</button>
+            </div>
+            <div id="commentsContent">
+                <div class="comment-input-container">
+                    <textarea id="commentInput" class="comment-input" placeholder="Write a comment..."></textarea>
+                    <button class="btn btn-primary" onclick="submitComment()" style="align-self: flex-start;">Post</button>
+                </div>
+                <div id="commentsList">
+                    <div class="loading">
+                        <div class="spinner"></div>
+                        <p>Loading comments...</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Share Modal -->
+    <div id="shareModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Share Project</h2>
+                <button class="close-btn" onclick="closeModal('share')">&times;</button>
+            </div>
+            <div style="padding: 1rem;">
+                <p style="margin-bottom: 1.5rem; color: var(--text-secondary);">Share this project with others:</p>
+                <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
+                    <button class="btn btn-secondary" onclick="shareViaLink()" style="flex: 1; min-width: 150px;">
+                        📋 Copy Link
+                    </button>
+                    <button class="btn btn-secondary" onclick="shareViaEmail()" style="flex: 1; min-width: 150px;">
+                        📧 Email
+                    </button>
+                    <button class="btn btn-secondary" onclick="shareViaWhatsApp()" style="flex: 1; min-width: 150px;">
+                        💬 WhatsApp
+                    </button>
+                </div>
+                <div id="shareLinkContainer" style="margin-top: 1.5rem; padding: 1rem; background: var(--background); border-radius: 10px; display: none;">
+                    <p style="font-weight: 600; margin-bottom: 0.5rem;">Project Link:</p>
+                    <input type="text" id="shareLink" readonly style="width: 100%; padding: 0.75rem; border: 2px solid var(--border); border-radius: 8px; font-family: 'Poppins', sans-serif;">
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- Toast Notification -->
     <div id="toast" class="toast">
         <span id="toastMessage"></span>
@@ -1591,9 +1716,10 @@
 
     <script>
         // ====== CONFIGURATION ======
-        const SHEET_URL = 'https://script.google.com/macros/s/AKfycbzwd5jANpnYQVlzWtV6phUrmjkuIKwTTgxB0dWLv36bfLqAOKIKSZ1-0iGTm760vBGG/exec';
+        // IMPORTANT: Replace with your actual Google Apps Script Web App URL
+        const SHEET_URL = 'YOUR_GOOGLE_APPS_SCRIPT_URL_HERE';
         const CLOUDINARY_UPLOAD_PRESET = 'studenthub_preset';
-        const CLOUDINARY_CLOUD_NAME = 'dy8up08qd';
+        const CLOUDINARY_CLOUD_NAME = 'YOUR_CLOUDINARY_CLOUD_NAME';
         
         // ====== STATE ======
         let currentUser = null;
@@ -1602,13 +1728,24 @@
         let userUpvotes = new Set();
         let currentView = 'feed';
         let viewingUserEmail = null;
+        let currentProjectIdForComments = null;
+        let currentProjectForShare = null;
 
         // ====== INITIALIZATION ======
         document.addEventListener('DOMContentLoaded', () => {
+            initializeApp();
+        });
+
+        function initializeApp() {
+            // Check if configuration is set
+            if (SHEET_URL === 'YOUR_GOOGLE_APPS_SCRIPT_URL_HERE') {
+                console.warn('⚠️ Google Apps Script URL not configured. Using demo mode.');
+            }
+            
             checkAuth();
             setupImagePreviewHandlers();
             setupSearchHandlers();
-        });
+        }
 
         // ====== MOBILE MENU ======
         function openMobileMenu() {
@@ -1637,17 +1774,21 @@
 
         // ====== SEARCH FUNCTIONALITY ======
         function setupSearchHandlers() {
-            // Project search
-            document.getElementById('projectSearch')?.addEventListener('input', (e) => {
-                const searchTerm = e.target.value.toLowerCase();
-                filterProjects(searchTerm);
-            });
+            const projectSearch = document.getElementById('projectSearch');
+            if (projectSearch) {
+                projectSearch.addEventListener('input', (e) => {
+                    const searchTerm = e.target.value.toLowerCase();
+                    filterProjects(searchTerm);
+                });
+            }
 
-            // Profile search
-            document.getElementById('profileSearch')?.addEventListener('input', (e) => {
-                const searchTerm = e.target.value.toLowerCase();
-                filterProfiles(searchTerm);
-            });
+            const profileSearch = document.getElementById('profileSearch');
+            if (profileSearch) {
+                profileSearch.addEventListener('input', (e) => {
+                    const searchTerm = e.target.value.toLowerCase();
+                    filterProfiles(searchTerm);
+                });
+            }
         }
 
         function filterProjects(searchTerm) {
@@ -1723,21 +1864,31 @@
             currentUser = null;
             closeMobileMenu();
             showLogin();
+            showToast('Logged out successfully', true);
         }
 
         // ====== IMAGE UPLOAD ======
         function setupImagePreviewHandlers() {
-            document.getElementById('signupProfileImage')?.addEventListener('change', (e) => {
-                previewImage(e.target, 'signupProfilePreview', true);
-            });
+            const signupImage = document.getElementById('signupProfileImage');
+            if (signupImage) {
+                signupImage.addEventListener('change', (e) => {
+                    previewImage(e.target, 'signupProfilePreview', true);
+                });
+            }
 
-            document.getElementById('editProfileImage')?.addEventListener('change', (e) => {
-                previewImage(e.target, 'editProfilePreview', true);
-            });
+            const editImage = document.getElementById('editProfileImage');
+            if (editImage) {
+                editImage.addEventListener('change', (e) => {
+                    previewImage(e.target, 'editProfilePreview', true);
+                });
+            }
 
-            document.getElementById('projectImage')?.addEventListener('change', (e) => {
-                previewImage(e.target, 'projectImagePreview', false);
-            });
+            const projectImage = document.getElementById('projectImage');
+            if (projectImage) {
+                projectImage.addEventListener('change', (e) => {
+                    previewImage(e.target, 'projectImagePreview', false);
+                });
+            }
         }
 
         function previewImage(input, previewId, isCircle) {
@@ -1758,6 +1909,11 @@
         async function uploadToCloudinary(file) {
             if (!file) return null;
 
+            if (CLOUDINARY_CLOUD_NAME === 'YOUR_CLOUDINARY_CLOUD_NAME') {
+                console.warn('⚠️ Cloudinary not configured. Skipping image upload.');
+                return null;
+            }
+
             const formData = new FormData();
             formData.append('file', file);
             formData.append('upload_preset', CLOUDINARY_UPLOAD_PRESET);
@@ -1771,10 +1927,15 @@
                     }
                 );
 
+                if (!response.ok) {
+                    throw new Error('Upload failed');
+                }
+
                 const data = await response.json();
                 return data.secure_url;
             } catch (error) {
                 console.error('Error uploading image:', error);
+                showToast('Image upload failed. Continuing without image.', false);
                 return null;
             }
         }
@@ -1798,15 +1959,12 @@
         function viewUserProfile(email) {
             viewingUserEmail = email;
             
-            // Find user profile
             const profile = allProfiles.find(p => p.email === email) || currentUser;
             
-            // Hide other views
             document.getElementById('feedView').style.display = 'none';
             document.getElementById('profilesView').style.display = 'none';
             document.getElementById('userProfileView').style.display = 'block';
             
-            // Update profile header
             const avatar = document.getElementById('userProfileAvatar');
             if (profile.profilePicture) {
                 avatar.src = profile.profilePicture;
@@ -1823,7 +1981,6 @@
             document.getElementById('userProfileMajor').textContent = profile.major ? `📚 ${profile.major}` : '';
             document.getElementById('userProfileBio').textContent = profile.bio || '';
             
-            // Social links
             const linksContainer = document.getElementById('userProfileLinks');
             linksContainer.innerHTML = '';
             if (profile.linkedin) {
@@ -1833,11 +1990,10 @@
                 linksContainer.innerHTML += `<a href="${profile.github}" target="_blank" class="btn btn-secondary" style="padding: 0.5rem 1rem;">GitHub</a>`;
             }
             
-            // Filter and display user's projects
             const userProjects = allProjects.filter(p => p.authorEmail === email);
             document.getElementById('userProjectCount').textContent = userProjects.length;
             
-            const totalUpvotes = userProjects.reduce((sum, p) => sum + (p.upvotes || 0), 0);
+            const totalUpvotes = userProjects.reduce((sum, p) => sum + (parseInt(p.upvotes) || 0), 0);
             document.getElementById('userTotalUpvotes').textContent = totalUpvotes;
             
             renderProjects(userProjects, 'userProjectsContainer');
@@ -1865,10 +2021,35 @@
         document.getElementById('loginForm')?.addEventListener('submit', async (e) => {
             e.preventDefault();
             
-            const email = document.getElementById('loginEmail').value;
+            const email = document.getElementById('loginEmail').value.trim();
             const password = document.getElementById('loginPassword').value;
 
+            if (!email || !password) {
+                showToast('Please enter both email and password', false);
+                return;
+            }
+
             try {
+                if (SHEET_URL === 'YOUR_GOOGLE_APPS_SCRIPT_URL_HERE') {
+                    // Demo mode
+                    if (email === 'demo@nielit.gov.in' && password === 'demo123') {
+                        currentUser = {
+                            name: 'Demo Student',
+                            email: 'demo@nielit.gov.in',
+                            profilePicture: '',
+                            university: 'NIELIT Ropar',
+                            major: 'Computer Science',
+                            bio: ''
+                        };
+                        localStorage.setItem('studenthub_user', JSON.stringify(currentUser));
+                        showMainApp();
+                        showToast('Welcome back! 👋 (Demo Mode)', true);
+                    } else {
+                        showToast('Invalid credentials. Try: demo@nielit.gov.in / demo123', false);
+                    }
+                    return;
+                }
+
                 const response = await fetch(`${SHEET_URL}?action=login&email=${encodeURIComponent(email)}&password=${encodeURIComponent(password)}`);
                 const result = await response.json();
 
@@ -1879,7 +2060,7 @@
                     showMainApp();
                     showToast('Welcome back! 👋', true);
                 } else {
-                    showToast('Invalid email or password', false);
+                    showToast(result.data || 'Invalid email or password', false);
                 }
             } catch (error) {
                 console.error('Login error:', error);
@@ -1890,6 +2071,20 @@
         document.getElementById('signupForm')?.addEventListener('submit', async (e) => {
             e.preventDefault();
             
+            const name = document.getElementById('signupName').value.trim();
+            const email = document.getElementById('signupEmail').value.trim();
+            const password = document.getElementById('signupPassword').value;
+
+            if (!name || !email || !password) {
+                showToast('Please fill in all required fields', false);
+                return;
+            }
+
+            if (password.length < 6) {
+                showToast('Password must be at least 6 characters', false);
+                return;
+            }
+
             const profileImageFile = document.getElementById('signupProfileImage').files[0];
             let profilePictureUrl = null;
 
@@ -1899,19 +2094,35 @@
             }
 
             const userData = {
-                name: document.getElementById('signupName').value,
-                email: document.getElementById('signupEmail').value,
-                password: document.getElementById('signupPassword').value,
-                university: document.getElementById('signupUniversity').value,
-                major: document.getElementById('signupMajor').value,
+                name: name,
+                email: email,
+                password: password,
+                university: document.getElementById('signupUniversity').value.trim(),
+                major: document.getElementById('signupMajor').value.trim(),
                 profilePicture: profilePictureUrl,
                 timestamp: new Date().toISOString()
             };
 
             try {
+                if (SHEET_URL === 'YOUR_GOOGLE_APPS_SCRIPT_URL_HERE') {
+                    // Demo mode
+                    currentUser = {
+                        name: userData.name,
+                        email: userData.email,
+                        profilePicture: userData.profilePicture,
+                        university: userData.university,
+                        major: userData.major,
+                        bio: ''
+                    };
+                    
+                    localStorage.setItem('studenthub_user', JSON.stringify(currentUser));
+                    showMainApp();
+                    showToast('Account created successfully! 🎉 (Demo Mode)', true);
+                    return;
+                }
+
                 const response = await fetch(SHEET_URL, {
                     method: 'POST',
-                    mode: 'no-cors',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({
                         action: 'signup',
@@ -1919,27 +2130,27 @@
                     })
                 });
 
-                currentUser = {
-                    name: userData.name,
-                    email: userData.email,
-                    profilePicture: userData.profilePicture,
-                    university: userData.university,
-                    major: userData.major
-                };
-                
-                localStorage.setItem('studenthub_user', JSON.stringify(currentUser));
-                localStorage.setItem('studenthub_session', Date.now().toString());
-                
-                showMainApp();
-                showToast('Account created successfully! 🎉', true);
+                const result = await response.json();
+
+                if (result.status === 'success') {
+                    currentUser = result.data;
+                    localStorage.setItem('studenthub_user', JSON.stringify(currentUser));
+                    localStorage.setItem('studenthub_session', Date.now().toString());
+                    showMainApp();
+                    showToast('Account created successfully! 🎉', true);
+                } else {
+                    showToast(result.data || 'Signup failed', false);
+                }
             } catch (error) {
                 console.error('Signup error:', error);
+                // Fallback to local storage
                 currentUser = {
                     name: userData.name,
                     email: userData.email,
                     profilePicture: userData.profilePicture,
                     university: userData.university,
-                    major: userData.major
+                    major: userData.major,
+                    bio: ''
                 };
                 localStorage.setItem('studenthub_user', JSON.stringify(currentUser));
                 showMainApp();
@@ -1960,25 +2171,26 @@
 
             const updatedData = {
                 ...currentUser,
-                name: document.getElementById('editName').value,
-                university: document.getElementById('editUniversity').value,
-                major: document.getElementById('editMajor').value,
-                linkedin: document.getElementById('editLinkedIn').value,
-                github: document.getElementById('editGitHub').value,
-                bio: document.getElementById('editBio').value,
+                name: document.getElementById('editName').value.trim(),
+                university: document.getElementById('editUniversity').value.trim(),
+                major: document.getElementById('editMajor').value.trim(),
+                linkedin: document.getElementById('editLinkedIn').value.trim(),
+                github: document.getElementById('editGitHub').value.trim(),
+                bio: document.getElementById('editBio').value.trim(),
                 profilePicture: profilePictureUrl
             };
 
             try {
-                await fetch(SHEET_URL, {
-                    method: 'POST',
-                    mode: 'no-cors',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                        action: 'updateProfile',
-                        data: updatedData
-                    })
-                });
+                if (SHEET_URL !== 'YOUR_GOOGLE_APPS_SCRIPT_URL_HERE') {
+                    await fetch(SHEET_URL, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({
+                            action: 'updateProfile',
+                            data: updatedData
+                        })
+                    });
+                }
 
                 currentUser = updatedData;
                 localStorage.setItem('studenthub_user', JSON.stringify(currentUser));
@@ -1986,7 +2198,6 @@
                 closeModal('editProfile');
                 showToast('Profile updated successfully! ✨', true);
                 
-                // Reload data to update profiles list
                 loadData();
             } catch (error) {
                 console.error('Update error:', error);
@@ -2006,6 +2217,14 @@
                 return;
             }
 
+            const title = document.getElementById('projectTitle').value.trim();
+            const description = document.getElementById('projectDescription').value.trim();
+
+            if (!title || !description) {
+                showToast('Please fill in title and description', false);
+                return;
+            }
+
             const projectImageFile = document.getElementById('projectImage').files[0];
             let projectImageUrl = null;
 
@@ -2019,25 +2238,28 @@
                 authorName: currentUser.name,
                 authorEmail: currentUser.email,
                 authorPicture: currentUser.profilePicture,
-                title: document.getElementById('projectTitle').value,
-                description: document.getElementById('projectDescription').value,
-                link: document.getElementById('projectLink').value,
-                tech: document.getElementById('projectTech').value,
+                title: title,
+                description: description,
+                link: document.getElementById('projectLink').value.trim(),
+                tech: document.getElementById('projectTech').value.trim(),
                 projectImage: projectImageUrl,
                 upvotes: 0,
+                commentCount: 0,
+                shareCount: 0,
                 timestamp: new Date().toISOString()
             };
 
             try {
-                await fetch(SHEET_URL, {
-                    method: 'POST',
-                    mode: 'no-cors',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                        action: 'addProject',
-                        data: projectData
-                    })
-                });
+                if (SHEET_URL !== 'YOUR_GOOGLE_APPS_SCRIPT_URL_HERE') {
+                    await fetch(SHEET_URL, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({
+                            action: 'addProject',
+                            data: projectData
+                        })
+                    });
+                }
 
                 allProjects.unshift(projectData);
                 renderProjects();
@@ -2052,6 +2274,8 @@
                 console.error('Error posting project:', error);
                 allProjects.unshift(projectData);
                 renderProjects();
+                updateTrending();
+                updateStats();
                 closeModal('project');
                 showToast('Project saved locally!', true);
             }
@@ -2060,40 +2284,59 @@
         // ====== DATA LOADING ======
         async function loadData() {
             try {
+                if (SHEET_URL === 'YOUR_GOOGLE_APPS_SCRIPT_URL_HERE') {
+                    // Demo mode - load demo data
+                    loadDemoData();
+                    return;
+                }
+
                 // Try to load projects
+                let projectsLoaded = false;
                 try {
-                    const projectsResponse = await fetch(`${SHEET_URL}?action=getProjects`);
+                    const projectsResponse = await fetch(`${SHEET_URL}?action=getProjects`, {
+                        method: 'GET',
+                        cache: 'no-cache'
+                    });
                     const projectsData = await projectsResponse.json();
                     
                     if (projectsData.status === 'success') {
-                        allProjects = projectsData.data || [];
-                        console.log('Loaded projects:', allProjects.length);
+                        allProjects = Array.isArray(projectsData.data) ? projectsData.data : [];
+                        projectsLoaded = true;
+                        console.log('✓ Loaded projects:', allProjects.length);
                     }
                 } catch (projectError) {
                     console.error('Error loading projects:', projectError);
-                    // Continue to try loading profiles
                 }
 
                 // Try to load profiles
+                let profilesLoaded = false;
                 try {
-                    const profilesResponse = await fetch(`${SHEET_URL}?action=getProfiles`);
+                    const profilesResponse = await fetch(`${SHEET_URL}?action=getProfiles`, {
+                        method: 'GET',
+                        cache: 'no-cache'
+                    });
                     const profilesData = await profilesResponse.json();
                     
                     if (profilesData.status === 'success') {
-                        allProfiles = profilesData.data || [];
-                        console.log('Loaded profiles:', allProfiles.length);
+                        allProfiles = Array.isArray(profilesData.data) ? profilesData.data : [];
+                        profilesLoaded = true;
+                        console.log('✓ Loaded profiles:', allProfiles.length);
                     }
                 } catch (profileError) {
                     console.error('Error loading profiles:', profileError);
                 }
 
                 // If both failed or returned empty, load demo data
-                if (allProjects.length === 0 && allProfiles.length === 0) {
-                    console.log('No data loaded, using demo data');
+                if (!projectsLoaded && !profilesLoaded) {
+                    console.log('No data loaded from server, using demo data');
+                    loadDemoData();
+                } else if (allProjects.length === 0 && allProfiles.length === 0) {
+                    console.log('Empty data from server, using demo data');
                     loadDemoData();
                 } else {
                     // Update UI with loaded data
                     renderProjects();
+                    renderProfiles();
                     updateTrending();
                     updateStats();
                 }
@@ -2110,34 +2353,46 @@
                     id: '1',
                     authorName: 'Demo Student',
                     authorEmail: 'demo@nielit.gov.in',
+                    authorPicture: '',
                     title: 'AI Study Companion',
-                    description: 'An intelligent study assistant that uses machine learning to create personalized study plans and adapts to your learning style.',
+                    description: 'An intelligent study assistant that uses machine learning to create personalized study plans and adapts to your learning style. Features include automated quiz generation, progress tracking, and smart recommendations.',
                     link: 'https://github.com/demo/ai-study',
-                    tech: 'Python, TensorFlow, React',
+                    tech: 'Python, TensorFlow, React, Flask',
+                    projectImage: '',
                     upvotes: 42,
-                    timestamp: new Date(Date.now() - 86400000).toISOString() // 1 day ago
+                    commentCount: 8,
+                    shareCount: 12,
+                    timestamp: new Date(Date.now() - 86400000).toISOString()
                 },
                 {
                     id: '2',
                     authorName: 'Priya Sharma',
                     authorEmail: 'priya@nielit.gov.in',
+                    authorPicture: '',
                     title: 'Smart Campus Navigator',
-                    description: 'An AR-based mobile app that helps students navigate the NIELIT campus with real-time directions and building information.',
+                    description: 'An AR-based mobile app that helps students navigate the NIELIT campus with real-time directions and building information. Includes interactive 3D maps and location-based notifications.',
                     link: 'https://github.com/demo/campus-nav',
-                    tech: 'React Native, ARCore, Firebase',
+                    tech: 'React Native, ARCore, Firebase, Google Maps API',
+                    projectImage: '',
                     upvotes: 35,
-                    timestamp: new Date(Date.now() - 172800000).toISOString() // 2 days ago
+                    commentCount: 5,
+                    shareCount: 8,
+                    timestamp: new Date(Date.now() - 172800000).toISOString()
                 },
                 {
                     id: '3',
                     authorName: 'Rahul Kumar',
                     authorEmail: 'rahul@nielit.gov.in',
+                    authorPicture: '',
                     title: 'IoT Home Automation System',
-                    description: 'A comprehensive home automation system using IoT devices, controlled via mobile app and voice commands.',
+                    description: 'A comprehensive home automation system using IoT devices, controlled via mobile app and voice commands. Supports temperature control, lighting, security cameras, and energy monitoring.',
                     link: 'https://github.com/demo/iot-home',
-                    tech: 'Arduino, Node.js, MQTT, React',
+                    tech: 'Arduino, Node.js, MQTT, React Native, Alexa Skills',
+                    projectImage: '',
                     upvotes: 28,
-                    timestamp: new Date(Date.now() - 259200000).toISOString() // 3 days ago
+                    commentCount: 6,
+                    shareCount: 5,
+                    timestamp: new Date(Date.now() - 259200000).toISOString()
                 }
             ];
 
@@ -2147,7 +2402,7 @@
                     email: 'demo@nielit.gov.in',
                     university: 'NIELIT Ropar',
                     major: 'Computer Science',
-                    bio: 'Passionate about AI and Machine Learning. Love building innovative solutions.',
+                    bio: 'Passionate about AI and Machine Learning. Love building innovative solutions that make a difference.',
                     profilePicture: '',
                     linkedin: '',
                     github: '',
@@ -2158,7 +2413,7 @@
                     email: 'priya@nielit.gov.in',
                     university: 'NIELIT Ropar',
                     major: 'Mobile App Development',
-                    bio: 'AR/VR enthusiast. Building the future of mobile experiences.',
+                    bio: 'AR/VR enthusiast. Building the future of mobile experiences one app at a time.',
                     profilePicture: '',
                     linkedin: '',
                     github: '',
@@ -2169,7 +2424,7 @@
                     email: 'rahul@nielit.gov.in',
                     university: 'NIELIT Ropar',
                     major: 'IoT & Embedded Systems',
-                    bio: 'IoT developer. Creating smart solutions for everyday problems.',
+                    bio: 'IoT developer and maker. Creating smart solutions for everyday problems.',
                     profilePicture: '',
                     linkedin: '',
                     github: '',
@@ -2178,14 +2433,17 @@
             ];
 
             renderProjects();
+            renderProfiles();
             updateTrending();
             updateStats();
-            console.log('Demo data loaded successfully');
+            console.log('✓ Demo data loaded successfully');
         }
 
         // ====== RENDERING ======
         function renderProjects(projects = null, containerId = 'projectsContainer') {
             const container = document.getElementById(containerId);
+            if (!container) return;
+
             const projectsToRender = projects || allProjects;
             
             if (projectsToRender.length === 0) {
@@ -2200,13 +2458,18 @@
             }
 
             const sortedProjects = [...projectsToRender].sort((a, b) => {
-                if (b.upvotes !== a.upvotes) return b.upvotes - a.upvotes;
+                const aUpvotes = parseInt(a.upvotes) || 0;
+                const bUpvotes = parseInt(b.upvotes) || 0;
+                if (bUpvotes !== aUpvotes) return bUpvotes - aUpvotes;
                 return new Date(b.timestamp) - new Date(a.timestamp);
             });
 
             container.innerHTML = sortedProjects.map(project => {
                 const isUpvoted = userUpvotes.has(project.id);
                 const timeAgo = getTimeAgo(project.timestamp);
+                const upvotes = parseInt(project.upvotes) || 0;
+                const commentCount = parseInt(project.commentCount) || 0;
+                const shareCount = parseInt(project.shareCount) || 0;
                 
                 let avatarHTML;
                 if (project.authorPicture) {
@@ -2221,21 +2484,25 @@
                         <div class="project-header">
                             ${avatarHTML}
                             <div class="project-info">
-                                <h3 onclick="viewUserProfile('${project.authorEmail}')">${project.authorName}</h3>
+                                <h3 onclick="viewUserProfile('${project.authorEmail}')">${escapeHtml(project.authorName)}</h3>
                                 <div class="project-meta">${timeAgo}</div>
                             </div>
                         </div>
-                        <div class="project-title">${project.title}</div>
-                        ${project.projectImage ? `<img src="${project.projectImage}" class="project-image" alt="${project.title}">` : ''}
-                        <div class="project-description">${project.description}</div>
-                        ${project.link ? `<a href="${project.link}" target="_blank" class="project-link">View Project →</a>` : ''}
-                        ${project.tech ? `<div style="color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 1rem;">🛠️ ${project.tech}</div>` : ''}
+                        <div class="project-title">${escapeHtml(project.title)}</div>
+                        ${project.projectImage ? `<img src="${project.projectImage}" class="project-image" alt="${escapeHtml(project.title)}">` : ''}
+                        <div class="project-description">${escapeHtml(project.description)}</div>
+                        ${project.link ? `<a href="${project.link}" target="_blank" rel="noopener noreferrer" class="project-link">View Project →</a>` : ''}
+                        ${project.tech ? `<div style="color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 1rem;">🛠️ ${escapeHtml(project.tech)}</div>` : ''}
                         <div class="project-footer">
                             <button class="action-btn ${isUpvoted ? 'upvoted' : ''}" onclick="toggleUpvote('${project.id}')">
-                                👍 <span id="upvote-${project.id}">${project.upvotes || 0}</span>
+                                👍 <span id="upvote-${project.id}">${upvotes}</span>
                             </button>
-                            <button class="action-btn">💬 Comment</button>
-                            <button class="action-btn">🔗 Share</button>
+                            <button class="action-btn" onclick="openComments('${project.id}')">
+                                💬 <span id="comments-${project.id}">${commentCount}</span>
+                            </button>
+                            <button class="action-btn" onclick="openShare('${project.id}')">
+                                🔗 <span id="shares-${project.id}">${shareCount}</span>
+                            </button>
                         </div>
                     </div>
                 `;
@@ -2244,6 +2511,8 @@
 
         function renderProfiles(profiles = null) {
             const container = document.getElementById('profilesContainer');
+            if (!container) return;
+
             const profilesToRender = profiles || allProfiles;
             
             if (profilesToRender.length === 0) {
@@ -2259,7 +2528,7 @@
             container.innerHTML = `<div class="profiles-grid">` + profilesToRender.map(profile => {
                 let avatarHTML;
                 if (profile.profilePicture) {
-                    avatarHTML = `<img src="${profile.profilePicture}" class="profile-card-avatar" alt="${profile.name}">`;
+                    avatarHTML = `<img src="${profile.profilePicture}" class="profile-card-avatar" alt="${escapeHtml(profile.name)}">`;
                 } else {
                     const initial = profile.name.charAt(0).toUpperCase();
                     avatarHTML = `<div class="profile-card-avatar placeholder">${initial}</div>`;
@@ -2271,10 +2540,10 @@
                 return `
                     <div class="profile-card" onclick="viewUserProfile('${profile.email}')">
                         ${avatarHTML}
-                        <h3 style="margin-bottom: 0.5rem;">${profile.name}</h3>
-                        <div style="color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 0.5rem;">${profile.email}</div>
-                        ${profile.major ? `<div style="color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 0.5rem;">📚 ${profile.major}</div>` : ''}
-                        ${profile.university ? `<div style="color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 1rem;">🎓 ${profile.university}</div>` : ''}
+                        <h3 style="margin-bottom: 0.5rem;">${escapeHtml(profile.name)}</h3>
+                        <div style="color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 0.5rem;">${escapeHtml(profile.email)}</div>
+                        ${profile.major ? `<div style="color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 0.5rem;">📚 ${escapeHtml(profile.major)}</div>` : ''}
+                        ${profile.university ? `<div style="color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 1rem;">🎓 ${escapeHtml(profile.university)}</div>` : ''}
                         <div style="padding: 0.75rem; background: var(--background); border-radius: 8px; font-weight: 600; color: var(--primary);">
                             ${projectCount} Project${projectCount !== 1 ? 's' : ''}
                         </div>
@@ -2285,8 +2554,10 @@
 
         function updateTrending() {
             const container = document.getElementById('trendingContainer');
+            if (!container) return;
+
             const trending = [...allProjects]
-                .sort((a, b) => b.upvotes - a.upvotes)
+                .sort((a, b) => (parseInt(b.upvotes) || 0) - (parseInt(a.upvotes) || 0))
                 .slice(0, 5);
 
             if (trending.length === 0) {
@@ -2296,15 +2567,18 @@
 
             container.innerHTML = trending.map(project => `
                 <div class="trending-item" onclick="viewUserProfile('${project.authorEmail}')">
-                    <div class="trending-title">${project.title}</div>
-                    <div class="trending-meta">👍 ${project.upvotes} upvotes • by ${project.authorName}</div>
+                    <div class="trending-title">${escapeHtml(project.title)}</div>
+                    <div class="trending-meta">👍 ${parseInt(project.upvotes) || 0} upvotes • by ${escapeHtml(project.authorName)}</div>
                 </div>
             `).join('');
         }
 
         function updateStats() {
-            document.getElementById('totalProjects').textContent = allProjects.length;
-            document.getElementById('totalStudents').textContent = allProfiles.length;
+            const totalProjectsEl = document.getElementById('totalProjects');
+            const totalStudentsEl = document.getElementById('totalStudents');
+            
+            if (totalProjectsEl) totalProjectsEl.textContent = allProjects.length;
+            if (totalStudentsEl) totalStudentsEl.textContent = allProfiles.length;
         }
 
         // ====== UPVOTE SYSTEM ======
@@ -2315,10 +2589,10 @@
             const isUpvoted = userUpvotes.has(projectId);
             
             if (isUpvoted) {
-                project.upvotes = Math.max(0, project.upvotes - 1);
+                project.upvotes = Math.max(0, (parseInt(project.upvotes) || 0) - 1);
                 userUpvotes.delete(projectId);
             } else {
-                project.upvotes = (project.upvotes || 0) + 1;
+                project.upvotes = (parseInt(project.upvotes) || 0) + 1;
                 userUpvotes.add(projectId);
             }
 
@@ -2335,24 +2609,244 @@
             updateTrending();
 
             try {
-                await fetch(SHEET_URL, {
-                    method: 'POST',
-                    mode: 'no-cors',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                        action: 'updateUpvotes',
-                        projectId: projectId,
-                        upvotes: project.upvotes
-                    })
-                });
+                if (SHEET_URL !== 'YOUR_GOOGLE_APPS_SCRIPT_URL_HERE') {
+                    await fetch(SHEET_URL, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({
+                            action: 'updateUpvotes',
+                            projectId: projectId,
+                            upvotes: project.upvotes
+                        })
+                    });
+                }
             } catch (error) {
                 console.error('Error updating upvotes:', error);
+            }
+        }
+
+        // ====== COMMENTS SYSTEM ======
+        async function openComments(projectId) {
+            currentProjectIdForComments = projectId;
+            const project = allProjects.find(p => p.id === projectId);
+            
+            if (!project) return;
+            
+            openModal('comments');
+            document.getElementById('commentInput').value = '';
+            
+            await loadComments(projectId);
+        }
+
+        async function loadComments(projectId) {
+            const container = document.getElementById('commentsList');
+            if (!container) return;
+
+            container.innerHTML = `
+                <div class="loading">
+                    <div class="spinner"></div>
+                    <p>Loading comments...</p>
+                </div>
+            `;
+
+            try {
+                if (SHEET_URL !== 'YOUR_GOOGLE_APPS_SCRIPT_URL_HERE') {
+                    const response = await fetch(`${SHEET_URL}?action=getComments&projectId=${projectId}`);
+                    const result = await response.json();
+
+                    if (result.status === 'success' && Array.isArray(result.data)) {
+                        renderComments(result.data);
+                    } else {
+                        container.innerHTML = '<div style="padding: 2rem; text-align: center; color: var(--text-secondary);">No comments yet. Be the first to comment!</div>';
+                    }
+                } else {
+                    // Demo mode
+                    renderComments([]);
+                }
+            } catch (error) {
+                console.error('Error loading comments:', error);
+                container.innerHTML = '<div style="padding: 2rem; text-align: center; color: var(--text-secondary);">No comments yet. Be the first to comment!</div>';
+            }
+        }
+
+        function renderComments(comments) {
+            const container = document.getElementById('commentsList');
+            if (!container) return;
+
+            if (comments.length === 0) {
+                container.innerHTML = '<div style="padding: 2rem; text-align: center; color: var(--text-secondary);">No comments yet. Be the first to comment!</div>';
+                return;
+            }
+
+            container.innerHTML = comments.map(comment => {
+                const timeAgo = getTimeAgo(comment.timestamp);
+                
+                let avatarHTML;
+                if (comment.authorPicture) {
+                    avatarHTML = `<img src="${comment.authorPicture}" class="comment-avatar" alt="${escapeHtml(comment.authorName)}">`;
+                } else {
+                    const initial = comment.authorName.charAt(0).toUpperCase();
+                    avatarHTML = `<div class="comment-avatar placeholder">${initial}</div>`;
+                }
+
+                return `
+                    <div class="comment">
+                        <div class="comment-header">
+                            ${avatarHTML}
+                            <div>
+                                <div class="comment-author">${escapeHtml(comment.authorName)}</div>
+                                <div class="comment-time">${timeAgo}</div>
+                            </div>
+                        </div>
+                        <div class="comment-text">${escapeHtml(comment.comment)}</div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        async function submitComment() {
+            if (!currentUser) {
+                showToast('Please log in to comment', false);
+                return;
+            }
+
+            const commentInput = document.getElementById('commentInput');
+            const commentText = commentInput.value.trim();
+
+            if (!commentText) {
+                showToast('Please enter a comment', false);
+                return;
+            }
+
+            const commentData = {
+                id: Date.now().toString(),
+                projectId: currentProjectIdForComments,
+                authorName: currentUser.name,
+                authorEmail: currentUser.email,
+                authorPicture: currentUser.profilePicture || '',
+                comment: commentText,
+                timestamp: new Date().toISOString()
+            };
+
+            try {
+                if (SHEET_URL !== 'YOUR_GOOGLE_APPS_SCRIPT_URL_HERE') {
+                    await fetch(SHEET_URL, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({
+                            action: 'addComment',
+                            data: commentData
+                        })
+                    });
+                }
+
+                const project = allProjects.find(p => p.id === currentProjectIdForComments);
+                if (project) {
+                    project.commentCount = (parseInt(project.commentCount) || 0) + 1;
+                    const commentCountEl = document.getElementById(`comments-${currentProjectIdForComments}`);
+                    if (commentCountEl) {
+                        commentCountEl.textContent = project.commentCount;
+                    }
+                }
+
+                commentInput.value = '';
+                loadComments(currentProjectIdForComments);
+                showToast('Comment added! 💬', true);
+            } catch (error) {
+                console.error('Error adding comment:', error);
+                showToast('Failed to add comment', false);
+            }
+        }
+
+        // ====== SHARE SYSTEM ======
+        function openShare(projectId) {
+            currentProjectForShare = allProjects.find(p => p.id === projectId);
+            
+            if (!currentProjectForShare) return;
+            
+            openModal('share');
+            document.getElementById('shareLinkContainer').style.display = 'none';
+        }
+
+        function shareViaLink() {
+            if (!currentProjectForShare) return;
+
+            const shareUrl = currentProjectForShare.link || window.location.href;
+            const shareLink = document.getElementById('shareLink');
+            shareLink.value = shareUrl;
+            
+            document.getElementById('shareLinkContainer').style.display = 'block';
+            
+            shareLink.select();
+            shareLink.setSelectionRange(0, 99999);
+            
+            navigator.clipboard.writeText(shareUrl).then(() => {
+                showToast('Link copied to clipboard! 📋', true);
+                recordShare('link');
+            }).catch(() => {
+                showToast('Please copy the link manually', false);
+            });
+        }
+
+        function shareViaEmail() {
+            if (!currentProjectForShare) return;
+
+            const subject = encodeURIComponent(`Check out: ${currentProjectForShare.title}`);
+            const body = encodeURIComponent(`I found this amazing project on NIELIT StudentHub:\n\n${currentProjectForShare.title}\n${currentProjectForShare.description}\n\n${currentProjectForShare.link || window.location.href}`);
+            
+            window.open(`mailto:?subject=${subject}&body=${body}`);
+            recordShare('email');
+            showToast('Opening email client...', true);
+        }
+
+        function shareViaWhatsApp() {
+            if (!currentProjectForShare) return;
+
+            const text = encodeURIComponent(`Check out this amazing project: ${currentProjectForShare.title}\n\n${currentProjectForShare.description}\n\n${currentProjectForShare.link || window.location.href}`);
+            
+            window.open(`https://wa.me/?text=${text}`, '_blank');
+            recordShare('whatsapp');
+            showToast('Opening WhatsApp...', true);
+        }
+
+        async function recordShare(method) {
+            if (!currentUser || !currentProjectForShare) return;
+
+            const shareData = {
+                id: Date.now().toString(),
+                projectId: currentProjectForShare.id,
+                sharedBy: currentUser.email,
+                method: method,
+                timestamp: new Date().toISOString()
+            };
+
+            try {
+                if (SHEET_URL !== 'YOUR_GOOGLE_APPS_SCRIPT_URL_HERE') {
+                    await fetch(SHEET_URL, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({
+                            action: 'addShare',
+                            data: shareData
+                        })
+                    });
+                }
+
+                currentProjectForShare.shareCount = (parseInt(currentProjectForShare.shareCount) || 0) + 1;
+                const shareCountEl = document.getElementById(`shares-${currentProjectForShare.id}`);
+                if (shareCountEl) {
+                    shareCountEl.textContent = currentProjectForShare.shareCount;
+                }
+            } catch (error) {
+                console.error('Error recording share:', error);
             }
         }
 
         // ====== MODAL MANAGEMENT ======
         function openModal(type) {
             const modal = document.getElementById(type + 'Modal');
+            if (!modal) return;
+
             modal.classList.add('active');
             
             if (type === 'editProfile' && currentUser) {
@@ -2376,6 +2870,8 @@
 
         function closeModal(type) {
             const modal = document.getElementById(type + 'Modal');
+            if (!modal) return;
+
             modal.classList.remove('active');
         }
 
@@ -2411,7 +2907,9 @@
         function loadFeed() {
             currentView = 'feed';
             document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
-            document.querySelectorAll('.nav-link')[0].classList.add('active');
+            const feedLink = document.querySelectorAll('.nav-link')[0];
+            if (feedLink) feedLink.classList.add('active');
+            
             document.getElementById('feedView').style.display = 'block';
             document.getElementById('profilesView').style.display = 'none';
             document.getElementById('userProfileView').style.display = 'none';
@@ -2420,7 +2918,9 @@
         function showProfiles() {
             currentView = 'profiles';
             document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
-            document.querySelectorAll('.nav-link')[1].classList.add('active');
+            const profilesLink = document.querySelectorAll('.nav-link')[1];
+            if (profilesLink) profilesLink.classList.add('active');
+            
             document.getElementById('feedView').style.display = 'none';
             document.getElementById('profilesView').style.display = 'block';
             document.getElementById('userProfileView').style.display = 'none';
@@ -2432,6 +2932,8 @@
             const toast = document.getElementById('toast');
             const toastMessage = document.getElementById('toastMessage');
             
+            if (!toast || !toastMessage) return;
+
             toastMessage.textContent = message;
             toast.className = 'toast show ' + (isSuccess ? 'success' : '');
             
@@ -2441,6 +2943,8 @@
         }
 
         function getTimeAgo(timestamp) {
+            if (!timestamp) return 'Recently';
+
             const now = new Date();
             const time = new Date(timestamp);
             const diff = Math.floor((now - time) / 1000);
@@ -2450,6 +2954,13 @@
             if (diff < 86400) return Math.floor(diff / 3600) + ' hours ago';
             if (diff < 604800) return Math.floor(diff / 86400) + ' days ago';
             return time.toLocaleDateString();
+        }
+
+        function escapeHtml(text) {
+            if (!text) return '';
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
         }
     </script>
 </body>
