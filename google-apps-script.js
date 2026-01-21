@@ -1,7 +1,7 @@
 // ========================================
 // STUDENTHUB - PRODUCTION GOOGLE APPS SCRIPT
 // ========================================
-// Enhanced with Comments & Sharing Features
+// REVISED VERSION: With Auto-Initialization and Better Error Handling
 
 const PROJECTS_SHEET = 'Projects';
 const PROFILES_SHEET = 'Profiles';
@@ -52,8 +52,15 @@ function doPost(e) {
       return createResponse('error', 'No POST data provided');
     }
     
-    // Parse the JSON body (works even if sent as text/plain)
-    const data = JSON.parse(e.postData.contents);
+    // Parse the JSON body
+    let data;
+    try {
+      data = JSON.parse(e.postData.contents);
+    } catch (parseError) {
+      // Sometimes postData is sent as a string key
+      data = JSON.parse(Object.keys(e.postData.contents)[0] || "{}");
+    }
+
     const action = data.action;
     
     switch (action) {
@@ -72,7 +79,7 @@ function doPost(e) {
       case 'addShare':
         return addShare(data.data);
       default:
-        return createResponse('error', 'Invalid POST action');
+        return createResponse('error', 'Invalid POST action: ' + action);
     }
   } catch (error) {
     return createResponse('error', error.toString());
@@ -83,27 +90,9 @@ function doPost(e) {
 
 // ====== DATA INITIALIZATION ======
 function initializeSampleData() {
+  // Manual trigger wrapper
   const sheets = [USERS_SHEET, PROJECTS_SHEET, PROFILES_SHEET, COMMENTS_SHEET, SHARES_SHEET];
-  const ss = SpreadsheetApp.getActiveSpreadsheet();
-  
-  // Create sheets if they don't exist
-  sheets.forEach(sheetName => {
-    getOrCreateSheet(sheetName);
-  });
-  
-  // Add sample user if Users sheet is empty
-  const usersSheet = getOrCreateSheet(USERS_SHEET);
-  if (usersSheet.getLastRow() <= 1) {
-    signup({
-      name: 'Demo Student',
-      email: 'demo@nielit.gov.in',
-      password: 'demo123',
-      university: 'NIELIT Ropar',
-      major: 'Computer Science',
-      timestamp: new Date().toISOString()
-    });
-  }
-  
+  sheets.forEach(sheetName => getOrCreateSheet(sheetName));
   return 'Database initialized successfully';
 }
 
@@ -111,13 +100,9 @@ function initializeSampleData() {
 function signup(userData) {
   const usersSheet = getOrCreateSheet(USERS_SHEET);
   
-  // Headers check
-  if (usersSheet.getLastRow() === 0) {
-    usersSheet.appendRow(['email', 'password', 'name', 'university', 'major', 'profilePicture', 'linkedin', 'github', 'bio', 'timestamp']);
-  }
-  
   // Duplicate check
   const data = usersSheet.getDataRange().getValues();
+  // Start from 1 to skip header
   for (let i = 1; i < data.length; i++) {
     if (data[i][0] === userData.email) return createResponse('error', 'Email already registered');
   }
@@ -195,29 +180,22 @@ function getProjects() {
 
 function addProject(data) {
   const sheet = getOrCreateSheet(PROJECTS_SHEET);
-  if (sheet.getLastRow() === 0) {
-    sheet.appendRow(['id', 'authorName', 'authorEmail', 'authorPicture', 'title', 'description', 'link', 'tech', 'projectImage', 'upvotes', 'timestamp']);
-  }
-  
   sheet.appendRow([
     data.id, data.authorName, data.authorEmail, data.authorPicture, 
     data.title, data.description, data.link, data.tech, 
     data.projectImage, data.upvotes || 0, data.timestamp
   ]);
-  
   return createResponse('success', 'Project added');
 }
 
 function addProfile(data) {
   const sheet = getOrCreateSheet(PROFILES_SHEET);
-  if (sheet.getLastRow() === 0) sheet.appendRow(['name', 'email', 'university', 'major', 'linkedin', 'github', 'bio', 'profilePicture', 'timestamp']);
   
-  // Update existing or append new
+  // Check for duplicates
   const rows = sheet.getDataRange().getValues();
   for(let i=1; i<rows.length; i++) {
     if(rows[i][1] === data.email) {
-      // Update logic handled by updateProfile usually, but here for sync
-      return createResponse('success', 'Profile synced');
+      return createResponse('success', 'Profile already exists');
     }
   }
   
@@ -246,7 +224,8 @@ function updateUpvotes(projectId, upvotes) {
   const sheet = getOrCreateSheet(PROJECTS_SHEET);
   const data = sheet.getDataRange().getValues();
   for(let i=1; i<data.length; i++) {
-    if(data[i][0] == projectId) {
+    if(data[i][0] == projectId) { // ID is first column
+      // Upvotes is 10th column (index 9), so column 10
       sheet.getRange(i+1, 10).setValue(upvotes);
       return createResponse('success', 'Upvoted');
     }
@@ -256,7 +235,6 @@ function updateUpvotes(projectId, upvotes) {
 
 function addComment(data) {
   const sheet = getOrCreateSheet(COMMENTS_SHEET);
-  if(sheet.getLastRow() === 0) sheet.appendRow(['id', 'projectId', 'authorName', 'authorEmail', 'authorPicture', 'comment', 'timestamp']);
   sheet.appendRow([data.id, data.projectId, data.authorName, data.authorEmail, data.authorPicture, data.comment, data.timestamp]);
   return createResponse('success', 'Comment added');
 }
@@ -272,16 +250,37 @@ function getComments(projectId) {
 
 function addShare(data) {
   const sheet = getOrCreateSheet(SHARES_SHEET);
-  if(sheet.getLastRow() === 0) sheet.appendRow(['id', 'projectId', 'sharedBy', 'sharedWith', 'method', 'timestamp']);
   sheet.appendRow([data.id, data.projectId, data.sharedBy, data.sharedWith, data.method, data.timestamp]);
   return createResponse('success', 'Share recorded');
 }
 
-// ====== HELPERS ======
+// ====== HELPERS (AUTO-HEADER FIX) ======
 function getOrCreateSheet(name) {
   const ss = SpreadsheetApp.getActiveSpreadsheet();
   let sheet = ss.getSheetByName(name);
-  if (!sheet) sheet = ss.insertSheet(name);
+  
+  if (!sheet) {
+    sheet = ss.insertSheet(name);
+  }
+  
+  // Check if headers exist, if not, create them immediately
+  if (sheet.getLastRow() === 0) {
+    let headers = [];
+    switch(name) {
+      case USERS_SHEET: 
+        headers = ['email', 'password', 'name', 'university', 'major', 'profilePicture', 'linkedin', 'github', 'bio', 'timestamp']; break;
+      case PROJECTS_SHEET: 
+        headers = ['id', 'authorName', 'authorEmail', 'authorPicture', 'title', 'description', 'link', 'tech', 'projectImage', 'upvotes', 'timestamp']; break;
+      case PROFILES_SHEET: 
+        headers = ['name', 'email', 'university', 'major', 'linkedin', 'github', 'bio', 'profilePicture', 'timestamp']; break;
+      case COMMENTS_SHEET: 
+        headers = ['id', 'projectId', 'authorName', 'authorEmail', 'authorPicture', 'comment', 'timestamp']; break;
+      case SHARES_SHEET: 
+        headers = ['id', 'projectId', 'sharedBy', 'sharedWith', 'method', 'timestamp']; break;
+    }
+    if(headers.length > 0) sheet.appendRow(headers);
+  }
+  
   return sheet;
 }
 
@@ -301,7 +300,7 @@ function updateSheetRow(sheet, keyIndex, keyValue, newValues) {
     if(data[i][keyIndex] === keyValue) {
       const row = i+1;
       newValues.forEach((val, colIndex) => {
-        if(val !== null) sheet.getRange(row, colIndex+1).setValue(val);
+        if(val !== null && val !== undefined) sheet.getRange(row, colIndex+1).setValue(val);
       });
       return;
     }
