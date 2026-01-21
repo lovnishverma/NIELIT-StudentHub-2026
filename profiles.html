@@ -10,7 +10,7 @@
         :root {
             --primary: #003366; --secondary: #FF6B35; --accent: #0066CC;
             --background: #F5F7FA; --card-bg: #FFFFFF; --text-primary: #1A1A1A;
-            --text-secondary: #6B7280; --border: #E5E7EB;
+            --text-secondary: #6B7280; --border: #E5E7EB; --success: #10B981;
         }
         * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
         
@@ -117,6 +117,29 @@
         }
         .project-img { width: 100%; height: 200px; object-fit: cover; border-radius: 8px; border: 1px solid var(--border); }
         
+        /* Buttons & Actions */
+        .action-btn { 
+            background: none; border: none; cursor: pointer; color: var(--text-secondary); 
+            display: flex; align-items: center; gap: 5px; font-weight: 600; 
+            font-family: 'Poppins', sans-serif; transition: all 0.2s ease; 
+            padding: 0.5rem 0.8rem; border-radius: 8px; font-size: 0.9rem; 
+        }
+        .action-btn:hover { color: var(--accent); background: rgba(0, 102, 204, 0.05); transform: translateY(-2px); }
+        .action-btn.active { color: var(--accent); background: rgba(0, 102, 204, 0.1); }
+
+        /* Modals */
+        .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); z-index: 3000; align-items: center; justify-content: center; backdrop-filter: blur(4px); padding: 1rem; }
+        .modal.active { display: flex; }
+        .modal-content { background: white; padding: 2rem; border-radius: 20px; width: 100%; max-width: 500px; max-height: 90vh; overflow-y: auto; box-shadow: 0 10px 40px rgba(0,0,0,0.15); animation: fadeIn 0.3s ease-out; }
+        .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; }
+        .modal-close { background: none; border: none; font-size: 1.5rem; cursor: pointer; color: var(--text-secondary); }
+        
+        /* Comments */
+        .comment-item { margin-bottom: 1rem; background: #F9FAFB; padding: 1rem; border-radius: 12px; border-left: 3px solid var(--accent); text-align: left; }
+        .comment-author { font-size: 0.85rem; font-weight: 600; color: var(--primary); margin-bottom: 0.25rem; }
+        .comment-text { color: var(--text-primary); line-height: 1.5; font-size: 0.95rem; }
+        .comment-date { font-size: 0.7rem; color: var(--text-secondary); margin-top: 0.5rem; }
+        
         /* Footer */
         .site-footer {
             text-align: center;
@@ -130,33 +153,22 @@
 
         .hidden { display: none; }
         .btn-back { 
-            margin-bottom: 1rem; 
-            display: inline-flex; 
-            align-items: center;
-            text-decoration: none; 
-            color: var(--accent); 
-            font-weight: 600; 
-            cursor: pointer; 
-            padding: 0.5rem 0;
+            margin-bottom: 1rem; display: inline-flex; align-items: center;
+            text-decoration: none; color: var(--accent); font-weight: 600; 
+            cursor: pointer; padding: 0.5rem 0;
         }
         .btn-back:hover { text-decoration: underline; }
+        .form-input { width: 100%; padding: 0.8rem; border: 2px solid var(--border); border-radius: 8px; font-family: inherit; }
+        .btn-primary { background: var(--accent); color: white; border: none; padding: 0.8rem 1.5rem; border-radius: 8px; font-weight: 600; cursor: pointer; }
+        .btn-secondary { background: #F3F4F6; color: var(--text-primary); border: none; padding: 0.8rem 1.5rem; border-radius: 8px; font-weight: 600; cursor: pointer; }
 
-        /* Search Input */
-        input[type="text"] {
-            font-size: 16px; /* Prevents iOS zoom */
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
+        input[type="text"] { font-size: 16px; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
         @media (max-width: 968px) {
             .mobile-bottom-nav { display: flex; }
             .desktop-nav .nav-link { display: none; } 
             .site-footer { padding-bottom: 100px; } 
-            
-            /* Mobile adjustments */
             .portfolio-header { padding: 1.5rem 1rem; }
             .big-avatar { width: 120px; height: 120px; }
             .container { margin: 1rem auto; }
@@ -164,7 +176,6 @@
             .project-img { height: 180px; }
         }
         
-        /* Custom scrollbar */
         ::-webkit-scrollbar { width: 8px; }
         ::-webkit-scrollbar-track { background: var(--background); }
         ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 5px; }
@@ -175,8 +186,8 @@
     <nav class="desktop-nav">
         <div class="nav-container">
             <a href="index.html" class="logo">
-    <img src="logo.png" alt="StudentHub" style="height: 40px; width: auto;">
-</a>
+                <img src="logo.png" alt="StudentHub" style="height: 40px; width: auto;">
+            </a>
             <div>
                 <a href="index.html" class="nav-link">Feed</a>
                 <a href="profiles.html" class="nav-link active">Profiles</a>
@@ -185,8 +196,6 @@
     </nav>
 
     <div class="container">
-        
-        <!-- VIEW 1: DIRECTORY -->
         <div id="directoryView">
             <h1 style="margin-bottom: 1.5rem; font-size: 1.8rem;">Student Directory</h1>
             <input type="text" placeholder="🔍 Search by name or major..." style="width: 100%; padding: 1rem; border-radius: 12px; border: 2px solid var(--border); margin-bottom: 2rem; outline: none; transition: border-color 0.3s;" onfocus="this.style.borderColor='var(--accent)'" onblur="this.style.borderColor='var(--border)'" onkeyup="filterProfiles(this.value)">
@@ -199,49 +208,69 @@
             </div>
         </div>
 
-        <!-- VIEW 2: PORTFOLIO -->
         <div id="portfolioView" class="hidden">
             <div onclick="showDirectory()" class="btn-back">← Back to Directory</div>
-            
-            <div id="portfolioHeader" class="portfolio-header">
-                <!-- Injected via JS -->
-            </div>
-
+            <div id="portfolioHeader" class="portfolio-header"></div>
             <h2 style="margin-bottom: 1rem; font-size: 1.4rem;">Projects</h2>
-            <div id="userProjects">
-                <!-- Injected via JS -->
-            </div>
+            <div id="userProjects"></div>
         </div>
-
     </div>
 
-    <!-- NIELIT Footer -->
+    <div id="commentsModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>💬 Comments</h3>
+                <button class="modal-close" onclick="closeModal('comments')">&times;</button>
+            </div>
+            <div id="commentsList" style="margin-bottom: 1.5rem; max-height: 400px; overflow-y: auto;"></div>
+            <div style="display: flex; gap: 0.75rem;">
+                <input type="text" id="commentInput" class="form-input" placeholder="Write a comment...">
+                <button onclick="submitComment()" class="btn-primary">Post</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="shareProjectModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>📤 Share Project</h2>
+                <button class="modal-close" onclick="closeModal('shareProject')">&times;</button>
+            </div>
+            <div style="margin-bottom: 1.5rem;">
+                <p style="color: var(--text-secondary); margin-bottom: 1rem;">Share this project with others:</p>
+                <div style="display: flex; gap: 0.5rem; padding: 1rem; background: var(--background); border-radius: 8px; border: 2px solid var(--border);">
+                    <input type="text" id="shareProjectLink" readonly class="form-input" style="font-size: 0.85rem; font-family: monospace; padding: 0.5rem;">
+                    <button onclick="copyShareLink()" class="btn-primary" id="copyShareBtn">Copy</button>
+                </div>
+            </div>
+            <div style="display: grid; gap: 0.75rem;">
+                <button onclick="shareViaEmail()" class="btn-secondary" style="justify-content: flex-start;">📧 Share via Email</button>
+                <button onclick="shareViaWhatsApp()" class="btn-secondary" style="justify-content: flex-start;">💬 Share on WhatsApp</button>
+                <button onclick="shareViaTwitter()" class="btn-secondary" style="justify-content: flex-start;">🐦 Share on Twitter</button>
+                <button onclick="shareViaLinkedIn()" class="btn-secondary" style="justify-content: flex-start;">💼 Share on LinkedIn</button>
+            </div>
+        </div>
+    </div>
+
     <footer class="site-footer">
         <p>&copy; 2026 <strong>NIELIT Ropar</strong>. All rights reserved.</p>
-        <p style="font-size: 0.8rem; margin-top: 0.5rem; opacity: 0.7;">
-            National Institute of Electronics & Information Technology
-        </p>
+        <p style="font-size: 0.8rem; margin-top: 0.5rem; opacity: 0.7;">National Institute of Electronics & Information Technology</p>
     </footer>
 
-    <!-- Mobile Bottom Nav -->
     <nav class="mobile-bottom-nav">
         <a href="index.html" class="mobile-nav-item">
-            <span class="mobile-nav-icon">🏠</span>
-            <span>Feed</span>
+            <span class="mobile-nav-icon">🏠</span><span>Feed</span>
         </a>
         <a href="profiles.html" class="mobile-nav-item active">
-            <span class="mobile-nav-icon">👥</span>
-            <span>Profiles</span>
+            <span class="mobile-nav-icon">👥</span><span>Profiles</span>
         </a>
         <a href="index.html" onclick="localStorage.setItem('openPostModal', 'true');" class="mobile-nav-item">
-            <span class="mobile-nav-icon">➕</span>
-            <span>Post</span>
+            <span class="mobile-nav-icon">➕</span><span>Post</span>
         </a>
     </nav>
 
-<script>
+    <script>
         // CONFIG
-        // Make sure this matches your index.html URL exactly!
         const SHEET_URL = 'https://script.google.com/macros/s/AKfycbzGbZ39b67jJ2NPODCW4K3zqlf6p6-bq8vPRHmCdNjOxl37MT9KdndnCR8vw55qv7dN/exec';
 
         // STATE
@@ -250,19 +279,17 @@
         let currentPage = 1;
         const itemsPerPage = 20;
         let currentList = [];
+        let currentUser = JSON.parse(localStorage.getItem('studenthub_user'));
+        let currentCommentProjectId = null;
+        let currentShareProjectId = null;
+        let currentShareProjectTitle = null;
 
         window.onload = async () => {
             await Promise.all([loadProfiles(), loadProjects()]);
-            
-            // Check URL for ?email=...
             const params = new URLSearchParams(window.location.search);
             const targetEmail = params.get('email');
-            
-            if (targetEmail) {
-                showPortfolio(targetEmail);
-            } else {
-                renderDirectory(allProfiles);
-            }
+            if (targetEmail) showPortfolio(targetEmail);
+            else renderDirectory(allProfiles);
         };
 
         async function loadProfiles() {
@@ -281,30 +308,21 @@
             } catch(e) { console.error(e); }
         }
 
-        // --- NEW OPTIMIZED RENDER FUNCTION ---
+        // RENDER DIRECTORY (Pagination & Search)
         function renderDirectory(list, append = false) {
             const grid = document.getElementById('profilesGrid');
-            
-            // Reset if this is a new filter/search
-            if (!append) {
-                currentPage = 1;
-                currentList = list;
-                grid.innerHTML = '';
-            }
+            if (!append) { currentPage = 1; currentList = list; grid.innerHTML = ''; }
 
-            // Calculate chunk
             const start = (currentPage - 1) * itemsPerPage;
             const end = start + itemsPerPage;
             const chunk = currentList.slice(start, end);
 
-            // Handle empty state
             if (chunk.length === 0 && currentPage === 1) {
                 grid.innerHTML = '<p style="grid-column: 1/-1; text-align:center; padding: 2rem; color: var(--text-secondary);">No profiles found.</p>';
                 removeLoadMoreBtn();
                 return;
             }
 
-            // Generate HTML
             const html = chunk.map(p => `
                 <div class="profile-card" onclick="openPortfolio('${p.email}')">
                     <img src="${p.profilePicture || 'https://via.placeholder.com/100'}" class="profile-pic" loading="lazy">
@@ -314,7 +332,6 @@
                 </div>
             `).join('');
 
-            // Append or Overwrite
             if (append) {
                 const btn = document.getElementById('loadMoreContainer');
                 if (btn) btn.insertAdjacentHTML('beforebegin', html);
@@ -323,9 +340,7 @@
                 grid.innerHTML = html;
             }
 
-            // Handle Load More Button
             removeLoadMoreBtn();
-            
             if (end < currentList.length) {
                 grid.insertAdjacentHTML('beforeend', `
                     <div id="loadMoreContainer" style="grid-column: 1/-1; text-align: center; padding: 2rem;">
@@ -336,23 +351,15 @@
             }
         }
 
-        function loadMore() {
-            currentPage++;
-            renderDirectory(currentList, true);
-        }
+        function loadMore() { currentPage++; renderDirectory(currentList, true); }
+        function removeLoadMoreBtn() { const btn = document.getElementById('loadMoreContainer'); if (btn) btn.remove(); }
 
-        function removeLoadMoreBtn() {
-            const btn = document.getElementById('loadMoreContainer');
-            if (btn) btn.remove();
-        }
-
+        // NAVIGATION
         function showDirectory() {
             document.getElementById('directoryView').classList.remove('hidden');
             document.getElementById('portfolioView').classList.add('hidden');
             history.pushState({}, "", "profiles.html");
             window.scrollTo(0,0);
-            
-            // Re-render directory to ensure state is kept
             if (currentList.length === 0) renderDirectory(allProfiles);
         }
 
@@ -369,7 +376,6 @@
             document.getElementById('directoryView').classList.add('hidden');
             document.getElementById('portfolioView').classList.remove('hidden');
 
-            // Header
             document.getElementById('portfolioHeader').innerHTML = `
                 <img src="${profile.profilePicture || 'https://via.placeholder.com/150'}" class="big-avatar">
                 <h1 style="font-size: 1.5rem; margin-bottom: 0.5rem;">${escapeHtml(profile.name)}</h1>
@@ -384,7 +390,6 @@
                 <p style="max-width: 600px; margin: 0 auto; line-height: 1.6;">${escapeHtml(profile.bio || 'No bio yet.')}</p>
             `;
 
-            // Projects
             const userProjects = allProjects.filter(p => p.authorEmail.toLowerCase() === email.toLowerCase());
             const list = document.getElementById('userProjects');
             
@@ -399,25 +404,124 @@
                         </div>
                         <p style="font-size: 0.95rem; line-height: 1.5;">${escapeHtml(p.description)}</p>
                         ${p.projectImage ? `<img src="${p.projectImage}" class="project-img" loading="lazy">` : ''}
-                        <div style="display:flex; gap:1rem; align-items: center; margin-top: auto;">
-                            <span style="font-size: 0.9rem;">👍 ${p.upvotes}</span>
-                            ${p.link ? `<a href="${p.link}" target="_blank" style="color:var(--accent); text-decoration:none; font-weight:600; font-size: 0.9rem; margin-left: auto;">View Code →</a>` : ''}
+                        
+                        <div style="display:flex; gap:0.5rem; align-items: center; margin-top: auto; padding-top: 1rem; border-top: 1px solid var(--border); flex-wrap: wrap;">
+                            <button class="action-btn" onclick="upvote('${p.id}', this)">
+                                👍 <span>${p.upvotes}</span>
+                            </button>
+                            <button class="action-btn" onclick="openComments('${p.id}')">
+                                💬 <span>${p.commentCount || 0}</span>
+                            </button>
+                            <button class="action-btn" onclick="shareProject('${p.id}', '${escapeHtml(p.title).replace(/'/g, "\\'")}')">
+                                📤 Share
+                            </button>
+                            ${p.link ? `<a href="${p.link}" target="_blank" class="action-btn" style="text-decoration:none; margin-left: auto;">🔗 Code</a>` : ''}
                         </div>
                     </div>
                 `).join('');
             }
         }
 
+        // --- ACTIONS (Upvote, Comment, Share) ---
+        async function upvote(id, btn) {
+            if (!currentUser) return alert('Please log in from the main feed to upvote.');
+            const countSpan = btn.querySelector('span');
+            let count = parseInt(countSpan.textContent);
+            count++;
+            countSpan.textContent = count;
+            btn.classList.add('active');
+            btn.disabled = true;
+            await postData('updateUpvotes', { projectId: id, upvotes: count });
+        }
+
+        async function openComments(id) {
+            currentCommentProjectId = id;
+            openModal('comments');
+            document.getElementById('commentsList').innerHTML = '<div style="text-align:center; padding:1rem;">⏳ Loading...</div>';
+            const res = await fetch(`${SHEET_URL}?action=getComments&projectId=${id}`);
+            const json = await res.json();
+            if (json.data.length === 0) {
+                document.getElementById('commentsList').innerHTML = '<p style="color:var(--text-secondary); text-align:center; padding:1rem;">No comments yet.</p>';
+            } else {
+                document.getElementById('commentsList').innerHTML = json.data.map(c => `
+                    <div class="comment-item">
+                        <div class="comment-author">${escapeHtml(c.authorName)}</div>
+                        <div class="comment-text">${escapeHtml(c.comment)}</div>
+                        <div class="comment-date">${formatDate(c.timestamp)}</div>
+                    </div>
+                `).join('');
+            }
+        }
+
+        async function submitComment() {
+            if (!currentUser) return alert('Please log in to comment.');
+            const txt = document.getElementById('commentInput').value.trim();
+            if (!txt) return;
+            const data = {
+                id: Date.now().toString(),
+                projectId: currentCommentProjectId,
+                authorName: currentUser.name,
+                authorEmail: currentUser.email,
+                comment: txt
+            };
+            await postData('addComment', { data });
+            document.getElementById('commentInput').value = '';
+            openComments(currentCommentProjectId);
+        }
+
+        function shareProject(projectId, projectTitle) {
+            currentShareProjectId = projectId;
+            currentShareProjectTitle = projectTitle;
+            const baseUrl = window.location.origin + window.location.pathname.replace('profiles.html', '');
+            document.getElementById('shareProjectLink').value = `${baseUrl}project.html?id=${projectId}`;
+            openModal('shareProject');
+        }
+
+        function copyShareLink() {
+            const input = document.getElementById('shareProjectLink');
+            input.select();
+            input.setSelectionRange(0, 99999);
+            document.execCommand('copy');
+            const btn = document.getElementById('copyShareBtn');
+            btn.textContent = '✓ Copied!';
+            setTimeout(() => { btn.textContent = 'Copy'; }, 2000);
+        }
+
+        // --- UTILS & HELPERS ---
+        function openModal(id) { document.getElementById(id + 'Modal').classList.add('active'); }
+        function closeModal(id) { document.getElementById(id + 'Modal').classList.remove('active'); }
+        
         function filterProfiles(term) {
             term = term.toLowerCase();
-            const filtered = allProfiles.filter(p => 
-                p.name.toLowerCase().includes(term) || 
-                (p.major && p.major.toLowerCase().includes(term))
-            );
+            const filtered = allProfiles.filter(p => p.name.toLowerCase().includes(term) || (p.major && p.major.toLowerCase().includes(term)));
             renderDirectory(filtered);
         }
 
+        async function postData(action, payload) {
+            return fetch(SHEET_URL, {
+                method: 'POST',
+                body: JSON.stringify({ action, ...payload })
+            }).then(r => r.json());
+        }
+
         function escapeHtml(text) { return text ? text.replace(/</g, "&lt;").replace(/>/g, "&gt;") : ''; }
+        
+        function formatDate(timestamp) {
+            const date = new Date(timestamp);
+            const now = new Date();
+            const diff = now - date;
+            const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+            if (days === 0) return 'Today';
+            if (days === 1) return 'Yesterday';
+            if (days < 7) return `${days}d ago`;
+            return date.toLocaleDateString();
+        }
+
+        // Social Share Wrappers
+        function shareViaEmail() { window.open(`mailto:?subject=${encodeURIComponent(currentShareProjectTitle)}&body=${encodeURIComponent(document.getElementById('shareProjectLink').value)}`); }
+        function shareViaWhatsApp() { window.open(`https://wa.me/?text=${encodeURIComponent(currentShareProjectTitle + ' ' + document.getElementById('shareProjectLink').value)}`); }
+        function shareViaTwitter() { window.open(`https://twitter.com/intent/tweet?text=${encodeURIComponent(currentShareProjectTitle)}&url=${encodeURIComponent(document.getElementById('shareProjectLink').value)}`); }
+        function shareViaLinkedIn() { window.open(`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(document.getElementById('shareProjectLink').value)}`); }
     </script>
 </body>
 </html>
