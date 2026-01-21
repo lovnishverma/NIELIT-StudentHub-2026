@@ -393,8 +393,9 @@ Update the Google Fonts import (line 6):
 #### Interacting with Projects
 
 - **👍 Upvote**: Click the thumbs up button to show support
-- **💬 Comment**: Click to add a comment (coming soon)
-- **🔗 Share**: Share the project with others (coming soon)
+- **💬 Comment**: Click to add a comment (Implemented)
+- **🔗 Share**: Share the project with others (Implemented)
+- **🔗 What's next**: You tell us (request for a feature on github)
 - **View Project**: Click the project link to visit the repository or live demo
 
 #### Viewing Your Projects
