@@ -7,6 +7,8 @@
 
 **A professional LinkedIn-style platform for NIELIT Ropar students**
 
+[![Android App](https://img.shields.io/badge/Download-Android%20App-3DDC84?style=for-the-badge&logo=android&logoColor=white)](https://github.com/nielitropar/nielitropar.github.io/releases/tag/v1.0)
+
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 [![HTML5](https://img.shields.io/badge/HTML5-E34F26?logo=html5&logoColor=white)](https://developer.mozilla.org/en-US/docs/Web/HTML)
 [![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?logo=javascript&logoColor=black)](https://developer.mozilla.org/en-US/docs/Web/JavaScript)
@@ -40,6 +42,8 @@
 ## 🎯 About
 
 **NIELIT StudentHub** is a comprehensive web platform designed specifically for students at NIELIT Ropar to showcase their innovative projects, connect with peers, and build a professional portfolio. Think of it as a combination of LinkedIn, GitHub, and a project gallery—all tailored for the NIELIT community.
+
+[⬇️ Download Android App](https://github.com/nielitropar/nielitropar.github.io/releases/tag/v1.0)
 
 ### Key Highlights
 
