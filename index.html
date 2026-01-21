@@ -1284,7 +1284,7 @@
     <div id="signupPage" class="auth-page hidden">
         <div class="auth-container">
             <div class="auth-logo-container">
-                <img src="https://nielit.gov.in/sites/default/files/Ropar/ropar_logo_1.png" alt="NIELIT Logo" class="auth-nielit-logo">
+                <img src="logo.png" alt="NIELIT Logo" class="auth-nielit-logo">
                 <div class="auth-logo">StudentHub</div>
                 <div style="color: var(--text-secondary); font-size: 0.85rem;">NIELIT Ropar</div>
             </div>
@@ -1350,7 +1350,7 @@
             <div class="nav-container">
                 <button class="mobile-menu-btn" onclick="openMobileMenu()">☰</button>
                 <div class="logo-container" onclick="loadFeed()">
-                    <img src="https://nielit.gov.in/sites/default/files/Ropar/ropar_logo_1.png" alt="NIELIT" class="nielit-logo">
+                    <img src="logo.png" alt="NIELIT" class="nielit-logo">
                     <div>
                         <div class="logo">StudentHub</div>
                         <div class="logo-subtitle">NIELIT Ropar</div>
@@ -2060,21 +2060,41 @@
         // ====== DATA LOADING ======
         async function loadData() {
             try {
-                const projectsResponse = await fetch(`${SHEET_URL}?action=getProjects`);
-                const projectsData = await projectsResponse.json();
-                
-                if (projectsData.status === 'success') {
-                    allProjects = projectsData.data || [];
-                    renderProjects();
-                    updateTrending();
-                    updateStats();
+                // Try to load projects
+                try {
+                    const projectsResponse = await fetch(`${SHEET_URL}?action=getProjects`);
+                    const projectsData = await projectsResponse.json();
+                    
+                    if (projectsData.status === 'success') {
+                        allProjects = projectsData.data || [];
+                        console.log('Loaded projects:', allProjects.length);
+                    }
+                } catch (projectError) {
+                    console.error('Error loading projects:', projectError);
+                    // Continue to try loading profiles
                 }
 
-                const profilesResponse = await fetch(`${SHEET_URL}?action=getProfiles`);
-                const profilesData = await profilesResponse.json();
-                
-                if (profilesData.status === 'success') {
-                    allProfiles = profilesData.data || [];
+                // Try to load profiles
+                try {
+                    const profilesResponse = await fetch(`${SHEET_URL}?action=getProfiles`);
+                    const profilesData = await profilesResponse.json();
+                    
+                    if (profilesData.status === 'success') {
+                        allProfiles = profilesData.data || [];
+                        console.log('Loaded profiles:', allProfiles.length);
+                    }
+                } catch (profileError) {
+                    console.error('Error loading profiles:', profileError);
+                }
+
+                // If both failed or returned empty, load demo data
+                if (allProjects.length === 0 && allProfiles.length === 0) {
+                    console.log('No data loaded, using demo data');
+                    loadDemoData();
+                } else {
+                    // Update UI with loaded data
+                    renderProjects();
+                    updateTrending();
                     updateStats();
                 }
             } catch (error) {
@@ -2084,22 +2104,83 @@
         }
 
         function loadDemoData() {
+            console.log('Loading demo data...');
             allProjects = [
                 {
                     id: '1',
                     authorName: 'Demo Student',
                     authorEmail: 'demo@nielit.gov.in',
                     title: 'AI Study Companion',
-                    description: 'An intelligent study assistant that uses machine learning to create personalized study plans.',
+                    description: 'An intelligent study assistant that uses machine learning to create personalized study plans and adapts to your learning style.',
                     link: 'https://github.com/demo/ai-study',
                     tech: 'Python, TensorFlow, React',
                     upvotes: 42,
+                    timestamp: new Date(Date.now() - 86400000).toISOString() // 1 day ago
+                },
+                {
+                    id: '2',
+                    authorName: 'Priya Sharma',
+                    authorEmail: 'priya@nielit.gov.in',
+                    title: 'Smart Campus Navigator',
+                    description: 'An AR-based mobile app that helps students navigate the NIELIT campus with real-time directions and building information.',
+                    link: 'https://github.com/demo/campus-nav',
+                    tech: 'React Native, ARCore, Firebase',
+                    upvotes: 35,
+                    timestamp: new Date(Date.now() - 172800000).toISOString() // 2 days ago
+                },
+                {
+                    id: '3',
+                    authorName: 'Rahul Kumar',
+                    authorEmail: 'rahul@nielit.gov.in',
+                    title: 'IoT Home Automation System',
+                    description: 'A comprehensive home automation system using IoT devices, controlled via mobile app and voice commands.',
+                    link: 'https://github.com/demo/iot-home',
+                    tech: 'Arduino, Node.js, MQTT, React',
+                    upvotes: 28,
+                    timestamp: new Date(Date.now() - 259200000).toISOString() // 3 days ago
+                }
+            ];
+
+            allProfiles = [
+                {
+                    name: 'Demo Student',
+                    email: 'demo@nielit.gov.in',
+                    university: 'NIELIT Ropar',
+                    major: 'Computer Science',
+                    bio: 'Passionate about AI and Machine Learning. Love building innovative solutions.',
+                    profilePicture: '',
+                    linkedin: '',
+                    github: '',
+                    timestamp: new Date().toISOString()
+                },
+                {
+                    name: 'Priya Sharma',
+                    email: 'priya@nielit.gov.in',
+                    university: 'NIELIT Ropar',
+                    major: 'Mobile App Development',
+                    bio: 'AR/VR enthusiast. Building the future of mobile experiences.',
+                    profilePicture: '',
+                    linkedin: '',
+                    github: '',
+                    timestamp: new Date().toISOString()
+                },
+                {
+                    name: 'Rahul Kumar',
+                    email: 'rahul@nielit.gov.in',
+                    university: 'NIELIT Ropar',
+                    major: 'IoT & Embedded Systems',
+                    bio: 'IoT developer. Creating smart solutions for everyday problems.',
+                    profilePicture: '',
+                    linkedin: '',
+                    github: '',
                     timestamp: new Date().toISOString()
                 }
             ];
+
             renderProjects();
             updateTrending();
             updateStats();
+            console.log('Demo data loaded successfully');
         }
 
         // ====== RENDERING ======
