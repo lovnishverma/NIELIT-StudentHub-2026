@@ -1,89 +1,81 @@
 // ========================================
-// STUDENTHUB - PRODUCTION GOOGLE APPS SCRIPT
+// STUDENTHUB - PRODUCTION BACKEND (v2.0)
 // ========================================
-// REVISED VERSION: With Auto-Initialization and Better Error Handling
 
 const PROJECTS_SHEET = 'Projects';
 const PROFILES_SHEET = 'Profiles';
 const USERS_SHEET = 'Users';
 const COMMENTS_SHEET = 'Comments';
-const SHARES_SHEET = 'Shares';
 
 // ====== MAIN HANDLERS ======
+
 function doGet(e) {
+  return handleRequest(e, 'GET');
+}
+
+function doPost(e) {
+  return handleRequest(e, 'POST');
+}
+
+function handleRequest(e, method) {
   const lock = LockService.getScriptLock();
-  lock.tryLock(10000);
+  lock.tryLock(10000); // Wait up to 10 seconds for concurrent requests
   
   try {
-    // Handle direct function calls or missing params
-    if (!e || !e.parameter) {
-      return createResponse('error', 'No parameters provided.');
+    // 1. Parse Parameters
+    let action, params;
+    
+    if (method === 'GET') {
+      if (!e || !e.parameter) return createResponse('error', 'No parameters');
+      action = e.parameter.action;
+      params = e.parameter;
+    } else {
+      // Robust POST data parsing to handle different browser behaviors
+      if (!e || !e.postData) return createResponse('error', 'No POST data');
+      const rawData = e.postData.contents;
+      let jsonData;
+      try {
+        jsonData = JSON.parse(rawData);
+      } catch (err) {
+        // Fallback for form-encoded payloads or stringified keys
+        try {
+          jsonData = JSON.parse(Object.keys(e.parameter)[0] || '{}');
+        } catch (err2) {
+          jsonData = {};
+        }
+      }
+      action = jsonData.action;
+      params = jsonData; // The entire body is params
     }
-    
-    const action = e.parameter.action;
-    
+
+    // 2. Route Request
+    if (!action) return createResponse('error', 'No action specified');
+
     switch (action) {
+      // --- READ ACTIONS ---
       case 'getProjects':
         return getProjects();
       case 'getProfiles':
         return getProfiles();
       case 'getComments':
-        return getComments(e.parameter.projectId);
+        return getComments(params.projectId);
       case 'login':
-        return login(e.parameter.email, e.parameter.password);
-      case 'test':
-        return createResponse('success', 'API is working!');
-      default:
-        return createResponse('error', 'Invalid action');
-    }
-  } catch (error) {
-    return createResponse('error', error.toString());
-  } finally {
-    lock.releaseLock();
-  }
-}
-
-function doPost(e) {
-  const lock = LockService.getScriptLock();
-  lock.tryLock(10000);
-
-  try {
-    if (!e || !e.postData || !e.postData.contents) {
-      return createResponse('error', 'No POST data provided');
-    }
-    
-    // Parse the JSON body
-    let data;
-    try {
-      data = JSON.parse(e.postData.contents);
-    } catch (parseError) {
-      // Sometimes postData is sent as a string key
-      try {
-        data = JSON.parse(Object.keys(e.postData.contents)[0]);
-      } catch (e2) {
-        data = {}; // Fallback
-      }
-    }
-
-    const action = data.action;
-    
-    switch (action) {
+        return login(params.email, params.password);
+      
+      // --- WRITE ACTIONS (POST) ---
       case 'signup':
-        return signup(data.data);
+        return signup(params.data);
       case 'addProject':
-        return addProject(data.data);
-      case 'addProfile':
-        return addProfile(data.data);
+        return addProject(params.data);
       case 'updateProfile':
-        return updateProfile(data.data);
+        return updateProfile(params.data);
       case 'updateUpvotes':
-        return updateUpvotes(data.projectId, data.upvotes);
+        return updateUpvotes(params.projectId, params.upvotes);
       case 'addComment':
-        return addComment(data.data);
-      case 'addShare':
-        return addShare(data.data);
+        return addComment(params.data);
+        
       default:
-        return createResponse('error', 'Invalid POST action: ' + action);
+        return createResponse('error', `Unknown action: ${action}`);
     }
   } catch (error) {
     return createResponse('error', error.toString());
@@ -92,60 +84,53 @@ function doPost(e) {
   }
 }
 
-// ====== DATA INITIALIZATION ======
-function initializeSampleData() {
-  // Manual trigger wrapper
-  const sheets = [USERS_SHEET, PROJECTS_SHEET, PROFILES_SHEET, COMMENTS_SHEET, SHARES_SHEET];
-  sheets.forEach(sheetName => getOrCreateSheet(sheetName));
-  return 'Database initialized successfully';
-}
+// ====== CORE LOGIC ======
 
-// ====== AUTHENTICATION ======
-function signup(userData) {
-  const usersSheet = getOrCreateSheet(USERS_SHEET);
+function getProjects() {
+  const sheet = getOrCreateSheet(PROJECTS_SHEET);
+  const data = sheet.getDataRange().getValues();
+  if (data.length <= 1) return createResponse('success', []);
   
-  // Duplicate check
-  const data = usersSheet.getDataRange().getValues();
-  // Start from 1 to skip header
-  for (let i = 1; i < data.length; i++) {
-    if (data[i][0] === userData.email) return createResponse('error', 'Email already registered');
-  }
-  
-  const hashedPassword = hashPassword(userData.password);
-  
-  usersSheet.appendRow([
-    userData.email,
-    hashedPassword,
-    userData.name,
-    userData.university || '',
-    userData.major || '',
-    userData.profilePicture || '',
-    '', '', '', 
-    userData.timestamp || new Date().toISOString()
-  ]);
-  
-  // Sync to Profiles
-  addProfile({
-    name: userData.name,
-    email: userData.email,
-    university: userData.university,
-    major: userData.major,
-    profilePicture: userData.profilePicture,
-    timestamp: userData.timestamp || new Date().toISOString()
+  const headers = data[0];
+  const projects = data.slice(1).map(row => {
+    let p = {};
+    headers.forEach((h, i) => p[h] = row[i]);
+    // Clean up data types
+    p.upvotes = parseInt(p.upvotes) || 0;
+    p.commentCount = getCommentCount(p.id);
+    return p;
   });
   
-  return createResponse('success', { ...userData, password: '' });
+  return createResponse('success', projects.reverse()); // Newest first
+}
+
+function getProfiles() {
+  const sheet = getOrCreateSheet(PROFILES_SHEET);
+  const data = sheet.getDataRange().getValues();
+  if (data.length <= 1) return createResponse('success', []);
+  
+  const headers = data[0];
+  const profiles = data.slice(1).map(row => {
+    let p = {};
+    headers.forEach((h, i) => p[h] = row[i]);
+    return p;
+  });
+  
+  return createResponse('success', profiles);
 }
 
 function login(email, password) {
-  const usersSheet = getOrCreateSheet(USERS_SHEET);
-  const data = usersSheet.getDataRange().getValues();
+  const sheet = getOrCreateSheet(USERS_SHEET);
+  const data = sheet.getDataRange().getValues();
+  const cleanEmail = String(email).toLowerCase().trim();
   
-  if (data.length <= 1) return createResponse('error', 'No users found.');
-  
+  // Skip header
   for (let i = 1; i < data.length; i++) {
-    if (data[i][0] === email) {
+    if (String(data[i][0]).toLowerCase() === cleanEmail) {
+      // Password check (Column index 1)
+      // Note: In production, consider salting. Here we use simple SHA-256
       if (data[i][1] === hashPassword(password)) {
+        // Return public profile data (col indexes: 0=email, 2=name, 3=uni, 4=major, 5=pic, 6=linked, 7=git, 8=bio)
         return createResponse('success', {
           email: data[i][0],
           name: data[i][2],
@@ -157,81 +142,92 @@ function login(email, password) {
           bio: data[i][8]
         });
       } else {
-        return createResponse('error', 'Invalid password');
+        return createResponse('error', 'Incorrect password');
       }
     }
   }
   return createResponse('error', 'User not found');
 }
 
-// ====== CORE FUNCTIONS ======
-function getProjects() {
-  const sheet = getOrCreateSheet(PROJECTS_SHEET);
-  const data = sheet.getDataRange().getValues();
-  if (data.length <= 1) return createResponse('success', []);
+function signup(data) {
+  const usersSheet = getOrCreateSheet(USERS_SHEET);
+  const profilesSheet = getOrCreateSheet(PROFILES_SHEET);
+  const cleanEmail = String(data.email).toLowerCase().trim();
+
+  // Check duplicate
+  const users = usersSheet.getDataRange().getValues();
+  for(let i=1; i<users.length; i++) {
+    if(String(users[i][0]).toLowerCase() === cleanEmail) {
+      return createResponse('error', 'User already exists');
+    }
+  }
+
+  const hashedPassword = hashPassword(data.password);
   
-  const headers = data[0];
-  const projects = data.slice(1).map(row => {
-    let project = {};
-    headers.forEach((h, i) => project[h] = row[i]);
-    project.commentCount = getCommentCount(project.id);
-    project.shareCount = getShareCount(project.id);
-    return project;
-  });
-  
-  return createResponse('success', projects.reverse()); // Newest first
+  // Add to Users (Secure Sheet)
+  usersSheet.appendRow([
+    cleanEmail, hashedPassword, data.name, data.university, 
+    data.major, data.profilePicture, '', '', '', new Date().toISOString()
+  ]);
+
+  // Add to Profiles (Public Sheet)
+  profilesSheet.appendRow([
+    data.name, cleanEmail, data.university, data.major, 
+    '', '', '', data.profilePicture, new Date().toISOString()
+  ]);
+
+  return createResponse('success', { ...data, password: '' });
 }
 
 function addProject(data) {
   const sheet = getOrCreateSheet(PROJECTS_SHEET);
   sheet.appendRow([
-    data.id, data.authorName, data.authorEmail, data.authorPicture, 
-    data.title, data.description, data.link, data.tech, 
-    data.projectImage, data.upvotes || 0, data.timestamp
+    data.id, data.authorName, data.authorEmail.toLowerCase(), data.authorPicture,
+    data.title, data.description, data.link, data.tech,
+    data.projectImage, 0, new Date().toISOString()
   ]);
-  return createResponse('success', 'Project added');
-}
-
-function addProfile(data) {
-  const sheet = getOrCreateSheet(PROFILES_SHEET);
-  
-  // Check for duplicates
-  const rows = sheet.getDataRange().getValues();
-  for(let i=1; i<rows.length; i++) {
-    if(rows[i][1] === data.email) {
-      return createResponse('success', 'Profile already exists');
-    }
-  }
-  
-  sheet.appendRow([data.name, data.email, data.university, data.major, data.linkedin, data.github, data.bio, data.profilePicture, data.timestamp]);
-  return createResponse('success', 'Profile added');
+  return createResponse('success', 'Project posted');
 }
 
 function updateProfile(data) {
   const usersSheet = getOrCreateSheet(USERS_SHEET);
   const profilesSheet = getOrCreateSheet(PROFILES_SHEET);
+  const cleanEmail = String(data.email).toLowerCase().trim();
   
-  // Update Users Sheet
-  updateSheetRow(usersSheet, 0, data.email, [
-    data.email, null, data.name, data.university, data.major, data.profilePicture, data.linkedin, data.github, data.bio, null
-  ]);
-  
-  // Update Profiles Sheet
-  updateSheetRow(profilesSheet, 1, data.email, [
-    data.name, data.email, data.university, data.major, data.linkedin, data.github, data.bio, data.profilePicture, null
-  ]);
+  // Helper to update
+  const updateRow = (sheet, emailColIndex, newDataMap) => {
+    const d = sheet.getDataRange().getValues();
+    for(let i=1; i<d.length; i++) {
+      if(String(d[i][emailColIndex]).toLowerCase() === cleanEmail) {
+        Object.keys(newDataMap).forEach(colIdx => {
+          sheet.getRange(i+1, parseInt(colIdx)+1).setValue(newDataMap[colIdx]);
+        });
+      }
+    }
+  };
+
+  // Update Users: name(2), uni(3), major(4), pic(5), link(6), git(7), bio(8)
+  updateRow(usersSheet, 0, {
+    2: data.name, 3: data.university, 4: data.major, 
+    5: data.profilePicture, 6: data.linkedin, 7: data.github, 8: data.bio
+  });
+
+  // Update Profiles: name(0), email(1-KEY), uni(2), major(3), link(4), git(5), bio(6), pic(7)
+  updateRow(profilesSheet, 1, {
+    0: data.name, 2: data.university, 3: data.major,
+    4: data.linkedin, 5: data.github, 6: data.bio, 7: data.profilePicture
+  });
   
   return createResponse('success', 'Profile updated');
 }
 
-function updateUpvotes(projectId, upvotes) {
+function updateUpvotes(id, count) {
   const sheet = getOrCreateSheet(PROJECTS_SHEET);
   const data = sheet.getDataRange().getValues();
   for(let i=1; i<data.length; i++) {
-    if(data[i][0] == projectId) { // ID is first column
-      // Upvotes is 10th column (index 9), so column 10
-      sheet.getRange(i+1, 10).setValue(upvotes);
-      return createResponse('success', 'Upvoted');
+    if(String(data[i][0]) === String(id)) {
+      sheet.getRange(i+1, 10).setValue(count); // Upvotes is col 10
+      return createResponse('success', 'Updated');
     }
   }
   return createResponse('error', 'Project not found');
@@ -239,86 +235,56 @@ function updateUpvotes(projectId, upvotes) {
 
 function addComment(data) {
   const sheet = getOrCreateSheet(COMMENTS_SHEET);
-  sheet.appendRow([data.id, data.projectId, data.authorName, data.authorEmail, data.authorPicture, data.comment, data.timestamp]);
+  sheet.appendRow([
+    data.id, data.projectId, data.authorName, 
+    data.authorEmail, data.comment, new Date().toISOString()
+  ]);
   return createResponse('success', 'Comment added');
 }
 
 function getComments(projectId) {
   const sheet = getOrCreateSheet(COMMENTS_SHEET);
   const data = sheet.getDataRange().getValues();
-  const comments = data.slice(1).filter(r => r[1] == projectId).map(r => ({
-    id: r[0], projectId: r[1], authorName: r[2], authorEmail: r[3], authorPicture: r[4], comment: r[5], timestamp: r[6]
-  }));
+  // Filter by projectId (col 1)
+  const comments = data.slice(1)
+    .filter(row => String(row[1]) === String(projectId))
+    .map(row => ({
+      id: row[0], projectId: row[1], authorName: row[2], 
+      authorEmail: row[3], comment: row[4], timestamp: row[5]
+    }));
   return createResponse('success', comments);
 }
 
-function addShare(data) {
-  const sheet = getOrCreateSheet(SHARES_SHEET);
-  sheet.appendRow([data.id, data.projectId, data.sharedBy, data.sharedWith, data.method, data.timestamp]);
-  return createResponse('success', 'Share recorded');
-}
-
-// ====== HELPERS (AUTO-HEADER FIX) ======
-function getOrCreateSheet(name) {
-  const ss = SpreadsheetApp.getActiveSpreadsheet();
-  let sheet = ss.getSheetByName(name);
-  
-  if (!sheet) {
-    sheet = ss.insertSheet(name);
-  }
-  
-  // Check if headers exist, if not, create them immediately
-  if (sheet.getLastRow() === 0) {
-    let headers = [];
-    switch(name) {
-      case USERS_SHEET: 
-        headers = ['email', 'password', 'name', 'university', 'major', 'profilePicture', 'linkedin', 'github', 'bio', 'timestamp']; break;
-      case PROJECTS_SHEET: 
-        headers = ['id', 'authorName', 'authorEmail', 'authorPicture', 'title', 'description', 'link', 'tech', 'projectImage', 'upvotes', 'timestamp']; break;
-      case PROFILES_SHEET: 
-        headers = ['name', 'email', 'university', 'major', 'linkedin', 'github', 'bio', 'profilePicture', 'timestamp']; break;
-      case COMMENTS_SHEET: 
-        headers = ['id', 'projectId', 'authorName', 'authorEmail', 'authorPicture', 'comment', 'timestamp']; break;
-      case SHARES_SHEET: 
-        headers = ['id', 'projectId', 'sharedBy', 'sharedWith', 'method', 'timestamp']; break;
-    }
-    if(headers.length > 0) sheet.appendRow(headers);
-  }
-  
-  return sheet;
-}
-
-function hashPassword(password) {
-  const digest = Utilities.computeDigest(Utilities.DigestAlgorithm.SHA_256, password, Utilities.Charset.UTF_8);
-  return Utilities.base64Encode(digest);
-}
+// ====== HELPERS ======
 
 function createResponse(status, data) {
   return ContentService.createTextOutput(JSON.stringify({ status, data }))
     .setMimeType(ContentService.MimeType.JSON);
 }
 
-function updateSheetRow(sheet, keyIndex, keyValue, newValues) {
-  const data = sheet.getDataRange().getValues();
-  for(let i=1; i<data.length; i++) {
-    if(data[i][keyIndex] === keyValue) {
-      const row = i+1;
-      newValues.forEach((val, colIndex) => {
-        if(val !== null && val !== undefined) sheet.getRange(row, colIndex+1).setValue(val);
-      });
-      return;
-    }
+function getOrCreateSheet(name) {
+  const ss = SpreadsheetApp.getActiveSpreadsheet();
+  let sheet = ss.getSheetByName(name);
+  if (!sheet) {
+    sheet = ss.insertSheet(name);
+    const headers = {
+      'Users': ['email', 'password', 'name', 'university', 'major', 'profilePicture', 'linkedin', 'github', 'bio', 'timestamp'],
+      'Projects': ['id', 'authorName', 'authorEmail', 'authorPicture', 'title', 'description', 'link', 'tech', 'projectImage', 'upvotes', 'timestamp'],
+      'Profiles': ['name', 'email', 'university', 'major', 'linkedin', 'github', 'bio', 'profilePicture', 'timestamp'],
+      'Comments': ['id', 'projectId', 'authorName', 'authorEmail', 'comment', 'timestamp']
+    };
+    if (headers[name]) sheet.appendRow(headers[name]);
   }
+  return sheet;
+}
+
+function hashPassword(raw) {
+  const digest = Utilities.computeDigest(Utilities.DigestAlgorithm.SHA_256, raw);
+  return Utilities.base64Encode(digest);
 }
 
 function getCommentCount(pid) {
   const sheet = getOrCreateSheet(COMMENTS_SHEET);
   const data = sheet.getDataRange().getValues();
-  return data.slice(1).filter(r => r[1] == pid).length;
-}
-
-function getShareCount(pid) {
-  const sheet = getOrCreateSheet(SHARES_SHEET);
-  const data = sheet.getDataRange().getValues();
-  return data.slice(1).filter(r => r[1] == pid).length;
+  return data.slice(1).filter(r => String(r[1]) === String(pid)).length;
 }
