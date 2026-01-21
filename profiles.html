@@ -239,12 +239,17 @@
         </a>
     </nav>
 
-    <script>
+<script>
         // CONFIG
+        // Make sure this matches your index.html URL exactly!
         const SHEET_URL = 'https://script.google.com/macros/s/AKfycbzGbZ39b67jJ2NPODCW4K3zqlf6p6-bq8vPRHmCdNjOxl37MT9KdndnCR8vw55qv7dN/exec';
 
+        // STATE
         let allProfiles = [];
         let allProjects = [];
+        let currentPage = 1;
+        const itemsPerPage = 20;
+        let currentList = [];
 
         window.onload = async () => {
             await Promise.all([loadProfiles(), loadProjects()]);
@@ -276,20 +281,69 @@
             } catch(e) { console.error(e); }
         }
 
-        function renderDirectory(list) {
+        // --- NEW OPTIMIZED RENDER FUNCTION ---
+        function renderDirectory(list, append = false) {
             const grid = document.getElementById('profilesGrid');
-            if(list.length === 0) {
-                grid.innerHTML = '<p style="text-align:center; width:100%; color: var(--text-secondary);">No profiles found.</p>';
+            
+            // Reset if this is a new filter/search
+            if (!append) {
+                currentPage = 1;
+                currentList = list;
+                grid.innerHTML = '';
+            }
+
+            // Calculate chunk
+            const start = (currentPage - 1) * itemsPerPage;
+            const end = start + itemsPerPage;
+            const chunk = currentList.slice(start, end);
+
+            // Handle empty state
+            if (chunk.length === 0 && currentPage === 1) {
+                grid.innerHTML = '<p style="grid-column: 1/-1; text-align:center; padding: 2rem; color: var(--text-secondary);">No profiles found.</p>';
+                removeLoadMoreBtn();
                 return;
             }
-            grid.innerHTML = list.map(p => `
+
+            // Generate HTML
+            const html = chunk.map(p => `
                 <div class="profile-card" onclick="openPortfolio('${p.email}')">
-                    <img src="${p.profilePicture || 'https://via.placeholder.com/100'}" class="profile-pic">
+                    <img src="${p.profilePicture || 'https://via.placeholder.com/100'}" class="profile-pic" loading="lazy">
                     <h3 style="color: var(--primary); font-size: 1.1rem;">${escapeHtml(p.name)}</h3>
                     <p style="color: var(--text-secondary); font-size: 0.9rem; margin: 0.2rem 0;">${escapeHtml(p.major || 'Student')}</p>
                     <p style="font-size: 0.8rem; color: var(--accent); font-weight: 500;">${escapeHtml(p.university || '')}</p>
                 </div>
             `).join('');
+
+            // Append or Overwrite
+            if (append) {
+                const btn = document.getElementById('loadMoreContainer');
+                if (btn) btn.insertAdjacentHTML('beforebegin', html);
+                else grid.insertAdjacentHTML('beforeend', html);
+            } else {
+                grid.innerHTML = html;
+            }
+
+            // Handle Load More Button
+            removeLoadMoreBtn();
+            
+            if (end < currentList.length) {
+                grid.insertAdjacentHTML('beforeend', `
+                    <div id="loadMoreContainer" style="grid-column: 1/-1; text-align: center; padding: 2rem;">
+                        <button onclick="loadMore()" style="padding: 0.8rem 2rem; background: var(--secondary); color: white; border: none; border-radius: 8px; font-weight: 600; cursor: pointer;">Load More Profiles</button>
+                        <p style="margin-top:0.5rem; font-size:0.8rem; color:#666;">Showing ${end} of ${currentList.length}</p>
+                    </div>
+                `);
+            }
+        }
+
+        function loadMore() {
+            currentPage++;
+            renderDirectory(currentList, true);
+        }
+
+        function removeLoadMoreBtn() {
+            const btn = document.getElementById('loadMoreContainer');
+            if (btn) btn.remove();
         }
 
         function showDirectory() {
@@ -297,6 +351,9 @@
             document.getElementById('portfolioView').classList.add('hidden');
             history.pushState({}, "", "profiles.html");
             window.scrollTo(0,0);
+            
+            // Re-render directory to ensure state is kept
+            if (currentList.length === 0) renderDirectory(allProfiles);
         }
 
         function openPortfolio(email) {
@@ -341,7 +398,7 @@
                             <span style="font-size:0.75rem; background: var(--background); color: var(--text-secondary); padding:2px 8px; border-radius:4px; white-space: nowrap; margin-left: 0.5rem;">${escapeHtml(p.tech)}</span>
                         </div>
                         <p style="font-size: 0.95rem; line-height: 1.5;">${escapeHtml(p.description)}</p>
-                        ${p.projectImage ? `<img src="${p.projectImage}" class="project-img">` : ''}
+                        ${p.projectImage ? `<img src="${p.projectImage}" class="project-img" loading="lazy">` : ''}
                         <div style="display:flex; gap:1rem; align-items: center; margin-top: auto;">
                             <span style="font-size: 0.9rem;">👍 ${p.upvotes}</span>
                             ${p.link ? `<a href="${p.link}" target="_blank" style="color:var(--accent); text-decoration:none; font-weight:600; font-size: 0.9rem; margin-left: auto;">View Code →</a>` : ''}
