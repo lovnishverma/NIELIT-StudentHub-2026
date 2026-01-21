@@ -3,24 +3,26 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>StudentHub - Connect, Create, Inspire</title>
+    <title>NIELIT StudentHub - Connect, Create, Inspire</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=Playfair+Display:wght@700;900&display=swap" rel="stylesheet">
     <style>
         :root {
-            --primary: #2D3B55;
-            --secondary: #FF6B35;
-            --accent: #F7931E;
-            --background: #F8F9FA;
+            /* NIELIT Theme Colors */
+            --primary: #003366;        /* NIELIT Dark Blue */
+            --secondary: #FF6B35;      /* Accent Orange */
+            --accent: #0066CC;         /* NIELIT Light Blue */
+            --nielit-red: #DC143C;     /* NIELIT Red accent */
+            --background: #F5F7FA;
             --card-bg: #FFFFFF;
             --text-primary: #1A1A1A;
             --text-secondary: #6B7280;
             --border: #E5E7EB;
             --success: #10B981;
-            --gradient-primary: linear-gradient(135deg, #2D3B55 0%, #4A5F7F 100%);
-            --gradient-accent: linear-gradient(135deg, #FF6B35 0%, #F7931E 100%);
-            --shadow-sm: 0 2px 8px rgba(45, 59, 85, 0.08);
-            --shadow-md: 0 4px 16px rgba(45, 59, 85, 0.12);
-            --shadow-lg: 0 12px 32px rgba(45, 59, 85, 0.16);
+            --gradient-primary: linear-gradient(135deg, #003366 0%, #0066CC 100%);
+            --gradient-accent: linear-gradient(135deg, #0066CC 0%, #3399FF 100%);
+            --shadow-sm: 0 2px 8px rgba(0, 51, 102, 0.08);
+            --shadow-md: 0 4px 16px rgba(0, 51, 102, 0.12);
+            --shadow-lg: 0 12px 32px rgba(0, 51, 102, 0.16);
         }
 
         * {
@@ -65,18 +67,36 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
+            gap: 1rem;
+        }
+
+        .logo-container {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            cursor: pointer;
+        }
+
+        .nielit-logo {
+            height: 50px;
+            width: auto;
         }
 
         .logo {
             font-family: 'Playfair Display', serif;
-            font-size: 1.8rem;
+            font-size: 1.5rem;
             font-weight: 900;
             background: var(--gradient-accent);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
             letter-spacing: -0.5px;
-            cursor: pointer;
+        }
+
+        .logo-subtitle {
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+            margin-top: -0.25rem;
         }
 
         .nav-links {
@@ -91,10 +111,11 @@
             font-weight: 500;
             transition: all 0.3s ease;
             position: relative;
+            white-space: nowrap;
         }
 
         .nav-link:hover {
-            color: var(--secondary);
+            color: var(--accent);
         }
 
         .nav-link.active::after {
@@ -108,6 +129,112 @@
             border-radius: 2px;
         }
 
+        /* Mobile Menu */
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--primary);
+            padding: 0.5rem;
+        }
+
+        .mobile-nav {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: -100%;
+            width: 80%;
+            max-width: 300px;
+            height: 100vh;
+            background: var(--card-bg);
+            box-shadow: var(--shadow-lg);
+            z-index: 2000;
+            transition: left 0.3s ease;
+            overflow-y: auto;
+        }
+
+        .mobile-nav.active {
+            left: 0;
+        }
+
+        .mobile-nav-header {
+            padding: 1.5rem;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .mobile-nav-links {
+            padding: 1rem;
+        }
+
+        .mobile-nav-link {
+            display: block;
+            padding: 1rem;
+            color: var(--text-primary);
+            text-decoration: none;
+            border-radius: 8px;
+            margin-bottom: 0.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .mobile-nav-link:hover,
+        .mobile-nav-link.active {
+            background: var(--gradient-accent);
+            color: white;
+        }
+
+        .mobile-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 1999;
+        }
+
+        .mobile-overlay.active {
+            display: block;
+        }
+
+        /* Search Bar */
+        .search-container {
+            position: relative;
+            width: 100%;
+            max-width: 500px;
+            margin-bottom: 2rem;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 0.875rem 1rem 0.875rem 3rem;
+            border: 2px solid var(--border);
+            border-radius: 12px;
+            font-family: 'Poppins', sans-serif;
+            font-size: 0.95rem;
+            transition: all 0.3s ease;
+        }
+
+        .search-input:focus {
+            outline: none;
+            border-color: var(--accent);
+            box-shadow: 0 0 0 3px rgba(0, 102, 204, 0.1);
+        }
+
+        .search-icon {
+            position: absolute;
+            left: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-secondary);
+            font-size: 1.2rem;
+        }
+
         .btn {
             padding: 0.75rem 1.5rem;
             border-radius: 12px;
@@ -117,17 +244,18 @@
             transition: all 0.3s ease;
             font-size: 0.95rem;
             font-family: 'Poppins', sans-serif;
+            white-space: nowrap;
         }
 
         .btn-primary {
             background: var(--gradient-accent);
             color: white;
-            box-shadow: 0 4px 12px rgba(255, 107, 53, 0.3);
+            box-shadow: 0 4px 12px rgba(0, 102, 204, 0.3);
         }
 
         .btn-primary:hover {
             transform: translateY(-2px);
-            box-shadow: 0 6px 16px rgba(255, 107, 53, 0.4);
+            box-shadow: 0 6px 16px rgba(0, 102, 204, 0.4);
         }
 
         .btn-secondary {
@@ -137,8 +265,8 @@
         }
 
         .btn-secondary:hover {
-            border-color: var(--secondary);
-            color: var(--secondary);
+            border-color: var(--accent);
+            color: var(--accent);
         }
 
         .btn-ghost {
@@ -149,7 +277,7 @@
         }
 
         .btn-ghost:hover {
-            color: var(--secondary);
+            color: var(--accent);
             background: var(--background);
         }
 
@@ -169,6 +297,7 @@
             background: var(--gradient-primary);
             position: relative;
             overflow: hidden;
+            padding: 1rem;
         }
 
         .auth-page::before {
@@ -190,7 +319,7 @@
             left: -10%;
             width: 600px;
             height: 600px;
-            background: rgba(247, 147, 30, 0.1);
+            background: rgba(0, 102, 204, 0.1);
             border-radius: 50%;
             filter: blur(60px);
         }
@@ -198,8 +327,8 @@
         .auth-container {
             background: var(--card-bg);
             border-radius: 24px;
-            padding: 3rem;
-            width: 90%;
+            padding: 2rem;
+            width: 100%;
             max-width: 480px;
             box-shadow: var(--shadow-lg);
             position: relative;
@@ -218,14 +347,23 @@
             }
         }
 
+        .auth-logo-container {
+            text-align: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .auth-nielit-logo {
+            height: 60px;
+            margin-bottom: 1rem;
+        }
+
         .auth-logo {
             font-family: 'Playfair Display', serif;
-            font-size: 2.5rem;
+            font-size: 2rem;
             font-weight: 900;
             background: var(--gradient-accent);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            text-align: center;
             margin-bottom: 0.5rem;
         }
 
@@ -233,6 +371,7 @@
             text-align: center;
             color: var(--text-secondary);
             margin-bottom: 2rem;
+            font-size: 0.9rem;
         }
 
         .form-group {
@@ -265,8 +404,8 @@
         .form-group input:focus,
         .form-group textarea:focus {
             outline: none;
-            border-color: var(--secondary);
-            box-shadow: 0 0 0 3px rgba(255, 107, 53, 0.1);
+            border-color: var(--accent);
+            box-shadow: 0 0 0 3px rgba(0, 102, 204, 0.1);
         }
 
         .image-upload-container {
@@ -287,7 +426,7 @@
         }
 
         .image-preview:hover {
-            border-color: var(--secondary);
+            border-color: var(--accent);
             transform: scale(1.05);
         }
 
@@ -310,11 +449,12 @@
             cursor: pointer;
             transition: all 0.3s ease;
             font-weight: 500;
+            font-size: 0.9rem;
         }
 
         .upload-btn:hover {
-            border-color: var(--secondary);
-            color: var(--secondary);
+            border-color: var(--accent);
+            color: var(--accent);
         }
 
         .file-input {
@@ -325,10 +465,11 @@
             text-align: center;
             margin-top: 1.5rem;
             color: var(--text-secondary);
+            font-size: 0.9rem;
         }
 
         .auth-switch a {
-            color: var(--secondary);
+            color: var(--accent);
             font-weight: 600;
             text-decoration: none;
         }
@@ -341,7 +482,7 @@
         .hero {
             background: var(--gradient-primary);
             color: white;
-            padding: 4rem 2rem;
+            padding: 3rem 2rem;
             text-align: center;
             border-radius: 24px;
             margin: 2rem auto;
@@ -376,14 +517,14 @@
 
         .hero h1 {
             font-family: 'Playfair Display', serif;
-            font-size: 3.5rem;
+            font-size: 2.5rem;
             font-weight: 900;
             margin-bottom: 1rem;
             position: relative;
         }
 
         .hero p {
-            font-size: 1.25rem;
+            font-size: 1.1rem;
             opacity: 0.95;
             margin-bottom: 2rem;
             position: relative;
@@ -437,8 +578,9 @@
             justify-content: center;
             margin: 0 auto 1rem;
             font-weight: 700;
-            box-shadow: 0 4px 12px rgba(255, 107, 53, 0.3);
+            box-shadow: 0 4px 12px rgba(0, 102, 204, 0.3);
             object-fit: cover;
+            cursor: pointer;
         }
 
         .avatar.placeholder {
@@ -476,7 +618,7 @@
 
         .sidebar-menu li:hover {
             background: var(--background);
-            color: var(--secondary);
+            color: var(--accent);
             transform: translateX(5px);
         }
 
@@ -521,8 +663,8 @@
 
         .post-input:focus {
             outline: none;
-            border-color: var(--secondary);
-            box-shadow: 0 0 0 3px rgba(255, 107, 53, 0.1);
+            border-color: var(--accent);
+            box-shadow: 0 0 0 3px rgba(0, 102, 204, 0.1);
         }
 
         .post-actions {
@@ -530,6 +672,8 @@
             justify-content: space-between;
             align-items: center;
             margin-top: 1rem;
+            gap: 1rem;
+            flex-wrap: wrap;
         }
 
         /* Project Cards */
@@ -566,6 +710,8 @@
             justify-content: center;
             font-weight: 700;
             object-fit: cover;
+            cursor: pointer;
+            flex-shrink: 0;
         }
 
         .project-avatar.placeholder {
@@ -573,10 +719,21 @@
             color: white;
         }
 
+        .project-info {
+            flex: 1;
+            min-width: 0;
+        }
+
         .project-info h3 {
             font-size: 1.1rem;
             font-weight: 600;
             margin-bottom: 0.25rem;
+            cursor: pointer;
+            transition: color 0.3s ease;
+        }
+
+        .project-info h3:hover {
+            color: var(--accent);
         }
 
         .project-meta {
@@ -606,7 +763,7 @@
         }
 
         .project-link {
-            color: var(--secondary);
+            color: var(--accent);
             text-decoration: none;
             font-weight: 600;
             display: inline-flex;
@@ -622,9 +779,10 @@
 
         .project-footer {
             display: flex;
-            gap: 1.5rem;
+            gap: 1rem;
             padding-top: 1rem;
             border-top: 1px solid var(--border);
+            flex-wrap: wrap;
         }
 
         .action-btn {
@@ -640,16 +798,17 @@
             cursor: pointer;
             transition: all 0.3s ease;
             font-family: 'Poppins', sans-serif;
+            font-size: 0.9rem;
         }
 
         .action-btn:hover {
             background: var(--background);
-            color: var(--secondary);
+            color: var(--accent);
         }
 
         .action-btn.upvoted {
-            color: var(--secondary);
-            background: rgba(255, 107, 53, 0.1);
+            color: var(--accent);
+            background: rgba(0, 102, 204, 0.1);
         }
 
         /* Right Sidebar */
@@ -708,6 +867,90 @@
             font-size: 0.85rem;
         }
 
+        /* User Profile View */
+        .user-profile-header {
+            background: var(--gradient-primary);
+            color: white;
+            border-radius: 16px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            display: flex;
+            align-items: center;
+            gap: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .user-profile-avatar {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 4px solid white;
+            box-shadow: var(--shadow-lg);
+        }
+
+        .user-profile-avatar.placeholder {
+            background: white;
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            font-weight: 700;
+        }
+
+        .user-profile-info {
+            flex: 1;
+        }
+
+        .user-profile-name {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .user-profile-meta {
+            display: flex;
+            gap: 2rem;
+            margin-top: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .user-profile-stat {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .stat-value {
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+
+        .back-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.75rem 1.5rem;
+            background: var(--card-bg);
+            color: var(--primary);
+            border: none;
+            border-radius: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-bottom: 1rem;
+        }
+
+        .back-btn:hover {
+            transform: translateX(-5px);
+            box-shadow: var(--shadow-sm);
+        }
+
         /* Modal */
         .modal {
             display: none;
@@ -722,6 +965,7 @@
             align-items: center;
             justify-content: center;
             animation: fadeIn 0.3s ease-out;
+            padding: 1rem;
         }
 
         .modal.active {
@@ -770,7 +1014,7 @@
 
         .close-btn:hover {
             background: var(--background);
-            color: var(--secondary);
+            color: var(--accent);
         }
 
         .toast {
@@ -787,6 +1031,7 @@
             gap: 1rem;
             z-index: 3000;
             animation: slideInRight 0.3s ease-out;
+            max-width: 90%;
         }
 
         @keyframes slideInRight {
@@ -816,7 +1061,7 @@
 
         .spinner {
             border: 3px solid var(--border);
-            border-top: 3px solid var(--secondary);
+            border-top: 3px solid var(--accent);
             border-radius: 50%;
             width: 40px;
             height: 40px;
@@ -845,6 +1090,46 @@
             display: none !important;
         }
 
+        /* Profile Grid for Profiles View */
+        .profiles-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .profile-card {
+            background: var(--card-bg);
+            border-radius: 16px;
+            padding: 1.5rem;
+            box-shadow: var(--shadow-sm);
+            transition: all 0.3s ease;
+            text-align: center;
+            cursor: pointer;
+        }
+
+        .profile-card:hover {
+            box-shadow: var(--shadow-md);
+            transform: translateY(-4px);
+        }
+
+        .profile-card-avatar {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            margin: 0 auto 1rem;
+            object-fit: cover;
+        }
+
+        .profile-card-avatar.placeholder {
+            background: var(--gradient-accent);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            font-weight: 700;
+        }
+
         /* Responsive */
         @media (max-width: 1200px) {
             .main-layout {
@@ -863,7 +1148,36 @@
             }
 
             .hero h1 {
-                font-size: 2.5rem;
+                font-size: 2rem;
+            }
+
+            .hero p {
+                font-size: 1rem;
+            }
+
+            .mobile-menu-btn {
+                display: block;
+            }
+
+            .mobile-nav {
+                display: block;
+            }
+
+            .nav-links {
+                display: none;
+            }
+
+            .user-profile-header {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .user-profile-name {
+                font-size: 1.5rem;
+            }
+
+            .user-profile-meta {
+                justify-content: center;
             }
         }
 
@@ -872,24 +1186,20 @@
                 padding: 1rem;
             }
 
-            .nav-links {
-                gap: 1rem;
+            .logo {
+                font-size: 1.2rem;
             }
 
-            .nav-link {
-                font-size: 0.9rem;
+            .nielit-logo {
+                height: 40px;
             }
 
             .hero {
-                padding: 3rem 1.5rem;
+                padding: 2rem 1.5rem;
             }
 
             .hero h1 {
-                font-size: 2rem;
-            }
-
-            .hero p {
-                font-size: 1rem;
+                font-size: 1.75rem;
             }
 
             .container {
@@ -897,7 +1207,48 @@
             }
 
             .auth-container {
-                padding: 2rem;
+                padding: 1.5rem;
+            }
+
+            .modal-content {
+                padding: 1.5rem;
+            }
+
+            .modal-header h2 {
+                font-size: 1.5rem;
+            }
+
+            .project-card {
+                padding: 1rem;
+            }
+
+            .project-footer {
+                gap: 0.5rem;
+            }
+
+            .action-btn {
+                padding: 0.5rem 0.75rem;
+                font-size: 0.85rem;
+            }
+
+            .post-actions {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .post-actions .btn {
+                width: 100%;
+            }
+
+            .profiles-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .toast {
+                bottom: 1rem;
+                right: 1rem;
+                left: 1rem;
+                max-width: none;
             }
         }
     </style>
@@ -906,12 +1257,16 @@
     <!-- Login Page -->
     <div id="loginPage" class="auth-page">
         <div class="auth-container">
-            <div class="auth-logo">StudentHub</div>
+            <div class="auth-logo-container">
+                <img src="logo.png" alt="NIELIT Logo" class="auth-nielit-logo">
+                <div class="auth-logo">StudentHub</div>
+                <div style="color: var(--text-secondary); font-size: 0.85rem;">NIELIT Ropar</div>
+            </div>
             <p class="auth-subtitle">Welcome back! Log in to your account</p>
             <form id="loginForm">
                 <div class="form-group">
                     <label>Email</label>
-                    <input type="email" id="loginEmail" required placeholder="your.email@university.edu">
+                    <input type="email" id="loginEmail" required placeholder="your.email@nielit.gov.in">
                 </div>
                 <div class="form-group">
                     <label>Password</label>
@@ -928,7 +1283,11 @@
     <!-- Signup Page -->
     <div id="signupPage" class="auth-page hidden">
         <div class="auth-container">
-            <div class="auth-logo">StudentHub</div>
+            <div class="auth-logo-container">
+                <img src="https://nielit.gov.in/sites/default/files/Ropar/ropar_logo_1.png" alt="NIELIT Logo" class="auth-nielit-logo">
+                <div class="auth-logo">StudentHub</div>
+                <div style="color: var(--text-secondary); font-size: 0.85rem;">NIELIT Ropar</div>
+            </div>
             <p class="auth-subtitle">Create your account and start sharing</p>
             <form id="signupForm">
                 <div class="image-upload-container">
@@ -944,15 +1303,15 @@
                 </div>
                 <div class="form-group">
                     <label>Email *</label>
-                    <input type="email" id="signupEmail" required placeholder="your.email@university.edu">
+                    <input type="email" id="signupEmail" required placeholder="your.email@nielit.gov.in">
                 </div>
                 <div class="form-group">
                     <label>Password *</label>
                     <input type="password" id="signupPassword" required placeholder="Create a strong password" minlength="6">
                 </div>
                 <div class="form-group">
-                    <label>University</label>
-                    <input type="text" id="signupUniversity" placeholder="Your university name">
+                    <label>University/Institute</label>
+                    <input type="text" id="signupUniversity" placeholder="NIELIT Ropar">
                 </div>
                 <div class="form-group">
                     <label>Major/Field of Study</label>
@@ -968,10 +1327,35 @@
 
     <!-- Main App (hidden until logged in) -->
     <div id="mainApp" class="hidden">
+        <!-- Mobile Overlay -->
+        <div id="mobileOverlay" class="mobile-overlay" onclick="closeMobileMenu()"></div>
+
+        <!-- Mobile Navigation -->
+        <nav class="mobile-nav" id="mobileNav">
+            <div class="mobile-nav-header">
+                <div class="logo">StudentHub</div>
+                <button class="close-btn" onclick="closeMobileMenu()">&times;</button>
+            </div>
+            <div class="mobile-nav-links">
+                <a href="#" class="mobile-nav-link active" data-view="feed" onclick="mobileNavClick('feed')">🏠 Feed</a>
+                <a href="#" class="mobile-nav-link" data-view="profiles" onclick="mobileNavClick('profiles')">👥 Profiles</a>
+                <a href="#" class="mobile-nav-link" onclick="closeMobileMenu(); openModal('project')">➕ Post Project</a>
+                <a href="#" class="mobile-nav-link" onclick="closeMobileMenu(); openModal('editProfile')">👤 Edit Profile</a>
+                <a href="#" class="mobile-nav-link" onclick="logout()">🚪 Logout</a>
+            </div>
+        </nav>
+
         <!-- Navigation -->
         <nav>
             <div class="nav-container">
-                <div class="logo" onclick="loadFeed()">StudentHub</div>
+                <button class="mobile-menu-btn" onclick="openMobileMenu()">☰</button>
+                <div class="logo-container" onclick="loadFeed()">
+                    <img src="https://nielit.gov.in/sites/default/files/Ropar/ropar_logo_1.png" alt="NIELIT" class="nielit-logo">
+                    <div>
+                        <div class="logo">StudentHub</div>
+                        <div class="logo-subtitle">NIELIT Ropar</div>
+                    </div>
+                </div>
                 <div class="nav-links">
                     <a href="#" class="nav-link active" data-view="feed">Feed</a>
                     <a href="#" class="nav-link" data-view="profiles">Profiles</a>
@@ -985,7 +1369,7 @@
         <div class="hero">
             <h1>Showcase Your Innovation</h1>
             <p>Connect with fellow students, share your projects, and get inspired by amazing work</p>
-            <button class="btn btn-primary" onclick="openModal('project')" style="font-size: 1.1rem; padding: 1rem 2rem;">Post Your Project</button>
+            <button class="btn btn-primary" onclick="openModal('project')" style="font-size: 1rem; padding: 0.875rem 1.75rem;">Post Your Project</button>
         </div>
 
         <!-- Main Content -->
@@ -995,16 +1379,16 @@
                 <aside class="sidebar">
                     <div class="sidebar-card">
                         <div class="profile-header">
-                            <img id="sidebarAvatar" class="avatar placeholder" src="" alt="Profile">
+                            <img id="sidebarAvatar" class="avatar placeholder" src="" alt="Profile" onclick="viewUserProfile(currentUser.email)">
                             <div class="username" id="sidebarUsername">User</div>
                             <div class="user-role">Student</div>
                         </div>
                     </div>
                     <div class="sidebar-card">
                         <ul class="sidebar-menu">
-                            <li class="active">🏠 Home</li>
+                            <li class="active" onclick="loadFeed()">🏠 Home</li>
                             <li onclick="openModal('editProfile')">👤 Edit Profile</li>
-                            <li>📁 My Projects</li>
+                            <li onclick="viewMyProjects()">📁 My Projects</li>
                             <li>⭐ Upvoted</li>
                         </ul>
                     </div>
@@ -1012,6 +1396,7 @@
 
                 <!-- Main Feed -->
                 <main class="feed">
+                    <!-- Feed View -->
                     <div id="feedView">
                         <div class="create-post">
                             <h3 style="margin-bottom: 1rem; font-weight: 700;">Share Your Project</h3>
@@ -1022,6 +1407,12 @@
                             </div>
                         </div>
 
+                        <!-- Search Bar -->
+                        <div class="search-container">
+                            <span class="search-icon">🔍</span>
+                            <input type="text" id="projectSearch" class="search-input" placeholder="Search projects by title, tech, or author...">
+                        </div>
+
                         <div id="projectsContainer">
                             <div class="loading">
                                 <div class="spinner"></div>
@@ -1030,15 +1421,57 @@
                         </div>
                     </div>
 
+                    <!-- Profiles View -->
                     <div id="profilesView" style="display: none;">
                         <div class="sidebar-card" style="margin-bottom: 2rem;">
                             <h2 style="font-family: 'Playfair Display', serif; margin-bottom: 1rem;">Student Profiles</h2>
                             <p style="color: var(--text-secondary);">Discover talented students and their work</p>
                         </div>
+
+                        <!-- Search Bar for Profiles -->
+                        <div class="search-container">
+                            <span class="search-icon">🔍</span>
+                            <input type="text" id="profileSearch" class="search-input" placeholder="Search students by name, email, or major...">
+                        </div>
+
                         <div id="profilesContainer">
                             <div class="loading">
                                 <div class="spinner"></div>
                                 <p>Loading profiles...</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- User Profile View -->
+                    <div id="userProfileView" style="display: none;">
+                        <button class="back-btn" onclick="goBackFromProfile()">← Back</button>
+                        <div class="user-profile-header">
+                            <img id="userProfileAvatar" class="user-profile-avatar placeholder" src="" alt="Profile">
+                            <div class="user-profile-info">
+                                <div class="user-profile-name" id="userProfileName">User Name</div>
+                                <div id="userProfileEmail" style="opacity: 0.9; margin-bottom: 0.5rem;"></div>
+                                <div id="userProfileUniversity" style="opacity: 0.9;"></div>
+                                <div id="userProfileMajor" style="opacity: 0.9;"></div>
+                                <div id="userProfileBio" style="margin-top: 1rem; opacity: 0.95;"></div>
+                                <div class="user-profile-meta">
+                                    <div class="user-profile-stat">
+                                        <span class="stat-value" id="userProjectCount">0</span>
+                                        <span class="stat-label">Projects</span>
+                                    </div>
+                                    <div class="user-profile-stat">
+                                        <span class="stat-value" id="userTotalUpvotes">0</span>
+                                        <span class="stat-label">Total Upvotes</span>
+                                    </div>
+                                </div>
+                                <div id="userProfileLinks" style="margin-top: 1rem; display: flex; gap: 1rem; flex-wrap: wrap;"></div>
+                            </div>
+                        </div>
+
+                        <h3 style="margin: 2rem 0 1rem; font-size: 1.5rem; color: var(--primary);">Projects by <span id="userProfileNameProjects"></span></h3>
+                        <div id="userProjectsContainer">
+                            <div class="loading">
+                                <div class="spinner"></div>
+                                <p>Loading projects...</p>
                             </div>
                         </div>
                     </div>
@@ -1058,7 +1491,7 @@
                     <div class="trending-card">
                         <h3>💡 Quick Stats</h3>
                         <div style="padding: 1rem; background: var(--background); border-radius: 10px; margin-bottom: 0.75rem;">
-                            <div style="font-size: 2rem; font-weight: 700; color: var(--secondary);" id="totalProjects">0</div>
+                            <div style="font-size: 2rem; font-weight: 700; color: var(--accent);" id="totalProjects">0</div>
                             <div style="color: var(--text-secondary); font-size: 0.9rem;">Total Projects</div>
                         </div>
                         <div style="padding: 1rem; background: var(--background); border-radius: 10px;">
@@ -1091,24 +1524,24 @@
                     <input type="text" id="editName" required>
                 </div>
                 <div class="form-group">
-                    <label>University</label>
+                    <label>University/Institute</label>
                     <input type="text" id="editUniversity">
                 </div>
                 <div class="form-group">
-                    <label>Major</label>
+                    <label>Major/Field of Study</label>
                     <input type="text" id="editMajor">
                 </div>
                 <div class="form-group">
                     <label>LinkedIn</label>
-                    <input type="url" id="editLinkedIn">
+                    <input type="url" id="editLinkedIn" placeholder="https://linkedin.com/in/yourprofile">
                 </div>
                 <div class="form-group">
                     <label>GitHub</label>
-                    <input type="url" id="editGitHub">
+                    <input type="url" id="editGitHub" placeholder="https://github.com/yourusername">
                 </div>
                 <div class="form-group">
                     <label>Bio</label>
-                    <textarea id="editBio"></textarea>
+                    <textarea id="editBio" placeholder="Tell us about yourself..."></textarea>
                 </div>
                 <button type="submit" class="btn btn-primary" style="width: 100%; margin-top: 1rem;">Save Changes</button>
             </form>
@@ -1159,22 +1592,95 @@
     <script>
         // ====== CONFIGURATION ======
         const SHEET_URL = 'https://script.google.com/macros/s/AKfycbzwd5jANpnYQVlzWtV6phUrmjkuIKwTTgxB0dWLv36bfLqAOKIKSZ1-0iGTm760vBGG/exec';
-        
-        // Cloudinary configuration (FREE tier - sign up at cloudinary.com)
-        const CLOUDINARY_UPLOAD_PRESET = 'studenthub_preset'; // You'll create this
-        const CLOUDINARY_CLOUD_NAME = 'dy8up08qd'; // Replace with your cloud name
+        const CLOUDINARY_UPLOAD_PRESET = 'studenthub_preset';
+        const CLOUDINARY_CLOUD_NAME = 'dy8up08qd';
         
         // ====== STATE ======
         let currentUser = null;
         let allProjects = [];
         let allProfiles = [];
         let userUpvotes = new Set();
+        let currentView = 'feed';
+        let viewingUserEmail = null;
 
         // ====== INITIALIZATION ======
         document.addEventListener('DOMContentLoaded', () => {
             checkAuth();
             setupImagePreviewHandlers();
+            setupSearchHandlers();
         });
+
+        // ====== MOBILE MENU ======
+        function openMobileMenu() {
+            document.getElementById('mobileNav').classList.add('active');
+            document.getElementById('mobileOverlay').classList.add('active');
+        }
+
+        function closeMobileMenu() {
+            document.getElementById('mobileNav').classList.remove('active');
+            document.getElementById('mobileOverlay').classList.remove('active');
+        }
+
+        function mobileNavClick(view) {
+            const links = document.querySelectorAll('.mobile-nav-link');
+            links.forEach(link => link.classList.remove('active'));
+            event.target.classList.add('active');
+            
+            closeMobileMenu();
+            
+            if (view === 'feed') {
+                loadFeed();
+            } else if (view === 'profiles') {
+                showProfiles();
+            }
+        }
+
+        // ====== SEARCH FUNCTIONALITY ======
+        function setupSearchHandlers() {
+            // Project search
+            document.getElementById('projectSearch')?.addEventListener('input', (e) => {
+                const searchTerm = e.target.value.toLowerCase();
+                filterProjects(searchTerm);
+            });
+
+            // Profile search
+            document.getElementById('profileSearch')?.addEventListener('input', (e) => {
+                const searchTerm = e.target.value.toLowerCase();
+                filterProfiles(searchTerm);
+            });
+        }
+
+        function filterProjects(searchTerm) {
+            if (!searchTerm) {
+                renderProjects();
+                return;
+            }
+
+            const filtered = allProjects.filter(project => 
+                project.title.toLowerCase().includes(searchTerm) ||
+                project.description.toLowerCase().includes(searchTerm) ||
+                project.authorName.toLowerCase().includes(searchTerm) ||
+                (project.tech && project.tech.toLowerCase().includes(searchTerm))
+            );
+
+            renderProjects(filtered);
+        }
+
+        function filterProfiles(searchTerm) {
+            if (!searchTerm) {
+                renderProfiles();
+                return;
+            }
+
+            const filtered = allProfiles.filter(profile =>
+                profile.name.toLowerCase().includes(searchTerm) ||
+                profile.email.toLowerCase().includes(searchTerm) ||
+                (profile.major && profile.major.toLowerCase().includes(searchTerm)) ||
+                (profile.university && profile.university.toLowerCase().includes(searchTerm))
+            );
+
+            renderProfiles(filtered);
+        }
 
         // ====== AUTHENTICATION ======
         function checkAuth() {
@@ -1198,7 +1704,6 @@
             document.getElementById('signupPage').classList.remove('hidden');
             document.getElementById('mainApp').classList.add('hidden');
             
-            // Setup profile preview
             const preview = document.getElementById('signupProfilePreview');
             preview.textContent = '?';
         }
@@ -1216,23 +1721,21 @@
             localStorage.removeItem('studenthub_user');
             localStorage.removeItem('studenthub_session');
             currentUser = null;
+            closeMobileMenu();
             showLogin();
         }
 
         // ====== IMAGE UPLOAD ======
         function setupImagePreviewHandlers() {
-            // Signup profile image
-            document.getElementById('signupProfileImage').addEventListener('change', (e) => {
+            document.getElementById('signupProfileImage')?.addEventListener('change', (e) => {
                 previewImage(e.target, 'signupProfilePreview', true);
             });
 
-            // Edit profile image
-            document.getElementById('editProfileImage').addEventListener('change', (e) => {
+            document.getElementById('editProfileImage')?.addEventListener('change', (e) => {
                 previewImage(e.target, 'editProfilePreview', true);
             });
 
-            // Project image
-            document.getElementById('projectImage').addEventListener('change', (e) => {
+            document.getElementById('projectImage')?.addEventListener('change', (e) => {
                 previewImage(e.target, 'projectImagePreview', false);
             });
         }
@@ -1255,7 +1758,6 @@
         async function uploadToCloudinary(file) {
             if (!file) return null;
 
-            // Create form data
             const formData = new FormData();
             formData.append('file', file);
             formData.append('upload_preset', CLOUDINARY_UPLOAD_PRESET);
@@ -1289,6 +1791,73 @@
                     sidebarAvatar.classList.add('placeholder');
                 }
                 document.getElementById('sidebarUsername').textContent = currentUser.name;
+            }
+        }
+
+        // ====== VIEW USER PROFILE ======
+        function viewUserProfile(email) {
+            viewingUserEmail = email;
+            
+            // Find user profile
+            const profile = allProfiles.find(p => p.email === email) || currentUser;
+            
+            // Hide other views
+            document.getElementById('feedView').style.display = 'none';
+            document.getElementById('profilesView').style.display = 'none';
+            document.getElementById('userProfileView').style.display = 'block';
+            
+            // Update profile header
+            const avatar = document.getElementById('userProfileAvatar');
+            if (profile.profilePicture) {
+                avatar.src = profile.profilePicture;
+                avatar.classList.remove('placeholder');
+            } else {
+                avatar.textContent = profile.name.charAt(0).toUpperCase();
+                avatar.classList.add('placeholder');
+            }
+            
+            document.getElementById('userProfileName').textContent = profile.name;
+            document.getElementById('userProfileNameProjects').textContent = profile.name;
+            document.getElementById('userProfileEmail').textContent = profile.email;
+            document.getElementById('userProfileUniversity').textContent = profile.university ? `🎓 ${profile.university}` : '';
+            document.getElementById('userProfileMajor').textContent = profile.major ? `📚 ${profile.major}` : '';
+            document.getElementById('userProfileBio').textContent = profile.bio || '';
+            
+            // Social links
+            const linksContainer = document.getElementById('userProfileLinks');
+            linksContainer.innerHTML = '';
+            if (profile.linkedin) {
+                linksContainer.innerHTML += `<a href="${profile.linkedin}" target="_blank" class="btn btn-secondary" style="padding: 0.5rem 1rem;">LinkedIn</a>`;
+            }
+            if (profile.github) {
+                linksContainer.innerHTML += `<a href="${profile.github}" target="_blank" class="btn btn-secondary" style="padding: 0.5rem 1rem;">GitHub</a>`;
+            }
+            
+            // Filter and display user's projects
+            const userProjects = allProjects.filter(p => p.authorEmail === email);
+            document.getElementById('userProjectCount').textContent = userProjects.length;
+            
+            const totalUpvotes = userProjects.reduce((sum, p) => sum + (p.upvotes || 0), 0);
+            document.getElementById('userTotalUpvotes').textContent = totalUpvotes;
+            
+            renderProjects(userProjects, 'userProjectsContainer');
+        }
+
+        function goBackFromProfile() {
+            document.getElementById('userProfileView').style.display = 'none';
+            
+            if (currentView === 'profiles') {
+                showProfiles();
+            } else {
+                loadFeed();
+            }
+            
+            viewingUserEmail = null;
+        }
+
+        function viewMyProjects() {
+            if (currentUser) {
+                viewUserProfile(currentUser.email);
             }
         }
 
@@ -1365,14 +1934,16 @@
                 showToast('Account created successfully! 🎉', true);
             } catch (error) {
                 console.error('Signup error:', error);
-                showToast('Account created locally. Server sync pending.', true);
                 currentUser = {
                     name: userData.name,
                     email: userData.email,
-                    profilePicture: userData.profilePicture
+                    profilePicture: userData.profilePicture,
+                    university: userData.university,
+                    major: userData.major
                 };
                 localStorage.setItem('studenthub_user', JSON.stringify(currentUser));
                 showMainApp();
+                showToast('Account created locally!', true);
             }
         });
 
@@ -1414,6 +1985,9 @@
                 updateUserUI();
                 closeModal('editProfile');
                 showToast('Profile updated successfully! ✨', true);
+                
+                // Reload data to update profiles list
+                loadData();
             } catch (error) {
                 console.error('Update error:', error);
                 currentUser = updatedData;
@@ -1513,7 +2087,8 @@
             allProjects = [
                 {
                     id: '1',
-                    authorName: 'Sarah Chen',
+                    authorName: 'Demo Student',
+                    authorEmail: 'demo@nielit.gov.in',
                     title: 'AI Study Companion',
                     description: 'An intelligent study assistant that uses machine learning to create personalized study plans.',
                     link: 'https://github.com/demo/ai-study',
@@ -1528,21 +2103,22 @@
         }
 
         // ====== RENDERING ======
-        function renderProjects() {
-            const container = document.getElementById('projectsContainer');
+        function renderProjects(projects = null, containerId = 'projectsContainer') {
+            const container = document.getElementById(containerId);
+            const projectsToRender = projects || allProjects;
             
-            if (allProjects.length === 0) {
+            if (projectsToRender.length === 0) {
                 container.innerHTML = `
                     <div class="empty-state">
-                        <h3>No Projects Yet</h3>
-                        <p>Be the first to share your amazing project!</p>
-                        <button class="btn btn-primary" onclick="openModal('project')" style="margin-top: 1rem;">Post Your Project</button>
+                        <h3>No Projects Found</h3>
+                        <p>${projects ? 'Try a different search term' : 'Be the first to share your amazing project!'}</p>
+                        ${!projects ? '<button class="btn btn-primary" onclick="openModal(\'project\')" style="margin-top: 1rem;">Post Your Project</button>' : ''}
                     </div>
                 `;
                 return;
             }
 
-            const sortedProjects = [...allProjects].sort((a, b) => {
+            const sortedProjects = [...projectsToRender].sort((a, b) => {
                 if (b.upvotes !== a.upvotes) return b.upvotes - a.upvotes;
                 return new Date(b.timestamp) - new Date(a.timestamp);
             });
@@ -1553,10 +2129,10 @@
                 
                 let avatarHTML;
                 if (project.authorPicture) {
-                    avatarHTML = `<img src="${project.authorPicture}" class="project-avatar" alt="${project.authorName}">`;
+                    avatarHTML = `<img src="${project.authorPicture}" class="project-avatar" alt="${project.authorName}" onclick="viewUserProfile('${project.authorEmail}')">`;
                 } else {
                     const initial = project.authorName.charAt(0).toUpperCase();
-                    avatarHTML = `<div class="project-avatar placeholder">${initial}</div>`;
+                    avatarHTML = `<div class="project-avatar placeholder" onclick="viewUserProfile('${project.authorEmail}')">${initial}</div>`;
                 }
                 
                 return `
@@ -1564,7 +2140,7 @@
                         <div class="project-header">
                             ${avatarHTML}
                             <div class="project-info">
-                                <h3>${project.authorName}</h3>
+                                <h3 onclick="viewUserProfile('${project.authorEmail}')">${project.authorName}</h3>
                                 <div class="project-meta">${timeAgo}</div>
                             </div>
                         </div>
@@ -1575,7 +2151,7 @@
                         ${project.tech ? `<div style="color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 1rem;">🛠️ ${project.tech}</div>` : ''}
                         <div class="project-footer">
                             <button class="action-btn ${isUpvoted ? 'upvoted' : ''}" onclick="toggleUpvote('${project.id}')">
-                                👍 <span id="upvote-${project.id}">${project.upvotes || 0}</span> Upvotes
+                                👍 <span id="upvote-${project.id}">${project.upvotes || 0}</span>
                             </button>
                             <button class="action-btn">💬 Comment</button>
                             <button class="action-btn">🔗 Share</button>
@@ -1585,41 +2161,45 @@
             }).join('');
         }
 
-        function renderProfiles() {
+        function renderProfiles(profiles = null) {
             const container = document.getElementById('profilesContainer');
+            const profilesToRender = profiles || allProfiles;
             
-            if (allProfiles.length === 0) {
-                container.innerHTML = `<div class="empty-state"><h3>No Profiles Yet</h3></div>`;
+            if (profilesToRender.length === 0) {
+                container.innerHTML = `
+                    <div class="empty-state">
+                        <h3>No Profiles Found</h3>
+                        <p>${profiles ? 'Try a different search term' : 'Be the first to create a profile!'}</p>
+                    </div>
+                `;
                 return;
             }
 
-            container.innerHTML = allProfiles.map(profile => {
+            container.innerHTML = `<div class="profiles-grid">` + profilesToRender.map(profile => {
                 let avatarHTML;
                 if (profile.profilePicture) {
-                    avatarHTML = `<img src="${profile.profilePicture}" class="project-avatar" alt="${profile.name}">`;
+                    avatarHTML = `<img src="${profile.profilePicture}" class="profile-card-avatar" alt="${profile.name}">`;
                 } else {
                     const initial = profile.name.charAt(0).toUpperCase();
-                    avatarHTML = `<div class="project-avatar placeholder">${initial}</div>`;
+                    avatarHTML = `<div class="profile-card-avatar placeholder">${initial}</div>`;
                 }
 
+                const userProjects = allProjects.filter(p => p.authorEmail === profile.email);
+                const projectCount = userProjects.length;
+
                 return `
-                    <div class="project-card">
-                        <div class="project-header">
-                            ${avatarHTML}
-                            <div class="project-info" style="flex: 1;">
-                                <h3>${profile.name}</h3>
-                                <div class="project-meta">${profile.email}</div>
-                                ${profile.major ? `<div class="project-meta">📚 ${profile.major}</div>` : ''}
-                            </div>
-                        </div>
-                        ${profile.bio ? `<div class="project-description">${profile.bio}</div>` : ''}
-                        <div style="display: flex; gap: 1rem; margin-top: 1rem;">
-                            ${profile.linkedin ? `<a href="${profile.linkedin}" target="_blank" class="project-link">LinkedIn</a>` : ''}
-                            ${profile.github ? `<a href="${profile.github}" target="_blank" class="project-link">GitHub</a>` : ''}
+                    <div class="profile-card" onclick="viewUserProfile('${profile.email}')">
+                        ${avatarHTML}
+                        <h3 style="margin-bottom: 0.5rem;">${profile.name}</h3>
+                        <div style="color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 0.5rem;">${profile.email}</div>
+                        ${profile.major ? `<div style="color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 0.5rem;">📚 ${profile.major}</div>` : ''}
+                        ${profile.university ? `<div style="color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 1rem;">🎓 ${profile.university}</div>` : ''}
+                        <div style="padding: 0.75rem; background: var(--background); border-radius: 8px; font-weight: 600; color: var(--primary);">
+                            ${projectCount} Project${projectCount !== 1 ? 's' : ''}
                         </div>
                     </div>
                 `;
-            }).join('');
+            }).join('') + `</div>`;
         }
 
         function updateTrending() {
@@ -1634,9 +2214,9 @@
             }
 
             container.innerHTML = trending.map(project => `
-                <div class="trending-item">
+                <div class="trending-item" onclick="viewUserProfile('${project.authorEmail}')">
                     <div class="trending-title">${project.title}</div>
-                    <div class="trending-meta">👍 ${project.upvotes} upvotes</div>
+                    <div class="trending-meta">👍 ${project.upvotes} upvotes • by ${project.authorName}</div>
                 </div>
             `).join('');
         }
@@ -1728,13 +2308,12 @@
                     document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
                     link.classList.add('active');
                     
+                    currentView = view;
+                    
                     if (view === 'feed') {
-                        document.getElementById('feedView').style.display = 'block';
-                        document.getElementById('profilesView').style.display = 'none';
+                        loadFeed();
                     } else if (view === 'profiles') {
-                        document.getElementById('feedView').style.display = 'none';
-                        document.getElementById('profilesView').style.display = 'block';
-                        renderProfiles();
+                        showProfiles();
                     }
                 });
             });
@@ -1749,10 +2328,22 @@
         }
 
         function loadFeed() {
+            currentView = 'feed';
             document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
             document.querySelectorAll('.nav-link')[0].classList.add('active');
             document.getElementById('feedView').style.display = 'block';
             document.getElementById('profilesView').style.display = 'none';
+            document.getElementById('userProfileView').style.display = 'none';
+        }
+
+        function showProfiles() {
+            currentView = 'profiles';
+            document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
+            document.querySelectorAll('.nav-link')[1].classList.add('active');
+            document.getElementById('feedView').style.display = 'none';
+            document.getElementById('profilesView').style.display = 'block';
+            document.getElementById('userProfileView').style.display = 'none';
+            renderProfiles();
         }
 
         // ====== UTILITIES ======
