@@ -1287,7 +1287,7 @@
                     </div>
                     <div class="project-title">${escapeHtml(p.title)}</div>
                     <div class="project-description">${escapeHtml(p.description)}</div>
-                    ${p.projectImage ? `<img src="${p.projectImage}" class="project-image" alt="${escapeHtml(p.title)}">` : ''}
+                    ${p.projectImage ? `<img src="${p.projectImage}" class="project-image" alt="${escapeHtml(p.title)}" loading="lazy">` : ''}
 <div class="project-footer">
     <button class="action-btn" onclick="upvote('${p.id}', this)">
         👍 <span>${p.upvotes}</span>
