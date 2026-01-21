@@ -103,7 +103,7 @@ Cloudinary provides free image hosting perfect for this project.
 
 #### Step 1: Open HTML File
 
-Open `studenthub-enhanced.html` in a text editor (VS Code, Notepad++, etc.)
+Open `index.html` in a text editor (VS Code, Notepad++, etc.)
 
 #### Step 2: Update Configuration
 
@@ -135,7 +135,7 @@ Choose one of these options:
 
 1. Create GitHub account (github.com)
 2. Create new repository: `studenthub`
-3. Upload `studenthub-enhanced.html`
+3. Upload `index.html`
 4. Rename file to `index.html`
 5. Go to Settings → Pages
 6. Source: main branch
@@ -144,7 +144,7 @@ Choose one of these options:
 #### Option B: Netlify Drop (Easiest)
 
 1. Go to https://app.netlify.com/drop
-2. Drag `studenthub-enhanced.html` into browser
+2. Drag `index.html` into browser
 3. Instant deployment!
 4. Get custom URL
 
@@ -157,7 +157,7 @@ Choose one of these options:
 
 #### Option D: Local Testing
 
-Just double-click `studenthub-enhanced.html` to open in browser!
+Just double-click `index.html` to open in browser!
 
 ---
 
