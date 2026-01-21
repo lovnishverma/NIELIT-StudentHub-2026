@@ -1278,9 +1278,9 @@ To create skilled IT professionals and promote research and development in emerg
 - **Industry Certifications** - AWS, Google Cloud, Microsoft
 
 ### Contact NIELIT Ropar
-- **Address**: Punjab Engineering College Campus, Sector 12, Chandigarh
+- **Address**: National Institute of Electronics & Information Technology (NIELIT) Ropar
 - **Website**: [www.nielit.gov.in](https://nielit.gov.in)
-- **Email**: chandigarh@nielit.gov.in
+- **Email**: sarwang@gmail.com
 
 ---
 
