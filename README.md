@@ -871,7 +871,7 @@ SOFTWARE.
 
 - 🐛 **Bug Reports**: [Open an issue](https://github.com/nielitropar/nielitropar.github.io/issues)
 - 💡 **Feature Requests**: [Open an issue](https://github.com/nielitropar/nielitropar.github.io/issues)
-- 📧 **Email**: studenthub@nielit.gov.in
+- 📧 **Email**: sarwang@gmail.com
 - 🌐 **Website**: [https://nielit.gov.in](https://nielit.gov.in)
 
 ---
