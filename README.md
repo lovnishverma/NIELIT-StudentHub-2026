@@ -2,6 +2,9 @@
 
 A professional LinkedIn-style platform with **authentication**, **profile pictures**, and **project images**.
 
+# Database: https://docs.google.com/spreadsheets/d/1z8j6iyls8z1WhJz8FdjHSXycqCd8zT9kDAFaASvj-JQ/edit?usp=sharing
+
+
 ## 🎯 New Features
 
 ### ✅ Authentication System
