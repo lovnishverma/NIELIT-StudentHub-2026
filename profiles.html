@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>StudentHub - Profiles</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #003366; --secondary: #FF6B35; --accent: #0066CC;
+            --background: #F5F7FA; --card-bg: #FFFFFF; --text-primary: #1A1A1A;
+            --text-secondary: #6B7280; --border: #E5E7EB;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Poppins', sans-serif; background: var(--background); color: var(--text-primary); }
+
+        nav { background: var(--card-bg); box-shadow: 0 2px 8px rgba(0,0,0,0.05); padding: 1rem 2rem; position: sticky; top: 0; z-index: 10; }
+        .nav-container { max-width: 1400px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; }
+        .logo { font-family: 'Playfair Display', serif; font-size: 1.5rem; font-weight: 700; color: var(--primary); text-decoration: none; }
+        .nav-link { margin-left: 2rem; text-decoration: none; color: var(--text-secondary); font-weight: 500; }
+        .nav-link.active { color: var(--accent); font-weight: 700; }
+
+        .container { max-width: 1200px; margin: 2rem auto; padding: 0 1rem; }
+        
+        /* Directory Grid */
+        .profiles-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 1.5rem; }
+        .profile-card { background: white; padding: 1.5rem; border-radius: 12px; text-align: center; cursor: pointer; transition: 0.3s; box-shadow: 0 2px 4px rgba(0,0,0,0.05); }
+        .profile-card:hover { transform: translateY(-5px); box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
+        .profile-pic { width: 100px; height: 100px; border-radius: 50%; object-fit: cover; margin-bottom: 1rem; background: #eee; }
+        
+        /* Portfolio View */
+        .portfolio-header { background: white; padding: 3rem 2rem; border-radius: 16px; text-align: center; margin-bottom: 2rem; box-shadow: 0 4px 6px rgba(0,0,0,0.05); }
+        .big-avatar { width: 150px; height: 150px; border-radius: 50%; object-fit: cover; border: 4px solid var(--accent); margin-bottom: 1rem; }
+        .social-link { display: inline-block; margin: 0.5rem; padding: 0.5rem 1rem; background: #eee; border-radius: 20px; text-decoration: none; color: var(--text-primary); font-size: 0.9rem; }
+        
+        /* Projects List in Portfolio */
+        .project-item { background: white; padding: 1.5rem; border-radius: 12px; margin-bottom: 1rem; border: 1px solid var(--border); display: flex; flex-direction: column; gap: 1rem; }
+        .project-img { width: 100%; height: 200px; object-fit: cover; border-radius: 8px; }
+        
+        .hidden { display: none; }
+        .btn-back { margin-bottom: 1rem; display: inline-block; text-decoration: none; color: var(--accent); font-weight: 600; cursor: pointer; }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <div class="nav-container">
+            <a href="index.html" class="logo">StudentHub</a>
+            <div>
+                <a href="index.html" class="nav-link">Feed</a>
+                <a href="profiles.html" class="nav-link active">Profiles</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container">
+        
+        <!-- VIEW 1: DIRECTORY -->
+        <div id="directoryView">
+            <h1 style="margin-bottom: 1.5rem;">Student Directory</h1>
+            <input type="text" placeholder="Search by name or major..." style="width: 100%; padding: 1rem; border-radius: 8px; border: 1px solid #ccc; margin-bottom: 2rem;" onkeyup="filterProfiles(this.value)">
+            
+            <div id="profilesGrid" class="profiles-grid">
+                <div style="grid-column: 1/-1; text-align: center; padding: 2rem;">Loading profiles...</div>
+            </div>
+        </div>
+
+        <!-- VIEW 2: PORTFOLIO -->
+        <div id="portfolioView" class="hidden">
+            <div onclick="showDirectory()" class="btn-back">← Back to Directory</div>
+            
+            <div id="portfolioHeader" class="portfolio-header">
+                <!-- Injected via JS -->
+            </div>
+
+            <h2 style="margin-bottom: 1rem;">Projects</h2>
+            <div id="userProjects">
+                <!-- Injected via JS -->
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        // CONFIG
+        const SHEET_URL = 'https://script.google.com/macros/s/AKfycbzGbZ39b67jJ2NPODCW4K3zqlf6p6-bq8vPRHmCdNjOxl37MT9KdndnCR8vw55qv7dN/exec';
+
+        let allProfiles = [];
+        let allProjects = [];
+
+        window.onload = async () => {
+            await Promise.all([loadProfiles(), loadProjects()]);
+            
+            // Check URL for ?email=...
+            const params = new URLSearchParams(window.location.search);
+            const targetEmail = params.get('email');
+            
+            if (targetEmail) {
+                showPortfolio(targetEmail);
+            } else {
+                renderDirectory(allProfiles);
+            }
+        };
+
+        async function loadProfiles() {
+            try {
+                const res = await fetch(`${SHEET_URL}?action=getProfiles`);
+                const json = await res.json();
+                if(json.status === 'success') allProfiles = json.data;
+            } catch(e) { console.error(e); }
+        }
+
+        async function loadProjects() {
+            try {
+                const res = await fetch(`${SHEET_URL}?action=getProjects`);
+                const json = await res.json();
+                if(json.status === 'success') allProjects = json.data;
+            } catch(e) { console.error(e); }
+        }
+
+        function renderDirectory(list) {
+            const grid = document.getElementById('profilesGrid');
+            if(list.length === 0) {
+                grid.innerHTML = '<p>No profiles found.</p>';
+                return;
+            }
+            grid.innerHTML = list.map(p => `
+                <div class="profile-card" onclick="openPortfolio('${p.email}')">
+                    <img src="${p.profilePicture || 'https://via.placeholder.com/100'}" class="profile-pic">
+                    <h3>${escapeHtml(p.name)}</h3>
+                    <p style="color: var(--text-secondary); font-size: 0.9rem;">${escapeHtml(p.major || 'Student')}</p>
+                    <p style="font-size: 0.8rem; margin-top: 0.5rem;">${escapeHtml(p.university || '')}</p>
+                </div>
+            `).join('');
+        }
+
+        function showDirectory() {
+            document.getElementById('directoryView').classList.remove('hidden');
+            document.getElementById('portfolioView').classList.add('hidden');
+            history.pushState({}, "", "profiles.html");
+        }
+
+        function openPortfolio(email) {
+            showPortfolio(email);
+            history.pushState({}, "", `profiles.html?email=${email}`);
+        }
+
+        function showPortfolio(email) {
+            const profile = allProfiles.find(p => p.email.toLowerCase() === email.toLowerCase());
+            if (!profile) return showDirectory();
+
+            document.getElementById('directoryView').classList.add('hidden');
+            document.getElementById('portfolioView').classList.remove('hidden');
+
+            // Header
+            document.getElementById('portfolioHeader').innerHTML = `
+                <img src="${profile.profilePicture || 'https://via.placeholder.com/150'}" class="big-avatar">
+                <h1>${escapeHtml(profile.name)}</h1>
+                <p style="font-size: 1.1rem; color: var(--text-secondary); margin-bottom: 1rem;">
+                    ${escapeHtml(profile.major)} @ ${escapeHtml(profile.university)}
+                </p>
+                <div style="margin-bottom: 1.5rem;">
+                    ${profile.linkedin ? `<a href="${profile.linkedin}" target="_blank" class="social-link">LinkedIn</a>` : ''}
+                    ${profile.github ? `<a href="${profile.github}" target="_blank" class="social-link">GitHub</a>` : ''}
+                    <a href="mailto:${profile.email}" class="social-link">Email</a>
+                </div>
+                <p style="max-width: 600px; margin: 0 auto;">${escapeHtml(profile.bio || 'No bio yet.')}</p>
+            `;
+
+            // Projects
+            const userProjects = allProjects.filter(p => p.authorEmail.toLowerCase() === email.toLowerCase());
+            const list = document.getElementById('userProjects');
+            
+            if (userProjects.length === 0) {
+                list.innerHTML = '<div style="text-align:center; padding: 2rem; color:#888;">No projects posted yet.</div>';
+            } else {
+                list.innerHTML = userProjects.map(p => `
+                    <div class="project-item">
+                        <div style="display:flex; justify-content:space-between; align-items:center;">
+                            <h3 style="color: var(--primary);">${escapeHtml(p.title)}</h3>
+                            <span style="font-size:0.8rem; background:#eee; padding:2px 8px; border-radius:4px;">${escapeHtml(p.tech)}</span>
+                        </div>
+                        <p>${escapeHtml(p.description)}</p>
+                        ${p.projectImage ? `<img src="${p.projectImage}" class="project-img">` : ''}
+                        <div style="display:flex; gap:1rem;">
+                            <span>👍 ${p.upvotes}</span>
+                            ${p.link ? `<a href="${p.link}" target="_blank" style="color:var(--accent); text-decoration:none; font-weight:600;">View Project →</a>` : ''}
+                        </div>
+                    </div>
+                `).join('');
+            }
+        }
+
+        function filterProfiles(term) {
+            term = term.toLowerCase();
+            const filtered = allProfiles.filter(p => 
+                p.name.toLowerCase().includes(term) || 
+                (p.major && p.major.toLowerCase().includes(term))
+            );
+            renderDirectory(filtered);
+        }
+
+        function escapeHtml(text) { return text ? text.replace(/</g, "&lt;").replace(/>/g, "&gt;") : ''; }
+    </script>
+</body>
+</html>
