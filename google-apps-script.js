@@ -1,3 +1,5 @@
+// STUDENTHUB - PRODUCTION BACKEND (v1.0)
+
 const PROJECTS_SHEET = 'Projects';
 const PROFILES_SHEET = 'Profiles';
 const USERS_SHEET = 'Users';
@@ -70,19 +72,23 @@ function handleRequest(e, method) {
   }
 }
 
+// ====== CORE LOGIC ======
+
 function getProjects() {
   const sheet = getOrCreateSheet(PROJECTS_SHEET);
   const data = sheet.getDataRange().getValues();
   if (data.length <= 1) return createResponse('success', []);
   
   const headers = data[0];
-  const projects = data.slice(1).map(row => {
-    let p = {};
-    headers.forEach((h, i) => p[h] = row[i]);
-    p.upvotes = parseInt(p.upvotes) || 0;
-    p.commentCount = getCommentCount(p.id);
-    return p;
-  });
+  const projects = data.slice(1)
+    .filter(row => row[0] && String(row[0]).trim() !== '') // FIX: Filter out blank rows (checks ID column)
+    .map(row => {
+      let p = {};
+      headers.forEach((h, i) => p[h] = row[i]);
+      p.upvotes = parseInt(p.upvotes) || 0;
+      p.commentCount = getCommentCount(p.id);
+      return p;
+    });
   
   return createResponse('success', projects.reverse());
 }
@@ -93,11 +99,13 @@ function getProfiles() {
   if (data.length <= 1) return createResponse('success', []);
   
   const headers = data[0];
-  const profiles = data.slice(1).map(row => {
-    let p = {};
-    headers.forEach((h, i) => p[h] = row[i]);
-    return p;
-  });
+  const profiles = data.slice(1)
+    .filter(row => row[1] && String(row[1]).trim() !== '') // FIX: Filter out blank rows (checks Email column at index 1)
+    .map(row => {
+      let p = {};
+      headers.forEach((h, i) => p[h] = row[i]);
+      return p;
+    });
   
   return createResponse('success', profiles);
 }
@@ -108,6 +116,9 @@ function login(email, password) {
   const cleanEmail = String(email).toLowerCase().trim();
   
   for (let i = 1; i < data.length; i++) {
+    // Check if cell is empty before accessing properties
+    if (!data[i][0]) continue; 
+
     if (String(data[i][0]).toLowerCase() === cleanEmail) {
       if (data[i][1] === hashPassword(password)) {
         return createResponse('success', {
@@ -134,10 +145,9 @@ function signup(data) {
   const profilesSheet = getOrCreateSheet(PROFILES_SHEET);
   const cleanEmail = String(data.email).toLowerCase().trim();
 
-  // Check duplicate
   const users = usersSheet.getDataRange().getValues();
   for(let i=1; i<users.length; i++) {
-    if(String(users[i][0]).toLowerCase() === cleanEmail) {
+    if (users[i][0] && String(users[i][0]).toLowerCase() === cleanEmail) {
       return createResponse('error', 'User already exists');
     }
   }
@@ -149,7 +159,6 @@ function signup(data) {
     data.major, data.profilePicture, '', '', '', new Date().toISOString(), ''
   ]);
 
-  // Add to Profiles (Public Sheet)
   profilesSheet.appendRow([
     data.name, cleanEmail, data.university, data.major, 
     '', '', '', data.profilePicture, new Date().toISOString(), ''
@@ -176,7 +185,7 @@ function updateProfile(data) {
   const updateRow = (sheet, emailColIndex, newDataMap) => {
     const d = sheet.getDataRange().getValues();
     for(let i=1; i<d.length; i++) {
-      if(String(d[i][emailColIndex]).toLowerCase() === cleanEmail) {
+      if(d[i][emailColIndex] && String(d[i][emailColIndex]).toLowerCase() === cleanEmail) {
         Object.keys(newDataMap).forEach(colIdx => {
           sheet.getRange(i+1, parseInt(colIdx)+1).setValue(newDataMap[colIdx]);
         });
@@ -224,7 +233,7 @@ function getComments(projectId) {
   const sheet = getOrCreateSheet(COMMENTS_SHEET);
   const data = sheet.getDataRange().getValues();
   const comments = data.slice(1)
-    .filter(row => String(row[1]) === String(projectId))
+    .filter(row => row[0] && String(row[1]) === String(projectId)) // FIX: Filter out blank rows
     .map(row => ({
       id: row[0], projectId: row[1], authorName: row[2], 
       authorEmail: row[3], comment: row[4], timestamp: row[5]
@@ -261,5 +270,6 @@ function hashPassword(raw) {
 function getCommentCount(pid) {
   const sheet = getOrCreateSheet(COMMENTS_SHEET);
   const data = sheet.getDataRange().getValues();
-  return data.slice(1).filter(r => String(r[1]) === String(pid)).length;
+  // Filter blank rows AND match ID
+  return data.slice(1).filter(r => r[0] && String(r[1]) === String(pid)).length;
 }
