@@ -1664,6 +1664,10 @@ async function handleEditProfile(e) {
         }
 
 // NEW: Upload function for Resumes (Fixed for direct PDF access)
+// Cloudinary supports PDF upload.
+// Free accounts block public delivery of PDF files by default.
+// Enabling “Allow delivery of PDF and ZIP files” in Security settings resolves the issue.
+    
 async function uploadFile(file) {
     const formData = new FormData();
     formData.append('file', file);
