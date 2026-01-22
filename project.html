@@ -767,7 +767,7 @@
             document.getElementById('projectContent').classList.remove('hidden');
 
             // Author info
-            document.getElementById('authorAvatar').src = project.authorPicture || 'https://via.placeholder.com/60';
+            document.getElementById('authorAvatar').src = project.authorPicture || 'default-avatar.png';
             document.getElementById('authorName').textContent = project.authorName;
             document.getElementById('postDate').textContent = formatDate(project.timestamp);
 
