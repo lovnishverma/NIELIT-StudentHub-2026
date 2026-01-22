@@ -1038,7 +1038,7 @@
             window.scrollTo(0,0);
         }
 
-        function showPortfolio(email) {
+function showPortfolio(email) {
             const profile = allProfiles.find(p => p.email.toLowerCase() === email.toLowerCase());
             if (!profile) return showDirectory();
 
@@ -1057,6 +1057,10 @@
                     
                     ${profile.resume ? `<a href="${profile.resume}" target="_blank" class="social-link" style="background: #ffeb3b; color: #333; border-color: #fbc02d;">📄 Download Resume</a>` : ''}
                     
+                    <button onclick="shareProfile('${escapeHtml(profile.name).replace(/'/g, "\\'")}', '${profile.email}')" class="social-link" style="cursor: pointer; background: white; color: var(--primary);">
+                        📤 Share Profile
+                    </button>
+
                     <a href="mailto:${profile.email}" class="social-link">📧 Email</a>
                 </div>
                 <div style="max-width: 700px; margin: 0 auto; line-height: 1.8; color: var(--text-primary); background: var(--background); padding: 2.5rem; border-radius: 16px; text-align: left; border: 2px solid var(--border);">
@@ -1161,30 +1165,56 @@
         }
 
 // Open share modal
-function shareProject(projectId, projectTitle) {
-    currentShareProjectId = projectId;
-    currentShareProjectTitle = projectTitle;
-    
-    // FIX: Dynamically get the base path by stripping the current filename
-    // This works for feed.html, index.html, or any other file
-    const path = window.location.pathname.substring(0, window.location.pathname.lastIndexOf('/') + 1);
-    const baseUrl = window.location.origin + path;
-    
-    const shareLink = `${baseUrl}project.html?id=${projectId}`;
-    document.getElementById('shareProjectLink').value = shareLink;
-    
-    // Open modal
-    openModal('shareProject');
-}
+// NEW: Share Profile Function
+        function shareProfile(name, email) {
+            // Set the title variable used by social buttons (WhatsApp/Twitter)
+            currentShareProjectTitle = `Check out ${name}'s profile on StudentHub`; 
+            
+            // Construct the profile URL
+            // This handles GitHub Pages subdirectories automatically
+            const path = window.location.pathname.substring(0, window.location.pathname.lastIndexOf('/') + 1);
+            const baseUrl = window.location.origin + path;
+            const shareLink = `${baseUrl}index.html?email=${email}`;
+            
+            // Set the link in the input box
+            document.getElementById('shareProjectLink').value = shareLink;
+            
+            // Change modal title to "Share Profile"
+            const modalTitle = document.querySelector('#shareProjectModal .modal-header h2');
+            if(modalTitle) modalTitle.textContent = "📤 Share Profile";
+            
+            openModal('shareProject');
+        }
 
+        // UPDATE: Update your existing shareProject function to reset the title
+        function shareProject(projectId, projectTitle) {
+            currentShareProjectId = projectId;
+            currentShareProjectTitle = projectTitle;
+            
+            // Reset modal title back to "Share Project"
+            const modalTitle = document.querySelector('#shareProjectModal .modal-header h2');
+            if(modalTitle) modalTitle.textContent = "📤 Share Project";
+            
+            const path = window.location.pathname.substring(0, window.location.pathname.lastIndexOf('/') + 1);
+            const baseUrl = window.location.origin + path;
+            
+            const shareLink = `${baseUrl}project.html?id=${projectId}`;
+            document.getElementById('shareProjectLink').value = shareLink;
+            
+            openModal('shareProject');
+        }
+
+        // Copy share link function
         function copyShareLink() {
             const input = document.getElementById('shareProjectLink');
             input.select();
-            input.setSelectionRange(0, 99999);
+            input.setSelectionRange(0, 99999); // For mobile devices
             document.execCommand('copy');
+            
             const btn = document.getElementById('copyShareBtn');
+            const originalText = btn.textContent;
             btn.textContent = '✓ Copied';
-            setTimeout(() => { btn.textContent = 'Copy'; }, 2000);
+            setTimeout(() => { btn.textContent = originalText || 'Copy'; }, 2000);
         }
     </script>
 </body>
