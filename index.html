@@ -7,24 +7,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@600;700&display=swap" rel="stylesheet">
     <link rel="icon" type="image/x-icon" href="logo.png">
     <style>
-        /* :root {
-            --primary: #0f172a;
-            --primary-light: #1e293b;
-            --accent: #6366f1;
-            --accent-hover: #4f46e5;
-            --accent-light: #818cf8;
-            --secondary: #ec4899;
-            --success: #10b981;
-            --background: #fafbfc;
-            --card-bg: #ffffff;
-            --text-primary: #0f172a;
-            --text-secondary: #64748b;
-            --border: #e2e8f0;
-            --gradient-1: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            --gradient-2: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
-            --gradient-3: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
-        } */
-
+        
         :root {
             /* NIELIT Theme Colors */
             --primary: #003366;
@@ -40,11 +23,9 @@
             --shadow-sm: 0 2px 8px rgba(0, 51, 102, 0.08);
             --shadow-md: 0 4px 16px rgba(0, 51, 102, 0.12);
             --shadow-lg: 0 10px 40px rgba(0, 51, 102, 0.15);
-            --gradient-1: linear-gradient(135deg, #ffb199 0%, #ff9966 100%);
-            --gradient-2: linear-gradient(135deg, #ffe0c3 0%, #ffcc99 100%);
-            --gradient-3: linear-gradient(135deg, #fbc2a4 0%, #fda085 100%);
-
-
+            --gradient-1: linear-gradient(135deg, #ffb199 0%, #ff9966 100%); /* primary accent */
+            --gradient-2: linear-gradient(135deg, #ffe0c3 0%, #ffcc99 100%); /* soft backgrounds */
+            --gradient-3: linear-gradient(135deg, #f0932b 0%, #f6b93b 100%); /* stronger CTA */
 
         }
 
@@ -127,7 +108,7 @@
         .hero-section {
             text-align: center;
             padding: 6rem 2rem;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, #003366 0%, #ff9966 100%);
             border-radius: 0;
             color: white;
             margin-bottom: 4rem;
@@ -356,20 +337,8 @@
             overflow: hidden;
             box-shadow: 0 2px 8px rgba(0,0,0,0.04);
         }
-        .profile-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 4px;
-            background: var(--gradient-1);
-            transform: scaleX(0);
-            transition: transform 0.4s;
-        }
-        .profile-card:hover::before {
-            transform: scaleX(1);
-        }
+   
+
         .profile-card:hover { 
             transform: translateY(-12px); 
             box-shadow: 0 20px 40px rgba(0,0,0,0.12);
@@ -645,6 +614,36 @@
             animation: spin 1s linear infinite;
             margin: 0 auto 1rem auto;
         }
+        .profile-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: var(--gradient-1);
+    transform: scaleX(0);
+    transition: transform 0.4s;
+}
+
+/* Profile card gradient variation (ALL screen sizes) */
+.profile-card:nth-child(3n)::before {
+    background: var(--gradient-1);
+}
+.profile-card:nth-child(3n+1)::before {
+    background: var(--gradient-2);
+}
+.profile-card:nth-child(3n+2)::before {
+    background: var(--gradient-3);
+}
+
+.profile-card:hover::before {
+    transform: scaleX(1);
+}
+
+
+
+        
         @keyframes spin { 
             0% { transform: rotate(0deg); } 
             100% { transform: rotate(360deg); } 
