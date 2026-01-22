@@ -1682,16 +1682,9 @@ async function uploadFile(file) {
     }
     return data.secure_url;
 }
-    
-    const data = await res.json();
-    if (data.error) {
-        alert("Upload failed: " + data.error.message);
-        return null;
-    }
-    return data.secure_url;
-}
 
-        // ===== SHARE FUNCTIONALITY =====
+
+ // ===== SHARE FUNCTIONALITY =====
 
 // Share Project Variables
 let currentShareProjectId = null;
