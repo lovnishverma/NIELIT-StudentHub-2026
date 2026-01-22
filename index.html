@@ -723,7 +723,13 @@
     </nav>
 
     <div class="container">
-        <div id="directoryView">
+        
+        <div id="initialLoader" style="display: flex; flex-direction: column; justify-content: center; align-items: center; min-height: 60vh;">
+            <div class="loader"></div>
+            <p style="color: var(--text-secondary); margin-top: 1rem;">Loading...</p>
+        </div>
+
+        <div id="directoryView" class="hidden">
             
             <div class="hero-section">
                 <div class="hero-bg-icon bg-1">🎓</div>
@@ -731,8 +737,9 @@
                 <div class="hero-bg-icon bg-3">🚀</div>
 
                 <h1 class="hero-title">Welcome to StudentHub</h1>
-                <p Roparhero-subtitle">
-                    This initiative provides NIELIT Ropar students with an opportunity to showcase innovative projects, connect with peers, and develop professional portfolios.            </p>
+                <p class="hero-subtitle">
+                    This initiative provides NIELIT Ropar students with an opportunity to showcase innovative projects, connect with peers, and develop professional portfolios.
+                </p>
                 
                 <div id="guest-cta" style="display: none; margin-bottom: 2.5rem;">
                     <a href="feed.html" class="btn-primary" style="background: white; color: var(--primary); padding: 1.2rem 3rem; font-size: 1.1rem; box-shadow: 0 8px 30px rgba(255,255,255,0.3);">
@@ -892,9 +899,14 @@
             const params = new URLSearchParams(window.location.search);
             const targetEmail = params.get('email');
             
+            // HIDE THE LOADER NOW THAT DATA IS READY
+            document.getElementById('initialLoader').classList.add('hidden');
+
             if (targetEmail) {
                 showPortfolio(targetEmail);
             } else {
+                // EXPLICITLY SHOW DIRECTORY VIEW (since it's hidden by default now)
+                document.getElementById('directoryView').classList.remove('hidden');
                 renderDirectory(allProfiles);
             }
         };
@@ -1026,7 +1038,7 @@
             window.scrollTo(0,0);
         }
 
-function showPortfolio(email) {
+        function showPortfolio(email) {
             const profile = allProfiles.find(p => p.email.toLowerCase() === email.toLowerCase());
             if (!profile) return showDirectory();
 
@@ -1039,7 +1051,6 @@ function showPortfolio(email) {
                 <p style="font-size: 1.15rem; color: var(--text-secondary); margin-bottom: 2rem; font-weight: 500;">
                     ${escapeHtml(profile.major)} ${profile.university ? '@ ' + escapeHtml(profile.university) : ''}
                 </p>
-                
                 <div style="margin-bottom: 2.5rem; display: flex; flex-wrap: wrap; justify-content: center; gap: 1rem;">
                     ${profile.linkedin ? `<a href="${profile.linkedin}" target="_blank" class="social-link">🔗 LinkedIn</a>` : ''}
                     ${profile.github ? `<a href="${profile.github}" target="_blank" class="social-link">💻 GitHub</a>` : ''}
@@ -1048,7 +1059,6 @@ function showPortfolio(email) {
                     
                     <a href="mailto:${profile.email}" class="social-link">📧 Email</a>
                 </div>
-
                 <div style="max-width: 700px; margin: 0 auto; line-height: 1.8; color: var(--text-primary); background: var(--background); padding: 2.5rem; border-radius: 16px; text-align: left; border: 2px solid var(--border);">
                     <h4 style="margin-bottom:1rem; color:var(--accent); font-size:0.85rem; text-transform:uppercase; letter-spacing:2px; font-weight: 700;">About Me</h4>
                     <p style="font-size: 1.05rem; line-height: 1.8;">${escapeHtml(profile.bio || 'No bio yet.')}</p>
