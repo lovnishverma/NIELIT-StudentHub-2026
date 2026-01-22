@@ -1343,15 +1343,17 @@ if (currentUser.resume) {
         }
 
         // --- PROJECTS ---
-        async function loadProjects() {
-            const res = await fetch(`${SHEET_URL}?action=getProjects`);
-            const json = await res.json();
-            if (json.status === 'success') {
-                allProjects = json.data;
-                renderProjects(allProjects);
-                updateTrending(allProjects);
-            }
-        }
+async function loadProjects() {
+    // [CHANGE] Pass user email to check which projects they already liked
+    const emailParam = currentUser ? `&userEmail=${encodeURIComponent(currentUser.email)}` : '';
+    const res = await fetch(`${SHEET_URL}?action=getProjects${emailParam}`);
+    const json = await res.json();
+    if (json.status === 'success') {
+        allProjects = json.data;
+        renderProjects(allProjects);
+        updateTrending(allProjects);
+    }
+}
 
 function renderProjects(list, append = false) {
     const container = document.getElementById('projectsList');
@@ -1391,9 +1393,9 @@ function renderProjects(list, append = false) {
             <div class="project-description">${escapeHtml(p.description)}</div>
             ${p.projectImage ? `<img src="${p.projectImage}" class="project-image" alt="${escapeHtml(p.title)}" loading="lazy">` : ''}
             <div class="project-footer">
-                <button class="action-btn" onclick="upvote('${p.id}', this)">
-                    👍 <span>${p.upvotes}</span>
-                </button>
+<button class="action-btn ${p.isLiked ? 'active' : ''}" onclick="upvote('${p.id}', this)">
+    👍 <span>${p.upvotes}</span>
+</button>
                 <button class="action-btn" onclick="openComments('${p.id}')">
                     💬 <span>${p.commentCount || 0}</span>
                 </button>
@@ -1569,15 +1571,45 @@ async function handleEditProfile(e) {
             `).join('');
         }
 
-        async function upvote(id, btn) {
-            const countSpan = btn.querySelector('span');
-            let count = parseInt(countSpan.textContent);
-            count++;
-            countSpan.textContent = count;
-            btn.classList.add('active');
-            btn.disabled = true;
-            await postData('updateUpvotes', { projectId: id, upvotes: count });
+async function upvote(id, btn) {
+    // 1. Check Auth
+    if (!currentUser) return alert('Please log in to upvote.');
+    
+    // 2. Optimistic UI Update (Toggle appearance immediately)
+    const countSpan = btn.querySelector('span');
+    let currentCount = parseInt(countSpan.textContent) || 0;
+    const isLiked = btn.classList.contains('active');
+    
+    // Toggle state locally first
+    btn.classList.toggle('active');
+    countSpan.textContent = isLiked ? currentCount - 1 : currentCount + 1;
+    
+    // 3. Call Backend
+    try {
+        const res = await postData('toggleUpvote', { 
+            projectId: id, 
+            userEmail: currentUser.email 
+        });
+        
+        // 4. Correct UI with actual server data (in case of race conditions)
+        if (res.status === 'success') {
+            countSpan.textContent = res.data.newCount;
+            // Ensure button state matches server action
+            if (res.data.action === 'added') btn.classList.add('active');
+            else btn.classList.remove('active');
+        } else {
+            // Revert on error
+            btn.classList.toggle('active'); 
+            countSpan.textContent = currentCount;
+            alert('Error upvoting: ' + res.data);
         }
+    } catch (err) {
+        // Revert on network error
+        btn.classList.toggle('active'); 
+        countSpan.textContent = currentCount;
+        console.error(err);
+    }
+}
 
         // --- COMMENTS ---
         async function openComments(id) {
