@@ -942,13 +942,17 @@
             } catch(e) { console.error(e); }
         }
 
-        async function loadProjects() {
-            try {
-                const res = await fetch(`${SHEET_URL}?action=getProjects`);
-                const json = await res.json();
-                if(json.status === 'success') allProjects = json.data;
-            } catch(e) { console.error(e); }
-        }
+async function loadProjects() {
+    try {
+        // [CHANGE] Check for currentUser in localStorage since index.html might not have it in a variable yet
+        const user = JSON.parse(localStorage.getItem('studenthub_user'));
+        const emailParam = user ? `&userEmail=${encodeURIComponent(user.email)}` : '';
+        
+        const res = await fetch(`${SHEET_URL}?action=getProjects${emailParam}`);
+        const json = await res.json();
+        if(json.status === 'success') allProjects = json.data;
+    } catch(e) { console.error(e); }
+}
 
         // --- RENDER ---
         function renderDirectory(list, append = false) {
@@ -1085,9 +1089,9 @@ function showPortfolio(email) {
                         <p style="font-size: 1.05rem; line-height: 1.8; margin: 1.5rem 0; color: #475569;">${escapeHtml(p.description)}</p>
                         
                         <div style="display:flex; gap:1rem; align-items: center; margin-top: 2rem; padding-top: 2rem; border-top: 2px solid var(--border); flex-wrap: wrap;">
-                            <button class="action-btn" onclick="upvote('${p.id}', this)" style="color: var(--primary);">
-                                👍 <span style="font-weight: 700; margin-left:5px;">${p.upvotes}</span>
-                            </button>
+                           <button class="action-btn ${p.isLiked ? 'active' : ''}" onclick="upvote('${p.id}', this)" style="color: var(--primary);">
+    👍 <span style="font-weight: 700; margin-left:5px;">${p.upvotes}</span>
+</button>
                             <button class="action-btn" onclick="openComments('${p.id}')">
                                 💬 <span style="margin-left:5px; font-weight: 600;">${p.commentCount || 0}</span>
                             </button>
