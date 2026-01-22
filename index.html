@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>StudentHub - Profiles</title>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+    <title>NIELIT StudentHub - Home</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Playfair+Display:wght@700;900&display=swap" rel="stylesheet">
     <link rel="icon" type="image/x-icon" href="logo.png">
     <style>
         :root {
@@ -24,40 +24,209 @@
             overflow-x: hidden;
         }
 
+        /* Navigation */
         nav.desktop-nav { 
             background: var(--card-bg); 
             box-shadow: 0 2px 8px rgba(0,0,0,0.05); 
             padding: 1rem 2rem; 
             position: sticky; 
             top: 0; 
-            z-index: 10; 
+            z-index: 100; 
             backdrop-filter: blur(10px);
             -webkit-backdrop-filter: blur(10px);
         }
         
         .nav-container { max-width: 1400px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; }
         .logo { font-family: 'Playfair Display', serif; font-size: 1.5rem; font-weight: 700; color: var(--primary); text-decoration: none; display: flex; align-items: center; gap: 0.5rem; }
-        .logo::before { content: '🎓'; font-size: 1.8rem; }
         
         .nav-link { margin-left: 2rem; text-decoration: none; color: var(--text-secondary); font-weight: 500; transition: color 0.3s; }
         .nav-link:hover { color: var(--accent); }
         .nav-link.active { color: var(--accent); font-weight: 700; }
 
+        /* HERO SECTION (NEW) */
+        .hero-section {
+            text-align: center;
+            padding: 4rem 1.5rem;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%);
+            border-radius: 24px;
+            color: white;
+            margin-bottom: 2.5rem;
+            box-shadow: 0 15px 40px rgba(0, 51, 102, 0.2);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-section::before {
+            content: '🎓';
+            font-size: 15rem;
+            position: absolute;
+            top: -40px;
+            right: -40px;
+            opacity: 0.07;
+            transform: rotate(15deg);
+            pointer-events: none;
+        }
+
+        .hero-title {
+            font-size: 2.8rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+            font-family: 'Playfair Display', serif;
+            line-height: 1.2;
+        }
+
+        .hero-subtitle {
+            font-size: 1.15rem;
+            opacity: 0.95;
+            max-width: 700px;
+            margin: 0 auto 2rem auto;
+            line-height: 1.7;
+            font-weight: 300;
+        }
+
+        /* Live Stats (NEW) */
+        .stats-container {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            flex-wrap: wrap;
+            margin-top: 2rem;
+        }
+
+        .stat-item {
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(10px);
+            padding: 1.2rem 2.5rem;
+            border-radius: 16px;
+            border: 1px solid rgba(255, 255, 255, 0.25);
+            min-width: 160px;
+            transition: transform 0.3s ease;
+        }
+
+        .stat-item:hover { transform: translateY(-5px); background: rgba(255, 255, 255, 0.2); }
+
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: 700;
+            display: block;
+            line-height: 1;
+            margin-bottom: 0.3rem;
+        }
+
+        .stat-label {
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            opacity: 0.9;
+            font-weight: 500;
+        }
+
+        /* Container & Layout */
         .container { max-width: 1200px; margin: 2rem auto; padding: 0 1rem; flex: 1; width: 100%; }
         
-        /* Mobile Bottom Navigation */
+        /* Filters (NEW) */
+        .filter-container {
+            display: flex;
+            gap: 0.8rem;
+            margin-bottom: 2rem;
+            overflow-x: auto;
+            padding-bottom: 10px;
+            -webkit-overflow-scrolling: touch;
+            scrollbar-width: none; /* Hide scrollbar Firefox */
+        }
+        .filter-container::-webkit-scrollbar { display: none; } /* Hide scrollbar Chrome/Safari */
+
+        .filter-chip {
+            background: white;
+            border: 1px solid var(--border);
+            padding: 0.7rem 1.4rem;
+            border-radius: 50px;
+            font-size: 0.95rem;
+            font-weight: 500;
+            color: var(--text-secondary);
+            cursor: pointer;
+            white-space: nowrap;
+            transition: all 0.2s ease;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+        }
+
+        .filter-chip:hover {
+            border-color: var(--accent);
+            color: var(--accent);
+            transform: translateY(-1px);
+        }
+
+        .filter-chip.active {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+            box-shadow: 0 4px 12px rgba(0, 51, 102, 0.2);
+        }
+
+        /* Search Bar Enhanced */
+        .search-wrapper {
+            position: relative;
+            margin-bottom: 1.5rem;
+        }
+        .search-input {
+            width: 100%;
+            padding: 1.2rem 1.2rem 1.2rem 3rem;
+            border-radius: 16px;
+            border: 2px solid var(--border);
+            font-size: 1rem;
+            outline: none;
+            transition: all 0.3s;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.02);
+        }
+        .search-input:focus {
+            border-color: var(--accent);
+            box-shadow: 0 4px 12px rgba(0, 102, 204, 0.1);
+        }
+        .search-icon {
+            position: absolute;
+            left: 1.2rem;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 1.2rem;
+            opacity: 0.5;
+        }
+
+        /* Directory Grid */
+        .profiles-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 1.5rem; }
+        
+        .profile-card { 
+            background: white; 
+            padding: 2rem 1.5rem; 
+            border-radius: 16px; 
+            text-align: center; 
+            cursor: pointer; 
+            transition: all 0.3s ease; 
+            box-shadow: 0 2px 8px rgba(0,0,0,0.04); 
+            border: 1px solid transparent;
+            position: relative;
+            overflow: hidden;
+        }
+        .profile-card:hover { 
+            transform: translateY(-5px); 
+            box-shadow: 0 12px 24px rgba(0,0,0,0.08); 
+            border-color: rgba(0, 102, 204, 0.1); 
+        }
+        
+        .profile-pic { width: 110px; height: 110px; border-radius: 50%; object-fit: cover; margin-bottom: 1rem; background: #f0f0f0; border: 3px solid white; box-shadow: 0 4px 12px rgba(0,0,0,0.08); }
+        
+        /* Mobile Bottom Nav */
         .mobile-bottom-nav {
             display: none;
             position: fixed;
             bottom: 0;
             left: 0;
             width: 100%;
-            background: var(--card-bg);
-            box-shadow: 0 -2px 10px rgba(0,0,0,0.1);
+            background: white;
+            box-shadow: 0 -4px 20px rgba(0,0,0,0.05);
             justify-content: space-around;
-            padding: 0.8rem 0.5rem;
-            padding-bottom: env(safe-area-inset-bottom);
-            z-index: 1001;
+            padding: 0.8rem;
+            padding-bottom: calc(0.8rem + env(safe-area-inset-bottom));
+            z-index: 1000;
             border-top: 1px solid var(--border);
         }
         .mobile-nav-item {
@@ -68,183 +237,150 @@
             color: var(--text-secondary);
             font-size: 0.75rem;
             font-weight: 500;
-            padding: 0.3rem;
-            min-width: 60px;
+            transition: color 0.2s;
         }
-        .mobile-nav-icon { font-size: 1.4rem; margin-bottom: 2px; }
         .mobile-nav-item.active { color: var(--accent); }
+        .mobile-nav-icon { font-size: 1.4rem; margin-bottom: 3px; }
 
-        /* Directory Grid */
-        .profiles-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 1.5rem; }
-        .profile-card { 
-            background: white; 
-            padding: 1.5rem; 
+        /* Buttons */
+        .btn-primary { 
+            background: var(--accent); 
+            color: white; 
+            border: none; 
+            padding: 0.8rem 1.8rem; 
             border-radius: 12px; 
-            text-align: center; 
+            font-weight: 600; 
             cursor: pointer; 
-            transition: 0.3s; 
-            box-shadow: 0 2px 4px rgba(0,0,0,0.05); 
-            border: 1px solid transparent;
+            transition: all 0.2s;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
         }
-        .profile-card:hover { transform: translateY(-5px); box-shadow: 0 5px 15px rgba(0,0,0,0.1); border-color: var(--accent); }
-        .profile-pic { width: 100px; height: 100px; border-radius: 50%; object-fit: cover; margin-bottom: 1rem; background: #eee; border: 2px solid white; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
+        .btn-primary:hover { background: var(--primary); transform: translateY(-2px); box-shadow: 0 4px 12px rgba(0,0,0,0.15); }
         
-        /* Portfolio View */
-        .portfolio-header { 
-            background: white; 
-            padding: 3rem 2rem; 
-            border-radius: 16px; 
-            text-align: center; 
-            margin-bottom: 2rem; 
-            box-shadow: 0 4px 6px rgba(0,0,0,0.05); 
-            animation: fadeIn 0.4s ease-out;
-        }
-        .big-avatar { width: 150px; height: 150px; border-radius: 50%; object-fit: cover; border: 4px solid var(--accent); margin-bottom: 1rem; }
-        .social-link { display: inline-block; margin: 0.5rem; padding: 0.5rem 1rem; background: #eee; border-radius: 20px; text-decoration: none; color: var(--text-primary); font-size: 0.9rem; transition: all 0.2s; }
-        .social-link:hover { background: var(--accent); color: white; }
+        /* Portfolio, Modal, Footer, etc. */
+        .hidden { display: none !important; }
         
-        /* Projects List in Portfolio */
-        .project-item { 
-            background: white; 
-            padding: 1.5rem; 
-            border-radius: 12px; 
-            margin-bottom: 1rem; 
-            border: 1px solid var(--border); 
-            display: flex; 
-            flex-direction: column; 
-            gap: 1rem; 
-            animation: fadeIn 0.5s ease-out;
-        }
-        .project-img { width: 100%; height: 200px; object-fit: cover; border-radius: 8px; border: 1px solid var(--border); }
+        /* Portfolio View Styles */
+        .portfolio-header { background: white; padding: 3rem 2rem; border-radius: 20px; text-align: center; margin-bottom: 2rem; box-shadow: 0 4px 12px rgba(0,0,0,0.03); }
+        .big-avatar { width: 160px; height: 160px; border-radius: 50%; object-fit: cover; border: 5px solid white; box-shadow: 0 8px 24px rgba(0,0,0,0.1); margin-bottom: 1rem; }
+        .social-link { display: inline-flex; align-items: center; margin: 0.5rem; padding: 0.6rem 1.2rem; background: #f8f9fa; border-radius: 50px; text-decoration: none; color: var(--text-primary); font-size: 0.9rem; transition: all 0.2s; border: 1px solid var(--border); }
+        .social-link:hover { background: var(--accent); color: white; border-color: var(--accent); }
         
-        /* Buttons & Actions */
-        .action-btn { 
-            background: none; border: none; cursor: pointer; color: var(--text-secondary); 
-            display: flex; align-items: center; gap: 5px; font-weight: 600; 
-            font-family: 'Poppins', sans-serif; transition: all 0.2s ease; 
-            padding: 0.5rem 0.8rem; border-radius: 8px; font-size: 0.9rem; 
-        }
-        .action-btn:hover { color: var(--accent); background: rgba(0, 102, 204, 0.05); transform: translateY(-2px); }
-        .action-btn.active { color: var(--accent); background: rgba(0, 102, 204, 0.1); }
-
+        .project-item { background: white; padding: 2rem; border-radius: 16px; margin-bottom: 1.5rem; border: 1px solid var(--border); transition: transform 0.2s; }
+        .project-item:hover { transform: translateY(-3px); box-shadow: 0 8px 24px rgba(0,0,0,0.05); }
+        .project-img { width: 100%; height: 240px; object-fit: cover; border-radius: 12px; margin: 1rem 0; border: 1px solid #eee; }
+        
+        .action-btn { background: none; border: none; cursor: pointer; color: var(--text-secondary); display: flex; align-items: center; gap: 6px; font-weight: 600; font-family: inherit; padding: 0.5rem 1rem; border-radius: 8px; transition: all 0.2s; }
+        .action-btn:hover { background: rgba(0, 102, 204, 0.05); color: var(--accent); }
+        
         /* Modals */
-        .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); z-index: 3000; align-items: center; justify-content: center; backdrop-filter: blur(4px); padding: 1rem; }
+        .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); z-index: 3000; align-items: center; justify-content: center; backdrop-filter: blur(5px); padding: 1rem; }
         .modal.active { display: flex; }
-        .modal-content { background: white; padding: 2rem; border-radius: 20px; width: 100%; max-width: 500px; max-height: 90vh; overflow-y: auto; box-shadow: 0 10px 40px rgba(0,0,0,0.15); animation: fadeIn 0.3s ease-out; }
+        .modal-content { background: white; padding: 2rem; border-radius: 24px; width: 100%; max-width: 500px; max-height: 90vh; overflow-y: auto; box-shadow: 0 20px 50px rgba(0,0,0,0.2); animation: fadeInUp 0.3s ease; }
         .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; }
-        .modal-close { background: none; border: none; font-size: 1.5rem; cursor: pointer; color: var(--text-secondary); }
-        
-        /* Comments */
-        .comment-item { margin-bottom: 1rem; background: #F9FAFB; padding: 1rem; border-radius: 12px; border-left: 3px solid var(--accent); text-align: left; }
-        .comment-author { font-size: 0.85rem; font-weight: 600; color: var(--primary); margin-bottom: 0.25rem; }
-        .comment-text { color: var(--text-primary); line-height: 1.5; font-size: 0.95rem; }
-        .comment-date { font-size: 0.7rem; color: var(--text-secondary); margin-top: 0.5rem; }
+        .modal-close { background: none; border: none; font-size: 1.8rem; cursor: pointer; color: var(--text-secondary); width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; border-radius: 50%; }
+        .modal-close:hover { background: #f0f0f0; }
         
         /* Footer */
-        .site-footer {
-            text-align: center;
-            padding: 2rem;
-            background: var(--card-bg);
-            border-top: 1px solid var(--border);
-            color: var(--text-secondary);
-            font-size: 0.9rem;
-            margin-top: auto;
-        }
+        .site-footer { text-align: center; padding: 3rem 1rem; background: white; border-top: 1px solid var(--border); color: var(--text-secondary); margin-top: auto; }
+        .app-download-btn { display: inline-flex; align-items: center; gap: 10px; background: #1a1a1a; color: white; padding: 12px 24px; border-radius: 50px; text-decoration: none; font-weight: 500; font-size: 0.95rem; margin-top: 2rem; transition: all 0.3s ease; box-shadow: 0 4px 12px rgba(0,0,0,0.15); }
+        .app-download-btn:hover { transform: translateY(-3px); box-shadow: 0 8px 20px rgba(0,0,0,0.2); background: var(--accent); }
 
-        .hidden { display: none; }
-        .btn-back { 
-            margin-bottom: 1rem; display: inline-flex; align-items: center;
-            text-decoration: none; color: var(--accent); font-weight: 600; 
-            cursor: pointer; padding: 0.5rem 0;
-        }
-        .btn-back:hover { text-decoration: underline; }
-        .form-input { width: 100%; padding: 0.8rem; border: 2px solid var(--border); border-radius: 8px; font-family: inherit; }
-        .btn-primary { background: var(--accent); color: white; border: none; padding: 0.8rem 1.5rem; border-radius: 8px; font-weight: 600; cursor: pointer; }
-        .btn-secondary { background: #F3F4F6; color: var(--text-primary); border: none; padding: 0.8rem 1.5rem; border-radius: 8px; font-weight: 600; cursor: pointer; }
+        @keyframes fadeInUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
 
-        input[type="text"] { font-size: 16px; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-
-        @media (max-width: 968px) {
+        @media (max-width: 768px) {
+            .hero-section { padding: 3rem 1.5rem; text-align: center; }
+            .hero-title { font-size: 2rem; }
+            .stats-container { gap: 1rem; }
+            .stat-item { flex: 1; min-width: 130px; padding: 1rem; }
             .mobile-bottom-nav { display: flex; }
-            .desktop-nav .nav-link { display: none; } 
-            .site-footer { padding-bottom: 100px; } 
-            .portfolio-header { padding: 1.5rem 1rem; }
-            .big-avatar { width: 120px; height: 120px; }
-            .container { margin: 1rem auto; }
-            .logo { font-size: 1.3rem; }
-            .project-img { height: 180px; }
+            .desktop-nav .nav-link { display: none; }
+            .site-footer { padding-bottom: 100px; }
+            .container { margin-top: 1rem; }
         }
         
-        ::-webkit-scrollbar { width: 8px; }
-        ::-webkit-scrollbar-track { background: var(--background); }
-        ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 5px; }
-   
-    /* App Download Button */
-.app-download-btn {
-    display: inline-flex;
-    align-items: center;
-    gap: 10px;
-    background: #1a1a1a; /* Dark background for contrast */
-    color: #ffffff !important; /* Force white text */
-    padding: 10px 20px;
-    border-radius: 50px; /* Pill shape */
-    text-decoration: none;
-    font-weight: 500;
-    font-size: 0.9rem;
-    margin-top: 1.5rem;
-    transition: all 0.3s ease;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-    border: 1px solid transparent;
-}
-
-.app-download-btn:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 6px 20px rgba(0,0,0,0.15);
-    background: var(--accent); /* Changes to blue on hover */
-    border-color: var(--accent);
-}
-
-.app-icon {
-    font-size: 1.2rem;
-    }
+        /* Loading & Empty States */
+        .empty-state { text-align: center; padding: 4rem 1rem; grid-column: 1/-1; }
+        .empty-icon { font-size: 4rem; margin-bottom: 1rem; opacity: 0.5; }
     </style>
 </head>
 <body>
 
-<nav class="desktop-nav">
-    <div class="nav-container">
-        <a href="index.html" class="logo">
-            <img src="logo.png" alt="StudentHub" style="height: 40px; width: auto;">
-        </a>
-        <div style="display: flex; align-items: center;">
-            <a href="feed.html" class="nav-link">Feed</a>
-            <a href="index.html" class="nav-link active">Profiles</a>
-            
-            <a href="feed.html" id="loginBtn" class="btn-primary" style="margin-left: 1.5rem; text-decoration: none; font-size: 0.9rem; padding: 0.5rem 1.2rem;">
-                Login
+    <nav class="desktop-nav">
+        <div class="nav-container">
+            <a href="index.html" class="logo">
+                <img src="logo.png" alt="StudentHub" style="height: 40px; width: auto;">
             </a>
+            <div style="display: flex; align-items: center;">
+                <a href="feed.html" class="nav-link">Feed</a>
+                <a href="index.html" class="nav-link active">Profiles</a>
+                
+                <a href="feed.html" id="loginBtn" class="btn-primary" style="margin-left: 1.5rem; font-size: 0.9rem; padding: 0.6rem 1.5rem;">
+                    Login
+                </a>
+            </div>
         </div>
-    </div>
-</nav>
+    </nav>
 
     <div class="container">
         <div id="directoryView">
-            <h1 style="margin-bottom: 1.5rem; font-size: 1.8rem;">Student Directory</h1>
-            <input type="text" placeholder="🔍 Search by name or major..." style="width: 100%; padding: 1rem; border-radius: 12px; border: 2px solid var(--border); margin-bottom: 2rem; outline: none; transition: border-color 0.3s;" onfocus="this.style.borderColor='var(--accent)'" onblur="this.style.borderColor='var(--border)'" onkeyup="filterProfiles(this.value)">
+            
+            <div class="hero-section">
+                <h1 class="hero-title">Welcome to StudentHub</h1>
+                <p class="hero-subtitle">
+                    The official platform for NIELIT Ropar students to showcase innovative projects, 
+                    connect with peers, and build professional portfolios.
+                </p>
+                
+                <div id="guest-cta" style="display: none; margin-bottom: 2rem;">
+                    <a href="feed.html" class="btn-primary" style="background: white; color: var(--primary); padding: 1rem 2.5rem; font-size: 1.1rem;">
+                        Join the Community
+                    </a>
+                </div>
+
+                <div class="stats-container">
+                    <div class="stat-item">
+                        <span class="stat-number" id="totalStudents">-</span>
+                        <span class="stat-label">Students</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-number" id="totalProjects">-</span>
+                        <span class="stat-label">Projects</span>
+                    </div>
+                </div>
+            </div>
+
+            <h2 style="margin-bottom: 1rem; font-size: 1.5rem; color: var(--primary); font-weight: 700;">Find Students</h2>
+            <div class="search-wrapper">
+                <span class="search-icon">🔍</span>
+                <input type="text" class="search-input" placeholder="Search by name, major, or skills..." onkeyup="filterProfiles(this.value)">
+            </div>
+            
+            <div class="filter-container">
+                <button class="filter-chip active" onclick="applyFilter(this, '')">All Students</button>
+                <button class="filter-chip" onclick="applyFilter(this, 'Computer Science')">💻 CS</button>
+                <button class="filter-chip" onclick="applyFilter(this, 'Electronics')">⚡ Electronics</button>
+                <button class="filter-chip" onclick="applyFilter(this, 'NIELIT')">🎓 NIELIT</button>
+                <button class="filter-chip" onclick="applyFilter(this, 'Java')">☕ Java</button>
+                <button class="filter-chip" onclick="applyFilter(this, 'Python')">🐍 Python</button>
+            </div>
             
             <div id="profilesGrid" class="profiles-grid">
-                <div style="grid-column: 1/-1; text-align: center; padding: 2rem; color: var(--text-secondary);">
-                    <div style="font-size: 2rem; margin-bottom: 0.5rem;">⏳</div>
-                    Loading profiles...
+                <div style="grid-column: 1/-1; text-align: center; padding: 4rem; color: var(--text-secondary);">
+                    <div style="font-size: 3rem; margin-bottom: 1rem; animation: fadeInUp 1s infinite alternate;">⏳</div>
+                    <p style="font-size: 1.1rem;">Loading directory...</p>
                 </div>
             </div>
         </div>
 
         <div id="portfolioView" class="hidden">
-            <div onclick="showDirectory()" class="btn-back">← Back to Directory</div>
+            <div onclick="showDirectory()" class="btn-back" style="cursor: pointer; margin-bottom: 1rem; color: var(--accent); font-weight: 600;">
+                ← Back to Directory
+            </div>
             <div id="portfolioHeader" class="portfolio-header"></div>
-            <h2 style="margin-bottom: 1rem; font-size: 1.4rem;">Projects</h2>
+            <h2 style="margin-bottom: 1.5rem; font-size: 1.6rem; color: var(--primary);">Projects Portfolio</h2>
             <div id="userProjects"></div>
         </div>
     </div>
@@ -256,9 +392,9 @@
                 <button class="modal-close" onclick="closeModal('comments')">&times;</button>
             </div>
             <div id="commentsList" style="margin-bottom: 1.5rem; max-height: 400px; overflow-y: auto;"></div>
-            <div style="display: flex; gap: 0.75rem;">
-                <input type="text" id="commentInput" class="form-input" placeholder="Write a comment...">
-                <button onclick="submitComment()" class="btn-primary">Post</button>
+            <div style="display: flex; gap: 0.8rem;">
+                <input type="text" id="commentInput" class="form-input" placeholder="Write a comment..." style="flex: 1;">
+                <button onclick="submitComment()" class="btn-primary" style="padding: 0.8rem 1.5rem;">Post</button>
             </div>
         </div>
     </div>
@@ -270,90 +406,92 @@
                 <button class="modal-close" onclick="closeModal('shareProject')">&times;</button>
             </div>
             <div style="margin-bottom: 1.5rem;">
-                <p style="color: var(--text-secondary); margin-bottom: 1rem;">Share this project with others:</p>
-                <div style="display: flex; gap: 0.5rem; padding: 1rem; background: var(--background); border-radius: 8px; border: 2px solid var(--border);">
-                    <input type="text" id="shareProjectLink" readonly class="form-input" style="font-size: 0.85rem; font-family: monospace; padding: 0.5rem;">
-                    <button onclick="copyShareLink()" class="btn-primary" id="copyShareBtn">Copy</button>
+                <p style="color: var(--text-secondary); margin-bottom: 1rem;">Share this project link:</p>
+                <div style="display: flex; gap: 0.5rem; padding: 0.8rem; background: var(--background); border-radius: 12px; border: 1px solid var(--border);">
+                    <input type="text" id="shareProjectLink" readonly style="border: none; background: none; flex: 1; font-family: monospace; outline: none; color: var(--text-primary);">
+                    <button onclick="copyShareLink()" class="btn-primary" id="copyShareBtn" style="padding: 0.4rem 1rem; font-size: 0.8rem;">Copy</button>
                 </div>
             </div>
-            <div style="display: grid; gap: 0.75rem;">
-                <button onclick="shareViaEmail()" class="btn-secondary" style="justify-content: flex-start;">📧 Share via Email</button>
-                <button onclick="shareViaWhatsApp()" class="btn-secondary" style="justify-content: flex-start;">💬 Share on WhatsApp</button>
-                <button onclick="shareViaTwitter()" class="btn-secondary" style="justify-content: flex-start;">🐦 Share on Twitter</button>
-                <button onclick="shareViaLinkedIn()" class="btn-secondary" style="justify-content: flex-start;">💼 Share on LinkedIn</button>
+            <div style="display: grid; gap: 0.8rem;">
+                <button onclick="shareViaWhatsApp()" class="action-btn" style="background: #E8F5E9; color: #1B5E20; justify-content: center; padding: 1rem;">💬 Share on WhatsApp</button>
+                <button onclick="shareViaTwitter()" class="action-btn" style="background: #E3F2FD; color: #0D47A1; justify-content: center; padding: 1rem;">🐦 Share on Twitter</button>
+                <button onclick="shareViaLinkedIn()" class="action-btn" style="background: #F3E5F5; color: #4A148C; justify-content: center; padding: 1rem;">💼 Share on LinkedIn</button>
             </div>
         </div>
     </div>
 
     <footer class="site-footer">
-    <div class="footer-logo">
-        <p style="font-size: 1.2rem; font-weight: 700; color: var(--primary); margin-bottom: 0.5rem;">
-            🎓 NIELIT Ropar
+        <div class="footer-logo">
+            <p style="font-size: 1.4rem; font-weight: 800; color: var(--primary); margin-bottom: 0.5rem;">
+                🎓 NIELIT Ropar
+            </p>
+        </div>
+        <p>&copy; 2026 <strong>StudentHub</strong>. All rights reserved.</p>
+        <p style="font-size: 0.85rem; margin: 0.8rem 0; opacity: 0.7;">
+            National Institute of Electronics & Information Technology
         </p>
-    </div>
-    
-    <p>&copy; 2026 <strong>StudentHub</strong>. All rights reserved.</p>
-    
-    <p style="font-size: 0.8rem; margin: 0.5rem 0; opacity: 0.7; max-width: 300px; margin-left: auto; margin-right: auto;">
-        National Institute of Electronics & Information Technology
-    </p>
-
-    <a href="https://github.com/nielitropar/nielitropar.github.io/releases/tag/v1.0" target="_blank" class="app-download-btn">
-        <span class="app-icon">🤖</span> 
-        <span>Download Android App</span>
-    </a>
+        <a href="https://github.com/nielitropar/nielitropar.github.io/releases/tag/v1.0" target="_blank" class="app-download-btn">
+            <span class="app-icon">🤖</span> 
+            <span>Download Android App</span>
+        </a>
     </footer>
 
-<nav class="mobile-bottom-nav">
-    <a href="feed.html" class="mobile-nav-item"> <span class="mobile-nav-icon">🏠</span><span>Feed</span>
-    </a>
-    <a href="index.html" class="mobile-nav-item active"> <span class="mobile-nav-icon">👥</span><span>Profiles</span>
-    </a>
-    <a href="feed.html" onclick="localStorage.setItem('openPostModal', 'true');" class="mobile-nav-item">
-        <span class="mobile-nav-icon">➕</span><span>Post</span>
-    </a>
-</nav>
+    <nav class="mobile-bottom-nav">
+        <a href="feed.html" class="mobile-nav-item">
+            <span class="mobile-nav-icon">🏠</span><span>Feed</span>
+        </a>
+        <a href="index.html" class="mobile-nav-item active">
+            <span class="mobile-nav-icon">👥</span><span>Profiles</span>
+        </a>
+        <a href="feed.html" onclick="localStorage.setItem('openPostModal', 'true');" class="mobile-nav-item">
+            <span class="mobile-nav-icon">➕</span><span>Post</span>
+        </a>
+    </nav>
 
     <script>
-        // CONFIG
+        // CONFIGURATION
         const SHEET_URL = 'https://script.google.com/macros/s/AKfycbzGbZ39b67jJ2NPODCW4K3zqlf6p6-bq8vPRHmCdNjOxl37MT9KdndnCR8vw55qv7dN/exec';
 
         // STATE
         let allProfiles = [];
         let allProjects = [];
         let currentPage = 1;
-        const itemsPerPage = 20;
+        const itemsPerPage = 24;
         let currentList = [];
         let currentUser = JSON.parse(localStorage.getItem('studenthub_user'));
         let currentCommentProjectId = null;
         let currentShareProjectId = null;
         let currentShareProjectTitle = null;
 
-window.onload = async () => {
-    // Load data
-    await Promise.all([loadProfiles(), loadProjects()]);
+        // INITIALIZATION
+        window.onload = async () => {
+            // 1. Fetch Data
+            await Promise.all([loadProfiles(), loadProjects()]);
 
-    // Handle URL parameters (for direct profile links)
-    const params = new URLSearchParams(window.location.search);
-    const targetEmail = params.get('email');
-    
-    if (targetEmail) {
-        showPortfolio(targetEmail);
-    } else {
-        renderDirectory(allProfiles);
-    }
+            // 2. Update Live Stats
+            document.getElementById('totalStudents').textContent = allProfiles.length;
+            document.getElementById('totalProjects').textContent = allProjects.length;
 
-    // Update Login Button if user is already logged in
-    if (currentUser) {
-        const btn = document.getElementById('loginBtn');
-        if (btn) {
-            btn.textContent = 'Go to Feed';
-            // Optional: You can also change the style or href here if needed
-            // btn.classList.add('btn-secondary'); 
-        }
-    }
-};
+            // 3. Handle Auth State (Login Button / Hero CTA)
+            if (currentUser) {
+                const btn = document.getElementById('loginBtn');
+                if (btn) btn.textContent = 'Go to Feed';
+            } else {
+                document.getElementById('guest-cta').style.display = 'block';
+            }
 
+            // 4. Handle Routing (Deep Linking to Profiles)
+            const params = new URLSearchParams(window.location.search);
+            const targetEmail = params.get('email');
+            
+            if (targetEmail) {
+                showPortfolio(targetEmail);
+            } else {
+                renderDirectory(allProfiles);
+            }
+        };
+
+        // DATA LOADING
         async function loadProfiles() {
             try {
                 const res = await fetch(`${SHEET_URL}?action=getProfiles`);
@@ -370,7 +508,7 @@ window.onload = async () => {
             } catch(e) { console.error(e); }
         }
 
-        // RENDER DIRECTORY (Pagination & Search)
+        // RENDERING
         function renderDirectory(list, append = false) {
             const grid = document.getElementById('profilesGrid');
             if (!append) { currentPage = 1; currentList = list; grid.innerHTML = ''; }
@@ -379,18 +517,26 @@ window.onload = async () => {
             const end = start + itemsPerPage;
             const chunk = currentList.slice(start, end);
 
+            // Empty State
             if (chunk.length === 0 && currentPage === 1) {
-                grid.innerHTML = '<p style="grid-column: 1/-1; text-align:center; padding: 2rem; color: var(--text-secondary);">No profiles found.</p>';
+                grid.innerHTML = `
+                    <div class="empty-state">
+                        <div class="empty-icon">🔍</div>
+                        <h3 style="color: var(--primary); margin-bottom: 0.5rem;">No students found</h3>
+                        <p style="color: var(--text-secondary);">Try adjusting your search filters.</p>
+                        <button onclick="applyFilter(document.querySelector('.filter-chip'), '')" class="btn-primary" style="margin-top: 1.5rem; background: var(--text-secondary);">Clear Filters</button>
+                    </div>
+                `;
                 removeLoadMoreBtn();
                 return;
             }
 
             const html = chunk.map(p => `
                 <div class="profile-card" onclick="openPortfolio('${p.email}')">
-                    <img src="${p.profilePicture || 'https://via.placeholder.com/100'}" class="profile-pic" loading="lazy">
-                    <h3 style="color: var(--primary); font-size: 1.1rem;">${escapeHtml(p.name)}</h3>
-                    <p style="color: var(--text-secondary); font-size: 0.9rem; margin: 0.2rem 0;">${escapeHtml(p.major || 'Student')}</p>
-                    <p style="font-size: 0.8rem; color: var(--accent); font-weight: 500;">${escapeHtml(p.university || '')}</p>
+                    <img src="${p.profilePicture || 'https://via.placeholder.com/150'}" class="profile-pic" loading="lazy" alt="${p.name}">
+                    <h3 style="color: var(--primary); font-size: 1.2rem; margin-bottom: 0.3rem;">${escapeHtml(p.name)}</h3>
+                    <p style="color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 0.2rem;">${escapeHtml(p.major || 'Student')}</p>
+                    <p style="font-size: 0.8rem; color: var(--accent); font-weight: 600;">${escapeHtml(p.university || '')}</p>
                 </div>
             `).join('');
 
@@ -406,8 +552,10 @@ window.onload = async () => {
             if (end < currentList.length) {
                 grid.insertAdjacentHTML('beforeend', `
                     <div id="loadMoreContainer" style="grid-column: 1/-1; text-align: center; padding: 2rem;">
-                        <button onclick="loadMore()" style="padding: 0.8rem 2rem; background: var(--secondary); color: white; border: none; border-radius: 8px; font-weight: 600; cursor: pointer;">Load More Profiles</button>
-                        <p style="margin-top:0.5rem; font-size:0.8rem; color:#666;">Showing ${end} of ${currentList.length}</p>
+                        <button onclick="loadMore()" style="padding: 0.8rem 2.5rem; background: white; color: var(--primary); border: 2px solid var(--border); border-radius: 50px; font-weight: 600; cursor: pointer; transition: all 0.2s;">
+                            Load More Profiles
+                        </button>
+                        <p style="margin-top:0.8rem; font-size:0.8rem; color:#999;">Showing ${end} of ${currentList.length}</p>
                     </div>
                 `);
             }
@@ -416,18 +564,38 @@ window.onload = async () => {
         function loadMore() { currentPage++; renderDirectory(currentList, true); }
         function removeLoadMoreBtn() { const btn = document.getElementById('loadMoreContainer'); if (btn) btn.remove(); }
 
-        // NAVIGATION
+        // FILTERS
+        function applyFilter(btn, term) {
+            // Update active chip styling
+            document.querySelectorAll('.filter-chip').forEach(c => c.classList.remove('active'));
+            if(btn) btn.classList.add('active');
+            
+            // Apply filter
+            filterProfiles(term);
+        }
+
+        function filterProfiles(term) {
+            term = term.toLowerCase();
+            const filtered = allProfiles.filter(p => 
+                (p.name && p.name.toLowerCase().includes(term)) || 
+                (p.major && p.major.toLowerCase().includes(term)) ||
+                (p.university && p.university.toLowerCase().includes(term))
+            );
+            renderDirectory(filtered);
+        }
+
+        // NAVIGATION & PORTFOLIO
         function showDirectory() {
             document.getElementById('directoryView').classList.remove('hidden');
             document.getElementById('portfolioView').classList.add('hidden');
-            history.pushState({}, "", "profiles.html");
+            history.pushState({}, "", "index.html"); // Updated to index.html
             window.scrollTo(0,0);
             if (currentList.length === 0) renderDirectory(allProfiles);
         }
 
         function openPortfolio(email) {
             showPortfolio(email);
-            history.pushState({}, "", `profiles.html?email=${email}`);
+            history.pushState({}, "", `index.html?email=${email}`); // Updated to index.html
             window.scrollTo(0,0);
         }
 
@@ -440,51 +608,53 @@ window.onload = async () => {
 
             document.getElementById('portfolioHeader').innerHTML = `
                 <img src="${profile.profilePicture || 'https://via.placeholder.com/150'}" class="big-avatar">
-                <h1 style="font-size: 1.5rem; margin-bottom: 0.5rem;">${escapeHtml(profile.name)}</h1>
-                <p style="font-size: 1rem; color: var(--text-secondary); margin-bottom: 1rem;">
+                <h1 style="font-size: 2rem; margin-bottom: 0.5rem; color: var(--primary);">${escapeHtml(profile.name)}</h1>
+                <p style="font-size: 1.1rem; color: var(--text-secondary); margin-bottom: 1.5rem;">
                     ${escapeHtml(profile.major)} ${profile.university ? '@ ' + escapeHtml(profile.university) : ''}
                 </p>
-                <div style="margin-bottom: 1.5rem; display: flex; flex-wrap: wrap; justify-content: center; gap: 0.5rem;">
+                <div style="margin-bottom: 2rem; display: flex; flex-wrap: wrap; justify-content: center; gap: 0.8rem;">
                     ${profile.linkedin ? `<a href="${profile.linkedin}" target="_blank" class="social-link">LinkedIn</a>` : ''}
                     ${profile.github ? `<a href="${profile.github}" target="_blank" class="social-link">GitHub</a>` : ''}
                     <a href="mailto:${profile.email}" class="social-link">Contact</a>
                 </div>
-                <p style="max-width: 600px; margin: 0 auto; line-height: 1.6;">${escapeHtml(profile.bio || 'No bio yet.')}</p>
+                <p style="max-width: 700px; margin: 0 auto; line-height: 1.8; color: var(--text-primary); background: #f8f9fa; padding: 1.5rem; border-radius: 12px; border-left: 4px solid var(--accent); text-align: left;">
+                    ${escapeHtml(profile.bio || 'No bio yet.')}
+                </p>
             `;
 
             const userProjects = allProjects.filter(p => p.authorEmail.toLowerCase() === email.toLowerCase());
             const list = document.getElementById('userProjects');
             
             if (userProjects.length === 0) {
-                list.innerHTML = '<div style="text-align:center; padding: 2rem; color: var(--text-secondary); background: white; border-radius: 12px; border: 1px dashed var(--border);">No projects posted yet.</div>';
+                list.innerHTML = '<div style="text-align:center; padding: 4rem; color: var(--text-secondary); background: #f8f9fa; border-radius: 16px; border: 2px dashed var(--border);">No projects posted yet.</div>';
             } else {
                 list.innerHTML = userProjects.map(p => `
                     <div class="project-item">
                         <div style="display:flex; justify-content:space-between; align-items:flex-start;">
-                            <h3 style="color: var(--primary); font-size: 1.1rem;">${escapeHtml(p.title)}</h3>
-                            <span style="font-size:0.75rem; background: var(--background); color: var(--text-secondary); padding:2px 8px; border-radius:4px; white-space: nowrap; margin-left: 0.5rem;">${escapeHtml(p.tech)}</span>
+                            <h3 style="color: var(--primary); font-size: 1.3rem;">${escapeHtml(p.title)}</h3>
+                            <span style="font-size:0.75rem; background: #e0f2fe; color: var(--accent); padding:4px 10px; border-radius:50px; white-space: nowrap; margin-left: 0.5rem; font-weight: 600;">${escapeHtml(p.tech)}</span>
                         </div>
-                        <p style="font-size: 0.95rem; line-height: 1.5;">${escapeHtml(p.description)}</p>
-                        ${p.projectImage ? `<img src="${p.projectImage}" class="project-img" loading="lazy">` : ''}
+                        <p style="font-size: 1rem; line-height: 1.6; margin: 1rem 0; color: #444;">${escapeHtml(p.description)}</p>
+                        ${p.projectImage ? `<img src="${p.projectImage}" class="project-img" loading="lazy" alt="Project Screenshot">` : ''}
                         
-                        <div style="display:flex; gap:0.5rem; align-items: center; margin-top: auto; padding-top: 1rem; border-top: 1px solid var(--border); flex-wrap: wrap;">
+                        <div style="display:flex; gap:0.8rem; align-items: center; margin-top: auto; padding-top: 1.5rem; border-top: 1px solid #eee; flex-wrap: wrap;">
                             <button class="action-btn" onclick="upvote('${p.id}', this)">
-                                👍 <span>${p.upvotes}</span>
+                                👍 <span style="font-weight: 700;">${p.upvotes}</span>
                             </button>
                             <button class="action-btn" onclick="openComments('${p.id}')">
-                                💬 <span>${p.commentCount || 0}</span>
+                                💬 <span>${p.commentCount || 0} Comments</span>
                             </button>
                             <button class="action-btn" onclick="shareProject('${p.id}', '${escapeHtml(p.title).replace(/'/g, "\\'")}')">
                                 📤 Share
                             </button>
-                            ${p.link ? `<a href="${p.link}" target="_blank" class="action-btn" style="text-decoration:none; margin-left: auto;">🔗 Code</a>` : ''}
+                            ${p.link ? `<a href="${p.link}" target="_blank" class="action-btn" style="text-decoration:none; margin-left: auto; color: var(--accent);">🔗 View Code</a>` : ''}
                         </div>
                     </div>
                 `).join('');
             }
         }
 
-        // --- ACTIONS (Upvote, Comment, Share) ---
+        // --- ACTIONS ---
         async function upvote(id, btn) {
             if (!currentUser) return alert('Please log in from the main feed to upvote.');
             const countSpan = btn.querySelector('span');
@@ -499,11 +669,11 @@ window.onload = async () => {
         async function openComments(id) {
             currentCommentProjectId = id;
             openModal('comments');
-            document.getElementById('commentsList').innerHTML = '<div style="text-align:center; padding:1rem;">⏳ Loading...</div>';
+            document.getElementById('commentsList').innerHTML = '<div style="text-align:center; padding:2rem;">⏳ Loading...</div>';
             const res = await fetch(`${SHEET_URL}?action=getComments&projectId=${id}`);
             const json = await res.json();
             if (json.data.length === 0) {
-                document.getElementById('commentsList').innerHTML = '<p style="color:var(--text-secondary); text-align:center; padding:1rem;">No comments yet.</p>';
+                document.getElementById('commentsList').innerHTML = '<p style="color:var(--text-secondary); text-align:center; padding:1.5rem;">No comments yet. Be the first!</p>';
             } else {
                 document.getElementById('commentsList').innerHTML = json.data.map(c => `
                     <div class="comment-item">
@@ -534,7 +704,7 @@ window.onload = async () => {
         function shareProject(projectId, projectTitle) {
             currentShareProjectId = projectId;
             currentShareProjectTitle = projectTitle;
-            const baseUrl = window.location.origin + window.location.pathname.replace('profiles.html', '');
+            const baseUrl = window.location.origin + window.location.pathname.replace('index.html', '');
             document.getElementById('shareProjectLink').value = `${baseUrl}project.html?id=${projectId}`;
             openModal('shareProject');
         }
@@ -545,20 +715,14 @@ window.onload = async () => {
             input.setSelectionRange(0, 99999);
             document.execCommand('copy');
             const btn = document.getElementById('copyShareBtn');
-            btn.textContent = '✓ Copied!';
+            btn.textContent = '✓';
             setTimeout(() => { btn.textContent = 'Copy'; }, 2000);
         }
 
-        // --- UTILS & HELPERS ---
+        // --- UTILS ---
         function openModal(id) { document.getElementById(id + 'Modal').classList.add('active'); }
         function closeModal(id) { document.getElementById(id + 'Modal').classList.remove('active'); }
         
-        function filterProfiles(term) {
-            term = term.toLowerCase();
-            const filtered = allProfiles.filter(p => p.name.toLowerCase().includes(term) || (p.major && p.major.toLowerCase().includes(term)));
-            renderDirectory(filtered);
-        }
-
         async function postData(action, payload) {
             return fetch(SHEET_URL, {
                 method: 'POST',
@@ -579,8 +743,6 @@ window.onload = async () => {
             return date.toLocaleDateString();
         }
 
-        // Social Share Wrappers
-        function shareViaEmail() { window.open(`mailto:?subject=${encodeURIComponent(currentShareProjectTitle)}&body=${encodeURIComponent(document.getElementById('shareProjectLink').value)}`); }
         function shareViaWhatsApp() { window.open(`https://wa.me/?text=${encodeURIComponent(currentShareProjectTitle + ' ' + document.getElementById('shareProjectLink').value)}`); }
         function shareViaTwitter() { window.open(`https://twitter.com/intent/tweet?text=${encodeURIComponent(currentShareProjectTitle)}&url=${encodeURIComponent(document.getElementById('shareProjectLink').value)}`); }
         function shareViaLinkedIn() { window.open(`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(document.getElementById('shareProjectLink').value)}`); }
