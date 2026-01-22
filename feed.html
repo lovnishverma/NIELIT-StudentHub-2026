@@ -1640,8 +1640,11 @@ function shareProject(projectId, projectTitle) {
     currentShareProjectId = projectId;
     currentShareProjectTitle = projectTitle;
     
-    // Generate share link to project.html
-    const baseUrl = window.location.origin + window.location.pathname.replace('index.html', '');
+    // FIX: Dynamically get the base path by stripping the current filename
+    // This works for feed.html, index.html, or any other file
+    const path = window.location.pathname.substring(0, window.location.pathname.lastIndexOf('/') + 1);
+    const baseUrl = window.location.origin + path;
+    
     const shareLink = `${baseUrl}project.html?id=${projectId}`;
     document.getElementById('shareProjectLink').value = shareLink;
     
