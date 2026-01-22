@@ -4,31 +4,37 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>NIELIT StudentHub - Home</title>
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Playfair+Display:wght@700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@600;700&display=swap" rel="stylesheet">
     <link rel="icon" type="image/x-icon" href="logo.png">
     <style>
         :root {
-            /* Modern Color Palette */
-            --primary: #0f172a;       /* Dark Slate */
-            --primary-light: #1e293b; /* Lighter Slate */
-            --accent: #3b82f6;        /* Bright Blue */
-            --accent-hover: #2563eb;  /* Darker Blue */
-            --secondary: #f97316;     /* Orange */
-            --background: #f8fafc;    /* Very Light Gray */
+            --primary: #0f172a;
+            --primary-light: #1e293b;
+            --accent: #6366f1;
+            --accent-hover: #4f46e5;
+            --accent-light: #818cf8;
+            --secondary: #ec4899;
+            --success: #10b981;
+            --background: #fafbfc;
             --card-bg: #ffffff;
-            --text-primary: #1e293b;
+            --text-primary: #0f172a;
             --text-secondary: #64748b;
             --border: #e2e8f0;
-            --shadow-sm: 0 1px 3px rgba(0,0,0,0.1);
-            --shadow-md: 0 4px 6px -1px rgba(0,0,0,0.1);
-            --shadow-lg: 0 10px 15px -3px rgba(0,0,0,0.1);
+            --gradient-1: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --gradient-2: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            --gradient-3: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
         }
 
-        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+        * { 
+            margin: 0; 
+            padding: 0; 
+            box-sizing: border-box; 
+            -webkit-tap-highlight-color: transparent; 
+        }
         
         body { 
-            font-family: 'Outfit', sans-serif; 
-            background: var(--background); 
+            font-family: 'Inter', sans-serif; 
+            background: var(--background);
             color: var(--text-primary); 
             display: flex; 
             flex-direction: column; 
@@ -36,224 +42,314 @@
             overflow-x: hidden;
         }
 
-        /* --- NAVIGATION --- */
+        /* NAVIGATION */
         nav.desktop-nav { 
-            background: rgba(255, 255, 255, 0.9); 
-            box-shadow: var(--shadow-sm); 
+            background: rgba(255, 255, 255, 0.85);
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
             padding: 1rem 2rem; 
             position: sticky; 
             top: 0; 
             z-index: 100; 
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            border-bottom: 1px solid var(--border);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(226, 232, 240, 0.6);
         }
         
-        .nav-container { max-width: 1280px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; }
+        .nav-container { 
+            max-width: 1280px; 
+            margin: 0 auto; 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+        }
         
         .logo { 
-            font-family: 'Playfair Display', serif; 
-            font-size: 1.6rem; 
-            font-weight: 800; 
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.5rem; 
+            font-weight: 700; 
             color: var(--primary); 
             text-decoration: none; 
             display: flex; 
             align-items: center; 
-            gap: 0.8rem; 
+            gap: 0.7rem;
+            transition: transform 0.2s;
         }
+        .logo:hover { transform: scale(1.02); }
         
         .nav-link { 
-            margin-left: 2.5rem; 
+            margin-left: 2rem; 
             text-decoration: none; 
             color: var(--text-secondary); 
             font-weight: 500; 
             transition: all 0.2s; 
             font-size: 0.95rem;
+            position: relative;
+        }
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--accent);
+            transition: width 0.3s;
         }
         .nav-link:hover { color: var(--accent); }
-        .nav-link.active { color: var(--accent); font-weight: 700; }
+        .nav-link:hover::after { width: 100%; }
+        .nav-link.active { color: var(--accent); font-weight: 600; }
+        .nav-link.active::after { width: 100%; }
 
-        /* --- HERO SECTION --- */
+        /* HERO SECTION */
         .hero-section {
             text-align: center;
-            padding: 5rem 2rem;
-            /* Modern Gradient */
-            background: radial-gradient(circle at top right, #1e293b, #0f172a);
-            border-radius: 30px;
+            padding: 6rem 2rem;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 0;
             color: white;
-            margin-bottom: 3rem;
-            box-shadow: var(--shadow-lg);
+            margin-bottom: 4rem;
             position: relative;
             overflow: hidden;
         }
 
-        /* Floating Background Elements */
+        .hero-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: 
+                radial-gradient(circle at 20% 50%, rgba(255,255,255,0.1) 0%, transparent 50%),
+                radial-gradient(circle at 80% 80%, rgba(255,255,255,0.1) 0%, transparent 50%);
+            animation: pulse 8s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.8; }
+        }
+
         .hero-bg-icon {
             position: absolute;
-            opacity: 0.05;
+            opacity: 0.08;
             pointer-events: none;
-            animation: float 6s ease-in-out infinite;
+            font-size: 15rem;
+            animation: float 8s ease-in-out infinite;
         }
-        .bg-1 { top: -20px; right: -20px; font-size: 15rem; transform: rotate(15deg); }
-        .bg-2 { bottom: -50px; left: -50px; font-size: 12rem; transform: rotate(-10deg); animation-delay: 2s; }
+        .bg-1 { top: -50px; right: -50px; animation-delay: 0s; }
+        .bg-2 { bottom: -80px; left: -80px; animation-delay: 2s; }
+        .bg-3 { top: 50%; left: 50%; transform: translate(-50%, -50%); font-size: 20rem; animation-delay: 4s; opacity: 0.04; }
 
         @keyframes float {
-            0% { transform: translateY(0px) rotate(15deg); }
-            50% { transform: translateY(-20px) rotate(15deg); }
-            100% { transform: translateY(0px) rotate(15deg); }
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            33% { transform: translateY(-20px) rotate(5deg); }
+            66% { transform: translateY(10px) rotate(-5deg); }
         }
 
         .hero-title {
-            font-size: 3.5rem;
-            font-weight: 800;
-            margin-bottom: 1.2rem;
-            font-family: 'Playfair Display', serif;
+            font-size: 3.8rem;
+            font-weight: 900;
+            margin-bottom: 1.5rem;
+            font-family: 'Space Grotesk', sans-serif;
             line-height: 1.1;
-            background: linear-gradient(to right, #ffffff, #94a3b8);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
+            position: relative;
+            z-index: 1;
+            letter-spacing: -0.02em;
         }
 
         .hero-subtitle {
-            font-size: 1.25rem;
-            color: #cbd5e1;
+            font-size: 1.3rem;
+            color: rgba(255,255,255,0.95);
             max-width: 700px;
-            margin: 0 auto 2.5rem auto;
-            line-height: 1.6;
-            font-weight: 300;
+            margin: 0 auto 3rem auto;
+            line-height: 1.7;
+            font-weight: 400;
+            position: relative;
+            z-index: 1;
         }
 
-        /* Stats Cards */
+        /* STATS */
         .stats-container {
             display: flex;
             justify-content: center;
-            gap: 2rem;
+            gap: 2.5rem;
             flex-wrap: wrap;
-            margin-top: 2rem;
+            margin-top: 3rem;
             position: relative;
             z-index: 2;
         }
 
         .stat-item {
-            background: rgba(255, 255, 255, 0.1);
+            background: rgba(255, 255, 255, 0.15);
             backdrop-filter: blur(10px);
-            padding: 1.5rem 3rem;
-            border-radius: 20px;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            min-width: 180px;
-            transition: transform 0.3s ease;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            padding: 2rem 3.5rem;
+            border-radius: 24px;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            min-width: 200px;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 10px 40px rgba(0,0,0,0.15);
         }
-        .stat-item:hover { transform: translateY(-5px); background: rgba(255, 255, 255, 0.15); }
+        .stat-item:hover { 
+            transform: translateY(-8px) scale(1.02);
+            background: rgba(255, 255, 255, 0.25);
+            box-shadow: 0 15px 50px rgba(0,0,0,0.2);
+        }
 
         .stat-number {
-            font-size: 3rem;
-            font-weight: 700;
+            font-size: 3.5rem;
+            font-weight: 800;
             display: block;
             line-height: 1;
-            margin-bottom: 0.5rem;
-            color: #60a5fa; /* Light Blue */
+            margin-bottom: 0.8rem;
+            background: linear-gradient(135deg, #fff 0%, #e0e7ff 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-family: 'Space Grotesk', sans-serif;
         }
         .stat-label {
-            font-size: 0.85rem;
+            font-size: 0.9rem;
             text-transform: uppercase;
             letter-spacing: 2px;
-            color: #94a3b8;
+            color: rgba(255,255,255,0.9);
             font-weight: 600;
         }
 
-        /* --- MAIN LAYOUT --- */
-        .container { max-width: 1200px; margin: 2rem auto; padding: 0 1.5rem; flex: 1; width: 100%; }
+        /* CONTAINER */
+        .container { 
+            max-width: 1280px; 
+            margin: 0 auto; 
+            padding: 0 2rem; 
+            flex: 1; 
+            width: 100%; 
+        }
 
-        /* --- FILTERS & SEARCH --- */
+        /* SEARCH & FILTERS */
         .controls-wrapper {
+            margin-bottom: 3rem;
+        }
+
+        .section-header {
+            text-align: center;
             margin-bottom: 2.5rem;
+        }
+
+        .section-title {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: var(--primary);
+            margin-bottom: 0.8rem;
+            font-family: 'Space Grotesk', sans-serif;
+            letter-spacing: -0.02em;
+        }
+
+        .section-subtitle {
+            font-size: 1.1rem;
+            color: var(--text-secondary);
+            font-weight: 400;
         }
 
         .search-wrapper {
             position: relative;
-            margin-bottom: 1.5rem;
-            max-width: 600px;
+            margin-bottom: 2rem;
+            max-width: 650px;
             margin-left: auto; 
-            margin-right: auto; /* Center search */
+            margin-right: auto;
         }
         .search-input {
             width: 100%;
-            padding: 1.2rem 1.5rem 1.2rem 3.5rem;
-            border-radius: 50px; /* Pill shape */
+            padding: 1.4rem 1.8rem 1.4rem 4rem;
+            border-radius: 16px;
             border: 2px solid var(--border);
             font-size: 1rem;
             outline: none;
             transition: all 0.3s;
             background: white;
-            box-shadow: var(--shadow-sm);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+            font-family: 'Inter', sans-serif;
         }
         .search-input:focus {
             border-color: var(--accent);
-            box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.1);
+            box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.1), 0 4px 12px rgba(0,0,0,0.08);
+            transform: translateY(-1px);
         }
         .search-icon {
             position: absolute;
-            left: 1.4rem;
+            left: 1.6rem;
             top: 50%;
             transform: translateY(-50%);
-            font-size: 1.2rem;
-            color: var(--text-secondary);
+            font-size: 1.3rem;
+            opacity: 0.5;
         }
 
         .filter-container {
             display: flex;
             justify-content: center;
-            gap: 0.8rem;
+            gap: 1rem;
             flex-wrap: wrap;
         }
         
         .filter-chip {
             background: white;
-            border: 1px solid var(--border);
-            padding: 0.6rem 1.5rem;
-            border-radius: 50px;
-            font-size: 0.9rem;
-            font-weight: 500;
+            border: 2px solid var(--border);
+            padding: 0.8rem 1.8rem;
+            border-radius: 12px;
+            font-size: 0.95rem;
+            font-weight: 600;
             color: var(--text-secondary);
             cursor: pointer;
-            transition: all 0.2s ease;
-            box-shadow: var(--shadow-sm);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 2px 4px rgba(0,0,0,0.04);
         }
         .filter-chip:hover {
             border-color: var(--accent);
             color: var(--accent);
             transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(99, 102, 241, 0.15);
         }
         .filter-chip.active {
-            background: var(--primary);
+            background: var(--accent);
             color: white;
-            border-color: var(--primary);
-            box-shadow: var(--shadow-md);
+            border-color: var(--accent);
+            box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
         }
 
-        /* --- PROFILE GRID --- */
+        /* PROFILE CARDS */
         .profiles-grid { 
             display: grid; 
-            grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); 
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); 
             gap: 2rem; 
         }
         
         .profile-card { 
             background: var(--card-bg);
-            padding: 2.5rem 1.5rem; 
-            border-radius: 24px; 
+            padding: 2.5rem 1.8rem; 
+            border-radius: 20px;
             text-align: center; 
             cursor: pointer; 
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); 
-            border: 1px solid var(--border);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1); 
+            border: 2px solid transparent;
             position: relative;
             overflow: hidden;
-            box-shadow: var(--shadow-sm);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+        }
+        .profile-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: var(--gradient-1);
+            transform: scaleX(0);
+            transition: transform 0.4s;
+        }
+        .profile-card:hover::before {
+            transform: scaleX(1);
         }
         .profile-card:hover { 
-            transform: translateY(-8px); 
-            box-shadow: var(--shadow-lg); 
+            transform: translateY(-12px); 
+            box-shadow: 0 20px 40px rgba(0,0,0,0.12);
             border-color: var(--accent);
         }
         
@@ -262,96 +358,307 @@
             height: 120px; 
             border-radius: 50%; 
             object-fit: cover; 
-            margin-bottom: 1.2rem; 
-            background: #f1f5f9; 
+            margin: 0 auto 1.5rem auto;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             border: 4px solid white; 
-            box-shadow: var(--shadow-md); 
+            box-shadow: 0 8px 20px rgba(0,0,0,0.12);
+            transition: transform 0.4s;
+        }
+        .profile-card:hover .profile-pic {
+            transform: scale(1.08);
         }
         
-        .card-name { font-size: 1.3rem; font-weight: 700; color: var(--primary); margin-bottom: 0.4rem; }
-        .card-major { font-size: 0.95rem; color: var(--text-secondary); font-weight: 400; margin-bottom: 0.2rem; }
-        .card-uni { font-size: 0.85rem; color: var(--accent); font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; }
+        .card-name { 
+            font-size: 1.4rem; 
+            font-weight: 700; 
+            color: var(--primary); 
+            margin-bottom: 0.5rem;
+            font-family: 'Space Grotesk', sans-serif;
+        }
+        .card-major { 
+            font-size: 0.95rem; 
+            color: var(--text-secondary); 
+            font-weight: 500; 
+            margin-bottom: 0.4rem; 
+        }
+        .card-uni { 
+            font-size: 0.85rem; 
+            color: var(--accent); 
+            font-weight: 700; 
+            text-transform: uppercase; 
+            letter-spacing: 0.5px; 
+        }
 
-        /* --- BUTTONS --- */
+        /* BUTTONS */
         .btn-primary { 
-            background: var(--accent); 
+            background: var(--accent);
             color: white; 
             border: none; 
-            padding: 0.8rem 2rem; 
-            border-radius: 50px; 
+            padding: 0.9rem 2.2rem; 
+            border-radius: 12px;
             font-weight: 600; 
             cursor: pointer; 
-            transition: all 0.2s;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             text-decoration: none;
             display: inline-flex;
             align-items: center;
-            gap: 0.5rem;
-            box-shadow: 0 4px 6px rgba(59, 130, 246, 0.3);
+            gap: 0.6rem;
+            box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
+            font-size: 0.95rem;
         }
         .btn-primary:hover { 
-            background: var(--accent-hover); 
+            background: var(--accent-hover);
             transform: translateY(-2px); 
-            box-shadow: 0 6px 12px rgba(59, 130, 246, 0.4); 
+            box-shadow: 0 8px 20px rgba(99, 102, 241, 0.4);
         }
 
-        /* --- UTILITIES --- */
-        .hidden { display: none !important; }
-        
-        /* Loading Spinner */
-        .loader {
-            border: 4px solid #f3f3f3;
-            border-top: 4px solid var(--accent);
-            border-radius: 50%;
-            width: 40px;
-            height: 40px;
-            animation: spin 1s linear infinite;
-            margin: 0 auto 1rem auto;
+        /* PORTFOLIO */
+        .portfolio-header { 
+            background: white; 
+            padding: 4rem 2rem; 
+            border-radius: 24px;
+            text-align: center; 
+            margin-bottom: 3rem; 
+            border: 2px solid var(--border);
+            box-shadow: 0 4px 16px rgba(0,0,0,0.06);
         }
-        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
-
-        /* Portfolio & Modals (Preserved functionality with new styles) */
-        .portfolio-header { background: white; padding: 3rem 2rem; border-radius: 24px; text-align: center; margin-bottom: 2rem; border: 1px solid var(--border); box-shadow: var(--shadow-sm); }
-        .big-avatar { width: 160px; height: 160px; border-radius: 50%; object-fit: cover; border: 6px solid white; box-shadow: var(--shadow-lg); margin-bottom: 1.5rem; }
+        .big-avatar { 
+            width: 180px; 
+            height: 180px; 
+            border-radius: 50%; 
+            object-fit: cover; 
+            border: 6px solid white; 
+            box-shadow: 0 12px 30px rgba(0,0,0,0.15);
+            margin-bottom: 2rem;
+            background: var(--gradient-1);
+        }
         
-        .project-item { background: white; padding: 2rem; border-radius: 20px; margin-bottom: 1.5rem; border: 1px solid var(--border); box-shadow: var(--shadow-sm); }
-        .project-img { width: 100%; height: 260px; object-fit: cover; border-radius: 12px; margin: 1.5rem 0; border: 1px solid var(--border); }
+        .social-link {
+            display: inline-block;
+            padding: 0.7rem 1.5rem;
+            background: var(--background);
+            border: 2px solid var(--border);
+            border-radius: 10px;
+            text-decoration: none;
+            color: var(--text-primary);
+            font-weight: 600;
+            font-size: 0.9rem;
+            transition: all 0.3s;
+        }
+        .social-link:hover {
+            background: var(--accent);
+            color: white;
+            border-color: var(--accent);
+            transform: translateY(-2px);
+        }
 
-        /* Mobile Nav */
+        .project-item { 
+            background: white; 
+            padding: 2.5rem; 
+            border-radius: 20px;
+            margin-bottom: 2rem; 
+            border: 2px solid var(--border);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+            transition: all 0.3s;
+        }
+        .project-item:hover {
+            box-shadow: 0 8px 24px rgba(0,0,0,0.1);
+            transform: translateY(-4px);
+        }
+        .project-img { 
+            width: 100%; 
+            height: 300px; 
+            object-fit: cover; 
+            border-radius: 16px;
+            margin: 1.5rem 0; 
+            border: 2px solid var(--border);
+        }
+
+        .action-btn {
+            background: var(--background);
+            border: 2px solid var(--border);
+            padding: 0.7rem 1.3rem;
+            border-radius: 10px;
+            font-size: 0.95rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            color: var(--text-secondary);
+        }
+        .action-btn:hover {
+            background: var(--accent);
+            color: white;
+            border-color: var(--accent);
+            transform: translateY(-2px);
+        }
+
+        /* FOOTER */
+        .site-footer {
+            background: var(--primary);
+            color: white;
+            padding: 3rem 2rem;
+            text-align: center;
+            margin-top: 5rem;
+        }
+        .app-download-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.8rem;
+            background: white;
+            color: var(--primary);
+            padding: 1rem 2rem;
+            border-radius: 12px;
+            text-decoration: none;
+            font-weight: 600;
+            margin-top: 1.5rem;
+            transition: all 0.3s;
+        }
+        .app-download-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(255,255,255,0.2);
+        }
+
+        /* MOBILE NAV */
         .mobile-bottom-nav {
             display: none;
             position: fixed;
-            bottom: 0; left: 0; width: 100%;
+            bottom: 0; 
+            left: 0; 
+            width: 100%;
             background: white;
-            box-shadow: 0 -4px 20px rgba(0,0,0,0.05);
+            box-shadow: 0 -4px 20px rgba(0,0,0,0.08);
             justify-content: space-around;
-            padding: 0.8rem;
-            padding-bottom: calc(0.8rem + env(safe-area-inset-bottom));
+            padding: 1rem;
+            padding-bottom: calc(1rem + env(safe-area-inset-bottom));
             z-index: 1000;
-            border-top: 1px solid var(--border);
+            border-top: 2px solid var(--border);
         }
-        .mobile-nav-item { display: flex; flex-direction: column; align-items: center; text-decoration: none; color: var(--text-secondary); font-size: 0.75rem; font-weight: 500; }
-        .mobile-nav-item.active { color: var(--accent); }
-        
-        /* Mobile Breakpoints */
-        @media (max-width: 768px) {
-            .hero-section { padding: 4rem 1.5rem; border-radius: 0 0 30px 30px; margin: -2rem -1rem 3rem -1rem; width: calc(100% + 2rem); }
-            .hero-title { font-size: 2.2rem; }
-            .stats-container { gap: 1rem; }
-            .stat-item { flex: 1; min-width: 140px; padding: 1.2rem; }
-            .mobile-bottom-nav { display: flex; }
-            .desktop-nav { display: none; }
-            .filter-container { justify-content: flex-start; overflow-x: auto; padding-bottom: 10px; flex-wrap: nowrap; }
-            .container { padding: 0 1rem; }
-            .site-footer { padding-bottom: 100px; }
+        .mobile-nav-item { 
+            display: flex; 
+            flex-direction: column; 
+            align-items: center; 
+            text-decoration: none; 
+            color: var(--text-secondary); 
+            font-size: 0.75rem; 
+            font-weight: 600;
+            transition: all 0.2s;
+            gap: 0.3rem;
+        }
+        .mobile-nav-item.active { 
+            color: var(--accent);
+        }
+        .mobile-nav-icon {
+            font-size: 1.5rem;
         }
 
-        /* Modal Styles */
-        .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(15, 23, 42, 0.7); z-index: 3000; align-items: center; justify-content: center; backdrop-filter: blur(5px); padding: 1rem; }
+        /* MODAL */
+        .modal { 
+            display: none; 
+            position: fixed; 
+            top: 0; 
+            left: 0; 
+            width: 100%; 
+            height: 100%; 
+            background: rgba(15, 23, 42, 0.8);
+            z-index: 3000; 
+            align-items: center; 
+            justify-content: center; 
+            backdrop-filter: blur(8px);
+            padding: 1rem; 
+        }
         .modal.active { display: flex; }
-        .modal-content { background: white; padding: 2rem; border-radius: 24px; width: 100%; max-width: 500px; max-height: 90vh; overflow-y: auto; box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25); animation: fadeInUp 0.3s ease; }
-        .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; }
-        .modal-close { background: #f1f5f9; border: none; width: 36px; height: 36px; border-radius: 50%; font-size: 1.5rem; cursor: pointer; color: var(--text-secondary); display: flex; align-items: center; justify-content: center; transition: all 0.2s; }
-        .modal-close:hover { background: #e2e8f0; color: var(--text-primary); }
+        .modal-content { 
+            background: white; 
+            padding: 2.5rem; 
+            border-radius: 24px;
+            width: 100%; 
+            max-width: 550px; 
+            max-height: 90vh; 
+            overflow-y: auto; 
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.4);
+            animation: slideUp 0.3s ease;
+        }
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .modal-header { 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid var(--border);
+        }
+        .modal-close { 
+            background: var(--background);
+            border: none; 
+            width: 40px; 
+            height: 40px; 
+            border-radius: 50%; 
+            font-size: 1.5rem; 
+            cursor: pointer; 
+            color: var(--text-secondary); 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            transition: all 0.3s;
+        }
+        .modal-close:hover { 
+            background: var(--accent);
+            color: white;
+            transform: rotate(90deg);
+        }
+
+        /* UTILITIES */
+        .hidden { display: none !important; }
+        
+        .loader {
+            border: 4px solid var(--border);
+            border-top: 4px solid var(--accent);
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 1rem auto;
+        }
+        @keyframes spin { 
+            0% { transform: rotate(0deg); } 
+            100% { transform: rotate(360deg); } 
+        }
+
+        /* RESPONSIVE */
+        @media (max-width: 768px) {
+            .hero-section { 
+                padding: 4rem 1.5rem; 
+                border-radius: 0;
+                margin: 0 0 3rem 0;
+            }
+            .hero-title { font-size: 2.5rem; }
+            .hero-subtitle { font-size: 1.1rem; }
+            .stats-container { gap: 1rem; }
+            .stat-item { 
+                flex: 1; 
+                min-width: 140px; 
+                padding: 1.5rem 2rem;
+            }
+            .stat-number { font-size: 2.5rem; }
+            .mobile-bottom-nav { display: flex; }
+            .desktop-nav { display: none; }
+            .filter-container { 
+                justify-content: flex-start; 
+                overflow-x: auto; 
+                padding-bottom: 10px; 
+                flex-wrap: nowrap;
+                -webkit-overflow-scrolling: touch;
+            }
+            .container { padding: 0 1rem; }
+            .site-footer { padding-bottom: 100px; }
+            .section-title { font-size: 2rem; }
+            .profiles-grid {
+                grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+            }
+        }
     </style>
 </head>
 <body>
@@ -366,7 +673,7 @@
                 <a href="feed.html" class="nav-link">Feed</a>
                 <a href="index.html" class="nav-link active">Directory</a>
                 
-                <a href="feed.html" id="loginBtn" class="btn-primary" style="margin-left: 2rem; padding: 0.6rem 1.5rem; font-size: 0.9rem;">
+                <a href="feed.html" id="loginBtn" class="btn-primary" style="margin-left: 2rem;">
                     Login
                 </a>
             </div>
@@ -379,6 +686,7 @@
             <div class="hero-section">
                 <div class="hero-bg-icon bg-1">🎓</div>
                 <div class="hero-bg-icon bg-2">💡</div>
+                <div class="hero-bg-icon bg-3">🚀</div>
 
                 <h1 class="hero-title">Welcome to StudentHub</h1>
                 <p class="hero-subtitle">
@@ -387,8 +695,8 @@
                 </p>
                 
                 <div id="guest-cta" style="display: none; margin-bottom: 2.5rem;">
-                    <a href="feed.html" class="btn-primary" style="background: white; color: var(--primary); padding: 1rem 2.5rem; font-size: 1.1rem; box-shadow: 0 4px 15px rgba(255,255,255,0.2);">
-                        Join the Community
+                    <a href="feed.html" class="btn-primary" style="background: white; color: var(--primary); padding: 1.2rem 3rem; font-size: 1.1rem; box-shadow: 0 8px 30px rgba(255,255,255,0.3);">
+                        🚀 Join the Community
                     </a>
                 </div>
 
@@ -405,7 +713,10 @@
             </div>
 
             <div class="controls-wrapper">
-                <h2 style="text-align: center; margin-bottom: 1.5rem; font-size: 1.8rem; color: var(--primary);">Discover Talent</h2>
+                <div class="section-header">
+                    <h2 class="section-title">Discover Talent</h2>
+                    <p class="section-subtitle">Connect with brilliant minds from NIELIT Ropar</p>
+                </div>
                 
                 <div class="search-wrapper">
                     <span class="search-icon">🔍</span>
@@ -413,7 +724,7 @@
                 </div>
                 
                 <div class="filter-container">
-                    <button class="filter-chip active" onclick="applyFilter(this, '')">All Students</button>
+                    <button class="filter-chip active" onclick="applyFilter(this, '')">✨ All Students</button>
                     <button class="filter-chip" onclick="applyFilter(this, 'B.TECH')">💻 B.TECH</button>
                     <button class="filter-chip" onclick="applyFilter(this, 'M.TECH')">🎓 M.TECH</button>
                     <button class="filter-chip" onclick="applyFilter(this, 'NIELIT')">⚡ NIELIT</button>
@@ -425,19 +736,19 @@
             <div id="profilesGrid" class="profiles-grid">
                 <div style="grid-column: 1/-1; text-align: center; padding: 5rem 1rem;">
                     <div class="loader"></div>
-                    <p style="color: var(--text-secondary); font-size: 1.1rem;">Loading awesome profiles...</p>
+                    <p style="color: var(--text-secondary); font-size: 1.1rem; margin-top: 1rem;">Loading awesome profiles...</p>
                 </div>
             </div>
         </div>
 
         <div id="portfolioView" class="hidden">
-            <div onclick="showDirectory()" style="cursor: pointer; margin-bottom: 1.5rem; color: var(--accent); font-weight: 600; display: inline-flex; align-items: center; gap: 5px;">
+            <div onclick="showDirectory()" style="cursor: pointer; margin-bottom: 2rem; color: var(--accent); font-weight: 600; display: inline-flex; align-items: center; gap: 8px; padding: 0.8rem 1.5rem; background: white; border-radius: 12px; border: 2px solid var(--border); transition: all 0.3s;">
                 ← Back to Directory
             </div>
             
             <div id="portfolioHeader" class="portfolio-header"></div>
             
-            <h2 style="margin-bottom: 1.5rem; font-size: 1.8rem; color: var(--primary); padding-left: 0.5rem; border-left: 5px solid var(--accent);">Projects</h2>
+            <h2 style="margin-bottom: 2rem; font-size: 2rem; color: var(--primary); padding-left: 1rem; border-left: 5px solid var(--accent); font-family: 'Space Grotesk', sans-serif;">Projects Showcase</h2>
             <div id="userProjects"></div>
         </div>
     </div>
@@ -445,7 +756,7 @@
     <div id="commentsModal" class="modal">
         <div class="modal-content">
             <div class="modal-header">
-                <h3>💬 Comments</h3>
+                <h3 style="font-size: 1.5rem; font-weight: 700;">💬 Comments</h3>
                 <button class="modal-close" onclick="closeModal('comments')">&times;</button>
             </div>
             <div id="commentsList" style="margin-bottom: 1.5rem; max-height: 400px; overflow-y: auto;"></div>
@@ -459,27 +770,27 @@
     <div id="shareProjectModal" class="modal">
         <div class="modal-content">
             <div class="modal-header">
-                <h2>📤 Share Project</h2>
+                <h2 style="font-size: 1.5rem; font-weight: 700;">📤 Share Project</h2>
                 <button class="modal-close" onclick="closeModal('shareProject')">&times;</button>
             </div>
             <div style="margin-bottom: 1.5rem;">
                 <p style="color: var(--text-secondary); margin-bottom: 1rem;">Copy link to share:</p>
-                <div style="display: flex; gap: 0.5rem; padding: 0.8rem; background: var(--background); border-radius: 12px; border: 1px solid var(--border);">
+                <div style="display: flex; gap: 0.5rem; padding: 1rem; background: var(--background); border-radius: 12px; border: 2px solid var(--border);">
                     <input type="text" id="shareProjectLink" readonly style="border: none; background: none; flex: 1; font-family: monospace; outline: none; color: var(--text-primary);">
-                    <button onclick="copyShareLink()" class="btn-primary" id="copyShareBtn" style="padding: 0.4rem 1rem; font-size: 0.8rem; border-radius: 8px;">Copy</button>
+                    <button onclick="copyShareLink()" class="btn-primary" id="copyShareBtn" style="padding: 0.6rem 1.2rem; font-size: 0.85rem; border-radius: 8px;">Copy</button>
                 </div>
             </div>
             <div style="display: grid; gap: 0.8rem;">
-                <button onclick="shareViaWhatsApp()" class="btn-primary" style="background: #25D366; justify-content: center;">Share on WhatsApp</button>
-                <button onclick="shareViaLinkedIn()" class="btn-primary" style="background: #0077b5; justify-content: center;">Share on LinkedIn</button>
-                <button onclick="shareViaTwitter()" class="btn-primary" style="background: #1DA1F2; justify-content: center;">Share on Twitter</button>
+                <button onclick="shareViaWhatsApp()" class="btn-primary" style="background: #25D366; justify-content: center;">📱 Share on WhatsApp</button>
+                <button onclick="shareViaLinkedIn()" class="btn-primary" style="background: #0077b5; justify-content: center;">💼 Share on LinkedIn</button>
+                <button onclick="shareViaTwitter()" class="btn-primary" style="background: #1DA1F2; justify-content: center;">🐦 Share on Twitter</button>
             </div>
         </div>
     </div>
 
     <footer class="site-footer">
         <div class="footer-logo">
-            <p style="font-size: 1.4rem; font-weight: 800; color: var(--primary); margin-bottom: 0.5rem;">
+            <p style="font-size: 1.4rem; font-weight: 800; color: white; margin-bottom: 0.5rem;">
                 🎓 NIELIT Ropar
             </p>
         </div>
@@ -599,11 +910,11 @@
             // Empty State
             if (chunk.length === 0 && currentPage === 1) {
                 grid.innerHTML = `
-                    <div style="grid-column: 1/-1; text-align: center; padding: 4rem 1rem;">
-                        <div style="font-size: 4rem; margin-bottom: 1rem; opacity: 0.5;">🤔</div>
-                        <h3 style="color: var(--primary); margin-bottom: 0.5rem; font-size: 1.5rem;">No students found</h3>
-                        <p style="color: var(--text-secondary);">Try changing your search terms or filters.</p>
-                        <button onclick="applyFilter(document.querySelector('.filter-chip'), '')" class="btn-primary" style="margin-top: 1.5rem; background: var(--text-secondary);">Clear All Filters</button>
+                    <div style="grid-column: 1/-1; text-align: center; padding: 5rem 1rem;">
+                        <div style="font-size: 5rem; margin-bottom: 1.5rem; opacity: 0.3;">🤔</div>
+                        <h3 style="color: var(--primary); margin-bottom: 1rem; font-size: 1.8rem; font-weight: 700;">No students found</h3>
+                        <p style="color: var(--text-secondary); font-size: 1.1rem;">Try changing your search terms or filters.</p>
+                        <button onclick="applyFilter(document.querySelector('.filter-chip'), '')" class="btn-primary" style="margin-top: 2rem;">Clear All Filters</button>
                     </div>
                 `;
                 removeLoadMoreBtn();
@@ -630,11 +941,11 @@
             removeLoadMoreBtn();
             if (end < currentList.length) {
                 grid.insertAdjacentHTML('beforeend', `
-                    <div id="loadMoreContainer" style="grid-column: 1/-1; text-align: center; padding: 2rem;">
-                        <button onclick="loadMore()" class="btn-primary" style="background: white; color: var(--primary); border: 2px solid var(--border); box-shadow: none;">
-                            Load More
+                    <div id="loadMoreContainer" style="grid-column: 1/-1; text-align: center; padding: 2.5rem;">
+                        <button onclick="loadMore()" class="btn-primary" style="background: white; color: var(--primary); border: 2px solid var(--border); box-shadow: 0 4px 12px rgba(0,0,0,0.06);">
+                            Load More Students
                         </button>
-                        <p style="margin-top:0.8rem; font-size:0.8rem; color:#999;">Showing ${end} of ${currentList.length}</p>
+                        <p style="margin-top:1rem; font-size:0.9rem; color: var(--text-secondary); font-weight: 500;">Showing ${end} of ${currentList.length}</p>
                     </div>
                 `);
             }
@@ -684,18 +995,18 @@
 
             document.getElementById('portfolioHeader').innerHTML = `
                 <img src="${profile.profilePicture || 'https://via.placeholder.com/150'}" class="big-avatar">
-                <h1 style="font-size: 2.2rem; margin-bottom: 0.5rem; color: var(--primary); font-weight: 800;">${escapeHtml(profile.name)}</h1>
-                <p style="font-size: 1.1rem; color: var(--text-secondary); margin-bottom: 1.5rem;">
+                <h1 style="font-size: 2.5rem; margin-bottom: 0.8rem; color: var(--primary); font-weight: 800; font-family: 'Space Grotesk', sans-serif;">${escapeHtml(profile.name)}</h1>
+                <p style="font-size: 1.15rem; color: var(--text-secondary); margin-bottom: 2rem; font-weight: 500;">
                     ${escapeHtml(profile.major)} ${profile.university ? '@ ' + escapeHtml(profile.university) : ''}
                 </p>
-                <div style="margin-bottom: 2rem; display: flex; flex-wrap: wrap; justify-content: center; gap: 0.8rem;">
-                    ${profile.linkedin ? `<a href="${profile.linkedin}" target="_blank" class="social-link">LinkedIn</a>` : ''}
-                    ${profile.github ? `<a href="${profile.github}" target="_blank" class="social-link">GitHub</a>` : ''}
-                    <a href="mailto:${profile.email}" class="social-link">Email</a>
+                <div style="margin-bottom: 2.5rem; display: flex; flex-wrap: wrap; justify-content: center; gap: 1rem;">
+                    ${profile.linkedin ? `<a href="${profile.linkedin}" target="_blank" class="social-link">🔗 LinkedIn</a>` : ''}
+                    ${profile.github ? `<a href="${profile.github}" target="_blank" class="social-link">💻 GitHub</a>` : ''}
+                    <a href="mailto:${profile.email}" class="social-link">📧 Email</a>
                 </div>
-                <div style="max-width: 700px; margin: 0 auto; line-height: 1.8; color: var(--text-primary); background: #f1f5f9; padding: 2rem; border-radius: 16px; text-align: left;">
-                    <h4 style="margin-bottom:0.5rem; color:var(--text-secondary); font-size:0.8rem; text-transform:uppercase; letter-spacing:1px;">Bio</h4>
-                    ${escapeHtml(profile.bio || 'No bio yet.')}
+                <div style="max-width: 700px; margin: 0 auto; line-height: 1.8; color: var(--text-primary); background: var(--background); padding: 2.5rem; border-radius: 16px; text-align: left; border: 2px solid var(--border);">
+                    <h4 style="margin-bottom:1rem; color:var(--accent); font-size:0.85rem; text-transform:uppercase; letter-spacing:2px; font-weight: 700;">About Me</h4>
+                    <p style="font-size: 1.05rem; line-height: 1.8;">${escapeHtml(profile.bio || 'No bio yet.')}</p>
                 </div>
             `;
 
@@ -703,28 +1014,28 @@
             const list = document.getElementById('userProjects');
             
             if (userProjects.length === 0) {
-                list.innerHTML = '<div style="text-align:center; padding: 4rem; color: var(--text-secondary); background: white; border-radius: 20px; border: 2px dashed var(--border);">No projects posted yet.</div>';
+                list.innerHTML = '<div style="text-align:center; padding: 5rem; color: var(--text-secondary); background: white; border-radius: 20px; border: 2px dashed var(--border);"><div style="font-size: 4rem; margin-bottom: 1rem; opacity: 0.3;">📁</div><h3 style="font-size: 1.5rem; font-weight: 700; margin-bottom: 0.5rem; color: var(--primary);">No projects posted yet</h3><p>Check back soon for amazing work!</p></div>';
             } else {
                 list.innerHTML = userProjects.map(p => `
                     <div class="project-item">
-                        <div style="display:flex; justify-content:space-between; align-items:flex-start;">
-                            <h3 style="color: var(--primary); font-size: 1.4rem; font-weight: 700;">${escapeHtml(p.title)}</h3>
-                            <span style="font-size:0.75rem; background: #dbeafe; color: var(--accent); padding:6px 12px; border-radius:50px; white-space: nowrap; margin-left: 0.5rem; font-weight: 600;">${escapeHtml(p.tech)}</span>
+                        <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom: 1rem;">
+                            <h3 style="color: var(--primary); font-size: 1.6rem; font-weight: 700; font-family: 'Space Grotesk', sans-serif;">${escapeHtml(p.title)}</h3>
+                            <span style="font-size:0.8rem; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding:8px 16px; border-radius:10px; white-space: nowrap; margin-left: 1rem; font-weight: 700; box-shadow: 0 4px 8px rgba(102, 126, 234, 0.3);">${escapeHtml(p.tech)}</span>
                         </div>
                         ${p.projectImage ? `<img src="${p.projectImage}" class="project-img" loading="lazy" alt="Project">` : ''}
-                        <p style="font-size: 1rem; line-height: 1.6; margin: 1rem 0; color: #475569;">${escapeHtml(p.description)}</p>
+                        <p style="font-size: 1.05rem; line-height: 1.8; margin: 1.5rem 0; color: #475569;">${escapeHtml(p.description)}</p>
                         
-                        <div style="display:flex; gap:1rem; align-items: center; margin-top: 1.5rem; padding-top: 1.5rem; border-top: 1px solid var(--border); flex-wrap: wrap;">
+                        <div style="display:flex; gap:1rem; align-items: center; margin-top: 2rem; padding-top: 2rem; border-top: 2px solid var(--border); flex-wrap: wrap;">
                             <button class="action-btn" onclick="upvote('${p.id}', this)" style="color: var(--primary);">
                                 👍 <span style="font-weight: 700; margin-left:5px;">${p.upvotes}</span>
                             </button>
                             <button class="action-btn" onclick="openComments('${p.id}')">
-                                💬 <span style="margin-left:5px;">${p.commentCount || 0}</span>
+                                💬 <span style="margin-left:5px; font-weight: 600;">${p.commentCount || 0}</span>
                             </button>
                             <button class="action-btn" onclick="shareProject('${p.id}', '${escapeHtml(p.title).replace(/'/g, "\\'")}')">
-                                📤 <span style="margin-left:5px;">Share</span>
+                                📤 <span style="margin-left:5px; font-weight: 600;">Share</span>
                             </button>
-                            ${p.link ? `<a href="${p.link}" target="_blank" class="btn-primary" style="padding: 0.5rem 1.2rem; margin-left: auto; font-size: 0.85rem;">View Code 🔗</a>` : ''}
+                            ${p.link ? `<a href="${p.link}" target="_blank" class="btn-primary" style="padding: 0.7rem 1.5rem; margin-left: auto; font-size: 0.9rem;">View Code 🔗</a>` : ''}
                         </div>
                     </div>
                 `).join('');
@@ -753,7 +1064,7 @@
         function shareViaTwitter() { window.open(`https://twitter.com/intent/tweet?text=${encodeURIComponent(currentShareProjectTitle)}&url=${encodeURIComponent(document.getElementById('shareProjectLink').value)}`); }
         function shareViaLinkedIn() { window.open(`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(document.getElementById('shareProjectLink').value)}`); }
         
-        // --- COMMENTS (Same Logic) ---
+        // --- COMMENTS ---
         async function upvote(id, btn) {
             if (!currentUser) return alert('Please log in from the main feed to upvote.');
             const countSpan = btn.querySelector('span');
@@ -768,17 +1079,17 @@
         async function openComments(id) {
             currentCommentProjectId = id;
             openModal('comments');
-            document.getElementById('commentsList').innerHTML = '<div style="text-align:center; padding:2rem;"><div class="loader" style="width:20px; height:20px; border-width:2px;"></div></div>';
+            document.getElementById('commentsList').innerHTML = '<div style="text-align:center; padding:2rem;"><div class="loader" style="width:30px; height:30px; border-width:3px;"></div></div>';
             const res = await fetch(`${SHEET_URL}?action=getComments&projectId=${id}`);
             const json = await res.json();
             if (json.data.length === 0) {
-                document.getElementById('commentsList').innerHTML = '<p style="color:var(--text-secondary); text-align:center;">No comments yet.</p>';
+                document.getElementById('commentsList').innerHTML = '<p style="color:var(--text-secondary); text-align:center; padding: 2rem; font-size: 1rem;">No comments yet. Be the first! 💬</p>';
             } else {
                 document.getElementById('commentsList').innerHTML = json.data.map(c => `
-                    <div class="comment-item" style="background: #f8fafc; padding: 1rem; border-radius: 12px; margin-bottom: 0.5rem;">
-                        <div style="font-weight:600; font-size:0.9rem; color:var(--primary);">${escapeHtml(c.authorName)}</div>
-                        <div style="margin: 0.3rem 0; color:var(--text-primary); font-size:0.95rem;">${escapeHtml(c.comment)}</div>
-                        <div style="font-size:0.7rem; color:var(--text-secondary);">${formatDate(c.timestamp)}</div>
+                    <div class="comment-item" style="background: var(--background); padding: 1.2rem; border-radius: 12px; margin-bottom: 0.8rem; border: 2px solid var(--border);">
+                        <div style="font-weight:700; font-size:0.95rem; color:var(--primary); margin-bottom: 0.5rem;">${escapeHtml(c.authorName)}</div>
+                        <div style="margin: 0.5rem 0; color:var(--text-primary); font-size:1rem; line-height: 1.6;">${escapeHtml(c.comment)}</div>
+                        <div style="font-size:0.75rem; color:var(--text-secondary); font-weight: 500;">${formatDate(c.timestamp)}</div>
                     </div>
                 `).join('');
             }
@@ -808,7 +1119,7 @@
             input.setSelectionRange(0, 99999);
             document.execCommand('copy');
             const btn = document.getElementById('copyShareBtn');
-            btn.textContent = '✓';
+            btn.textContent = '✓ Copied';
             setTimeout(() => { btn.textContent = 'Copy'; }, 2000);
         }
     </script>
