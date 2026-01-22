@@ -1112,6 +1112,17 @@
                     <textarea id="editBio" class="form-input" rows="3"
                         placeholder="Tell us about yourself..."></textarea>
                 </div>
+
+                <div class="form-group">
+                    <label>📄 Resume (PDF)</label>
+                    <div style="display: flex; gap: 10px; align-items: center;">
+                    <input type="file" id="editResumeFile" class="form-input" accept=".pdf">
+                    <a id="currentResumeLink" href="#" target="_blank" class="btn-ghost hidden" style="font-size: 0.8rem; white-space: nowrap;">View Current</a>
+                </div>
+               <small style="color: var(--text-secondary);">Upload a PDF file (Max 5MB)</small>
+            </div>
+
+                
                 <div class="form-group">
                     <label>🔗 LinkedIn</label>
                     <input type="url" id="editLinked" class="form-input" placeholder="https://linkedin.com/in/...">
@@ -1236,6 +1247,15 @@
             document.getElementById('editBio').value = currentUser.bio || '';
             document.getElementById('editLinked').value = currentUser.linkedin || '';
             document.getElementById('editGit').value = currentUser.github || '';
+            // NEW: Show current resume link if exists
+const resumeLinkBtn = document.getElementById('currentResumeLink');
+if (currentUser.resume) {
+    resumeLinkBtn.href = currentUser.resume;
+    resumeLinkBtn.classList.remove('hidden');
+    resumeLinkBtn.textContent = "📄 View Current Resume";
+} else {
+    resumeLinkBtn.classList.add('hidden');
+}
 
             loadProjects();
         }
@@ -1455,35 +1475,42 @@ function removeLoadMoreBtn() {
         }
 
         async function handleEditProfile(e) {
-            e.preventDefault();
-            const btn = e.target.querySelector('button[type="submit"]');
-            btn.textContent = 'Saving...';
-            btn.disabled = true;
+    e.preventDefault();
+    const btn = e.target.querySelector('button[type="submit"]');
+    btn.textContent = 'Saving...';
+    btn.disabled = true;
 
-            const file = document.getElementById('editPic').files[0];
-            let picUrl = currentUser.profilePicture;
-            if (file) picUrl = await uploadImage(file);
+    // Handle Profile Pic
+    const imgFile = document.getElementById('editPic').files[0];
+    let picUrl = currentUser.profilePicture;
+    if (imgFile) picUrl = await uploadImage(imgFile); // Use existing image uploader
 
-            const updatedData = {
-                name: document.getElementById('editName').value,
-                email: currentUser.email,
-                university: document.getElementById('editUni').value,
-                major: document.getElementById('editMajorInput').value,
-                bio: document.getElementById('editBio').value,
-                linkedin: document.getElementById('editLinked').value,
-                github: document.getElementById('editGit').value,
-                profilePicture: picUrl
-            };
+    // Handle Resume (NEW)
+    const resumeFile = document.getElementById('editResumeFile').files[0];
+    let resumeUrl = currentUser.resume || '';
+    if (resumeFile) resumeUrl = await uploadFile(resumeFile); // Use new file uploader
 
-            await postData('updateProfile', { data: updatedData });
+    const updatedData = {
+        name: document.getElementById('editName').value,
+        email: currentUser.email,
+        university: document.getElementById('editUni').value,
+        major: document.getElementById('editMajorInput').value,
+        bio: document.getElementById('editBio').value,
+        linkedin: document.getElementById('editLinked').value,
+        github: document.getElementById('editGit').value,
+        profilePicture: picUrl,
+        resume: resumeUrl // <--- Add this
+    };
 
-            currentUser = { ...currentUser, ...updatedData };
-            localStorage.setItem('studenthub_user', JSON.stringify(currentUser));
-            closeModal('editProfile');
-            btn.textContent = 'Save';
-            btn.disabled = false;
-            showApp();
-        }
+    await postData('updateProfile', { data: updatedData });
+
+    currentUser = { ...currentUser, ...updatedData };
+    localStorage.setItem('studenthub_user', JSON.stringify(currentUser));
+    closeModal('editProfile');
+    btn.textContent = 'Save';
+    btn.disabled = false;
+    showApp();
+}
 
         // --- ACTIONS ---
         function openMyProfile() {
@@ -1628,6 +1655,17 @@ function removeLoadMoreBtn() {
             const data = await res.json();
             return data.secure_url;
         }
+
+        // NEW: Generic upload function for PDFs
+async function uploadFile(file) {
+    const formData = new FormData();
+    formData.append('file', file);
+    formData.append('upload_preset', CLOUDINARY_PRESET);
+    // Use 'auto' to let Cloudinary detect PDF/Image
+    const res = await fetch(`https://api.cloudinary.com/v1_1/${CLOUDINARY_NAME}/auto/upload`, { method: 'POST', body: formData });
+    const data = await res.json();
+    return data.secure_url;
+}
 
         // ===== SHARE FUNCTIONALITY =====
 
