@@ -4,18 +4,30 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>NIELIT StudentHub - Home</title>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Playfair+Display:wght@700;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Playfair+Display:wght@700;800&display=swap" rel="stylesheet">
     <link rel="icon" type="image/x-icon" href="logo.png">
     <style>
         :root {
-            --primary: #003366; --secondary: #FF6B35; --accent: #0066CC;
-            --background: #F5F7FA; --card-bg: #FFFFFF; --text-primary: #1A1A1A;
-            --text-secondary: #6B7280; --border: #E5E7EB; --success: #10B981;
+            /* Modern Color Palette */
+            --primary: #0f172a;       /* Dark Slate */
+            --primary-light: #1e293b; /* Lighter Slate */
+            --accent: #3b82f6;        /* Bright Blue */
+            --accent-hover: #2563eb;  /* Darker Blue */
+            --secondary: #f97316;     /* Orange */
+            --background: #f8fafc;    /* Very Light Gray */
+            --card-bg: #ffffff;
+            --text-primary: #1e293b;
+            --text-secondary: #64748b;
+            --border: #e2e8f0;
+            --shadow-sm: 0 1px 3px rgba(0,0,0,0.1);
+            --shadow-md: 0 4px 6px -1px rgba(0,0,0,0.1);
+            --shadow-lg: 0 10px 15px -3px rgba(0,0,0,0.1);
         }
+
         * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
         
         body { 
-            font-family: 'Poppins', sans-serif; 
+            font-family: 'Outfit', sans-serif; 
             background: var(--background); 
             color: var(--text-primary); 
             display: flex; 
@@ -24,203 +36,291 @@
             overflow-x: hidden;
         }
 
-        /* Navigation */
+        /* --- NAVIGATION --- */
         nav.desktop-nav { 
-            background: var(--card-bg); 
-            box-shadow: 0 2px 8px rgba(0,0,0,0.05); 
+            background: rgba(255, 255, 255, 0.9); 
+            box-shadow: var(--shadow-sm); 
             padding: 1rem 2rem; 
             position: sticky; 
             top: 0; 
             z-index: 100; 
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--border);
         }
         
-        .nav-container { max-width: 1400px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; }
-        .logo { font-family: 'Playfair Display', serif; font-size: 1.5rem; font-weight: 700; color: var(--primary); text-decoration: none; display: flex; align-items: center; gap: 0.5rem; }
+        .nav-container { max-width: 1280px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; }
         
-        .nav-link { margin-left: 2rem; text-decoration: none; color: var(--text-secondary); font-weight: 500; transition: color 0.3s; }
+        .logo { 
+            font-family: 'Playfair Display', serif; 
+            font-size: 1.6rem; 
+            font-weight: 800; 
+            color: var(--primary); 
+            text-decoration: none; 
+            display: flex; 
+            align-items: center; 
+            gap: 0.8rem; 
+        }
+        
+        .nav-link { 
+            margin-left: 2.5rem; 
+            text-decoration: none; 
+            color: var(--text-secondary); 
+            font-weight: 500; 
+            transition: all 0.2s; 
+            font-size: 0.95rem;
+        }
         .nav-link:hover { color: var(--accent); }
         .nav-link.active { color: var(--accent); font-weight: 700; }
 
-        /* HERO SECTION (NEW) */
+        /* --- HERO SECTION --- */
         .hero-section {
             text-align: center;
-            padding: 4rem 1.5rem;
-            background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%);
-            border-radius: 24px;
+            padding: 5rem 2rem;
+            /* Modern Gradient */
+            background: radial-gradient(circle at top right, #1e293b, #0f172a);
+            border-radius: 30px;
             color: white;
-            margin-bottom: 2.5rem;
-            box-shadow: 0 15px 40px rgba(0, 51, 102, 0.2);
+            margin-bottom: 3rem;
+            box-shadow: var(--shadow-lg);
             position: relative;
             overflow: hidden;
         }
 
-        .hero-section::before {
-            content: '🎓';
-            font-size: 15rem;
+        /* Floating Background Elements */
+        .hero-bg-icon {
             position: absolute;
-            top: -40px;
-            right: -40px;
-            opacity: 0.07;
-            transform: rotate(15deg);
+            opacity: 0.05;
             pointer-events: none;
+            animation: float 6s ease-in-out infinite;
+        }
+        .bg-1 { top: -20px; right: -20px; font-size: 15rem; transform: rotate(15deg); }
+        .bg-2 { bottom: -50px; left: -50px; font-size: 12rem; transform: rotate(-10deg); animation-delay: 2s; }
+
+        @keyframes float {
+            0% { transform: translateY(0px) rotate(15deg); }
+            50% { transform: translateY(-20px) rotate(15deg); }
+            100% { transform: translateY(0px) rotate(15deg); }
         }
 
         .hero-title {
-            font-size: 2.8rem;
+            font-size: 3.5rem;
             font-weight: 800;
-            margin-bottom: 1rem;
+            margin-bottom: 1.2rem;
             font-family: 'Playfair Display', serif;
-            line-height: 1.2;
+            line-height: 1.1;
+            background: linear-gradient(to right, #ffffff, #94a3b8);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
         }
 
         .hero-subtitle {
-            font-size: 1.15rem;
-            opacity: 0.95;
+            font-size: 1.25rem;
+            color: #cbd5e1;
             max-width: 700px;
-            margin: 0 auto 2rem auto;
-            line-height: 1.7;
+            margin: 0 auto 2.5rem auto;
+            line-height: 1.6;
             font-weight: 300;
         }
 
-        /* Live Stats (NEW) */
+        /* Stats Cards */
         .stats-container {
             display: flex;
             justify-content: center;
             gap: 2rem;
             flex-wrap: wrap;
             margin-top: 2rem;
+            position: relative;
+            z-index: 2;
         }
 
         .stat-item {
-            background: rgba(255, 255, 255, 0.15);
+            background: rgba(255, 255, 255, 0.1);
             backdrop-filter: blur(10px);
-            padding: 1.2rem 2.5rem;
-            border-radius: 16px;
-            border: 1px solid rgba(255, 255, 255, 0.25);
-            min-width: 160px;
+            padding: 1.5rem 3rem;
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            min-width: 180px;
             transition: transform 0.3s ease;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
         }
-
-        .stat-item:hover { transform: translateY(-5px); background: rgba(255, 255, 255, 0.2); }
+        .stat-item:hover { transform: translateY(-5px); background: rgba(255, 255, 255, 0.15); }
 
         .stat-number {
-            font-size: 2.5rem;
+            font-size: 3rem;
             font-weight: 700;
             display: block;
             line-height: 1;
-            margin-bottom: 0.3rem;
+            margin-bottom: 0.5rem;
+            color: #60a5fa; /* Light Blue */
         }
-
         .stat-label {
             font-size: 0.85rem;
             text-transform: uppercase;
-            letter-spacing: 1.5px;
-            opacity: 0.9;
-            font-weight: 500;
+            letter-spacing: 2px;
+            color: #94a3b8;
+            font-weight: 600;
         }
 
-        /* Container & Layout */
-        .container { max-width: 1200px; margin: 2rem auto; padding: 0 1rem; flex: 1; width: 100%; }
-        
-        /* Filters (NEW) */
-        .filter-container {
-            display: flex;
-            gap: 0.8rem;
-            margin-bottom: 2rem;
-            overflow-x: auto;
-            padding-bottom: 10px;
-            -webkit-overflow-scrolling: touch;
-            scrollbar-width: none; /* Hide scrollbar Firefox */
-        }
-        .filter-container::-webkit-scrollbar { display: none; } /* Hide scrollbar Chrome/Safari */
+        /* --- MAIN LAYOUT --- */
+        .container { max-width: 1200px; margin: 2rem auto; padding: 0 1.5rem; flex: 1; width: 100%; }
 
-        .filter-chip {
-            background: white;
-            border: 1px solid var(--border);
-            padding: 0.7rem 1.4rem;
-            border-radius: 50px;
-            font-size: 0.95rem;
-            font-weight: 500;
-            color: var(--text-secondary);
-            cursor: pointer;
-            white-space: nowrap;
-            transition: all 0.2s ease;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+        /* --- FILTERS & SEARCH --- */
+        .controls-wrapper {
+            margin-bottom: 2.5rem;
         }
 
-        .filter-chip:hover {
-            border-color: var(--accent);
-            color: var(--accent);
-            transform: translateY(-1px);
-        }
-
-        .filter-chip.active {
-            background: var(--primary);
-            color: white;
-            border-color: var(--primary);
-            box-shadow: 0 4px 12px rgba(0, 51, 102, 0.2);
-        }
-
-        /* Search Bar Enhanced */
         .search-wrapper {
             position: relative;
             margin-bottom: 1.5rem;
+            max-width: 600px;
+            margin-left: auto; 
+            margin-right: auto; /* Center search */
         }
         .search-input {
             width: 100%;
-            padding: 1.2rem 1.2rem 1.2rem 3rem;
-            border-radius: 16px;
+            padding: 1.2rem 1.5rem 1.2rem 3.5rem;
+            border-radius: 50px; /* Pill shape */
             border: 2px solid var(--border);
             font-size: 1rem;
             outline: none;
             transition: all 0.3s;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.02);
+            background: white;
+            box-shadow: var(--shadow-sm);
         }
         .search-input:focus {
             border-color: var(--accent);
-            box-shadow: 0 4px 12px rgba(0, 102, 204, 0.1);
+            box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.1);
         }
         .search-icon {
             position: absolute;
-            left: 1.2rem;
+            left: 1.4rem;
             top: 50%;
             transform: translateY(-50%);
             font-size: 1.2rem;
-            opacity: 0.5;
+            color: var(--text-secondary);
         }
 
-        /* Directory Grid */
-        .profiles-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 1.5rem; }
+        .filter-container {
+            display: flex;
+            justify-content: center;
+            gap: 0.8rem;
+            flex-wrap: wrap;
+        }
+        
+        .filter-chip {
+            background: white;
+            border: 1px solid var(--border);
+            padding: 0.6rem 1.5rem;
+            border-radius: 50px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            color: var(--text-secondary);
+            cursor: pointer;
+            transition: all 0.2s ease;
+            box-shadow: var(--shadow-sm);
+        }
+        .filter-chip:hover {
+            border-color: var(--accent);
+            color: var(--accent);
+            transform: translateY(-2px);
+        }
+        .filter-chip.active {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+            box-shadow: var(--shadow-md);
+        }
+
+        /* --- PROFILE GRID --- */
+        .profiles-grid { 
+            display: grid; 
+            grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); 
+            gap: 2rem; 
+        }
         
         .profile-card { 
-            background: white; 
-            padding: 2rem 1.5rem; 
-            border-radius: 16px; 
+            background: var(--card-bg);
+            padding: 2.5rem 1.5rem; 
+            border-radius: 24px; 
             text-align: center; 
             cursor: pointer; 
-            transition: all 0.3s ease; 
-            box-shadow: 0 2px 8px rgba(0,0,0,0.04); 
-            border: 1px solid transparent;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); 
+            border: 1px solid var(--border);
             position: relative;
             overflow: hidden;
+            box-shadow: var(--shadow-sm);
         }
         .profile-card:hover { 
-            transform: translateY(-5px); 
-            box-shadow: 0 12px 24px rgba(0,0,0,0.08); 
-            border-color: rgba(0, 102, 204, 0.1); 
+            transform: translateY(-8px); 
+            box-shadow: var(--shadow-lg); 
+            border-color: var(--accent);
         }
         
-        .profile-pic { width: 110px; height: 110px; border-radius: 50%; object-fit: cover; margin-bottom: 1rem; background: #f0f0f0; border: 3px solid white; box-shadow: 0 4px 12px rgba(0,0,0,0.08); }
+        .profile-pic { 
+            width: 120px; 
+            height: 120px; 
+            border-radius: 50%; 
+            object-fit: cover; 
+            margin-bottom: 1.2rem; 
+            background: #f1f5f9; 
+            border: 4px solid white; 
+            box-shadow: var(--shadow-md); 
+        }
         
-        /* Mobile Bottom Nav */
+        .card-name { font-size: 1.3rem; font-weight: 700; color: var(--primary); margin-bottom: 0.4rem; }
+        .card-major { font-size: 0.95rem; color: var(--text-secondary); font-weight: 400; margin-bottom: 0.2rem; }
+        .card-uni { font-size: 0.85rem; color: var(--accent); font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; }
+
+        /* --- BUTTONS --- */
+        .btn-primary { 
+            background: var(--accent); 
+            color: white; 
+            border: none; 
+            padding: 0.8rem 2rem; 
+            border-radius: 50px; 
+            font-weight: 600; 
+            cursor: pointer; 
+            transition: all 0.2s;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            box-shadow: 0 4px 6px rgba(59, 130, 246, 0.3);
+        }
+        .btn-primary:hover { 
+            background: var(--accent-hover); 
+            transform: translateY(-2px); 
+            box-shadow: 0 6px 12px rgba(59, 130, 246, 0.4); 
+        }
+
+        /* --- UTILITIES --- */
+        .hidden { display: none !important; }
+        
+        /* Loading Spinner */
+        .loader {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid var(--accent);
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 1rem auto;
+        }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+
+        /* Portfolio & Modals (Preserved functionality with new styles) */
+        .portfolio-header { background: white; padding: 3rem 2rem; border-radius: 24px; text-align: center; margin-bottom: 2rem; border: 1px solid var(--border); box-shadow: var(--shadow-sm); }
+        .big-avatar { width: 160px; height: 160px; border-radius: 50%; object-fit: cover; border: 6px solid white; box-shadow: var(--shadow-lg); margin-bottom: 1.5rem; }
+        
+        .project-item { background: white; padding: 2rem; border-radius: 20px; margin-bottom: 1.5rem; border: 1px solid var(--border); box-shadow: var(--shadow-sm); }
+        .project-img { width: 100%; height: 260px; object-fit: cover; border-radius: 12px; margin: 1.5rem 0; border: 1px solid var(--border); }
+
+        /* Mobile Nav */
         .mobile-bottom-nav {
             display: none;
             position: fixed;
-            bottom: 0;
-            left: 0;
-            width: 100%;
+            bottom: 0; left: 0; width: 100%;
             background: white;
             box-shadow: 0 -4px 20px rgba(0,0,0,0.05);
             justify-content: space-around;
@@ -229,81 +329,29 @@
             z-index: 1000;
             border-top: 1px solid var(--border);
         }
-        .mobile-nav-item {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            text-decoration: none;
-            color: var(--text-secondary);
-            font-size: 0.75rem;
-            font-weight: 500;
-            transition: color 0.2s;
-        }
+        .mobile-nav-item { display: flex; flex-direction: column; align-items: center; text-decoration: none; color: var(--text-secondary); font-size: 0.75rem; font-weight: 500; }
         .mobile-nav-item.active { color: var(--accent); }
-        .mobile-nav-icon { font-size: 1.4rem; margin-bottom: 3px; }
-
-        /* Buttons */
-        .btn-primary { 
-            background: var(--accent); 
-            color: white; 
-            border: none; 
-            padding: 0.8rem 1.8rem; 
-            border-radius: 12px; 
-            font-weight: 600; 
-            cursor: pointer; 
-            transition: all 0.2s;
-            text-decoration: none;
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-        .btn-primary:hover { background: var(--primary); transform: translateY(-2px); box-shadow: 0 4px 12px rgba(0,0,0,0.15); }
         
-        /* Portfolio, Modal, Footer, etc. */
-        .hidden { display: none !important; }
-        
-        /* Portfolio View Styles */
-        .portfolio-header { background: white; padding: 3rem 2rem; border-radius: 20px; text-align: center; margin-bottom: 2rem; box-shadow: 0 4px 12px rgba(0,0,0,0.03); }
-        .big-avatar { width: 160px; height: 160px; border-radius: 50%; object-fit: cover; border: 5px solid white; box-shadow: 0 8px 24px rgba(0,0,0,0.1); margin-bottom: 1rem; }
-        .social-link { display: inline-flex; align-items: center; margin: 0.5rem; padding: 0.6rem 1.2rem; background: #f8f9fa; border-radius: 50px; text-decoration: none; color: var(--text-primary); font-size: 0.9rem; transition: all 0.2s; border: 1px solid var(--border); }
-        .social-link:hover { background: var(--accent); color: white; border-color: var(--accent); }
-        
-        .project-item { background: white; padding: 2rem; border-radius: 16px; margin-bottom: 1.5rem; border: 1px solid var(--border); transition: transform 0.2s; }
-        .project-item:hover { transform: translateY(-3px); box-shadow: 0 8px 24px rgba(0,0,0,0.05); }
-        .project-img { width: 100%; height: 240px; object-fit: cover; border-radius: 12px; margin: 1rem 0; border: 1px solid #eee; }
-        
-        .action-btn { background: none; border: none; cursor: pointer; color: var(--text-secondary); display: flex; align-items: center; gap: 6px; font-weight: 600; font-family: inherit; padding: 0.5rem 1rem; border-radius: 8px; transition: all 0.2s; }
-        .action-btn:hover { background: rgba(0, 102, 204, 0.05); color: var(--accent); }
-        
-        /* Modals */
-        .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); z-index: 3000; align-items: center; justify-content: center; backdrop-filter: blur(5px); padding: 1rem; }
-        .modal.active { display: flex; }
-        .modal-content { background: white; padding: 2rem; border-radius: 24px; width: 100%; max-width: 500px; max-height: 90vh; overflow-y: auto; box-shadow: 0 20px 50px rgba(0,0,0,0.2); animation: fadeInUp 0.3s ease; }
-        .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; }
-        .modal-close { background: none; border: none; font-size: 1.8rem; cursor: pointer; color: var(--text-secondary); width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; border-radius: 50%; }
-        .modal-close:hover { background: #f0f0f0; }
-        
-        /* Footer */
-        .site-footer { text-align: center; padding: 3rem 1rem; background: white; border-top: 1px solid var(--border); color: var(--text-secondary); margin-top: auto; }
-        .app-download-btn { display: inline-flex; align-items: center; gap: 10px; background: #1a1a1a; color: white; padding: 12px 24px; border-radius: 50px; text-decoration: none; font-weight: 500; font-size: 0.95rem; margin-top: 2rem; transition: all 0.3s ease; box-shadow: 0 4px 12px rgba(0,0,0,0.15); }
-        .app-download-btn:hover { transform: translateY(-3px); box-shadow: 0 8px 20px rgba(0,0,0,0.2); background: var(--accent); }
-
-        @keyframes fadeInUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
-
+        /* Mobile Breakpoints */
         @media (max-width: 768px) {
-            .hero-section { padding: 3rem 1.5rem; text-align: center; }
-            .hero-title { font-size: 2rem; }
+            .hero-section { padding: 4rem 1.5rem; border-radius: 0 0 30px 30px; margin: -2rem -1rem 3rem -1rem; width: calc(100% + 2rem); }
+            .hero-title { font-size: 2.2rem; }
             .stats-container { gap: 1rem; }
-            .stat-item { flex: 1; min-width: 130px; padding: 1rem; }
+            .stat-item { flex: 1; min-width: 140px; padding: 1.2rem; }
             .mobile-bottom-nav { display: flex; }
-            .desktop-nav .nav-link { display: none; }
+            .desktop-nav { display: none; }
+            .filter-container { justify-content: flex-start; overflow-x: auto; padding-bottom: 10px; flex-wrap: nowrap; }
+            .container { padding: 0 1rem; }
             .site-footer { padding-bottom: 100px; }
-            .container { margin-top: 1rem; }
         }
-        
-        /* Loading & Empty States */
-        .empty-state { text-align: center; padding: 4rem 1rem; grid-column: 1/-1; }
-        .empty-icon { font-size: 4rem; margin-bottom: 1rem; opacity: 0.5; }
+
+        /* Modal Styles */
+        .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(15, 23, 42, 0.7); z-index: 3000; align-items: center; justify-content: center; backdrop-filter: blur(5px); padding: 1rem; }
+        .modal.active { display: flex; }
+        .modal-content { background: white; padding: 2rem; border-radius: 24px; width: 100%; max-width: 500px; max-height: 90vh; overflow-y: auto; box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25); animation: fadeInUp 0.3s ease; }
+        .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; }
+        .modal-close { background: #f1f5f9; border: none; width: 36px; height: 36px; border-radius: 50%; font-size: 1.5rem; cursor: pointer; color: var(--text-secondary); display: flex; align-items: center; justify-content: center; transition: all 0.2s; }
+        .modal-close:hover { background: #e2e8f0; color: var(--text-primary); }
     </style>
 </head>
 <body>
@@ -311,13 +359,14 @@
     <nav class="desktop-nav">
         <div class="nav-container">
             <a href="index.html" class="logo">
-                <img src="logo.png" alt="StudentHub" style="height: 40px; width: auto;">
+                <img src="logo.png" alt="StudentHub" style="height: 38px; width: auto;">
+                <span>StudentHub</span>
             </a>
             <div style="display: flex; align-items: center;">
                 <a href="feed.html" class="nav-link">Feed</a>
-                <a href="index.html" class="nav-link active">Profiles</a>
+                <a href="index.html" class="nav-link active">Directory</a>
                 
-                <a href="feed.html" id="loginBtn" class="btn-primary" style="margin-left: 1.5rem; font-size: 0.9rem; padding: 0.6rem 1.5rem;">
+                <a href="feed.html" id="loginBtn" class="btn-primary" style="margin-left: 2rem; padding: 0.6rem 1.5rem; font-size: 0.9rem;">
                     Login
                 </a>
             </div>
@@ -328,59 +377,67 @@
         <div id="directoryView">
             
             <div class="hero-section">
+                <div class="hero-bg-icon bg-1">🎓</div>
+                <div class="hero-bg-icon bg-2">💡</div>
+
                 <h1 class="hero-title">Welcome to StudentHub</h1>
                 <p class="hero-subtitle">
                     The official platform for NIELIT Ropar students to showcase innovative projects, 
                     connect with peers, and build professional portfolios.
                 </p>
                 
-                <div id="guest-cta" style="display: none; margin-bottom: 2rem;">
-                    <a href="feed.html" class="btn-primary" style="background: white; color: var(--primary); padding: 1rem 2.5rem; font-size: 1.1rem;">
+                <div id="guest-cta" style="display: none; margin-bottom: 2.5rem;">
+                    <a href="feed.html" class="btn-primary" style="background: white; color: var(--primary); padding: 1rem 2.5rem; font-size: 1.1rem; box-shadow: 0 4px 15px rgba(255,255,255,0.2);">
                         Join the Community
                     </a>
                 </div>
 
                 <div class="stats-container">
                     <div class="stat-item">
-                        <span class="stat-number" id="totalStudents">-</span>
+                        <span class="stat-number" id="totalStudents" data-target="0">0</span>
                         <span class="stat-label">Students</span>
                     </div>
                     <div class="stat-item">
-                        <span class="stat-number" id="totalProjects">-</span>
+                        <span class="stat-number" id="totalProjects" data-target="0">0</span>
                         <span class="stat-label">Projects</span>
                     </div>
                 </div>
             </div>
 
-            <h2 style="margin-bottom: 1rem; font-size: 1.5rem; color: var(--primary); font-weight: 700;">Find Students</h2>
-            <div class="search-wrapper">
-                <span class="search-icon">🔍</span>
-                <input type="text" class="search-input" placeholder="Search by name, major, or skills..." onkeyup="filterProfiles(this.value)">
-            </div>
-            
-            <div class="filter-container">
-                <button class="filter-chip active" onclick="applyFilter(this, '')">All Students</button>
-                <button class="filter-chip" onclick="applyFilter(this, 'Computer Science')">💻 CS</button>
-                <button class="filter-chip" onclick="applyFilter(this, 'Electronics')">⚡ Electronics</button>
-                <button class="filter-chip" onclick="applyFilter(this, 'NIELIT')">🎓 NIELIT</button>
-                <button class="filter-chip" onclick="applyFilter(this, 'Java')">☕ Java</button>
-                <button class="filter-chip" onclick="applyFilter(this, 'Python')">🐍 Python</button>
+            <div class="controls-wrapper">
+                <h2 style="text-align: center; margin-bottom: 1.5rem; font-size: 1.8rem; color: var(--primary);">Discover Talent</h2>
+                
+                <div class="search-wrapper">
+                    <span class="search-icon">🔍</span>
+                    <input type="text" class="search-input" placeholder="Search by name, major, or skills..." onkeyup="filterProfiles(this.value)">
+                </div>
+                
+                <div class="filter-container">
+                    <button class="filter-chip active" onclick="applyFilter(this, '')">All Students</button>
+                    <button class="filter-chip" onclick="applyFilter(this, 'B.TECH')">💻 B.TECH</button>
+                    <button class="filter-chip" onclick="applyFilter(this, 'M.TECH')">🎓 M.TECH</button>
+                    <button class="filter-chip" onclick="applyFilter(this, 'NIELIT')">⚡ NIELIT</button>
+                    <button class="filter-chip" onclick="applyFilter(this, 'AIML')">🤖 AIML</button>
+                    <button class="filter-chip" onclick="applyFilter(this, 'Python')">🐍 Python</button>
+                </div>
             </div>
             
             <div id="profilesGrid" class="profiles-grid">
-                <div style="grid-column: 1/-1; text-align: center; padding: 4rem; color: var(--text-secondary);">
-                    <div style="font-size: 3rem; margin-bottom: 1rem; animation: fadeInUp 1s infinite alternate;">⏳</div>
-                    <p style="font-size: 1.1rem;">Loading directory...</p>
+                <div style="grid-column: 1/-1; text-align: center; padding: 5rem 1rem;">
+                    <div class="loader"></div>
+                    <p style="color: var(--text-secondary); font-size: 1.1rem;">Loading awesome profiles...</p>
                 </div>
             </div>
         </div>
 
         <div id="portfolioView" class="hidden">
-            <div onclick="showDirectory()" class="btn-back" style="cursor: pointer; margin-bottom: 1rem; color: var(--accent); font-weight: 600;">
+            <div onclick="showDirectory()" style="cursor: pointer; margin-bottom: 1.5rem; color: var(--accent); font-weight: 600; display: inline-flex; align-items: center; gap: 5px;">
                 ← Back to Directory
             </div>
+            
             <div id="portfolioHeader" class="portfolio-header"></div>
-            <h2 style="margin-bottom: 1.5rem; font-size: 1.6rem; color: var(--primary);">Projects Portfolio</h2>
+            
+            <h2 style="margin-bottom: 1.5rem; font-size: 1.8rem; color: var(--primary); padding-left: 0.5rem; border-left: 5px solid var(--accent);">Projects</h2>
             <div id="userProjects"></div>
         </div>
     </div>
@@ -393,8 +450,8 @@
             </div>
             <div id="commentsList" style="margin-bottom: 1.5rem; max-height: 400px; overflow-y: auto;"></div>
             <div style="display: flex; gap: 0.8rem;">
-                <input type="text" id="commentInput" class="form-input" placeholder="Write a comment..." style="flex: 1;">
-                <button onclick="submitComment()" class="btn-primary" style="padding: 0.8rem 1.5rem;">Post</button>
+                <input type="text" id="commentInput" class="search-input" placeholder="Write a comment..." style="border-radius: 12px; padding: 0.8rem;">
+                <button onclick="submitComment()" class="btn-primary" style="padding: 0.8rem 1.5rem; border-radius: 12px;">Post</button>
             </div>
         </div>
     </div>
@@ -406,16 +463,16 @@
                 <button class="modal-close" onclick="closeModal('shareProject')">&times;</button>
             </div>
             <div style="margin-bottom: 1.5rem;">
-                <p style="color: var(--text-secondary); margin-bottom: 1rem;">Share this project link:</p>
+                <p style="color: var(--text-secondary); margin-bottom: 1rem;">Copy link to share:</p>
                 <div style="display: flex; gap: 0.5rem; padding: 0.8rem; background: var(--background); border-radius: 12px; border: 1px solid var(--border);">
                     <input type="text" id="shareProjectLink" readonly style="border: none; background: none; flex: 1; font-family: monospace; outline: none; color: var(--text-primary);">
-                    <button onclick="copyShareLink()" class="btn-primary" id="copyShareBtn" style="padding: 0.4rem 1rem; font-size: 0.8rem;">Copy</button>
+                    <button onclick="copyShareLink()" class="btn-primary" id="copyShareBtn" style="padding: 0.4rem 1rem; font-size: 0.8rem; border-radius: 8px;">Copy</button>
                 </div>
             </div>
             <div style="display: grid; gap: 0.8rem;">
-                <button onclick="shareViaWhatsApp()" class="action-btn" style="background: #E8F5E9; color: #1B5E20; justify-content: center; padding: 1rem;">💬 Share on WhatsApp</button>
-                <button onclick="shareViaTwitter()" class="action-btn" style="background: #E3F2FD; color: #0D47A1; justify-content: center; padding: 1rem;">🐦 Share on Twitter</button>
-                <button onclick="shareViaLinkedIn()" class="action-btn" style="background: #F3E5F5; color: #4A148C; justify-content: center; padding: 1rem;">💼 Share on LinkedIn</button>
+                <button onclick="shareViaWhatsApp()" class="btn-primary" style="background: #25D366; justify-content: center;">Share on WhatsApp</button>
+                <button onclick="shareViaLinkedIn()" class="btn-primary" style="background: #0077b5; justify-content: center;">Share on LinkedIn</button>
+                <button onclick="shareViaTwitter()" class="btn-primary" style="background: #1DA1F2; justify-content: center;">Share on Twitter</button>
             </div>
         </div>
     </div>
@@ -431,7 +488,7 @@
             National Institute of Electronics & Information Technology
         </p>
         <a href="https://github.com/nielitropar/nielitropar.github.io/releases/tag/v1.0" target="_blank" class="app-download-btn">
-            <span class="app-icon">🤖</span> 
+            <span style="font-size: 1.2rem;">🤖</span>
             <span>Download Android App</span>
         </a>
     </footer>
@@ -441,7 +498,7 @@
             <span class="mobile-nav-icon">🏠</span><span>Feed</span>
         </a>
         <a href="index.html" class="mobile-nav-item active">
-            <span class="mobile-nav-icon">👥</span><span>Profiles</span>
+            <span class="mobile-nav-icon">👥</span><span>Directory</span>
         </a>
         <a href="feed.html" onclick="localStorage.setItem('openPostModal', 'true');" class="mobile-nav-item">
             <span class="mobile-nav-icon">➕</span><span>Post</span>
@@ -468,11 +525,11 @@
             // 1. Fetch Data
             await Promise.all([loadProfiles(), loadProjects()]);
 
-            // 2. Update Live Stats
-            document.getElementById('totalStudents').textContent = allProfiles.length;
-            document.getElementById('totalProjects').textContent = allProjects.length;
+            // 2. Animate Stats
+            animateValue("totalStudents", 0, allProfiles.length, 2000);
+            animateValue("totalProjects", 0, allProjects.length, 2000);
 
-            // 3. Handle Auth State (Login Button / Hero CTA)
+            // 3. Handle Auth
             if (currentUser) {
                 const btn = document.getElementById('loginBtn');
                 if (btn) btn.textContent = 'Go to Feed';
@@ -480,7 +537,7 @@
                 document.getElementById('guest-cta').style.display = 'block';
             }
 
-            // 4. Handle Routing (Deep Linking to Profiles)
+            // 4. Handle Deep Links
             const params = new URLSearchParams(window.location.search);
             const targetEmail = params.get('email');
             
@@ -491,7 +548,29 @@
             }
         };
 
-        // DATA LOADING
+        // --- ANIMATIONS ---
+        function animateValue(id, start, end, duration) {
+            if (start === end) return;
+            const obj = document.getElementById(id);
+            let range = end - start;
+            let current = start;
+            let increment = end > start ? 1 : -1;
+            let stepTime = Math.abs(Math.floor(duration / range));
+            
+            // Speed up if number is huge
+            if (stepTime < 10) { stepTime = 10; increment = Math.ceil(range / (duration / 10)); }
+
+            let timer = setInterval(function() {
+                current += increment;
+                if ((increment > 0 && current >= end) || (increment < 0 && current <= end)) {
+                    current = end;
+                    clearInterval(timer);
+                }
+                obj.textContent = current;
+            }, stepTime);
+        }
+
+        // --- DATA LOADING ---
         async function loadProfiles() {
             try {
                 const res = await fetch(`${SHEET_URL}?action=getProfiles`);
@@ -508,7 +587,7 @@
             } catch(e) { console.error(e); }
         }
 
-        // RENDERING
+        // --- RENDER ---
         function renderDirectory(list, append = false) {
             const grid = document.getElementById('profilesGrid');
             if (!append) { currentPage = 1; currentList = list; grid.innerHTML = ''; }
@@ -520,11 +599,11 @@
             // Empty State
             if (chunk.length === 0 && currentPage === 1) {
                 grid.innerHTML = `
-                    <div class="empty-state">
-                        <div class="empty-icon">🔍</div>
-                        <h3 style="color: var(--primary); margin-bottom: 0.5rem;">No students found</h3>
-                        <p style="color: var(--text-secondary);">Try adjusting your search filters.</p>
-                        <button onclick="applyFilter(document.querySelector('.filter-chip'), '')" class="btn-primary" style="margin-top: 1.5rem; background: var(--text-secondary);">Clear Filters</button>
+                    <div style="grid-column: 1/-1; text-align: center; padding: 4rem 1rem;">
+                        <div style="font-size: 4rem; margin-bottom: 1rem; opacity: 0.5;">🤔</div>
+                        <h3 style="color: var(--primary); margin-bottom: 0.5rem; font-size: 1.5rem;">No students found</h3>
+                        <p style="color: var(--text-secondary);">Try changing your search terms or filters.</p>
+                        <button onclick="applyFilter(document.querySelector('.filter-chip'), '')" class="btn-primary" style="margin-top: 1.5rem; background: var(--text-secondary);">Clear All Filters</button>
                     </div>
                 `;
                 removeLoadMoreBtn();
@@ -534,9 +613,9 @@
             const html = chunk.map(p => `
                 <div class="profile-card" onclick="openPortfolio('${p.email}')">
                     <img src="${p.profilePicture || 'https://via.placeholder.com/150'}" class="profile-pic" loading="lazy" alt="${p.name}">
-                    <h3 style="color: var(--primary); font-size: 1.2rem; margin-bottom: 0.3rem;">${escapeHtml(p.name)}</h3>
-                    <p style="color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 0.2rem;">${escapeHtml(p.major || 'Student')}</p>
-                    <p style="font-size: 0.8rem; color: var(--accent); font-weight: 600;">${escapeHtml(p.university || '')}</p>
+                    <h3 class="card-name">${escapeHtml(p.name)}</h3>
+                    <p class="card-major">${escapeHtml(p.major || 'Student')}</p>
+                    <p class="card-uni">${escapeHtml(p.university || '')}</p>
                 </div>
             `).join('');
 
@@ -552,8 +631,8 @@
             if (end < currentList.length) {
                 grid.insertAdjacentHTML('beforeend', `
                     <div id="loadMoreContainer" style="grid-column: 1/-1; text-align: center; padding: 2rem;">
-                        <button onclick="loadMore()" style="padding: 0.8rem 2.5rem; background: white; color: var(--primary); border: 2px solid var(--border); border-radius: 50px; font-weight: 600; cursor: pointer; transition: all 0.2s;">
-                            Load More Profiles
+                        <button onclick="loadMore()" class="btn-primary" style="background: white; color: var(--primary); border: 2px solid var(--border); box-shadow: none;">
+                            Load More
                         </button>
                         <p style="margin-top:0.8rem; font-size:0.8rem; color:#999;">Showing ${end} of ${currentList.length}</p>
                     </div>
@@ -564,13 +643,10 @@
         function loadMore() { currentPage++; renderDirectory(currentList, true); }
         function removeLoadMoreBtn() { const btn = document.getElementById('loadMoreContainer'); if (btn) btn.remove(); }
 
-        // FILTERS
+        // --- FILTERS ---
         function applyFilter(btn, term) {
-            // Update active chip styling
             document.querySelectorAll('.filter-chip').forEach(c => c.classList.remove('active'));
             if(btn) btn.classList.add('active');
-            
-            // Apply filter
             filterProfiles(term);
         }
 
@@ -584,18 +660,18 @@
             renderDirectory(filtered);
         }
 
-        // NAVIGATION & PORTFOLIO
+        // --- NAVIGATION ---
         function showDirectory() {
             document.getElementById('directoryView').classList.remove('hidden');
             document.getElementById('portfolioView').classList.add('hidden');
-            history.pushState({}, "", "index.html"); // Updated to index.html
+            history.pushState({}, "", "index.html");
             window.scrollTo(0,0);
             if (currentList.length === 0) renderDirectory(allProfiles);
         }
 
         function openPortfolio(email) {
             showPortfolio(email);
-            history.pushState({}, "", `index.html?email=${email}`); // Updated to index.html
+            history.pushState({}, "", `index.html?email=${email}`);
             window.scrollTo(0,0);
         }
 
@@ -608,53 +684,76 @@
 
             document.getElementById('portfolioHeader').innerHTML = `
                 <img src="${profile.profilePicture || 'https://via.placeholder.com/150'}" class="big-avatar">
-                <h1 style="font-size: 2rem; margin-bottom: 0.5rem; color: var(--primary);">${escapeHtml(profile.name)}</h1>
+                <h1 style="font-size: 2.2rem; margin-bottom: 0.5rem; color: var(--primary); font-weight: 800;">${escapeHtml(profile.name)}</h1>
                 <p style="font-size: 1.1rem; color: var(--text-secondary); margin-bottom: 1.5rem;">
                     ${escapeHtml(profile.major)} ${profile.university ? '@ ' + escapeHtml(profile.university) : ''}
                 </p>
                 <div style="margin-bottom: 2rem; display: flex; flex-wrap: wrap; justify-content: center; gap: 0.8rem;">
                     ${profile.linkedin ? `<a href="${profile.linkedin}" target="_blank" class="social-link">LinkedIn</a>` : ''}
                     ${profile.github ? `<a href="${profile.github}" target="_blank" class="social-link">GitHub</a>` : ''}
-                    <a href="mailto:${profile.email}" class="social-link">Contact</a>
+                    <a href="mailto:${profile.email}" class="social-link">Email</a>
                 </div>
-                <p style="max-width: 700px; margin: 0 auto; line-height: 1.8; color: var(--text-primary); background: #f8f9fa; padding: 1.5rem; border-radius: 12px; border-left: 4px solid var(--accent); text-align: left;">
+                <div style="max-width: 700px; margin: 0 auto; line-height: 1.8; color: var(--text-primary); background: #f1f5f9; padding: 2rem; border-radius: 16px; text-align: left;">
+                    <h4 style="margin-bottom:0.5rem; color:var(--text-secondary); font-size:0.8rem; text-transform:uppercase; letter-spacing:1px;">Bio</h4>
                     ${escapeHtml(profile.bio || 'No bio yet.')}
-                </p>
+                </div>
             `;
 
             const userProjects = allProjects.filter(p => p.authorEmail.toLowerCase() === email.toLowerCase());
             const list = document.getElementById('userProjects');
             
             if (userProjects.length === 0) {
-                list.innerHTML = '<div style="text-align:center; padding: 4rem; color: var(--text-secondary); background: #f8f9fa; border-radius: 16px; border: 2px dashed var(--border);">No projects posted yet.</div>';
+                list.innerHTML = '<div style="text-align:center; padding: 4rem; color: var(--text-secondary); background: white; border-radius: 20px; border: 2px dashed var(--border);">No projects posted yet.</div>';
             } else {
                 list.innerHTML = userProjects.map(p => `
                     <div class="project-item">
                         <div style="display:flex; justify-content:space-between; align-items:flex-start;">
-                            <h3 style="color: var(--primary); font-size: 1.3rem;">${escapeHtml(p.title)}</h3>
-                            <span style="font-size:0.75rem; background: #e0f2fe; color: var(--accent); padding:4px 10px; border-radius:50px; white-space: nowrap; margin-left: 0.5rem; font-weight: 600;">${escapeHtml(p.tech)}</span>
+                            <h3 style="color: var(--primary); font-size: 1.4rem; font-weight: 700;">${escapeHtml(p.title)}</h3>
+                            <span style="font-size:0.75rem; background: #dbeafe; color: var(--accent); padding:6px 12px; border-radius:50px; white-space: nowrap; margin-left: 0.5rem; font-weight: 600;">${escapeHtml(p.tech)}</span>
                         </div>
-                        <p style="font-size: 1rem; line-height: 1.6; margin: 1rem 0; color: #444;">${escapeHtml(p.description)}</p>
-                        ${p.projectImage ? `<img src="${p.projectImage}" class="project-img" loading="lazy" alt="Project Screenshot">` : ''}
+                        ${p.projectImage ? `<img src="${p.projectImage}" class="project-img" loading="lazy" alt="Project">` : ''}
+                        <p style="font-size: 1rem; line-height: 1.6; margin: 1rem 0; color: #475569;">${escapeHtml(p.description)}</p>
                         
-                        <div style="display:flex; gap:0.8rem; align-items: center; margin-top: auto; padding-top: 1.5rem; border-top: 1px solid #eee; flex-wrap: wrap;">
-                            <button class="action-btn" onclick="upvote('${p.id}', this)">
-                                👍 <span style="font-weight: 700;">${p.upvotes}</span>
+                        <div style="display:flex; gap:1rem; align-items: center; margin-top: 1.5rem; padding-top: 1.5rem; border-top: 1px solid var(--border); flex-wrap: wrap;">
+                            <button class="action-btn" onclick="upvote('${p.id}', this)" style="color: var(--primary);">
+                                👍 <span style="font-weight: 700; margin-left:5px;">${p.upvotes}</span>
                             </button>
                             <button class="action-btn" onclick="openComments('${p.id}')">
-                                💬 <span>${p.commentCount || 0} Comments</span>
+                                💬 <span style="margin-left:5px;">${p.commentCount || 0}</span>
                             </button>
                             <button class="action-btn" onclick="shareProject('${p.id}', '${escapeHtml(p.title).replace(/'/g, "\\'")}')">
-                                📤 Share
+                                📤 <span style="margin-left:5px;">Share</span>
                             </button>
-                            ${p.link ? `<a href="${p.link}" target="_blank" class="action-btn" style="text-decoration:none; margin-left: auto; color: var(--accent);">🔗 View Code</a>` : ''}
+                            ${p.link ? `<a href="${p.link}" target="_blank" class="btn-primary" style="padding: 0.5rem 1.2rem; margin-left: auto; font-size: 0.85rem;">View Code 🔗</a>` : ''}
                         </div>
                     </div>
                 `).join('');
             }
         }
 
-        // --- ACTIONS ---
+        // --- UTILS & HELPERS ---
+        function openModal(id) { document.getElementById(id + 'Modal').classList.add('active'); }
+        function closeModal(id) { document.getElementById(id + 'Modal').classList.remove('active'); }
+        
+        async function postData(action, payload) {
+            return fetch(SHEET_URL, {
+                method: 'POST',
+                body: JSON.stringify({ action, ...payload })
+            }).then(r => r.json());
+        }
+
+        function escapeHtml(text) { return text ? text.replace(/</g, "&lt;").replace(/>/g, "&gt;") : ''; }
+        function formatDate(timestamp) {
+            const date = new Date(timestamp);
+            return date.toLocaleDateString(undefined, { month: 'short', day: 'numeric' });
+        }
+        
+        // Share Wrappers
+        function shareViaWhatsApp() { window.open(`https://wa.me/?text=${encodeURIComponent(currentShareProjectTitle + ' ' + document.getElementById('shareProjectLink').value)}`); }
+        function shareViaTwitter() { window.open(`https://twitter.com/intent/tweet?text=${encodeURIComponent(currentShareProjectTitle)}&url=${encodeURIComponent(document.getElementById('shareProjectLink').value)}`); }
+        function shareViaLinkedIn() { window.open(`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(document.getElementById('shareProjectLink').value)}`); }
+        
+        // --- COMMENTS (Same Logic) ---
         async function upvote(id, btn) {
             if (!currentUser) return alert('Please log in from the main feed to upvote.');
             const countSpan = btn.querySelector('span');
@@ -669,17 +768,17 @@
         async function openComments(id) {
             currentCommentProjectId = id;
             openModal('comments');
-            document.getElementById('commentsList').innerHTML = '<div style="text-align:center; padding:2rem;">⏳ Loading...</div>';
+            document.getElementById('commentsList').innerHTML = '<div style="text-align:center; padding:2rem;"><div class="loader" style="width:20px; height:20px; border-width:2px;"></div></div>';
             const res = await fetch(`${SHEET_URL}?action=getComments&projectId=${id}`);
             const json = await res.json();
             if (json.data.length === 0) {
-                document.getElementById('commentsList').innerHTML = '<p style="color:var(--text-secondary); text-align:center; padding:1.5rem;">No comments yet. Be the first!</p>';
+                document.getElementById('commentsList').innerHTML = '<p style="color:var(--text-secondary); text-align:center;">No comments yet.</p>';
             } else {
                 document.getElementById('commentsList').innerHTML = json.data.map(c => `
-                    <div class="comment-item">
-                        <div class="comment-author">${escapeHtml(c.authorName)}</div>
-                        <div class="comment-text">${escapeHtml(c.comment)}</div>
-                        <div class="comment-date">${formatDate(c.timestamp)}</div>
+                    <div class="comment-item" style="background: #f8fafc; padding: 1rem; border-radius: 12px; margin-bottom: 0.5rem;">
+                        <div style="font-weight:600; font-size:0.9rem; color:var(--primary);">${escapeHtml(c.authorName)}</div>
+                        <div style="margin: 0.3rem 0; color:var(--text-primary); font-size:0.95rem;">${escapeHtml(c.comment)}</div>
+                        <div style="font-size:0.7rem; color:var(--text-secondary);">${formatDate(c.timestamp)}</div>
                     </div>
                 `).join('');
             }
@@ -689,13 +788,7 @@
             if (!currentUser) return alert('Please log in to comment.');
             const txt = document.getElementById('commentInput').value.trim();
             if (!txt) return;
-            const data = {
-                id: Date.now().toString(),
-                projectId: currentCommentProjectId,
-                authorName: currentUser.name,
-                authorEmail: currentUser.email,
-                comment: txt
-            };
+            const data = { id: Date.now().toString(), projectId: currentCommentProjectId, authorName: currentUser.name, authorEmail: currentUser.email, comment: txt };
             await postData('addComment', { data });
             document.getElementById('commentInput').value = '';
             openComments(currentCommentProjectId);
@@ -718,34 +811,6 @@
             btn.textContent = '✓';
             setTimeout(() => { btn.textContent = 'Copy'; }, 2000);
         }
-
-        // --- UTILS ---
-        function openModal(id) { document.getElementById(id + 'Modal').classList.add('active'); }
-        function closeModal(id) { document.getElementById(id + 'Modal').classList.remove('active'); }
-        
-        async function postData(action, payload) {
-            return fetch(SHEET_URL, {
-                method: 'POST',
-                body: JSON.stringify({ action, ...payload })
-            }).then(r => r.json());
-        }
-
-        function escapeHtml(text) { return text ? text.replace(/</g, "&lt;").replace(/>/g, "&gt;") : ''; }
-        
-        function formatDate(timestamp) {
-            const date = new Date(timestamp);
-            const now = new Date();
-            const diff = now - date;
-            const days = Math.floor(diff / (1000 * 60 * 60 * 24));
-            if (days === 0) return 'Today';
-            if (days === 1) return 'Yesterday';
-            if (days < 7) return `${days}d ago`;
-            return date.toLocaleDateString();
-        }
-
-        function shareViaWhatsApp() { window.open(`https://wa.me/?text=${encodeURIComponent(currentShareProjectTitle + ' ' + document.getElementById('shareProjectLink').value)}`); }
-        function shareViaTwitter() { window.open(`https://twitter.com/intent/tweet?text=${encodeURIComponent(currentShareProjectTitle)}&url=${encodeURIComponent(document.getElementById('shareProjectLink').value)}`); }
-        function shareViaLinkedIn() { window.open(`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(document.getElementById('shareProjectLink').value)}`); }
     </script>
 </body>
 </html>
