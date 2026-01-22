@@ -1,4 +1,4 @@
-// STUDENTHUB - PRODUCTION BACKEND (v1.2 - Migration Fix)
+// STUDENTHUB - PRODUCTION BACKEND (v1.0 - Migration Fix)
 
 const PROJECTS_SHEET = 'Projects';
 const PROFILES_SHEET = 'Profiles';
