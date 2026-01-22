@@ -1474,22 +1474,26 @@ function removeLoadMoreBtn() {
             loadProjects();
         }
 
-        async function handleEditProfile(e) {
+async function handleEditProfile(e) {
     e.preventDefault();
     const btn = e.target.querySelector('button[type="submit"]');
     btn.textContent = 'Saving...';
     btn.disabled = true;
 
-    // Handle Profile Pic
+    // 1. Handle Profile Picture (Existing)
     const imgFile = document.getElementById('editPic').files[0];
     let picUrl = currentUser.profilePicture;
-    if (imgFile) picUrl = await uploadImage(imgFile); // Use existing image uploader
+    if (imgFile) picUrl = await uploadImage(imgFile);
 
-    // Handle Resume (NEW)
+    // 2. Handle Resume PDF (NEW CODE)
     const resumeFile = document.getElementById('editResumeFile').files[0];
-    let resumeUrl = currentUser.resume || '';
-    if (resumeFile) resumeUrl = await uploadFile(resumeFile); // Use new file uploader
+    let resumeUrl = currentUser.resume || ''; // Keep existing if no new file
+    if (resumeFile) {
+        // Call the NEW uploadFile function
+        resumeUrl = await uploadFile(resumeFile);
+    }
 
+    // 3. Prepare Data
     const updatedData = {
         name: document.getElementById('editName').value,
         email: currentUser.email,
@@ -1499,13 +1503,16 @@ function removeLoadMoreBtn() {
         linkedin: document.getElementById('editLinked').value,
         github: document.getElementById('editGit').value,
         profilePicture: picUrl,
-        resume: resumeUrl // <--- Add this
+        resume: resumeUrl // <--- Don't forget this!
     };
 
+    // 4. Send to Backend
     await postData('updateProfile', { data: updatedData });
 
+    // 5. Update Local State & UI
     currentUser = { ...currentUser, ...updatedData };
     localStorage.setItem('studenthub_user', JSON.stringify(currentUser));
+    
     closeModal('editProfile');
     btn.textContent = 'Save';
     btn.disabled = false;
@@ -1656,18 +1663,25 @@ function removeLoadMoreBtn() {
             return data.secure_url;
         }
 
-// NEW: Upload function specifically for Resumes (Force 'raw' type)
+// NEW: Upload function for PDFs (Forces 'raw' storage)
 async function uploadFile(file) {
     const formData = new FormData();
     formData.append('file', file);
     formData.append('upload_preset', CLOUDINARY_PRESET);
     
-    // CHANGE: Use 'raw' instead of 'auto' or 'image'
-    // This ensures PDFs are treated as downloadable files, not images
+    // IMPORTANT: Uses 'raw/upload' instead of 'image/upload'
     const res = await fetch(`https://api.cloudinary.com/v1_1/${CLOUDINARY_NAME}/raw/upload`, { 
         method: 'POST', 
         body: formData 
     });
+    
+    const data = await res.json();
+    if (data.error) {
+        alert("Upload failed: " + data.error.message);
+        return null;
+    }
+    return data.secure_url;
+}
     
     const data = await res.json();
     if (data.error) {
