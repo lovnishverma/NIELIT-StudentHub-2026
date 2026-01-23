@@ -60,7 +60,6 @@
             color: var(--text-primary);
             line-height: 1.6;
             overflow-x: hidden;
-            /* FIX: Removed 'padding-bottom: 70px' to remove white space on login page */
         }
 
         /* Navigation (Desktop) */
@@ -324,14 +323,12 @@
             font-size: 0.9rem;
         }
 
-        .action-btn:hover {
+        .action-btn:hover, .action-btn.active {
             color: var(--accent);
             background: rgba(0, 102, 204, 0.05);
-            transform: translateY(-2px);
         }
-
+        
         .action-btn.active {
-            color: var(--accent);
             background: rgba(0, 102, 204, 0.1);
         }
 
@@ -807,34 +804,33 @@
         }
 
         /* App Download Button */
-.app-download-btn {
-    display: inline-flex;
-    align-items: center;
-    gap: 10px;
-    background: #1a1a1a;
-    color: #ffffff !important;
-    padding: 10px 20px;
-    border-radius: 50px;
-    text-decoration: none;
-    font-weight: 500;
-    font-size: 0.9rem;
-    margin-top: 1.5rem;
-    transition: all 0.3s ease;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-    border: 1px solid transparent;
-}
+        .app-download-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            background: #1a1a1a;
+            color: #ffffff !important;
+            padding: 10px 20px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 0.9rem;
+            margin-top: 1.5rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            border: 1px solid transparent;
+        }
 
-.app-download-btn:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 6px 20px rgba(0,0,0,0.15);
-    background: var(--accent);
-    border-color: var(--accent);
-}
+        .app-download-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+            background: var(--accent);
+            border-color: var(--accent);
+        }
 
-.app-icon {
-    font-size: 1.2rem;
-}
-
+        .app-icon {
+            font-size: 1.2rem;
+        }
         
     </style>
 </head>
@@ -905,12 +901,12 @@
                 <a href="index.html" class="logo">
                     <img src="logo.png" alt="StudentHub" style="height: 40px; width: auto;">
                 </a>
-<div class="nav-links">
-    <a href="#" onclick="showSection('feed'); return false;" class="nav-link active">Feed</a>
-    <a href="index.html" class="nav-link">Profiles</a> 
-    <button class="btn btn-primary" onclick="openModal('project')">📝 Post Project</button>
-    <button class="btn-ghost" onclick="logout()">Logout</button>
-</div>
+                <div class="nav-links">
+                    <a href="#" onclick="showSection('feed'); return false;" class="nav-link active">Feed</a>
+                    <a href="index.html" class="nav-link">Profiles</a> 
+                    <button class="btn btn-primary" onclick="openModal('project')">📝 Post Project</button>
+                    <button class="btn-ghost" onclick="logout()">Logout</button>
+                </div>
             </div>
         </nav>
 
@@ -936,6 +932,16 @@
                             onkeyup="handleSearch(this.value)">
                     </div>
 
+                    <div style="display:flex; gap:10px; overflow-x:auto; padding-bottom:10px; margin-bottom:1rem; -webkit-overflow-scrolling:touch; scrollbar-width: none;">
+                        <button onclick="filterCategory(this, 'All')" class="action-btn active filter-btn">All</button>
+                        <button onclick="filterCategory(this, 'Web Development')" class="action-btn filter-btn">Web Dev</button>
+                        <button onclick="filterCategory(this, 'Mobile App')" class="action-btn filter-btn">App</button>
+                        <button onclick="filterCategory(this, 'AI / ML')" class="action-btn filter-btn">AI/ML</button>
+                        <button onclick="filterCategory(this, 'IoT & Hardware')" class="action-btn filter-btn">IoT</button>
+                        <button onclick="filterCategory(this, 'Blockchain')" class="action-btn filter-btn">Blockchain</button>
+                        <button onclick="filterCategory(this, 'Other')" class="action-btn filter-btn">Other</button>
+                    </div>
+
                     <div id="projectsList">
                         <div class="loading">
                             <div class="loading-spinner">⏳</div>
@@ -956,22 +962,22 @@
         </div>
 
         <footer class="site-footer">
-    <div class="footer-logo">
-        <p style="font-size: 1.2rem; font-weight: 700; color: var(--primary); margin-bottom: 0.5rem;">
-            🎓 NIELIT Ropar
-        </p>
-    </div>
-    
-    <p>&copy; 2026 <strong>StudentHub</strong>. All rights reserved.</p>
-    
-    <p style="font-size: 0.8rem; margin: 0.5rem 0; opacity: 0.7; max-width: 300px; margin-left: auto; margin-right: auto;">
-        National Institute of Electronics & Information Technology
-    </p>
+            <div class="footer-logo">
+                <p style="font-size: 1.2rem; font-weight: 700; color: var(--primary); margin-bottom: 0.5rem;">
+                    🎓 NIELIT Ropar
+                </p>
+            </div>
+            
+            <p>&copy; 2026 <strong>StudentHub</strong>. All rights reserved.</p>
+            
+            <p style="font-size: 0.8rem; margin: 0.5rem 0; opacity: 0.7; max-width: 300px; margin-left: auto; margin-right: auto;">
+                National Institute of Electronics & Information Technology
+            </p>
 
-    <a href="https://github.com/nielitropar/nielitropar.github.io/releases/tag/v1.0" target="_blank" class="app-download-btn">
-        <span class="app-icon">🤖</span> 
-        <span>Download Android App</span>
-    </a>
+            <a href="https://github.com/nielitropar/nielitropar.github.io/releases/tag/v1.0" target="_blank" class="app-download-btn">
+                <span class="app-icon">🤖</span> 
+                <span>Download Android App</span>
+            </a>
         </footer>
 
         <nav class="mobile-bottom-nav">
@@ -1038,6 +1044,18 @@
                     <input type="url" id="postLink" class="form-input" placeholder="https://">
                 </div>
                 <div class="form-group">
+                    <label>Category</label>
+                    <select id="postCategory" class="form-input" style="background: white;">
+                        <option value="Web Development">Web Development</option>
+                        <option value="Mobile App">Mobile App</option>
+                        <option value="AI / ML">AI / ML</option>
+                        <option value="IoT & Hardware">IoT & Hardware</option>
+                        <option value="Blockchain">Blockchain</option>
+                        <option value="Cybersecurity">Cybersecurity</option>
+                        <option value="Other">Other</option>
+                    </select>
+                </div>
+                <div class="form-group">
                     <label>Tech Stack</label>
                     <input type="text" id="postTech" class="form-input" placeholder="React, Python...">
                 </div>
@@ -1081,12 +1099,11 @@
                 <div class="form-group">
                     <label>📄 Resume (PDF)</label>
                     <div style="display: flex; gap: 10px; align-items: center;">
-                    <input type="file" id="editResumeFile" class="form-input" accept=".pdf">
-                    <a id="currentResumeLink" href="#" target="_blank" class="btn-ghost hidden" style="font-size: 0.8rem; white-space: nowrap;">View Current</a>
+                        <input type="file" id="editResumeFile" class="form-input" accept=".pdf">
+                        <a id="currentResumeLink" href="#" target="_blank" class="btn-ghost hidden" style="font-size: 0.8rem; white-space: nowrap;">View Current</a>
+                    </div>
+                    <small style="color: var(--text-secondary);">Upload a PDF file (Max 5MB)</small>
                 </div>
-               <small style="color: var(--text-secondary);">Upload a PDF file (Max 5MB)</small>
-            </div>
-
                 
                 <div class="form-group">
                     <label>🔗 LinkedIn</label>
@@ -1111,7 +1128,7 @@
                 <button class="modal-close" onclick="closeModal('comments')">&times;</button>
             </div>
             <div id="commentsList" style="margin-bottom: 1.5rem; max-height: 400px; overflow-y: auto;">
-                </div>
+            </div>
             <div style="display: flex; gap: 0.75rem;">
                 <input type="text" id="commentInput" class="form-input" placeholder="Write a comment..."
                     style="flex: 1;">
@@ -1121,40 +1138,40 @@
     </div>
 
     <div id="shareProjectModal" class="modal">
-    <div class="modal-content">
-        <div class="modal-header">
-            <h2>📤 Share Project</h2>
-            <button class="modal-close" onclick="closeModal('shareProject')">&times;</button>
-        </div>
-        
-        <div style="margin-bottom: 1.5rem;">
-            <p style="color: var(--text-secondary); margin-bottom: 1rem;">
-                Share this project with anyone - even those without an account!
-            </p>
-            <div style="display: flex; gap: 0.5rem; padding: 1rem; background: var(--background); border-radius: 8px; border: 2px solid var(--border);">
-                <input type="text" id="shareProjectLink" readonly class="form-input" style="flex: 1; font-size: 0.85rem; font-family: monospace; padding: 0.5rem;">
-                <button onclick="copyShareLink()" class="btn btn-primary" id="copyShareBtn" style="white-space: nowrap;">
-                    📋 Copy
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>📤 Share Project</h2>
+                <button class="modal-close" onclick="closeModal('shareProject')">&times;</button>
+            </div>
+            
+            <div style="margin-bottom: 1.5rem;">
+                <p style="color: var(--text-secondary); margin-bottom: 1rem;">
+                    Share this project with anyone - even those without an account!
+                </p>
+                <div style="display: flex; gap: 0.5rem; padding: 1rem; background: var(--background); border-radius: 8px; border: 2px solid var(--border);">
+                    <input type="text" id="shareProjectLink" readonly class="form-input" style="flex: 1; font-size: 0.85rem; font-family: monospace; padding: 0.5rem;">
+                    <button onclick="copyShareLink()" class="btn btn-primary" id="copyShareBtn" style="white-space: nowrap;">
+                        📋 Copy
+                    </button>
+                </div>
+            </div>
+
+            <div style="display: grid; gap: 0.75rem;">
+                <button onclick="shareViaEmail()" class="btn btn-secondary" style="width: 100%; justify-content: flex-start;">
+                    📧 Share via Email
+                </button>
+                <button onclick="shareViaWhatsApp()" class="btn btn-secondary" style="width: 100%; justify-content: flex-start;">
+                    💬 Share on WhatsApp
+                </button>
+                <button onclick="shareViaTwitter()" class="btn btn-secondary" style="width: 100%; justify-content: flex-start;">
+                    🐦 Share on Twitter
+                </button>
+                <button onclick="shareViaLinkedIn()" class="btn btn-secondary" style="width: 100%; justify-content: flex-start;">
+                    💼 Share on LinkedIn
                 </button>
             </div>
         </div>
-
-        <div style="display: grid; gap: 0.75rem;">
-            <button onclick="shareViaEmail()" class="btn btn-secondary" style="width: 100%; justify-content: flex-start;">
-                📧 Share via Email
-            </button>
-            <button onclick="shareViaWhatsApp()" class="btn btn-secondary" style="width: 100%; justify-content: flex-start;">
-                💬 Share on WhatsApp
-            </button>
-            <button onclick="shareViaTwitter()" class="btn btn-secondary" style="width: 100%; justify-content: flex-start;">
-                🐦 Share on Twitter
-            </button>
-            <button onclick="shareViaLinkedIn()" class="btn btn-secondary" style="width: 100%; justify-content: flex-start;">
-                💼 Share on LinkedIn
-            </button>
-        </div>
     </div>
-</div>
 
     <script>
         // CONFIGURATION
@@ -1364,6 +1381,9 @@
                     <div class="project-description">${escapeHtml(p.description)}</div>
                     ${p.projectImage ? `<img src="${p.projectImage}" class="project-image" alt="${escapeHtml(p.title)}" loading="lazy">` : ''}
                     <div class="project-footer">
+                        <span style="font-size:0.75rem; background: rgba(0, 102, 204, 0.1); color: var(--accent); padding:4px 10px; border-radius:12px; font-weight:600; margin-right:8px;">
+                            ${escapeHtml(p.category || 'Other')}
+                        </span>
                         <button class="action-btn ${p.isLiked ? 'active' : ''}" onclick="upvote('${p.id}', this)">
                             👍 <span>${p.upvotes}</span>
                         </button>
@@ -1421,6 +1441,30 @@
             }, 500);
         }
 
+        function filterCategory(btn, cat) {
+            // Update UI active state
+            document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+
+            // Filter Logic
+            const container = document.getElementById('projectsList');
+            
+            // Clear "Load More" button when filtering to avoid confusion
+            const loadMoreBtn = document.getElementById('loadMoreContainer');
+            if(loadMoreBtn) loadMoreBtn.style.display = (cat === 'All') ? 'block' : 'none';
+
+            if (cat === 'All') {
+                renderProjects(allProjects, false);
+            } else {
+                const filtered = allProjects.filter(p => p.category === cat);
+                if (filtered.length === 0) {
+                    container.innerHTML = '<div class="card" style="text-align:center; padding:3rem;"><p>No projects found in this category.</p></div>';
+                } else {
+                    renderProjects(filtered, false);
+                }
+            }
+        }
+
         async function handlePostProject(e) {
             e.preventDefault();
             const btn = e.target.querySelector('button[type="submit"]');
@@ -1440,6 +1484,7 @@
                 description: document.getElementById('postDesc').value,
                 link: document.getElementById('postLink').value,
                 tech: document.getElementById('postTech').value,
+                category: document.getElementById('postCategory').value, // [NEW] Added category
                 projectImage: imgUrl
             };
 
