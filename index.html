@@ -346,15 +346,11 @@ window.onload = async () => {
     const targetEmail = params.get('email');
     
     if (targetEmail) {
-        // Fetch specific profile - KEEP LOADER VISIBLE
+        // Fetch specific profile - Loader handling is now inside loadProfileByEmail -> showPortfolio
         await loadProfileByEmail(targetEmail);
-        // Hide loader AFTER profile is loaded
-        document.getElementById('initialLoader').classList.add('hidden');
     } else {
         // No email, show directory immediately
         showDirectory();
-        // Hide loader immediately
-        document.getElementById('initialLoader').classList.add('hidden');
     }
 };
 
@@ -513,6 +509,10 @@ window.onload = async () => {
         function showDirectory() {
             document.getElementById('directoryView').classList.remove('hidden');
             document.getElementById('portfolioView').classList.add('hidden');
+            
+            // FIX: Ensure loader is hidden when directory appears
+            document.getElementById('initialLoader').classList.add('hidden');
+            
             history.pushState({}, "", "index.html");
             window.scrollTo(0,0);
         }
@@ -537,6 +537,9 @@ window.onload = async () => {
         async function showPortfolio(profile) {
             document.getElementById('directoryView').classList.add('hidden');
             document.getElementById('portfolioView').classList.remove('hidden');
+            
+            // FIX: Hide the main loader only AFTER the portfolio view is visible
+            document.getElementById('initialLoader').classList.add('hidden');
 
             document.getElementById('portfolioHeader').innerHTML = `
                 <img src="${profile.profilePicture || 'default-avatar.png'}" class="big-avatar">
