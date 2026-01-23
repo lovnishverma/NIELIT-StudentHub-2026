@@ -155,13 +155,13 @@ Visit: **[https://nielitropar.github.io](https://nielitropar.github.io)**
 
 ### Screenshots
 
-**Desktop - Directory View**
+**Desktop View - Directory View**
 ![Directory](https://github.com/user-attachments/assets/6576527a-786b-4983-844a-5fc3d2e34860)
 
-**Mobile - Project Feed**
+**Desktop View - Project Feed**
 ![Feed Mobile](https://github.com/user-attachments/assets/862309f3-b5d9-4240-9194-6db39005e036)
 
-**Project Detail Page**
+**Desktop View - Project Detail Page**
 ![Project Detail](https://github.com/user-attachments/assets/ecfaf6ba-1705-444c-8aa5-a4a78c3a8607)
 
 ---
