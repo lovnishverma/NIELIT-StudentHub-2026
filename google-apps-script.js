@@ -1,4 +1,4 @@
-// STUDENTHUB - PRODUCTION BACKEND (v1.3 - Deep Linking Support)
+// STUDENTHUB - PRODUCTION BACKEND (v1.4 - Categories Support)
 
 const PROJECTS_SHEET = 'Projects';
 const PROFILES_SHEET = 'Profiles';
@@ -49,9 +49,9 @@ function handleRequest(e, method) {
         return getProjectsPaginated(params.userEmail, params.page, params.searchTerm);
       case 'getProfiles':
         return getProfilesPaginated(params.page, params.searchTerm);
-      case 'getProject': // [NEW] Fetch single project by ID
+      case 'getProject': // Fetch single project by ID
         return getProject(params.id);
-      case 'getProfile': // [NEW] Fetch single profile by Email
+      case 'getProfile': // Fetch single profile by Email
         return getProfile(params.email);
       case 'getComments':
         return getComments(params.projectId);
@@ -88,7 +88,6 @@ function getProject(id) {
   const headers = data[0];
   
   // Find row with matching ID (Column 0)
-  // Convert both to strings for safe comparison
   const row = data.slice(1).find(r => String(r[0]) === String(id));
   
   if (!row) return createResponse('error', 'Project not found');
@@ -97,6 +96,9 @@ function getProject(id) {
   headers.forEach((h, i) => p[h] = row[i]);
   p.upvotes = parseInt(p.upvotes) || 0;
   p.commentCount = getCommentCount(p.id);
+  
+  // [NEW] Read category (Index 11 / 12th Column)
+  p.category = row[11] || 'Other'; 
   
   return createResponse('success', p);
 }
@@ -146,6 +148,10 @@ function getProjectsPaginated(currentUserEmail, page, searchTerm) {
       headers.forEach((h, i) => p[h] = row[i]);
       p.upvotes = parseInt(p.upvotes) || 0;
       p.isLiked = userUpvotes.has(String(p.id));
+      
+      // [NEW] Read category (Index 11 / 12th Column)
+      p.category = row[11] || 'Other'; 
+      
       return p;
     });
   
@@ -156,7 +162,8 @@ function getProjectsPaginated(currentUserEmail, page, searchTerm) {
       (p.title && p.title.toLowerCase().includes(term)) ||
       (p.authorName && p.authorName.toLowerCase().includes(term)) ||
       (p.tech && p.tech.toLowerCase().includes(term)) ||
-      (p.description && p.description.toLowerCase().includes(term))
+      (p.description && p.description.toLowerCase().includes(term)) ||
+      (p.category && p.category.toLowerCase().includes(term)) // Allow searching by category too
     );
   }
   
@@ -256,7 +263,7 @@ function getProfiles() {
   return createResponse('success', profiles);
 }
 
-// ====== UPDATED LOGIN WITH MIGRATION SUPPORT ======
+// ====== LOGIN WITH MIGRATION SUPPORT ======
 
 function login(email, password) {
   const sheet = getOrCreateSheet(USERS_SHEET);
@@ -289,15 +296,13 @@ function login(email, password) {
   return createResponse('error', 'User not found');
 }
 
-// === REQUIRED HELPER FUNCTIONS ===
+// === HELPER FUNCTIONS ===
 
-// 1. The Old Hashing Algorithm (for verification only)
 function hashLegacy(raw) {
   const digest = Utilities.computeDigest(Utilities.DigestAlgorithm.SHA_256, raw);
   return Utilities.base64Encode(digest);
 }
 
-// 2. Helper to format user object (keeps code clean)
 function getUserObj(row) {
   return {
     email: row[0],
@@ -341,11 +346,14 @@ function signup(data) {
 
 function addProject(data) {
   const sheet = getOrCreateSheet(PROJECTS_SHEET);
+  
+  // [NEW] Added data.category at the end (Index 11)
   sheet.appendRow([
     data.id, data.authorName, data.authorEmail.toLowerCase(), data.authorPicture,
     data.title, data.description, data.link, data.tech,
-    data.projectImage, 0, new Date().toISOString()
+    data.projectImage, 0, new Date().toISOString(), data.category
   ]);
+  
   return createResponse('success', 'Project posted');
 }
 
@@ -463,7 +471,8 @@ function getOrCreateSheet(name) {
     sheet = ss.insertSheet(name);
     const headers = {
       'Users': ['email', 'password', 'name', 'university', 'major', 'profilePicture', 'linkedin', 'github', 'bio', 'timestamp', 'resume'],
-      'Projects': ['id', 'authorName', 'authorEmail', 'authorPicture', 'title', 'description', 'link', 'tech', 'projectImage', 'upvotes', 'timestamp'],
+      // [NEW] Added 'category' to Headers
+      'Projects': ['id', 'authorName', 'authorEmail', 'authorPicture', 'title', 'description', 'link', 'tech', 'projectImage', 'upvotes', 'timestamp', 'category'],
       'Profiles': ['name', 'email', 'university', 'major', 'linkedin', 'github', 'bio', 'profilePicture', 'timestamp', 'resume'],
       'Comments': ['id', 'projectId', 'authorName', 'authorEmail', 'comment', 'timestamp'],
       'Upvotes': ['projectId', 'userEmail', 'timestamp']
