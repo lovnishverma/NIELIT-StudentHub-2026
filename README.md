@@ -2,17 +2,18 @@
 
 <div align="center">
 
-<img width="666" height="374" alt="nielit_logo" src="https://github.com/user-attachments/assets/8c14f5c0-decd-41cd-8524-2cd89abc589c" />
+![NIELIT StudentHub Banner](https://github.com/user-attachments/assets/8c14f5c0-decd-41cd-8524-2cd89abc589c)
 
-
-**A professional LinkedIn-style platform for NIELIT Ropar students**
+**A professional portfolio and project showcase platform for NIELIT Ropar students**
 
 [![Android App](https://img.shields.io/badge/Download-Android%20App-3DDC84?style=for-the-badge&logo=android&logoColor=white)](https://github.com/nielitropar/nielitropar.github.io/releases/tag/v1.0)
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg?style=for-the-badge)](LICENSE)
+[![Version](https://img.shields.io/badge/Version-1.4-success?style=for-the-badge)](https://github.com/nielitropar/nielitropar.github.io)
 
-[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
-[![HTML5](https://img.shields.io/badge/HTML5-E34F26?logo=html5&logoColor=white)](https://developer.mozilla.org/en-US/docs/Web/HTML)
-[![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?logo=javascript&logoColor=black)](https://developer.mozilla.org/en-US/docs/Web/JavaScript)
-[![Google Apps Script](https://img.shields.io/badge/Google%20Apps%20Script-4285F4?logo=google&logoColor=white)](https://developers.google.com/apps-script)
+[![HTML5](https://img.shields.io/badge/HTML5-E34F26?style=flat&logo=html5&logoColor=white)](https://developer.mozilla.org/en-US/docs/Web/HTML)
+[![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?style=flat&logo=javascript&logoColor=black)](https://developer.mozilla.org/en-US/docs/Web/JavaScript)
+[![Google Apps Script](https://img.shields.io/badge/Google%20Apps%20Script-4285F4?style=flat&logo=google&logoColor=white)](https://developers.google.com/apps-script)
+[![Cloudinary](https://img.shields.io/badge/Cloudinary-3448C5?style=flat&logo=cloudinary&logoColor=white)](https://cloudinary.com)
 
 [Live Demo](https://nielitropar.github.io) • [Database](https://docs.google.com/spreadsheets/d/1FbYvYiawnVn8QpjwlHPRlJMtICFSerQR9ljbrg2dDAs/edit?usp=sharing) • [Report Bug](https://github.com/nielitropar/nielitropar.github.io/issues) • [Request Feature](https://github.com/nielitropar/nielitropar.github.io/issues)
 
@@ -22,102 +23,135 @@
 
 ## 📖 Table of Contents
 
-- [About](#about)
-- [Features](#features)
-- [Demo](#demo)
-- [Technology Stack](#technology-stack)
-- [Getting Started](#getting-started)
-- [Configuration](#configuration)
-- [Usage Guide](#usage-guide)
-- [Architecture](#architecture)
-- [Database Schema](#database-schema)
-- [Customization](#customization)
-- [Troubleshooting](#troubleshooting)
-- [Contributing](#contributing)
-- [License](#license)
-- [Contact](#contact)
+- [About](#-about)
+- [Features](#-features)
+- [What's New in v1.4](#-whats-new-in-v14)
+- [Demo](#-demo)
+- [Technology Stack](#-technology-stack)
+- [Quick Start](#-quick-start)
+- [Detailed Setup](#-detailed-setup)
+- [Architecture](#-architecture)
+- [Database Schema](#-database-schema)
+- [API Reference](#-api-reference)
+- [Security Features](#-security-features)
+- [Customization](#-customization)
+- [Troubleshooting](#-troubleshooting)
+- [Contributing](#-contributing)
+- [License](#-license)
+- [Contact](#-contact)
 
 ---
 
 ## 🎯 About
 
-**NIELIT StudentHub** is a comprehensive web platform designed specifically for students at NIELIT Ropar to showcase their innovative projects, connect with peers, and build a professional portfolio. Think of it as a combination of LinkedIn, GitHub, and a project gallery—all tailored for the NIELIT community.
-
-[⬇️ Download Android App](https://github.com/nielitropar/nielitropar.github.io/releases/tag/v1.0)
+**NIELIT StudentHub** is a comprehensive web platform designed specifically for students at NIELIT Ropar to showcase their innovative projects, connect with peers, and build professional portfolios. Think of it as a combination of LinkedIn, GitHub, and a project gallery—all tailored for the NIELIT community.
 
 ### Key Highlights
 
-- 🔐 **Secure Authentication** - Hashed password storage with SHA-256 encryption
-- 👤 **Rich User Profiles** - Upload photos, add bio, social links, and more
-- 📁 **Project Showcase** - Share projects with images, descriptions, and live demos
-- 🔍 **Advanced Search** - Find projects and students quickly
-- 👍 **Social Engagement** - Upvote and comment on projects
-- 📱 **Mobile Responsive** - Perfect experience on all devices with dedicated bottom navigation
-- 🎨 **NIELIT Branding** - Official colors and logo integration
-- ☁️ **Cloud Storage** - Free image hosting via Cloudinary
+- 🔐 **Secure Authentication** - SHA-256 password hashing with salt + automatic migration from legacy passwords
+- 👤 **Rich User Profiles** - Upload photos, add bio, social links, and resume (PDF support)
+- 📁 **Project Showcase** - Share projects with images, descriptions, categories, and live demos
+- 🔍 **Advanced Search** - Server-side pagination with real-time filtering
+- 👍 **Social Engagement** - Individual upvote tracking (no duplicate votes)
+- 💬 **Comments System** - Full commenting functionality on projects
+- 📱 **Mobile First Design** - Dedicated bottom navigation and touch-optimized UI
+- 🎨 **NIELIT Branding** - Official colors and modern gradient design
+- ☁️ **Cloud Storage** - Free image + PDF hosting via Cloudinary
 - 📊 **Google Sheets Backend** - No server required, easy to maintain
+- 🔗 **Public Sharing** - Share projects and profiles with anyone (no login required)
+- 🗂️ **Project Categories** - Organize by Web Dev, Mobile, AI/ML, IoT, Blockchain, etc.
 
 ---
 
 ## ✨ Features
 
-### 🔐 Authentication System
-- **Secure Login/Signup** - User authentication with SHA-256 password hashing
+### 🔐 Authentication & Security
+- **Secure Login/Signup** - SHA-256 password hashing with salt (NIELIT_STUDENTHUB_SECURE_SALT_2026)
+- **Automatic Migration** - Legacy passwords automatically upgraded to secure format on login
 - **Session Management** - LocalStorage-based session persistence
+- **XSS Protection** - All user input HTML-escaped
 - **Demo Mode** - Built-in fallback with demo credentials
-- **Profile Privacy** - Email-based user identification
 
 ### 👥 User Profiles
-- **Profile Pictures** - Upload and display via Cloudinary
+- **Profile Pictures** - Upload and display via Cloudinary CDN
+- **Resume Upload** - PDF resume support with Cloudinary auto-optimization
 - **Personal Info** - Name, email, university, major/field of study
 - **Social Links** - LinkedIn, GitHub integration
 - **Bio Section** - Personal description up to 500 characters
-- **View Individual Profiles** - Click on any user to see their complete profile and projects
-- **User Statistics** - Track project count and total upvotes received
+- **Individual Portfolios** - Dedicated page for each user with all their projects
+- **Public Sharing** - Share profile links with anyone (no login required to view)
 
 ### 📁 Project Management
-- **Create Projects** - Share your innovations with rich descriptions
+- **Create Projects** - Rich descriptions, categories, and tech stacks
 - **Project Images** - Upload screenshots, demos, or logos via Cloudinary
-- **Project Details** - Title, description, tech stack, live/GitHub links
-- **Upvote System** - Community engagement through voting (one-click, optimistic updates)
-- **Comments System** - Full commenting functionality on projects
-- **View User Projects** - See all projects by any user on their profile page
-- **Real-time Updates** - Projects appear instantly after posting
+- **Project Categories** - Web Development, Mobile App, AI/ML, IoT, Blockchain, Cybersecurity, Other
+- **Individual Upvote Tracking** - One vote per user (prevents duplicate voting)
+- **Comments System** - Full CRUD functionality
+- **Public Sharing** - Dedicated project.html page for sharing with non-users
+- **Real-time Statistics** - Live project and student count
 
 ### 🔍 Search & Discovery
-- **Project Search** - Find projects by title, author name, or technology
-- **Profile Search** - Search students by name or major
-- **Real-time Filtering** - Results update as you type
-- **Trending Projects** - Top 5 most upvoted projects in sidebar
-- **Project Count Display** - Total projects visible in feed
+- **Server-Side Pagination** - 20 projects per page, 24 profiles per page
+- **Real-time Filtering** - Search by title, author, tech stack, category, major
+- **Category Filters** - Quick-access buttons for All, Web Dev, App, AI/ML, IoT, Blockchain, Other
+- **Trending Section** - Top 5 most upvoted projects (legacy - shown on feed.html)
+- **Load More** - Infinite scroll with "Load More" button
+- **Deep Linking** - Direct links to specific projects and profiles
 
 ### 💬 Social Features
 - **Comments** - Add and view comments on any project
-- **Upvotes** - One-click voting with instant feedback
+- **Individual Upvotes** - Tracked per user in separate Upvotes sheet
 - **User Interaction** - Click on names/avatars to view profiles
-- **Trending Section** - Discover popular projects
+- **Share Functionality** - Share projects/profiles via Email, WhatsApp, Twitter, LinkedIn
 
 ### 📱 Mobile Responsive Design
-- **Bottom Navigation Bar** - Fixed navigation with 4 tabs (Feed, Profiles, Post, Me)
-- **Hamburger Menu** - Intuitive mobile navigation
-- **Touch-Friendly** - Optimized buttons and interactions
-- **Responsive Layouts** - Adaptive grid for phones, tablets, and desktops
-- **Mobile Search** - Full search functionality on mobile
-- **Optimized Images** - Fast loading with Cloudinary auto-optimization
+- **Bottom Navigation Bar** - Fixed navigation with 3 tabs (Feed, Directory, Post)
+- **Touch-Optimized** - Large tap targets and smooth interactions
+- **Responsive Layouts** - Adaptive grid for phones, tablets, desktops
 - **Safe Area Support** - iPhone notch and home bar compatibility
+- **Optimized Images** - Cloudinary auto-optimization and lazy loading
 
-### 🎨 NIELIT Branding
-- **Official Logo** - NIELIT Ropar branding throughout
-- **Brand Colors** - Navy Blue (#003366) and Accent Blue (#0066CC)
-- **Professional Design** - Clean, modern interface
-- **Consistent Theme** - Unified look across all pages
+### 🎨 Modern Design
+- **NIELIT Branding** - Official Navy Blue (#003366) and Accent Blue (#0066CC)
+- **Gradient Accents** - Vibrant hero section with animated background
+- **Smooth Animations** - Fade-ins, hover effects, modal transitions
+- **Professional Typography** - Inter + Space Grotesk fonts
+- **Dark Mode Ready** - CSS variables for easy theming
+
+---
+
+## 🆕 What's New in v1.4
+
+### Backend Improvements (google-apps-script.js)
+- ✅ **Project Categories** - Added 12th column to Projects sheet
+- ✅ **Single Item Queries** - New `getProject(id)` and `getProfile(email)` actions
+- ✅ **Server-Side Pagination** - `getProjectsPaginated()` and `getProfilesPaginated()`
+- ✅ **Stats API** - `getStats()` returns total students and projects
+- ✅ **Individual Upvote Tracking** - Separate Upvotes sheet prevents duplicate votes
+- ✅ **Password Migration** - Automatic upgrade from legacy hash to salted hash
+
+### Frontend Enhancements
+- ✅ **Category Filtering** - Quick-access category chips on feed.html
+- ✅ **Deep Linking** - Direct URLs to specific projects and profiles
+- ✅ **Public Sharing** - project.html and index.html work without login
+- ✅ **Resume Support** - PDF upload and download from profiles
+- ✅ **Animated Stats** - Hero section with counting animation
+- ✅ **Load More** - Replace infinite scroll with "Load More" button
+- ✅ **Modern UI** - Refreshed design with gradients and shadows
+- ✅ **Better SEO** - Meta tags for Open Graph and Twitter Cards
+
+### Bug Fixes
+- 🐛 Fixed: Deep link loader now hides correctly
+- 🐛 Fixed: Category display in project cards
+- 🐛 Fixed: Search timeout debouncing
+- 🐛 Fixed: Mobile bottom nav alignment
 
 ---
 
 ## 🎬 Demo
 
 ### Live Website
-Visit the live demo at: **[https://nielitropar.github.io](https://nielitropar.github.io)**
+Visit: **[https://nielitropar.github.io](https://nielitropar.github.io)**
 
 ### Demo Credentials
 ```
@@ -125,7 +159,16 @@ Email: demo@nielit.gov.in
 Password: demo123
 ```
 
-**Note**: Demo mode works even without Google Sheets configuration, allowing immediate testing.
+### Screenshots
+
+**Desktop - Directory View**
+![Directory](https://via.placeholder.com/1200x600/003366/FFFFFF?text=Student+Directory)
+
+**Mobile - Project Feed**
+![Feed Mobile](https://via.placeholder.com/400x800/0066CC/FFFFFF?text=Mobile+Feed)
+
+**Project Detail Page**
+![Project Detail](https://via.placeholder.com/1200x600/FF6B35/FFFFFF?text=Project+Detail)
 
 ---
 
@@ -133,358 +176,115 @@ Password: demo123
 
 ### Frontend
 - **HTML5** - Semantic markup with modern standards
-- **CSS3** - Modern styling with CSS Grid, Flexbox, and CSS Variables
-- **JavaScript (ES6+)** - Vanilla JS, no frameworks required
-- **Google Fonts** - Poppins & Playfair Display typography
+- **CSS3** - Grid, Flexbox, CSS Variables, Animations
+- **JavaScript (ES6+)** - Vanilla JS, Fetch API, LocalStorage
+- **Google Fonts** - Inter & Space Grotesk
 
 ### Backend
 - **Google Apps Script** - Serverless backend API
-- **Google Sheets** - Database with 4 sheets (Users, Projects, Profiles, Comments)
-- **Cloudinary** - Image hosting and CDN
+- **Google Sheets** - Database with 5 sheets (Users, Projects, Profiles, Comments, Upvotes)
+- **Cloudinary** - Image + PDF hosting and CDN
 
 ### Tools & Services
 - **GitHub Pages** - Free static site hosting
 - **Git** - Version control
-- **Any Text Editor** - VS Code recommended but not required
+- **VS Code** - Recommended editor
 
-### Key Files
+### Key Files Structure
 ```
-├── index.html               # Main feed page (single-file app)
-├── profiles.html            # Student directory and portfolio view
-├── google-apps-script.js    # Backend API code
+nielitropar.github.io/
+├── index.html               # Student directory & portfolio view
+├── feed.html                # Main feed with projects (pagination)
+├── project.html             # Public project detail page
+├── google-apps-script.js    # Backend API code (v1.4)
+├── google-app-script-v1.0.js # Legacy backup
 ├── logo.png                 # NIELIT logo
 ├── README.md               # This file
 ├── QUICK_REFERENCE.md      # Quick setup guide
+├── SETUP_GUIDE.md          # Detailed setup walkthrough
 └── LICENSE                 # MIT License
 ```
 
 ---
 
-## 🚀 Getting Started
+## ⚡ Quick Start
 
 ### Prerequisites
+- Google Account
+- Cloudinary Account (free tier)
+- GitHub Account (for deployment)
+- Text Editor (VS Code recommended)
 
-Before you begin, ensure you have:
-- A Google Account
-- A Cloudinary account (free tier)
-- A text editor (VS Code, Sublime, or any editor)
-- A modern web browser (Chrome, Firefox, Safari, Edge)
-- Basic understanding of HTML/JavaScript (helpful but not required)
-
-### Installation
-
-#### Step 1: Clone/Download the Repository
-
-**Option A: Git Clone**
+### 1. Clone Repository
 ```bash
 git clone https://github.com/nielitropar/nielitropar.github.io.git
 cd nielitropar.github.io
 ```
 
-**Option B: Download ZIP**
-- Click "Code" → "Download ZIP"
-- Extract to your desired location
+### 2. Set Up Cloudinary
+1. Sign up at [cloudinary.com](https://cloudinary.com/users/register/free)
+2. Note your **Cloud Name** from dashboard
+3. Create upload preset:
+   - Name: `studenthub_preset` (exact name!)
+   - Signing Mode: **Unsigned** (critical!)
+   - Folder: `studenthub` (optional)
+   - Access Mode: Public
 
-#### Step 2: Set Up Cloudinary (Image Hosting)
+### 3. Set Up Google Sheets Backend
+1. Create new Google Sheet
+2. Extensions → Apps Script
+3. Copy **all code** from `google-apps-script.js`
+4. Save as "StudentHub API"
+5. Deploy → New deployment → Web app
+   - Execute as: **Me**
+   - Who has access: **Anyone** (critical!)
+6. Authorize and **copy Web App URL**
 
-1. **Create Account**
-   - Go to [Cloudinary Sign Up](https://cloudinary.com/users/register/free)
-   - Register for a free account (no credit card required)
-   - Verify your email
-
-2. **Get Credentials**
-   - Login to your Cloudinary dashboard
-   - Note your **Cloud Name** (e.g., "dy8up08qd")
-   - You'll find it at the top of your dashboard
-
-3. **Create Upload Preset**
-   - Go to Settings (⚙️) → Upload
-   - Scroll down and click "Add upload preset"
-   - Configure:
-     - **Preset name**: `studenthub_preset` (exact name required)
-     - **Signing Mode**: **Unsigned** ⚠️ Critical!
-     - **Folder**: `studenthub` (optional)
-     - **Access Mode**: `Public`
-   - Click **Save**
-
-#### Step 3: Set Up Google Sheets Backend
-
-1. **Create Spreadsheet**
-   - Go to [Google Sheets](https://sheets.google.com)
-   - Create a new blank spreadsheet
-   - Name it "NIELIT StudentHub Database"
-
-2. **Add Apps Script**
-   - In the sheet: `Extensions` → `Apps Script`
-   - Delete any existing code in the editor
-   - Copy **all** code from `google-apps-script.js`
-   - Paste into the Apps Script editor
-   - Click **Save** (💾 icon)
-   - Name the project: "StudentHub API"
-
-3. **Deploy as Web App**
-   - Click `Deploy` → `New deployment`
-   - Click the gear icon (⚙️) next to "Select type"
-   - Choose **Web app**
-   - Configure:
-     - **Description**: "StudentHub API v2.0"
-     - **Execute as**: **Me** ⚠️ Important!
-     - **Who has access**: **Anyone** ⚠️ Critical!
-   - Click **Deploy**
-   - **Authorize** the script when prompted (click through security warnings)
-   - **Copy the Web App URL** 📋 (looks like: `https://script.google.com/macros/s/AKfycbx.../exec`)
-   - Save this URL - you'll need it next!
-
-4. **Initialize Database (Optional)**
-   - In Apps Script editor, select function: `initializeSampleData` from dropdown
-   - Click **Run** (▶️)
-   - This creates demo data including the demo@nielit.gov.in account
-   - Check execution log to verify completion
-
-#### Step 4: Configure the Website
-
-1. **Open `index.html`** in your text editor
-
-2. **Find the configuration section** (around line 1225-1227):
-
+### 4. Configure Files
+Edit `index.html`, `feed.html`, and `project.html`:
 ```javascript
-const SHEET_URL = 'https://script.google.com/macros/s/AKfycbzGbZ39b67jJ2NPODCW4K3zqlf6p6-bq8vPRHmCdNjOxl37MT9KdndnCR8vw55qv7dN/exec';
-const CLOUDINARY_PRESET = 'studenthub_preset'; 
-const CLOUDINARY_NAME = 'dy8up08qd';
-```
-
-3. **Replace with your values**:
-
-```javascript
-const SHEET_URL = 'YOUR_GOOGLE_SHEETS_WEB_APP_URL_HERE';
+const SHEET_URL = 'YOUR_APPS_SCRIPT_WEB_APP_URL_HERE';
 const CLOUDINARY_PRESET = 'studenthub_preset';
 const CLOUDINARY_NAME = 'YOUR_CLOUD_NAME_HERE';
 ```
 
-4. **Repeat for `profiles.html`** (around line 111):
-
-```javascript
-const SHEET_URL = 'YOUR_GOOGLE_SHEETS_WEB_APP_URL_HERE';
-```
-
-5. **Save both files**
-
-#### Step 5: Test Locally
-
-**Option 1: Double-click Method**
-- Simply double-click `index.html` to open in your browser
-
-**Option 2: Local Server (Recommended)**
+### 5. Test Locally
 ```bash
-# Using Python (if installed)
+# Option 1: Python
 python -m http.server 8000
-# Then visit: http://localhost:8000
+# Visit: http://localhost:8000
 
-# OR using Node.js
+# Option 2: Node.js
 npx serve
-# Then visit: http://localhost:3000
+# Visit: http://localhost:3000
+
+# Option 3: Just double-click index.html
 ```
 
-**Test Checklist:**
-- [ ] Login with demo@nielit.gov.in / demo123
-- [ ] View profiles page
-- [ ] Try posting a project (with image)
-- [ ] Test upvoting
-- [ ] Add a comment
-- [ ] Search functionality
-- [ ] Mobile responsive design (resize browser)
-
-#### Step 6: Deploy to GitHub Pages
-
-1. **Initialize Git Repository** (if not cloned)
+### 6. Deploy to GitHub Pages
 ```bash
-git init
 git add .
-git commit -m "Initial commit - NIELIT StudentHub"
+git commit -m "Configure NIELIT StudentHub"
+git push origin main
 ```
+Enable GitHub Pages: Settings → Pages → Source: main branch
 
-2. **Create GitHub Repository**
-   - Go to [GitHub](https://github.com/new)
-   - Create a new repository
-   - Name it (e.g., `nielit-studenthub`)
-   - Don't initialize with README (you already have files)
-
-3. **Push to GitHub**
-```bash
-git remote add origin https://github.com/YOUR_USERNAME/YOUR_REPO.git
-git branch -M main
-git push -u origin main
-```
-
-4. **Enable GitHub Pages**
-   - Go to your repository on GitHub
-   - Click `Settings` → `Pages`
-   - Under "Source": Select `main` branch
-   - Click `Save`
-   - Wait 2-3 minutes for deployment
-   - Your site will be live at: `https://YOUR_USERNAME.github.io/YOUR_REPO/`
+**Your site is live at:** `https://YOUR_USERNAME.github.io/REPO_NAME/`
 
 ---
 
-## ⚙️ Configuration
+## 📚 Detailed Setup
 
-### Essential Configuration (3 Lines)
+For comprehensive setup instructions, see:
+- **[SETUP_GUIDE.md](SETUP_GUIDE.md)** - Step-by-step walkthrough
+- **[QUICK_REFERENCE.md](QUICK_REFERENCE.md)** - Quick lookup guide
 
-Edit these in **both** `index.html` and `profiles.html`:
-
-```javascript
-// index.html (lines ~1225-1227)
-const SHEET_URL = 'https://script.google.com/macros/s/YOUR_DEPLOYMENT_ID/exec';
-const CLOUDINARY_PRESET = 'studenthub_preset';
-const CLOUDINARY_NAME = 'your_cloud_name';
-
-// profiles.html (line ~111)
-const SHEET_URL = 'https://script.google.com/macros/s/YOUR_DEPLOYMENT_ID/exec';
-```
-
-### Customizing Colors
-
-Edit CSS variables in both HTML files (around line 8-19):
-
-```css
-:root {
-    --primary: #003366;        /* NIELIT Dark Blue */
-    --secondary: #FF6B35;      /* Accent Orange (not actively used) */
-    --accent: #0066CC;         /* NIELIT Light Blue */
-    --background: #F5F7FA;     /* Page background */
-    --card-bg: #FFFFFF;        /* Card backgrounds */
-    --text-primary: #1A1A1A;   /* Main text */
-    --text-secondary: #6B7280; /* Secondary text */
-    --border: #E5E7EB;         /* Borders */
-}
-```
-
-### Customizing Fonts
-
-Update the Google Fonts import (line ~6):
-
-```html
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Playfair+Display:wght@700;900&display=swap" rel="stylesheet">
-```
-
-Change to your preferred fonts:
-```html
-<link href="https://fonts.googleapis.com/css2?family=YourFont:wght@400;700&display=swap" rel="stylesheet">
-```
-
-Then update CSS:
-```css
-body {
-    font-family: 'YourFont', sans-serif;
-}
-```
-
-### Customizing Logo
-
-Replace `logo.png` with your own logo, or update references in:
-- `index.html` line ~106 (auth page)
-- `index.html` line ~161 (navigation)
-- `profiles.html` line ~69 (navigation)
-
----
-
-## 📚 Usage Guide
-
-### For Students
-
-#### Creating an Account
-
-1. Open the website
-2. Click **"Sign up"** at the bottom of login page
-3. Fill in your details:
-   - Upload a profile picture (optional but recommended)
-   - Full Name (required)
-   - Email Address (required, use your NIELIT email)
-   - Password (required, minimum 6 characters)
-   - Major/Stream (optional, e.g., "Computer Science")
-4. Click **"Sign Up"**
-5. You'll be automatically logged in to the main feed
-
-#### Logging In
-
-1. Enter your email and password on the homepage
-2. Click **"Log In"**
-3. Use demo credentials for testing: demo@nielit.gov.in / demo123
-
-#### Editing Your Profile
-
-**Desktop:**
-1. Click **"✏️ Edit Profile"** in the left sidebar
-2. Update any information:
-   - Change profile picture
-   - Update name, university, major
-   - Add LinkedIn and GitHub links
-   - Write a bio (visible on your profile page)
-3. Click **"Save"**
-
-**Mobile:**
-1. Tap the **"Me"** icon in bottom navigation
-2. Tap **"✏️ Edit Profile"**
-3. Update your information
-4. Tap **"Save"**
-
-#### Posting a Project
-
-**Desktop:**
-1. Click **"📝 Post Project"** button in top navigation
-2. Fill in project details:
-   - **Project Image**: Upload a screenshot or logo (optional)
-   - **Title**: Give your project a name (required)
-   - **Description**: Explain what it does (required)
-   - **Link**: GitHub repository or live demo URL (optional)
-   - **Tech Stack**: List technologies used (optional, e.g., "React, Node.js, MongoDB")
-3. Click **"Post"**
-4. Your project appears in the feed instantly
-
-**Mobile:**
-1. Tap **"➕ Post"** in bottom navigation
-2. Fill in the form
-3. Tap **"Post"**
-
-#### Viewing Profiles
-
-1. Click on any user's **name** or **profile picture** in the feed
-2. You'll see:
-   - Their complete profile information
-   - All projects they've posted
-   - Social media links (LinkedIn, GitHub)
-   - Contact button (opens email)
-3. Click **"← Back to Directory"** or browser back button to return
-
-#### Searching
-
-**Search for Projects (Feed page):**
-1. Use the search bar at the top: "🔍 Search projects..."
-2. Type keywords (project title, author name, or tech stack)
-3. Results filter in real-time as you type
-
-**Search for Students (Profiles page):**
-1. Go to the **Profiles** tab
-2. Use the search bar: "🔍 Search by name or major..."
-3. Type name or major
-4. Results filter in real-time
-
-#### Interacting with Projects
-
-- **👍 Upvote**: Click the thumbs up button to show support (one-click, instant)
-- **💬 Comment**: Click to open comment modal, write and post comments
-- **🔗 View Code**: Click the link to visit GitHub repo or live demo (opens in new tab)
-- **View Author**: Click name/avatar to see their profile and all projects
-
-#### Viewing Your Projects
-
-**Desktop:**
-1. Click **"📁 My Projects"** in the left sidebar
-2. You're redirected to your profile page showing all your posts
-
-**Mobile:**
-1. Tap **"Me"** in bottom navigation
-2. Tap **"📁 My Projects"**
+### Initialize Sample Data (Optional)
+In Google Apps Script editor:
+1. Select function: `initializeSampleData`
+2. Click Run (▶️)
+3. Check execution log for confirmation
+4. Verify Google Sheet now has 5 tabs with headers and demo data
 
 ---
 
@@ -507,12 +307,9 @@ Replace `logo.png` with your own logo, or update references in:
 │  Cloudinary  │          │ Google Apps  │
 │   CDN & API  │          │    Script    │
 │              │          │   (Backend)  │
-│ • Upload     │          │              │
-│   Images     │          │ • doGet()    │
-│ • Store      │          │ • doPost()   │
-│   Images     │          │ • Auth       │
-│ • Deliver    │          │ • CRUD Ops   │
-│   via CDN    │          │ • Validation │
+│ • Images     │          │ • doGet()    │
+│ • PDFs       │          │ • doPost()   │
+│ • Auto-opt   │          │ • Pagination │
 └──────────────┘          └──────┬───────┘
                                  │
                                  │ SpreadsheetApp API
@@ -520,62 +317,24 @@ Replace `logo.png` with your own logo, or update references in:
                          ┌───────▼────────┐
                          │ Google Sheets  │
                          │   (Database)   │
-                         │                │
                          │ • Users        │
                          │ • Projects     │
                          │ • Profiles     │
                          │ • Comments     │
+                         │ • Upvotes      │
                          └────────────────┘
 ```
 
-### Data Flow
+### Data Flow Example: Posting a Project
 
-#### User Signup Flow
 ```
-1. User fills signup form
-2. Profile picture uploaded to Cloudinary → URL returned
-3. User data + image URL sent to Google Apps Script via POST
-4. Script hashes password using SHA-256
-5. User data stored in Google Sheets:
-   - Users sheet (with hashed password)
-   - Profiles sheet (public data only)
-6. Success response returned to client
-7. User object stored in localStorage
-8. User redirected to main feed
-```
-
-#### Project Posting Flow
-```
-1. User fills project form
-2. Project image uploaded to Cloudinary → URL returned
-3. Project data + image URL + author info sent to Apps Script
-4. Script validates and appends to Projects sheet
-5. Success response returned
-6. Project appears in feed instantly (no reload needed)
-7. Trending section updated if project gets upvotes
-```
-
-#### Login Flow
-```
-1. User enters email + password
-2. Credentials sent to Google Apps Script via GET
-3. Script searches Users sheet for matching email
-4. Password hashed and compared with stored hash
-5. If match: User data returned (no password)
-6. User object stored in localStorage
-7. UI updated to show authenticated state
-8. Projects and profiles loaded from API
-```
-
-#### Comment Flow
-```
-1. User clicks comment button on project
-2. Modal opens, existing comments loaded via GET
-3. User types comment and clicks "Post"
-4. Comment data sent to Apps Script via POST
-5. Script appends to Comments sheet
-6. Comments reloaded and displayed in modal
-7. Comment count updated on project card
+1. User fills project form + uploads image
+2. Image → Cloudinary → Returns secure_url
+3. Project data + image URL → Google Apps Script (POST)
+4. Script validates data + appends to Projects sheet
+5. Success response → Browser
+6. UI updates immediately (optimistic)
+7. Server-side pagination reloads first page
 ```
 
 ---
@@ -583,182 +342,226 @@ Replace `logo.png` with your own logo, or update references in:
 ## 🗄️ Database Schema
 
 ### Users Sheet (Private - Authentication)
-
-| Column | Type | Description | Example | Used For |
-|--------|------|-------------|---------|----------|
-| email | String | Unique identifier, primary key | `student@nielit.gov.in` | Login, FK |
-| password | String | SHA-256 hashed password | `5e884898da28047...` | Authentication |
-| name | String | Full name | `Rajesh Kumar` | Display |
-| university | String | Institute name | `NIELIT Ropar` | Profile |
-| major | String | Field of study | `Computer Science` | Profile |
-| profilePicture | URL | Cloudinary image URL | `https://res.cloudinary.com/...` | Avatar |
-| linkedin | URL | LinkedIn profile | `https://linkedin.com/in/...` | Social link |
-| github | URL | GitHub profile | `https://github.com/...` | Social link |
-| bio | Text | User biography | `Passionate about AI...` | Profile |
-| timestamp | DateTime | Account creation date | `2026-01-21T10:30:00Z` | Metadata |
-
-**Column Indexes**: 0=email, 1=password, 2=name, 3=university, 4=major, 5=profilePicture, 6=linkedin, 7=github, 8=bio, 9=timestamp
+| Column | Type | Description | Index |
+|--------|------|-------------|-------|
+| email | String | Unique identifier, primary key | 0 |
+| password | String | SHA-256 salted hash | 1 |
+| name | String | Full name | 2 |
+| university | String | Institute name | 3 |
+| major | String | Field of study | 4 |
+| profilePicture | URL | Cloudinary image URL | 5 |
+| linkedin | URL | LinkedIn profile | 6 |
+| github | URL | GitHub profile | 7 |
+| bio | Text | User biography | 8 |
+| timestamp | DateTime | Account creation | 9 |
+| resume | URL | Cloudinary PDF URL | 10 |
 
 ### Projects Sheet (Public)
+| Column | Type | Description | Index |
+|--------|------|-------------|-------|
+| id | String | Unique ID (timestamp) | 0 |
+| authorName | String | Creator's name | 1 |
+| authorEmail | String | Creator's email (FK) | 2 |
+| authorPicture | URL | Creator's avatar | 3 |
+| title | String | Project title | 4 |
+| description | Text | Project details | 5 |
+| link | URL | GitHub/demo URL | 6 |
+| tech | String | Technologies used | 7 |
+| projectImage | URL | Project screenshot | 8 |
+| upvotes | Number | Vote count | 9 |
+| timestamp | DateTime | Post date | 10 |
+| category | String | Project category | 11 |
 
-| Column | Type | Description | Example | Used For |
-|--------|------|-------------|---------|----------|
-| id | String | Unique project ID (timestamp) | `1737456789123` | Primary key |
-| authorName | String | Creator's name | `Rajesh Kumar` | Display |
-| authorEmail | String | Creator's email (FK) | `student@nielit.gov.in` | Linking to user |
-| authorPicture | URL | Creator's profile pic | `https://res.cloudinary.com/...` | Avatar in feed |
-| title | String | Project title | `AI Study Assistant` | Display, search |
-| description | Text | Project details | `A machine learning app...` | Display, search |
-| link | URL | Project URL | `https://github.com/user/project` | External link |
-| tech | String | Technologies used | `Python, TensorFlow, React` | Badge, search |
-| projectImage | URL | Project screenshot | `https://res.cloudinary.com/...` | Display |
-| upvotes | Number | Vote count | `42` | Sorting, trending |
-| timestamp | DateTime | Post date | `2026-01-21T15:45:00Z` | Sorting, display |
-
-**Column Indexes**: 0=id, 1=authorName, 2=authorEmail, 3=authorPicture, 4=title, 5=description, 6=link, 7=tech, 8=projectImage, 9=upvotes, 10=timestamp
+**Categories**: Web Development, Mobile App, AI / ML, IoT & Hardware, Blockchain, Cybersecurity, Other
 
 ### Profiles Sheet (Public - Directory)
-
-| Column | Type | Description | Example |
-|--------|------|-------------|---------|
-| name | String | Full name | `Rajesh Kumar` |
-| email | String | Email (FK to Users) | `student@nielit.gov.in` |
-| university | String | Institute name | `NIELIT Ropar` |
-| major | String | Field of study | `Computer Science` |
-| linkedin | URL | LinkedIn profile | `https://linkedin.com/in/...` |
-| github | URL | GitHub profile | `https://github.com/...` |
-| bio | Text | User biography | `Passionate about AI...` |
-| profilePicture | URL | Profile image URL | `https://res.cloudinary.com/...` |
-| timestamp | DateTime | Profile creation date | `2026-01-21T10:30:00Z` |
-
-**Column Indexes**: 0=name, 1=email, 2=university, 3=major, 4=linkedin, 5=github, 6=bio, 7=profilePicture, 8=timestamp
-
-**Note**: The Profiles sheet mirrors Users data but excludes passwords for public access.
+| Column | Type | Description | Index |
+|--------|------|-------------|-------|
+| name | String | Full name | 0 |
+| email | String | Email (FK to Users) | 1 |
+| university | String | Institute | 2 |
+| major | String | Field of study | 3 |
+| linkedin | URL | LinkedIn | 4 |
+| github | URL | GitHub | 5 |
+| bio | Text | Biography | 6 |
+| profilePicture | URL | Avatar | 7 |
+| timestamp | DateTime | Creation date | 8 |
+| resume | URL | PDF URL | 9 |
 
 ### Comments Sheet (Public)
+| Column | Type | Description | Index |
+|--------|------|-------------|-------|
+| id | String | Unique ID (timestamp) | 0 |
+| projectId | String | Associated project (FK) | 1 |
+| authorName | String | Commenter's name | 2 |
+| authorEmail | String | Commenter's email (FK) | 3 |
+| comment | Text | Comment content | 4 |
+| timestamp | DateTime | Comment date | 5 |
 
-| Column | Type | Description | Example |
-|--------|------|-------------|---------|
-| id | String | Unique comment ID (timestamp) | `1737456999456` |
-| projectId | String | Associated project ID (FK) | `1737456789123` |
-| authorName | String | Commenter's name | `Priya Singh` |
-| authorEmail | String | Commenter's email (FK) | `priya@nielit.gov.in` |
-| comment | Text | Comment content | `Great work! Very innovative.` |
-| timestamp | DateTime | Comment date | `2026-01-21T16:00:00Z` |
+### Upvotes Sheet (Individual Tracking)
+| Column | Type | Description | Index |
+|--------|------|-------------|-------|
+| projectId | String | Project ID (FK) | 0 |
+| userEmail | String | User email (FK) | 1 |
+| timestamp | DateTime | Upvote date | 2 |
 
-**Column Indexes**: 0=id, 1=projectId, 2=authorName, 3=authorEmail, 4=comment, 5=timestamp
+**Purpose**: Prevents duplicate votes. Each user can only upvote a project once.
+
+---
+
+## 🔌 API Reference
+
+### Available Actions
+
+| Action | Method | Parameters | Returns | Description |
+|--------|--------|------------|---------|-------------|
+| `getProjects` | GET | `userEmail`, `page`, `searchTerm` | `{items[], total, hasMore, page}` | Paginated projects (20/page) |
+| `getProject` | GET | `id` | Project object | Single project by ID |
+| `getProfiles` | GET | `page`, `searchTerm` | `{items[], total, hasMore, page}` | Paginated profiles (24/page) |
+| `getProfile` | GET | `email` | Profile object | Single profile by email |
+| `getComments` | GET | `projectId` | Comment array | Comments for project |
+| `getStats` | GET | none | `{totalStudents, totalProjects}` | Platform statistics |
+| `login` | GET | `email`, `password` | User object (no password) | Authenticate user |
+| `signup` | POST | `data` object | Success message | Create account |
+| `addProject` | POST | `data` object | Success message | Post project |
+| `updateProfile` | POST | `data` object | Success message | Update user info |
+| `toggleUpvote` | POST | `projectId`, `userEmail` | `{action, newCount}` | Add/remove upvote |
+| `addComment` | POST | `data` object | Success message | Post comment |
+
+### Example Usage
+
+**GET Request (Login)**
+```javascript
+const response = await fetch(
+  `${SHEET_URL}?action=login&email=test@example.com&password=pass123`
+);
+const json = await response.json();
+// Returns: { status: 'success', data: { email, name, ... } }
+```
+
+**POST Request (Add Project)**
+```javascript
+const response = await fetch(SHEET_URL, {
+  method: 'POST',
+  body: JSON.stringify({
+    action: 'addProject',
+    data: {
+      id: Date.now().toString(),
+      authorName: 'John Doe',
+      authorEmail: 'john@example.com',
+      title: 'My Project',
+      description: 'Project description',
+      category: 'Web Development',
+      tech: 'React, Node.js',
+      projectImage: 'https://...',
+      link: 'https://github.com/...'
+    }
+  })
+});
+const json = await response.json();
+// Returns: { status: 'success', data: 'Project posted' }
+```
+
+**Pagination Example**
+```javascript
+// Load first page
+const page1 = await fetch(
+  `${SHEET_URL}?action=getProjects&page=1&userEmail=${currentUser.email}`
+);
+const json1 = await page1.json();
+// json1.data = { items: [...], total: 45, hasMore: true, page: 1 }
+
+// Load next page
+const page2 = await fetch(
+  `${SHEET_URL}?action=getProjects&page=2&userEmail=${currentUser.email}`
+);
+```
+
+---
+
+## 🔒 Security Features
+
+### Password Security
+- **SHA-256 Hashing** - Industry-standard cryptographic hashing
+- **Salt Added** - `NIELIT_STUDENTHUB_SECURE_SALT_2026` prevents rainbow table attacks
+- **Automatic Migration** - Legacy passwords upgraded on login (backward compatible)
+
+### Input Validation
+- **HTML Escaping** - All user input escaped to prevent XSS
+  ```javascript
+  function escapeHtml(text) {
+    return text.replace(/</g, "&lt;").replace(/>/g, "&gt;");
+  }
+  ```
+- **Server-Side Validation** - Email format, password strength checks
+- **No SQL Injection** - Google Sheets doesn't use SQL
+
+### Access Control
+- **Private Data** - Users sheet password column never exposed to client
+- **Public Sharing** - Profiles and Projects sheets accessible without login
+- **Email-Based Auth** - All operations require valid email from session
+
+### Best Practices
+- Never commit SHEET_URL with production data to public repos
+- Monitor Google Apps Script execution logs regularly
+- Keep Google Sheet private (only script has access)
+- Use HTTPS in production (GitHub Pages provides this)
 
 ---
 
 ## 🎨 Customization
 
-### Styling Changes
-
-All styles are embedded in the HTML files. Key sections:
-
-**In `index.html`:**
-- **CSS Variables**: Lines 8-19 (colors, shadows)
-- **Typography**: Lines 27-35
-- **Navigation**: Lines 37-95
-- **Cards & Projects**: Lines 149-290
-- **Modals**: Lines 468-535
-- **Responsive Design**: Lines 709-850
-
-**Common Customizations:**
-
+### Change Colors
+Edit CSS variables in all HTML files:
 ```css
-/* Change primary color scheme */
 :root {
-    --primary: #1E3A8A;  /* Navy blue */
-    --accent: #3B82F6;   /* Lighter blue */
+    --primary: #003366;        /* NIELIT Dark Blue */
+    --accent: #0066CC;         /* NIELIT Light Blue */
+    --secondary: #FF6B35;      /* Accent Orange */
+    --background: #F5F7FA;     /* Page background */
+    --card-bg: #FFFFFF;        /* Card backgrounds */
+    --text-primary: #1A1A1A;   /* Main text */
+    --text-secondary: #6B7280; /* Secondary text */
 }
+```
 
-/* Change font */
+### Change Fonts
+Update Google Fonts import:
+```html
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+```
+Then update CSS:
+```css
 body {
     font-family: 'Roboto', sans-serif;
 }
-
-/* Adjust card shadows */
-.card {
-    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-}
-
-/* Customize mobile nav height */
-.mobile-bottom-nav {
-    padding: 1rem 0.5rem;
-}
 ```
 
-### Adding New Features
-
-#### Example: Share Button for Projects
-
-1. **Update Project Card HTML** (in `renderProjects()` function):
-
-```javascript
-// Add to project footer
-`<button class="action-btn" onclick="shareProject('${p.id}', '${p.title}')">
-    🔗 Share
-</button>`
-```
-
-2. **Add Share Function**:
-
-```javascript
-function shareProject(id, title) {
-    const url = `${window.location.origin}?project=${id}`;
-    if (navigator.share) {
-        navigator.share({
-            title: title,
-            text: 'Check out this project on StudentHub!',
-            url: url
-        });
-    } else {
-        // Fallback: copy to clipboard
-        navigator.clipboard.writeText(url);
-        alert('Link copied to clipboard!');
-    }
-}
-```
-
-#### Example: Project Categories/Tags
-
-1. **Update Database Schema** - Add "category" column to Projects sheet
-
-2. **Update Form** - Add category dropdown in project modal:
-
+### Replace Logo
+Update these lines in all HTML files:
 ```html
-<div class="form-group">
-    <label>Category</label>
-    <select id="postCategory" class="form-input">
-        <option value="Web Development">Web Development</option>
-        <option value="Mobile App">Mobile App</option>
-        <option value="AI/ML">AI/ML</option>
-        <option value="IoT">IoT</option>
-        <option value="Other">Other</option>
-    </select>
-</div>
+<!-- index.html, feed.html, project.html -->
+<img src="logo.png" alt="StudentHub" style="height: 40px;">
 ```
+Or replace `logo.png` file (recommended size: 200x200px, transparent background).
 
-3. **Update Post Handler** - Include category in project data:
-
-```javascript
-const project = {
-    // ... existing fields ...
-    category: document.getElementById('postCategory').value
-};
-```
-
-4. **Update Apps Script** - Modify `addProject()` to handle category column
-
-5. **Add Filter UI** - Add category filter buttons in the feed
-
-### Adding Analytics
-
-**Google Analytics 4:**
-
+### Add New Project Category
+1. Update category dropdown in feed.html:
 ```html
-<!-- Add before </head> in both HTML files -->
+<select id="postCategory" class="form-input">
+    <option value="Your New Category">Your New Category</option>
+</select>
+```
+2. Add filter chip:
+```html
+<button onclick="filterCategory(this, 'Your New Category')" class="filter-chip">
+    Your New Category
+</button>
+```
+
+### Add Google Analytics
+```html
+<!-- Add before </head> in all HTML files -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
 <script>
   window.dataLayer = window.dataLayer || [];
@@ -768,417 +571,100 @@ const project = {
 </script>
 ```
 
-**Track Custom Events:**
-
-```javascript
-// Track project posts
-gtag('event', 'post_project', {
-  'event_category': 'engagement',
-  'event_label': projectTitle
-});
-
-// Track upvotes
-gtag('event', 'upvote', {
-  'event_category': 'engagement',
-  'event_label': projectId
-});
-```
-
 ---
 
 ## 🐛 Troubleshooting
 
-### Common Issues & Solutions
+### Projects Not Loading
+**Symptoms**: Blank feed, "connection error"
 
-#### 1. "Unable to connect to server" / Projects Not Loading
+**Solutions**:
+1. Verify `SHEET_URL` ends with `/exec`
+2. Check Apps Script deployment: "Who has access" = **Anyone**
+3. Test API directly: `YOUR_SHEET_URL?action=getProjects` in browser
+4. Check browser console (F12) for errors
 
-**Symptoms:**
-- Projects/profiles don't load
-- "connection error" messages
-- Blank feed page
+### Images Not Uploading
+**Symptoms**: Upload button doesn't work, broken images
 
-**Causes:**
-- Incorrect `SHEET_URL` in config
-- Google Apps Script not deployed
-- Deployment not set to "Anyone"
-- Script authorization not completed
+**Solutions**:
+1. Verify `CLOUDINARY_NAME` is correct
+2. Check upload preset: `studenthub_preset` (exact name)
+3. Ensure preset is **Unsigned** (not Signed)
+4. Try smaller image (< 5MB)
 
-**Solutions:**
-1. **Verify SHEET_URL**: Open `index.html` and check line ~1225. The URL should look like:
-   ```
-   https://script.google.com/macros/s/AKfycbxXXXXXXXXXXXX/exec
-   ```
-   Must end with `/exec`!
+### Login Fails After Signup
+**Symptoms**: "User not found" or "Incorrect password"
 
-2. **Check Deployment**:
-   - Open Google Apps Script
-   - Click `Deploy` → `Manage deployments`
-   - Verify "Who has access" is set to **Anyone**
-   - If not, create new deployment with correct settings
+**Solutions**:
+1. Check Google Sheet has "Users" tab with your email
+2. Verify email exact match (case-insensitive)
+3. Try demo credentials first: `demo@nielit.gov.in` / `demo123`
+4. Clear localStorage: `localStorage.clear()` in console
 
-3. **Test the API**:
-   - Open this URL in browser: `YOUR_SHEET_URL?action=getProjects`
-   - Should return JSON with projects (or empty array)
-   - If you see "Authorization required", the script wasn't properly authorized
+### Deep Link Not Working
+**Symptoms**: URL like `index.html?email=...` shows loader forever
 
-4. **Check Browser Console**:
-   - Press F12 → Console tab
-   - Look for specific error messages
-   - Common errors:
-     - `CORS error`: Check deployment settings
-     - `404 Not Found`: Wrong URL
-     - `Script function not found`: Code not saved/deployed
+**Solutions**:
+1. Check email exists in Profiles sheet
+2. Verify `getProfile` action in Apps Script
+3. Check browser console for errors
+4. Ensure loader hiding logic is correct
 
-#### 2. Profile Pictures Not Uploading
+### Categories Not Showing
+**Symptoms**: Projects show "Other" for all categories
 
-**Symptoms:**
-- Upload button doesn't work
-- Images don't display after upload
-- Broken image icons
+**Solutions**:
+1. Check Projects sheet has 12 columns (including "category" at index 11)
+2. Verify `addProject` function includes `data.category`
+3. Re-post projects to populate category field
 
-**Causes:**
-- Incorrect Cloudinary credentials
-- Upload preset not set to "unsigned"
-- Wrong preset name
-- Image file too large
-
-**Solutions:**
-1. **Verify Cloudinary Config** in `index.html` (line ~1227):
-   ```javascript
-   const CLOUDINARY_NAME = 'your_actual_cloud_name';  // Check dashboard
-   ```
-
-2. **Check Upload Preset**:
-   - Go to Cloudinary Settings → Upload
-   - Find preset named `studenthub_preset`
-   - **Signing Mode** must be "Unsigned"
-   - If it doesn't exist or is "Signed", create/update it
-
-3. **Test Upload**:
-   - Try a smaller image (< 5MB)
-   - Use common formats (JPG, PNG)
-   - Check browser console for Cloudinary errors
-
-4. **Manual Test**:
-   ```javascript
-   // Run in browser console to test Cloudinary
-   fetch('https://api.cloudinary.com/v1_1/YOUR_CLOUD_NAME/image/upload', {
-     method: 'POST',
-     body: new FormData() // Add test image
-   }).then(r => r.json()).then(console.log);
-   ```
-
-#### 3. Can't Login After Signup
-
-**Symptoms:**
-- Signup succeeds but login fails
-- "User not found" or "Incorrect password" error
-
-**Causes:**
-- Email case sensitivity mismatch
-- Password not meeting requirements
-- Data not saved to Users sheet
-- Browser cache issues
-
-**Solutions:**
-1. **Check Google Sheet**:
-   - Open your spreadsheet
-   - Go to "Users" tab
-   - Verify your email exists in column A
-   - Password should be a long hash in column B
-
-2. **Email Format**:
-   - Ensure exact same email for signup and login
-   - No extra spaces before/after
-   - Check lowercase conversion (script converts to lowercase)
-
-3. **Password Requirements**:
-   - Minimum 6 characters
-   - Case-sensitive
-   - Try resetting by creating new account with different email
-
-4. **Clear Cache**:
-   - Open in incognito/private mode
-   - Or clear browser cache and localStorage:
-   ```javascript
-   // In browser console
-   localStorage.clear();
-   location.reload();
-   ```
-
-#### 4. Projects Not Appearing After Posting
-
-**Symptoms:**
-- "Post" button works but project doesn't show in feed
-- Success message but no project visible
-
-**Causes:**
-- API call failed silently
-- Data not saved to Projects sheet
-- Frontend rendering issue
-- Network timeout
-
-**Solutions:**
-1. **Check Apps Script Logs**:
-   - Open Google Apps Script editor
-   - Click "View" → "Logs" or "Executions"
-   - Look for errors during the `addProject` call
-   - Check if data was actually appended
-
-2. **Verify in Sheet**:
-   - Open Google Sheets
-   - Check "Projects" tab
-   - Look for your project in the last row
-   - Verify all columns have data
-
-3. **Check Console**:
-   - F12 → Console
-   - Look for JavaScript errors
-   - Check Network tab for failed requests
-
-4. **Manual Reload**:
-   - Refresh the page (Ctrl+F5 / Cmd+Shift+R)
-   - Projects should load from database
-
-5. **Test API**:
-   ```bash
-   # Test getting projects
-   curl "YOUR_SHEET_URL?action=getProjects"
-   ```
-
-#### 5. Images Not Displaying
-
-**Symptoms:**
-- Broken image icons (🖼️)
-- Alt text showing instead of images
-- Images uploaded but not visible
-
-**Causes:**
-- Invalid/broken image URLs
-- Cloudinary access issues
-- Ad blocker interference
-- CORS issues
-
-**Solutions:**
-1. **Check Image URL**:
-   - Right-click broken image → "Open in new tab"
-   - Should show image on Cloudinary CDN
-   - If 404: Image wasn't uploaded successfully
-   - If access denied: Check Cloudinary settings
-
-2. **Verify Cloudinary Settings**:
-   - Go to Cloudinary dashboard
-   - Settings → Upload
-   - Ensure images are set to "Public" access
-   - Check "Delivery URL" settings
-
-3. **Disable Ad Blockers**:
-   - Temporarily disable ad blockers
-   - Some block Cloudinary domains
-   - Try in incognito mode
-
-4. **Check Console**:
-   - F12 → Console
-   - Look for 404 or CORS errors on image URLs
-
-#### 6. Mobile Menu Not Working
-
-**Symptoms:**
-- Bottom navigation bar not visible
-- Buttons don't respond on mobile
-- Layout broken on phone
-
-**Causes:**
-- CSS media query not applying
-- JavaScript error preventing interaction
-- Browser compatibility issue
-
-**Solutions:**
-1. **Check Screen Size**:
-   - Mobile menu shows only at width < 968px
-   - Test in browser DevTools (F12 → Device toolbar)
-   - Try actual mobile device
-
-2. **Check Console**:
-   - Open mobile browser console (if possible)
-   - Look for JavaScript errors
-   - Test in Chrome mobile for better debugging
-
-3. **Clear Cache**:
-   - Clear mobile browser cache
-   - Force reload (hard refresh)
-
-4. **Test Different Browser**:
-   - Try Chrome, Safari, Firefox mobile
-   - Check if issue is browser-specific
-
-#### 7. Search Not Working
-
-**Symptoms:**
-- Typing in search box doesn't filter results
-- No results shown when searching
-
-**Causes:**
-- JavaScript error in filter function
-- No data loaded to filter
-- Case sensitivity issue
-
-**Solutions:**
-1. **Check Data Loading**:
-   - Ensure projects/profiles loaded first
-   - Check `allProjects` or `allProfiles` array in console:
-   ```javascript
-   console.log(allProjects);  // Should show array of projects
-   ```
-
-2. **Check Console for Errors**:
-   - F12 → Console
-   - Type in search box and watch for errors
-
-3. **Test Filter Function**:
-   ```javascript
-   // In console
-   filterProjects('test');  // Should filter projects
-   ```
-
-### Debug Mode
-
-Enable detailed logging by adding this at the start of `<script>` section:
-
-```javascript
-const DEBUG = true;
-
-// Add throughout code:
-if (DEBUG) console.log('Loading projects...', allProjects);
-if (DEBUG) console.log('User logged in:', currentUser);
-if (DEBUG) console.log('API Response:', response);
-```
-
-### Getting Help
-
-If issues persist after trying solutions above:
-
-1. **Check Browser Console** (F12 → Console) - Most errors appear here
-2. **Check Apps Script Logs** (View → Executions) - Check for backend errors
-3. **Verify All Configuration** - Double-check SHEET_URL and Cloudinary settings
-4. **Test in Different Browser** - Rule out browser-specific issues
-5. **Try Demo Mode** - Test with demo@nielit.gov.in / demo123 to verify basic functionality
-6. **[Open GitHub Issue](https://github.com/nielitropar/nielitropar.github.io/issues)** - Provide:
-   - Browser and version
-   - Steps to reproduce
-   - Console error messages
-   - Screenshots if applicable
+For more troubleshooting, see **[README.md - Troubleshooting Section](README.md#troubleshooting)** or open a [GitHub Issue](https://github.com/nielitropar/nielitropar.github.io/issues).
 
 ---
 
 ## 🤝 Contributing
 
-We welcome contributions from the NIELIT community! Here's how you can help:
+We welcome contributions! Here's how:
 
 ### How to Contribute
 
-1. **Fork the Repository**
-   ```bash
-   # Click "Fork" on GitHub, then:
-   git clone https://github.com/YOUR_USERNAME/nielitropar.github.io.git
-   cd nielitropar.github.io
-   ```
+1. **Fork** the repository
+2. **Create** a branch (`git checkout -b feature/amazing-feature`)
+3. **Commit** changes (`git commit -m 'Add amazing feature'`)
+4. **Push** to branch (`git push origin feature/amazing-feature`)
+5. **Open** a Pull Request
 
-2. **Create a Branch**
-   ```bash
-   git checkout -b feature/your-feature-name
-   # or
-   git checkout -b fix/bug-description
-   ```
+### Contribution Ideas
 
-3. **Make Your Changes**
-   - Write clean, commented code
-   - Follow existing code style
-   - Test thoroughly on desktop and mobile
-
-4. **Commit Your Changes**
-   ```bash
-   git add .
-   git commit -m "Add: Brief description of changes"
-   # Examples:
-   # "Add: Share button for projects"
-   # "Fix: Mobile menu not closing on iOS"
-   # "Update: Improve search performance"
-   ```
-
-5. **Push to Your Fork**
-   ```bash
-   git push origin feature/your-feature-name
-   ```
-
-6. **Create Pull Request**
-   - Go to original repository on GitHub
-   - Click "New Pull Request"
-   - Select your branch
-   - Describe your changes clearly
-   - Link related issues if any
-   - Submit!
-
-### Contribution Guidelines
-
-**Code Style:**
-- Use consistent indentation (2 spaces)
-- Add comments for complex logic
-- Use meaningful variable names
-- Follow existing patterns in codebase
-
-**Testing:**
-- Test on multiple browsers (Chrome, Firefox, Safari)
-- Test on mobile devices
-- Test with and without configuration
-- Verify demo mode still works
-
-**Documentation:**
-- Update README if adding new features
-- Add comments in code
-- Update QUICK_REFERENCE if needed
-
-**Commit Messages:**
-- Use clear, descriptive messages
-- Start with action verb: Add, Fix, Update, Remove
-- Keep first line under 50 characters
-- Add detailed description if needed
-
-### Ideas for Contributions
-
-**High Priority:**
-- 🐛 Bug fixes (see GitHub Issues)
-- ♿ Accessibility improvements (ARIA labels, keyboard navigation)
+**High Priority**:
+- 🐛 Bug fixes
+- ♿ Accessibility improvements (ARIA labels, keyboard nav)
 - 🌐 Internationalization (Hindi support)
-- 📱 Mobile UX improvements
+- 📱 Mobile UX enhancements
 - ⚡ Performance optimizations
 
-**Feature Requests:**
-- ✨ Project categories/tags
+**Feature Requests**:
+- ✨ Advanced filtering (date range, multiple categories)
 - 🔔 Notification system
 - 🏆 Achievement badges
-- 📊 User statistics dashboard
-- 🔄 Project updates/versions
-- 📺 Video project demos
+- 📊 Analytics dashboard
 - 🔗 Project collaboration features
 - 👥 Follow system
-- 📧 Email notifications
 - 🌙 Dark mode
+- 📧 Email notifications
 
-**Technical Improvements:**
-- 🔒 Enhanced security (rate limiting, input sanitization)
-- 📦 Code modularization
-- 🧪 Unit tests
-- 📈 Analytics integration
-- 🔍 SEO optimization
-- 💾 Better state management
-- 🎨 UI/UX polish
+### Code Style
+- Use 2-space indentation
+- Add comments for complex logic
+- Follow existing naming conventions
+- Test on desktop and mobile
 
 ---
 
 ## 📄 License
 
-This project is licensed under the **MIT License** - see the [LICENSE](LICENSE) file for details.
+This project is licensed under the **MIT License**.
 
 ```
 MIT License
@@ -1205,12 +691,14 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 ```
 
-**What this means:**
+**What this means**:
 - ✅ Free to use, modify, and distribute
 - ✅ Commercial use allowed
 - ✅ Can create derivative works
 - ⚠️ Must include copyright notice
 - ⚠️ Provided "as-is" without warranty
+
+See [LICENSE](LICENSE) file for full details.
 
 ---
 
@@ -1224,17 +712,12 @@ SOFTWARE.
 ### Built With Love At
 **NIELIT Ropar** - National Institute of Electronics & Information Technology
 
-### Special Thanks
-- NIELIT Ropar faculty and staff for their guidance and support
-- All student beta testers who provided valuable feedback
-- The open-source community for inspiration and resources
-
 ### Technologies & Services
-- [Google Apps Script](https://developers.google.com/apps-script) - Serverless backend platform
+- [Google Apps Script](https://developers.google.com/apps-script) - Serverless backend
 - [Google Sheets](https://sheets.google.com) - Cloud database
-- [Cloudinary](https://cloudinary.com) - Image hosting and optimization
-- [GitHub Pages](https://pages.github.com) - Free static site hosting
-- [Google Fonts](https://fonts.google.com) - Poppins & Playfair Display fonts
+- [Cloudinary](https://cloudinary.com) - Image + PDF hosting
+- [GitHub Pages](https://pages.github.com) - Free hosting
+- [Google Fonts](https://fonts.google.com) - Inter & Space Grotesk
 
 ---
 
@@ -1246,7 +729,6 @@ SOFTWARE.
 - Email: sarwan@nielit.gov.in
 - Role: Project Supervisor
 - Institute: NIELIT Ropar
-- GitHub: [@sarwansingh](https://github.com/sarwansingh)
 
 **Lovnish Verma**
 - Email: princelv84@gmail.com
@@ -1258,92 +740,15 @@ SOFTWARE.
 - Role: UI/UX Developer
 - GitHub: [@niksheppaliwal](https://github.com/niksheppaliwal)
 
-### Support
-
-- 🐛 **Bug Reports**: [Open an issue](https://github.com/nielitropar/nielitropar.github.io/issues/new?template=bug_report.md)
-- 💡 **Feature Requests**: [Open an issue](https://github.com/nielitropar/nielitropar.github.io/issues/new?template=feature_request.md)
+### Support Channels
+- 🐛 **Bug Reports**: [Open an issue](https://github.com/nielitropar/nielitropar.github.io/issues/new)
+- 💡 **Feature Requests**: [Open an issue](https://github.com/nielitropar/nielitropar.github.io/issues/new)
 - 📧 **General Inquiries**: sarwan@nielit.gov.in
-- 🌐 **NIELIT Website**: [https://nielit.gov.in](https://nielit.gov.in)
+- 🌐 **NIELIT Website**: [nielit.gov.in](https://nielit.gov.in)
 
 ---
 
-## 🎓 About NIELIT Ropar
-
-**National Institute of Electronics & Information Technology (NIELIT) Ropar** is a premier institute under the Ministry of Electronics and Information Technology, Government of India. We are committed to providing quality education and training in IT and Electronics.
-
-### Our Mission
-To create skilled IT professionals and promote research and development in emerging technologies including AI, IoT, Cloud Computing, and Cybersecurity.
-
-### Programs Offered
-- **Certificate Courses** - CCC, BCC, ECC
-- **Diploma Courses** - ADCA, DCA
-- **Degree Programs** - B.Sc., M.Sc. in IT
-- **Short-term Training** - Python, Web Development, Data Science
-- **Industry Certifications** - AWS, Google Cloud, Microsoft
-
-### Contact NIELIT Ropar
-- **Address**: National Institute of Electronics & Information Technology (NIELIT) Ropar
-- **Website**: [www.nielit.gov.in](https://nielit.gov.in)
-- **Email**: sarwang@gmail.com
-
----
-
-## 📊 Project Stats
-
-![GitHub stars](https://img.shields.io/github/stars/nielitropar/nielitropar.github.io?style=social)
-![GitHub forks](https://img.shields.io/github/forks/nielitropar/nielitropar.github.io?style=social)
-![GitHub watchers](https://img.shields.io/github/watchers/nielitropar/nielitropar.github.io?style=social)
-![GitHub issues](https://img.shields.io/github/issues/nielitropar/nielitropar.github.io)
-![GitHub pull requests](https://img.shields.io/github/issues-pr/nielitropar/nielitropar.github.io)
-
----
-
-## 🗺️ Roadmap
-
-### Version 1.0 ✅ (Current - Completed)
-- [x] User authentication with SHA-256 hashing
-- [x] Share your project with anyone (no need to signup to view shared project)
-- [x] Profile management with Cloudinary images
-- [x] Project posting with images
-- [x] Upvote system
-- [x] Comments system
-- [x] Search functionality (projects and profiles)
-- [x] Mobile responsive design with bottom navigation
-- [x] NIELIT branding and theme
-- [x] Demo mode
-- [x] Individual user profile pages
-- [x] Trending projects section
-
-### Version 1.1 🚧 (In Progress)
-- [ ] Project categories/tags with filtering
-- [ ] Advanced search filters (by category, date, upvotes)
-- [ ] User profile statistics (total views, engagement)
-- [ ] Password reset via email
-- [ ] Email verification for new accounts
-
-### Version 2.0 📋 (Planned)
-- [ ] Real-time notifications (new comments, upvotes)
-- [ ] Project collaboration features (co-authors)
-- [ ] Private messaging between users
-- [ ] Follow/unfollow users
-- [ ] User activity feed
-- [ ] Achievement badges system
-- [ ] Admin dashboard for moderation
-- [ ] Content reporting and moderation
-- [ ] Analytics dashboard (for admins)
-- [ ] Dark mode theme
-
-### Version 3.0 💭 (Future Vision)
-- [ ] Native mobile app (React Native)
-- [ ] API for third-party integrations
-- [ ] AI-powered project recommendations
-- [ ] Video project demos
-- [ ] Live coding sessions / webinars
-- [ ] Hackathon organization features
-- [ ] Job board integration
-- [ ] Mentorship matching system
-- [ ] Project showcase events
-- [ ] Alumni network integration
+##
 
 ---
 
