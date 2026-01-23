@@ -153,15 +153,7 @@
 ### Live Website
 Visit: **[https://nielitropar.github.io](https://nielitropar.github.io)**
 
-### Demo Credentials
-```
-Email: demo@nielit.gov.in
-Password: requestfromadmin
-```
-
 ### Screenshots
-
-
 
 **Desktop - Directory View**
 ![Directory](https://github.com/user-attachments/assets/6576527a-786b-4983-844a-5fc3d2e34860)
@@ -170,7 +162,7 @@ Password: requestfromadmin
 ![Feed Mobile](https://github.com/user-attachments/assets/862309f3-b5d9-4240-9194-6db39005e036)
 
 **Project Detail Page**
-![Project Detail](https://via.placeholder.com/1200x600/FF6B35/FFFFFF?text=Project+Detail)
+![Project Detail](https://github.com/user-attachments/assets/ecfaf6ba-1705-444c-8aa5-a4a78c3a8607)
 
 ---
 
