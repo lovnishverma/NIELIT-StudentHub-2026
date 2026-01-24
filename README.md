@@ -716,7 +716,7 @@ For providing the research environment and testing infrastructure.
 - Syeda et al. (2025) - *Cost-Efficiency of Serverless Approaches*
 
 ### 🌟 Community
-Special thanks to all students who tested v1.5 and provided feedback on the performance improvements.
+Special thanks to all students and faculty who tested v1.5 and provided feedback on the performance improvements.
 
 ---
 
