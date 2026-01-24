@@ -141,12 +141,12 @@ The system includes a security protocol that transparently upgrades legacy hash 
 **Citation**:
 
 ```bibtex
-@software{StudentHub2026,
+@software{NIELITStudentHub2026,
   author = {Verma, Lovnish and Singh, Sarwan},
   title = {NIELIT StudentHub: A Zero-OpEx, Serverless Institutional Knowledge Management System},
   year = {2026},
   publisher = {GitHub},
-  url = {[https://github.com/nielitropar/nielitropar.github.io](https://github.com/nielitropar/nielitropar.github.io)}
+  url = {https://github.com/nielitropar/nielitropar.github.io}
 }
 
 ```
