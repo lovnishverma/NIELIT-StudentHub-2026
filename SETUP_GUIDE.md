@@ -259,7 +259,42 @@ The Apps Script will create all 6 sheets automatically.
 2. A new tab opens with the Apps Script editor
 3. You'll see a default `myFunction()` - **delete everything**
 
-#### 3.3 Paste Backend Code (v1.5)
+> #### 3.3 Set Up Security Salt (Critical)
+> 
+> To secure user passwords, you must set a private salt value that is not stored in the code.
+> 1. In the Apps Script Editor, click **Project Settings** (Gear icon ⚙️) in the left sidebar.
+> 2. Scroll down to the **Script Properties** section.
+> 3. Click **Add script property**.
+> 4. Enter the following:
+> * **Property:** `SALT`
+> * **Value:** (Enter a random long string here, e.g., `RandomString123!@#`)
+> 
+> 
+> 5. Click **Save script properties**.
+> 
+> 
+
+#### 2. Verify Code Sync
+
+**Critical Reminder:** This guide now instructs users to set a `SALT` property. You **must** ensure your `google-app-script-v1.5.js` code has been updated to actually *use* this property, or the login will fail (or use `undefined`).
+
+Ensure your code looks like this:
+
+```javascript
+function hashPassword(raw) {
+  // RETRIEVE SALT FROM SCRIPT PROPERTIES
+  const scriptProperties = PropertiesService.getScriptProperties();
+  const SALT = scriptProperties.getProperty('SALT');
+  
+  if (!SALT) throw new Error("Security Error: SALT is not set in Script Properties.");
+  
+  const digest = Utilities.computeDigest(Utilities.DigestAlgorithm.SHA_256, raw + SALT);
+  return Utilities.base64Encode(digest);
+}
+
+```
+
+#### 3.4 Paste Backend Code (v1.5)
 
 1. Open `google-app-script-v1.5.js` from your downloaded files
 2. **Copy ALL the code** (Ctrl+A, Ctrl+C)
@@ -273,7 +308,7 @@ The Apps Script will create all 6 sheets automatically.
    - New sheet constant: `PROFILE_LIKES_SHEET`
    - 6 sheets in getOrCreateSheet headers (Users, Projects, Profiles, Comments, Upvotes, ProfileLikes)
 
-#### 3.4 Save the Script
+#### 3.5 Save the Script
 
 1. Click **Save** icon (💾) or Ctrl+S
 2. **Name your project**: "StudentHub API v1.5"
@@ -281,7 +316,7 @@ The Apps Script will create all 6 sheets automatically.
    - Type "StudentHub API v1.5"
    - Press Enter
 
-#### 3.5 Deploy as Web App
+#### 3.6 Deploy as Web App
 
 This is the most important step!
 
@@ -331,7 +366,7 @@ This is the most important step!
 - If authorization fails: Clear cookies and try again
 - If deployment fails: Check for syntax errors in code (red underlines)
 
-#### 3.6 Verify Sheet Creation
+#### 3.7 Verify Sheet Creation
 
 1. **Go back to your Google Sheet**
 2. **Refresh the page** (F5)
