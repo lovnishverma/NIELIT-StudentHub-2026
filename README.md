@@ -63,7 +63,7 @@
 - 💼 Department-level portfolio systems
 - 🌍 Organizations in developing nations
 
-### 💡 Core Philosophy
+### 💡 Core Philosophy (ZeroOpexDB)
 
 > "Robust frugal software engineering principles applied to low-code infrastructure can democratize digital visibility for resource-constrained institutions."
 
