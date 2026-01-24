@@ -585,7 +585,12 @@ function getOrCreateSheet(name) {
 }
 
 function hashPassword(raw) {
-  const SALT = 'NIELIT_STUDENTHUB_SECURE_SALT_2026'; 
+  // RETRIEVE SALT FROM SCRIPT PROPERTIES (ENVIRONMENT VARIABLE)
+  const scriptProperties = PropertiesService.getScriptProperties();
+  const SALT = scriptProperties.getProperty('SALT');
+  
+  if (!SALT) throw new Error("Security Error: SALT is not set in Script Properties.");
+  
   const digest = Utilities.computeDigest(Utilities.DigestAlgorithm.SHA_256, raw + SALT);
   return Utilities.base64Encode(digest);
 }
