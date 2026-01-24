@@ -46,7 +46,7 @@ While "No-Code" tools like Glide Apps allow for rapid application development us
 
 # Software architecture
 
-`StudentHub` utilizes a **Serverless Micro-Service Architecture** that decouples the frontend from the data layer, ensuring high availability without dedicated servers.
+`StudentHub` utilizes a **Serverless Micro-Service Architecture** [@Roberts:2016] that decouples the frontend from the data layer, ensuring high availability without dedicated servers.
 
 ### 1. Frontend: The Single Page Application (SPA)
 The client-side is built using vanilla HTML5/CSS3/JavaScript, hosted on GitHub Pages. This ensures global content delivery via a Content Delivery Network (CDN) at zero cost. To overcome the stateless nature of the backend, the system implements a hybrid session model. User session tokens are stored in the browser's `localStorage` (specifically the `studenthub_user` key) and are transmitted in the header of every API request for server-side validation.
@@ -99,7 +99,7 @@ if (storedHash === oldHash) {
 
 # Performance and scalability
 
-Critics of spreadsheet-based backends often cite scalability as a fatal flaw. However, our analysis proves that for specific institutional scales ( users), the architecture is mathematically sound.
+Critics of spreadsheet-based backends often cite scalability as a fatal flaw. However, our analysis proves that for specific institutional scales ($N < 5,000$ users), the architecture is mathematically sound.
 
 We analyzed the system against Google's published quotas [@Google:2025]:
 
