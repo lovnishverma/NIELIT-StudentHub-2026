@@ -310,7 +310,7 @@
         </a>
     </nav>
 
-<script>
+    <script>
         // CONFIGURATION
         // REPLACE WITH YOUR NEW DEPLOYMENT URL
         const SHEET_URL = 'https://script.google.com/macros/s/AKfycbzGbZ39b67jJ2NPODCW4K3zqlf6p6-bq8vPRHmCdNjOxl37MT9KdndnCR8vw55qv7dN/exec';
@@ -439,7 +439,8 @@
             if (chunk.length === 0 && !append) {
                 grid.innerHTML = `
                     <div style="grid-column: 1/-1; text-align: center; padding: 5rem 1rem;">
-                        <h3 style="color: var(--primary); margin-bottom: 1rem;">No students found</h3>
+                        <div style="font-size: 5rem; margin-bottom: 1.5rem; opacity: 0.3;">🤔</div>
+                        <h3 style="color: var(--primary); margin-bottom: 1rem; font-size: 1.8rem; font-weight: 700;">No students found</h3>
                         <p style="color: var(--text-secondary);">Try changing your search terms.</p>
                         <button onclick="applyFilter(document.querySelector('.filter-chip'), '')" class="btn-primary" style="margin-top: 2rem;">Clear All Filters</button>
                     </div>
@@ -471,7 +472,7 @@
             if (hasMoreProfiles) {
                 grid.insertAdjacentHTML('beforeend', `
                     <div id="loadMoreContainer" style="grid-column: 1/-1; text-align: center; padding: 2.5rem;">
-                        <button onclick="loadMore()" class="btn-primary" style="background: white; color: var(--primary); border: 2px solid var(--border);">
+                        <button onclick="loadMore()" class="btn-primary" style="background: white; color: var(--primary); border: 2px solid var(--border); box-shadow: 0 4px 12px rgba(0,0,0,0.06);">
                             Load More Students
                         </button>
                     </div>
@@ -633,6 +634,12 @@
                     <p style="font-size: 1.05rem; line-height: 1.8; margin: 1.5rem 0; color: #475569;">${escapeHtml(p.description)}</p>
                     
                     <div style="display:flex; gap:1rem; align-items: center; margin-top: 2rem; padding-top: 2rem; border-top: 2px solid var(--border); flex-wrap: wrap;">
+                        <button class="action-btn ${p.isLiked ? 'active' : ''}" onclick="upvoteProject('${p.id}', this)">
+                            👍 <span style="font-weight: 700; margin-left:5px;">${p.upvotes}</span>
+                        </button>
+                        <button class="action-btn" onclick="openComments('${p.id}')">
+                            💬 <span style="margin-left:5px; font-weight: 600;">${p.commentCount || 0}</span>
+                        </button>
                         <button class="action-btn" onclick="shareProject('${p.id}', '${escapeHtml(p.title).replace(/'/g, "\\'")}')">
                             📤 <span style="margin-left:5px; font-weight: 600;">Share</span>
                         </button>
@@ -640,6 +647,63 @@
                     </div>
                 </div>
             `).join('');
+        }
+
+        async function upvoteProject(id, btn) {
+            if (!currentUser) return alert('Please log in from the main feed to upvote.');
+            
+            const countSpan = btn.querySelector('span');
+            let currentCount = parseInt(countSpan.textContent) || 0;
+            const isLiked = btn.classList.contains('active');
+            
+            btn.classList.toggle('active');
+            countSpan.textContent = isLiked ? currentCount - 1 : currentCount + 1;
+            
+            try {
+                const res = await postData('toggleUpvote', { projectId: id, userEmail: currentUser.email });
+                if (res.status === 'success') {
+                    countSpan.textContent = res.data.newCount;
+                    if (res.data.action === 'added') btn.classList.add('active');
+                    else btn.classList.remove('active');
+                } else {
+                    btn.classList.toggle('active'); 
+                    countSpan.textContent = currentCount;
+                    alert('Error upvoting: ' + res.data);
+                }
+            } catch (err) {
+                btn.classList.toggle('active'); 
+                countSpan.textContent = currentCount;
+                console.error(err);
+            }
+        }
+
+        async function openComments(id) {
+            currentCommentProjectId = id;
+            openModal('comments');
+            document.getElementById('commentsList').innerHTML = '<div style="text-align:center; padding:2rem;"><div class="loader" style="width:30px; height:30px; border-width:3px;"></div></div>';
+            const res = await fetch(`${SHEET_URL}?action=getComments&projectId=${id}`);
+            const json = await res.json();
+            if (json.data.length === 0) {
+                document.getElementById('commentsList').innerHTML = '<p style="color:var(--text-secondary); text-align:center; padding: 2rem; font-size: 1rem;">No comments yet. Be the first! 💬</p>';
+            } else {
+                document.getElementById('commentsList').innerHTML = json.data.map(c => `
+                    <div class="comment-item" style="background: var(--background); padding: 1.2rem; border-radius: 12px; margin-bottom: 0.8rem; border: 2px solid var(--border);">
+                        <div style="font-weight:700; font-size:0.95rem; color:var(--primary); margin-bottom: 0.5rem;">${escapeHtml(c.authorName)}</div>
+                        <div style="margin: 0.5rem 0; color:var(--text-primary); font-size:1rem; line-height: 1.6;">${escapeHtml(c.comment)}</div>
+                        <div style="font-size:0.75rem; color:var(--text-secondary); font-weight: 500;">${formatDate(c.timestamp)}</div>
+                    </div>
+                `).join('');
+            }
+        }
+
+        async function submitComment() {
+            if (!currentUser) return alert('Please log in to comment.');
+            const txt = document.getElementById('commentInput').value.trim();
+            if (!txt) return;
+            const data = { id: Date.now().toString(), projectId: currentCommentProjectId, authorName: currentUser.name, authorEmail: currentUser.email, comment: txt };
+            await postData('addComment', { data });
+            document.getElementById('commentInput').value = '';
+            openComments(currentCommentProjectId);
         }
 
         function openModal(id) { document.getElementById(id + 'Modal').classList.add('active'); }
@@ -653,6 +717,10 @@
         }
 
         function escapeHtml(text) { return text ? text.replace(/</g, "&lt;").replace(/>/g, "&gt;") : ''; }
+        function formatDate(timestamp) {
+            const date = new Date(timestamp);
+            return date.toLocaleDateString(undefined, { month: 'short', day: 'numeric' });
+        }
         
         function shareViaWhatsApp() { window.open(`https://wa.me/?text=${encodeURIComponent(currentShareProjectTitle + ' ' + document.getElementById('shareProjectLink').value)}`); }
         function shareViaTwitter() { window.open(`https://twitter.com/intent/tweet?text=${encodeURIComponent(currentShareProjectTitle)}&url=${encodeURIComponent(document.getElementById('shareProjectLink').value)}`); }
