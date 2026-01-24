@@ -640,7 +640,6 @@ It helps others discover this zero-cost solution for their institutions.
 **Made with ❤️ at NIELIT Ropar • 2026**
 
 *Empowering institutions with zero-cost digital infrastructure*
-
 *"Empowering the next generation of tech innovators"*
 
 [![Star on GitHub](https://img.shields.io/github/stars/nielitropar/nielitropar.github.io?style=social)](https://github.com/nielitropar/nielitropar.github.io)
@@ -653,6 +652,6 @@ It helps others discover this zero-cost solution for their institutions.
 
 ---
 
-[⬆ Back to Top](#nielit-studenthub---connect-create-inspire-)
+[⬆ Back to Top](#nielit-studenthub)
 
 </div>
