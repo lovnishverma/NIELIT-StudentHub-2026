@@ -1,4 +1,4 @@
-// STUDENTHUB - PRODUCTION BACKEND (Optimized v1.6)
+// STUDENTHUB - PRODUCTION BACKEND (Optimized v1.5)
 
 const PROJECTS_SHEET = 'Projects';
 const PROFILES_SHEET = 'Profiles';
