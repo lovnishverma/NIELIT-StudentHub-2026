@@ -237,6 +237,9 @@ Example cloud name: `dy8up08qd` or `student-hub-cloud`
 - ❌ Signing Mode set to "Signed" (must be "Unsigned")
 - ❌ Access Mode not public
 
+**Importantt note for resume upload feature:** Cloudinary will let you upload image but it blocks pfds and zip uploads by default Enabling “Allow delivery of PDF and ZIP files” in Security settings of Cloudinary resolves the issue.
+
+
 ---
 
 ### Step 3: Set Up Google Sheets Backend (v1.5)
