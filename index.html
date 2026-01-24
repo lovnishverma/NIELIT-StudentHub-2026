@@ -76,6 +76,43 @@
         .stat-number { font-size: 3.5rem; font-weight: 800; display: block; line-height: 1; margin-bottom: 0.8rem; background: linear-gradient(135deg, #fff 0%, #e0e7ff 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; font-family: 'Space Grotesk', sans-serif; }
         .stat-label { font-size: 0.9rem; text-transform: uppercase; letter-spacing: 2px; color: rgba(255,255,255,0.9); font-weight: 600; }
 
+        /* TRENDING SECTION STYLES - [NEW] */
+        .trending-wrapper { max-width: 1280px; margin: -3rem auto 3rem auto; padding: 0 2rem; position: relative; z-index: 10; }
+        .trending-header { display: flex; align-items: center; gap: 0.8rem; margin-bottom: 1rem; color: var(--primary); }
+        .trending-header h3 { font-family: 'Space Grotesk', sans-serif; font-size: 1.4rem; font-weight: 700; }
+        
+        .trending-list { 
+            display: flex; 
+            gap: 1.5rem; 
+            overflow-x: auto; 
+            padding: 1rem 0.5rem 2rem 0.5rem; 
+            scroll-behavior: smooth; 
+            -webkit-overflow-scrolling: touch; 
+            scrollbar-width: none; 
+        }
+        .trending-list::-webkit-scrollbar { display: none; }
+        
+        .trending-card { 
+            min-width: 280px; 
+            max-width: 280px; 
+            background: white; 
+            border-radius: 16px; 
+            padding: 1.2rem; 
+            box-shadow: 0 10px 30px rgba(0,0,0,0.08); 
+            border: 1px solid rgba(0,0,0,0.05); 
+            transition: transform 0.3s;
+            cursor: pointer;
+            display: flex; 
+            flex-direction: column;
+        }
+        .trending-card:hover { transform: translateY(-5px); }
+        .trend-rank { font-size: 3rem; font-weight: 900; color: #e2e8f0; line-height: 1; position: absolute; top: 10px; right: 15px; font-family: 'Space Grotesk', sans-serif; pointer-events: none; }
+        .trend-title { font-weight: 700; font-size: 1.1rem; color: var(--primary); margin-bottom: 0.5rem; padding-right: 2rem; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+        .trend-stats { display: flex; gap: 10px; font-size: 0.85rem; color: var(--text-secondary); margin-top: auto; padding-top: 1rem; border-top: 1px solid var(--border); }
+        .trend-author { display: flex; align-items: center; gap: 6px; font-size: 0.8rem; color: var(--text-secondary); margin-bottom: 0.8rem; }
+        .trend-author img { width: 20px; height: 20px; border-radius: 50%; object-fit: cover; }
+        /* END TRENDING STYLES */
+
         .container { max-width: 1280px; margin: 0 auto; padding: 0 2rem; flex: 1; width: 100%; }
         .controls-wrapper { margin-bottom: 3rem; }
         .section-header { text-align: center; margin-bottom: 2.5rem; }
@@ -158,6 +195,10 @@
             .site-footer { padding-bottom: 100px; }
             .section-title { font-size: 2rem; }
             .profiles-grid { grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); }
+            
+            /* Ensure trending is visible on mobile */
+            .trending-wrapper { margin-top: -2rem; }
+            .trending-list { padding-bottom: 1rem; }
         }
     </style>
 </head>
@@ -208,6 +249,15 @@
                         <span class="stat-number" id="totalProjects" data-target="0">0</span>
                         <span class="stat-label">Projects</span>
                     </div>
+                </div>
+            </div>
+
+            <div class="trending-wrapper">
+                <div class="trending-header">
+                    <h3>🔥 Trending Projects</h3>
+                </div>
+                <div id="trendingList" class="trending-list">
+                    <div style="width:100%; text-align:center; color:var(--text-secondary);">Loading trends...</div>
                 </div>
             </div>
 
@@ -332,6 +382,7 @@
         window.onload = async () => {
             loadProfiles(); 
             fetchStats();
+            fetchTrending(); // [NEW] Fetch trends
 
             if (currentUser) {
                 const btn = document.getElementById('loginBtn');
@@ -359,6 +410,35 @@
                     animateValue("totalProjects", 0, json.data.totalProjects, 2000);
                 }
             } catch (e) { console.error("Stats error", e); }
+        }
+
+        // [NEW] FETCH TRENDING
+        async function fetchTrending() {
+            try {
+                const res = await fetch(`${SHEET_URL}?action=getTrending`);
+                const json = await res.json();
+                const container = document.getElementById('trendingList');
+                
+                if (json.status === 'success' && json.data.length > 0) {
+                    container.innerHTML = json.data.map((p, index) => `
+                        <div class="trending-card" onclick="window.location.href='project.html?id=${p.id}'">
+                            <div class="trend-rank">${index + 1}</div>
+                            <div class="trend-author">
+                                <img src="${p.authorPicture || 'default-avatar.png'}" alt="Author">
+                                <span>${escapeHtml(p.authorName)}</span>
+                            </div>
+                            <h4 class="trend-title">${escapeHtml(p.title)}</h4>
+                            <div class="trend-stats">
+                                <span>👍 ${p.upvotes}</span>
+                                <span>💬 ${p.commentCount}</span>
+                                <span style="margin-left:auto; font-size:0.75rem;">${formatDate(p.timestamp)}</span>
+                            </div>
+                        </div>
+                    `).join('');
+                } else {
+                    container.innerHTML = '<div style="width:100%; text-align:center; color:var(--text-secondary);">No trending projects yet.</div>';
+                }
+            } catch (e) { console.error("Trend error", e); }
         }
 
         function animateValue(id, start, end, duration) {
