@@ -49,11 +49,11 @@ function handleRequest(e, method) {
       case 'getProjects':
         return getProjectsPaginated(params.userEmail, params.page, params.searchTerm);
       case 'getProfiles':
-        return getProfilesPaginated(params.page, params.searchTerm, params.userEmail); // [UPDATED] Pass userEmail
+        return getProfilesPaginated(params.page, params.searchTerm, params.userEmail);
       case 'getProject': 
         return getProject(params.id);
       case 'getProfile': 
-        return getProfile(params.email, params.userEmail); // [UPDATED] Pass userEmail
+        return getProfile(params.email, params.userEmail);
       case 'getComments':
         return getComments(params.projectId);
       case 'login':
@@ -66,7 +66,7 @@ function handleRequest(e, method) {
         return updateProfile(params.data);
       case 'toggleUpvote':
         return toggleUpvote(params.projectId, params.userEmail);
-      case 'toggleProfileLike': // [NEW] Action
+      case 'toggleProfileLike': // [NEW]
         return toggleProfileLike(params.targetEmail, params.userEmail);
       case 'addComment':
         return addComment(params.data);
@@ -114,7 +114,7 @@ function getProfile(email, currentUserEmail) {
   headers.forEach((h, i) => p[h] = row[i]);
   
   // [NEW] Get likes data
-  p.likes = parseInt(row[10]) || 0; // Column 11 (index 10) is Likes
+  p.likes = parseInt(row[10]) || 0; 
   p.isLiked = false;
 
   if (currentUserEmail) {
@@ -122,7 +122,6 @@ function getProfile(email, currentUserEmail) {
     const likesData = likesSheet.getDataRange().getValues();
     const cleanUser = String(currentUserEmail).toLowerCase().trim();
     
-    // Check if user liked this profile
     for(let i=1; i<likesData.length; i++) {
       if(String(likesData[i][0]).toLowerCase() === cleanEmail && 
          String(likesData[i][1]).toLowerCase() === cleanUser) {
@@ -131,7 +130,6 @@ function getProfile(email, currentUserEmail) {
       }
     }
   }
-  
   return createResponse('success', p);
 }
 
@@ -201,7 +199,6 @@ function getProfilesPaginated(page, searchTerm, currentUserEmail) {
   const data = sheet.getDataRange().getValues();
   if (data.length <= 1) return createResponse('success', { items: [], total: 0, hasMore: false });
   
-  // [NEW] Get set of profiles liked by current user
   let likedProfiles = new Set();
   if (currentUserEmail) {
     const likesSheet = getOrCreateSheet(PROFILE_LIKES_SHEET);
@@ -209,7 +206,7 @@ function getProfilesPaginated(page, searchTerm, currentUserEmail) {
     const cleanUser = String(currentUserEmail).toLowerCase().trim();
     likesData.slice(1).forEach(row => {
       if (String(row[1]).toLowerCase() === cleanUser) {
-        likedProfiles.add(String(row[0]).toLowerCase()); // Store target email
+        likedProfiles.add(String(row[0]).toLowerCase());
       }
     });
   }
@@ -220,7 +217,7 @@ function getProfilesPaginated(page, searchTerm, currentUserEmail) {
     .map(row => {
       let p = {};
       headers.forEach((h, i) => p[h] = row[i]);
-      p.likes = parseInt(p.likes) || 0; // Ensure numeric
+      p.likes = parseInt(p.likes) || 0;
       p.isLiked = likedProfiles.has(String(p.email).toLowerCase());
       return p;
     });
@@ -320,9 +317,10 @@ function signup(data) {
     cleanEmail, hashedPassword, data.name, data.university, 
     data.major, data.profilePicture, '', '', '', new Date().toISOString(), ''
   ]);
+  // [IMPORTANT] Append 0 for initial likes to keep row aligned
   profilesSheet.appendRow([
     data.name, cleanEmail, data.university, data.major, 
-    '', '', '', data.profilePicture, new Date().toISOString(), '', 0 // Added initial likes
+    '', '', '', data.profilePicture, new Date().toISOString(), '', 0 
   ]);
   return createResponse('success', { ...data, password: '' });
 }
@@ -418,7 +416,6 @@ function toggleProfileLike(targetEmail, userEmail) {
   
   let foundRowIndex = -1;
 
-  // Check if already liked
   for (let i = 1; i < likesData.length; i++) {
     if (String(likesData[i][0]).toLowerCase() === cleanTarget && 
         String(likesData[i][1]).toLowerCase() === cleanUser) {
@@ -427,7 +424,6 @@ function toggleProfileLike(targetEmail, userEmail) {
     }
   }
 
-  // Find Profile Row
   const profileData = profilesSheet.getDataRange().getValues();
   let profileRowIndex = -1;
   let currentCount = 0;
@@ -435,7 +431,7 @@ function toggleProfileLike(targetEmail, userEmail) {
   for (let i = 1; i < profileData.length; i++) {
     if (String(profileData[i][1]).toLowerCase() === cleanTarget) {
       profileRowIndex = i + 1;
-      currentCount = parseInt(profileData[i][10]) || 0; // Likes are at index 10
+      currentCount = parseInt(profileData[i][10]) || 0;
       break;
     }
   }
@@ -446,18 +442,16 @@ function toggleProfileLike(targetEmail, userEmail) {
   let action = '';
 
   if (foundRowIndex !== -1) {
-    // Unlike
     likesSheet.deleteRow(foundRowIndex);
     newCount = Math.max(0, currentCount - 1);
     action = 'removed';
   } else {
-    // Like
     likesSheet.appendRow([cleanTarget, cleanUser, new Date().toISOString()]);
     newCount = currentCount + 1;
     action = 'added';
   }
 
-  profilesSheet.getRange(profileRowIndex, 11).setValue(newCount); // Column 11 is Likes
+  profilesSheet.getRange(profileRowIndex, 11).setValue(newCount);
   return createResponse('success', { action: action, newCount: newCount });
 }
 
@@ -495,8 +489,7 @@ function getOrCreateSheet(name) {
     const headers = {
       'Users': ['email', 'password', 'name', 'university', 'major', 'profilePicture', 'linkedin', 'github', 'bio', 'timestamp', 'resume'],
       'Projects': ['id', 'authorName', 'authorEmail', 'authorPicture', 'title', 'description', 'link', 'tech', 'projectImage', 'upvotes', 'timestamp', 'category'],
-      // [UPDATED] Added 'likes' at end (index 10)
-      'Profiles': ['name', 'email', 'university', 'major', 'linkedin', 'github', 'bio', 'profilePicture', 'timestamp', 'resume', 'likes'],
+      'Profiles': ['name', 'email', 'university', 'major', 'linkedin', 'github', 'bio', 'profilePicture', 'timestamp', 'resume', 'likes'], // Added 'likes'
       'Comments': ['id', 'projectId', 'authorName', 'authorEmail', 'comment', 'timestamp'],
       'Upvotes': ['projectId', 'userEmail', 'timestamp'],
       'ProfileLikes': ['targetEmail', 'userEmail', 'timestamp'] // [NEW]
