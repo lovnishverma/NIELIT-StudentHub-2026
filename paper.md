@@ -57,11 +57,17 @@ Google Apps Script (GAS) serves as the backend logic layer. It acts as an API Ga
 * **Sanitization:** All inputs undergo strict HTML entity encoding on the server side to prevent Cross-Site Scripting (XSS) attacks before storage.
 
 ### 3. Persistence Layer: Hyper-Converged Data Store
-Instead of a traditional SQL database, the system utilizes **Google Sheets** as a NoSQL-like store. The database is normalized into four distinct sheets to maintain data integrity:
-* `Users`: Stores UserID, Email, PasswordHash, Salt, and ProfileMetadata.
-* `Projects`: Stores ProjectID, Title, Description, TechStack, and MediaURLs.
-* `Comments`: Acts as a relational table linking ProjectID and UserID.
-* `Upvotes`: A joining table to prevent duplicate voting by tracking UserID-ProjectID pairs.
+Instead of a traditional SQL database, the system utilizes **Google Sheets** as a NoSQL-like store. The database is normalized into **six** distinct sheets to maintain data integrity and separate user authentication from social interactions:
+
+* **Core Entities:**
+    * `Users`: Stores authentication credentials (UserID, Email, PasswordHash, Salt).
+    * `Profiles`: Stores public user metadata (Bio, Role, Social Links) to keep the auth table lightweight.
+    * `Projects`: Stores ProjectID, Title, Description, TechStack, and Cloudinary MediaURLs.
+
+* **Relational Tables:**
+    * `Comments`: Links ProjectID and UserID for textual feedback.
+    * `Upvotes`: Tracks UserID-ProjectID pairs to prevent duplicate project voting.
+    * `ProfileLikes`: Tracks peer-to-peer acknowledgement on user profiles.
 
 # Key algorithms
 
