@@ -124,6 +124,7 @@
 
 ### Backend Improvements (google-apps-script.js)
 - ✅ **Profile Likes** - Added 11th column to Profiles sheet (Added Profile Likes)
+- ✅ **Smart Logic for Trending Projects** - Added a honest way to decide top 5 trending projects.
 - ✅ **Project Categories** - Added 12th column to Projects sheet
 - ✅ **Single Item Queries** - New `getProject(id)` and `getProfile(email)` actions
 - ✅ **Server-Side Pagination** - `getProjectsPaginated()` and `getProfilesPaginated()`
