@@ -8,7 +8,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  api-test:
+  test-suite:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Code
@@ -22,8 +22,12 @@ jobs:
       - name: Install Dependencies
         run: pip install requests
 
-      - name: Run API Smoke Test
+      - name: 🧪 Run Algorithmic Unit Tests
+        run: python tests/test_algorithm.py
+
+      - name: 🔌 Run API Smoke Test
         env:
-          # We used the EXACT same secret name from your deploy.yml
           APP_SHEET_URL: ${{ secrets.APP_SHEET_URL }}
+        # Only run if the secret is available (prevents failure on forks)
+        if: "${{ env.APP_SHEET_URL != '' }}"
         run: python tests/test_api.py
