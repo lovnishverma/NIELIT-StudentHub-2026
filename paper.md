@@ -135,7 +135,9 @@ The system includes a security protocol that transparently upgrades legacy hash 
 # Community and contributions
 
 **Repository**: [github.com/nielitropar/nielitropar.github.io](https://github.com/nielitropar/nielitropar.github.io)
+
 **License**: MIT
+
 **Documentation**: The repository includes comprehensive documentation on deployment, performance optimization, and architectural decision records (ADRs).
 
 **Citation**:
