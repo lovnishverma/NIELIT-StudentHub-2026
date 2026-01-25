@@ -29,6 +29,7 @@
     <link
         href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@600;700&display=swap"
         rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.6.2"></script>
     <link rel="icon" type="image/x-icon" href="logo.png">
     <style>
         :root {
@@ -1008,7 +1009,7 @@
                 <div class="search-wrapper">
                     <span class="search-icon">🔍</span>
                     <input type="text" class="search-input" placeholder="Search by name, major, or skills..."
-                        onkeyup="filterProfiles(this.value)">
+                        onkeyup="handleProfileSearch(this.value)">
                 </div>
 
                 <div class="filter-container">
@@ -1125,6 +1126,10 @@
         let currentSearchTerm = '';
         let searchTimeout = null;
 
+        // [NEW] Search State
+        let profileIndex = [];
+        let profileFuse;
+
         let currentUser = JSON.parse(localStorage.getItem('studenthub_user'));
         let currentCommentProjectId = null;
         let currentShareProjectId = null;
@@ -1132,9 +1137,11 @@
 
         // INITIALIZATION
         window.onload = async () => {
-            loadProfiles();
+            // [NEW] Load optimized index instead of standard fetch
+            loadProfileIndex();
+            
             fetchStats();
-            fetchTrending(); // [NEW] Fetch trends
+            fetchTrending();
 
             if (currentUser) {
                 const btn = document.getElementById('loginBtn');
@@ -1152,6 +1159,63 @@
                 showDirectory();
             }
         };
+
+        // [NEW] Load lightweight profile index
+        async function loadProfileIndex() {
+            const grid = document.getElementById('profilesGrid');
+            grid.innerHTML = '<div style="grid-column: 1/-1; text-align: center; padding: 5rem 1rem;"><div class="loader"></div><p style="color: var(--text-secondary);">Loading directory...</p></div>';
+
+            try {
+                const res = await fetch(`${SHEET_URL}?action=getProfileIndex`);
+                const json = await res.json();
+
+                if (json.status === 'success') {
+                    profileIndex = json.data;
+                    
+                    // Initialize Fuse.js
+                    const options = {
+                        keys: ['name', 'major', 'university'],
+                        threshold: 0.3,
+                        ignoreLocation: true
+                    };
+                    profileFuse = new Fuse(profileIndex, options);
+                    
+                    // Initial render (show all or first 50)
+                    renderDirectory(profileIndex.slice(0, 24));
+                }
+            } catch (e) { console.error("Index load failed", e); }
+        }
+
+        // [UPDATED] Client-side search logic
+        function handleProfileSearch(term) {
+            const grid = document.getElementById('profilesGrid');
+            const loadMoreBtn = document.getElementById('loadMoreContainer');
+
+            if (!term || term.trim() === '') {
+                // Show default list (first 24)
+                renderDirectory(profileIndex.slice(0, 24));
+                if(loadMoreBtn) loadMoreBtn.style.display = 'block';
+                return;
+            }
+
+            if (!profileFuse) return;
+
+            const results = profileFuse.search(term);
+            const items = results.map(r => r.item);
+            renderDirectory(items);
+            
+            if(loadMoreBtn) loadMoreBtn.style.display = 'none'; // Hide pagination in search mode
+        }
+
+        // [UPDATED] Apply Filter Logic (Client-side)
+        function applyFilter(btn, term) {
+            document.querySelectorAll('.filter-chip').forEach(c => c.classList.remove('active'));
+            if (btn) btn.classList.add('active');
+            
+            const input = document.querySelector('.search-input');
+            input.value = term;
+            handleProfileSearch(term);
+        }
 
         async function fetchStats() {
             try {
@@ -1233,38 +1297,7 @@
             }
         }
 
-        async function loadProfiles(append = false) {
-            if (isLoading) return;
-            isLoading = true;
-
-            const grid = document.getElementById('profilesGrid');
-            if (!append) {
-                currentPage = 1;
-                grid.innerHTML = '<div style="grid-column: 1/-1; text-align: center; padding: 5rem 1rem;"><div class="loader"></div><p style="color: var(--text-secondary);">Finding students...</p></div>';
-            }
-
-            try {
-                const searchParam = currentSearchTerm ? `&searchTerm=${encodeURIComponent(currentSearchTerm)}` : '';
-                const userParam = currentUser ? `&userEmail=${encodeURIComponent(currentUser.email)}` : '';
-                const res = await fetch(`${SHEET_URL}?action=getProfiles&page=${currentPage}${searchParam}${userParam}`);
-                const json = await res.json();
-
-                if (json.status === 'success') {
-                    const { items, hasMore } = json.data;
-                    hasMoreProfiles = hasMore;
-                    if (!append) currentList = items;
-                    else currentList = currentList.concat(items);
-
-                    renderDirectory(items, append);
-                }
-            } catch (e) {
-                console.error(e);
-                if (!append) grid.innerHTML = '<p style="text-align:center;">Error loading directory.</p>';
-            } finally {
-                isLoading = false;
-            }
-        }
-
+        // [UPDATED] Render Directory (Used by Index & Search)
         function renderDirectory(chunk, append = false) {
             const grid = document.getElementById('profilesGrid');
             if (!append) grid.innerHTML = '';
@@ -1299,38 +1332,25 @@
                 grid.innerHTML = html;
             }
 
+            // Simple pagination for "All Students" view
             const oldBtn = document.getElementById('loadMoreContainer');
             if (oldBtn) oldBtn.remove();
 
-            if (hasMoreProfiles) {
-                grid.insertAdjacentHTML('beforeend', `
-                    <div id="loadMoreContainer" style="grid-column: 1/-1; text-align: center; padding: 2.5rem;">
-                        <button onclick="loadMore()" class="btn-primary" style="background: white; color: var(--primary); border: 2px solid var(--border); box-shadow: 0 4px 12px rgba(0,0,0,0.06);">
-                            Load More Students
-                        </button>
-                    </div>
-                `);
+            // Logic: if search is empty AND we haven't shown all from profileIndex
+            if (document.querySelector('.search-input').value === '' && profileIndex.length > chunk.length) {
+                 // For client-side simple view, we just show a button that renders the REST
+                 // Or we could implement true client-side pagination.
+                 // For simplicity:
+                 if(chunk.length < profileIndex.length) {
+                    grid.insertAdjacentHTML('beforeend', `
+                        <div id="loadMoreContainer" style="grid-column: 1/-1; text-align: center; padding: 2.5rem;">
+                            <button onclick="renderDirectory(profileIndex)" class="btn-primary" style="background: white; color: var(--primary); border: 2px solid var(--border); box-shadow: 0 4px 12px rgba(0,0,0,0.06);">
+                                Show All (${profileIndex.length})
+                            </button>
+                        </div>
+                    `);
+                 }
             }
-        }
-
-        function loadMore() {
-            currentPage++;
-            loadProfiles(true);
-        }
-
-        function applyFilter(btn, term) {
-            document.querySelectorAll('.filter-chip').forEach(c => c.classList.remove('active'));
-            if (btn) btn.classList.add('active');
-            document.querySelector('.search-input').value = term;
-            filterProfiles(term);
-        }
-
-        function filterProfiles(term) {
-            clearTimeout(searchTimeout);
-            searchTimeout = setTimeout(() => {
-                currentSearchTerm = term;
-                loadProfiles(false);
-            }, 500);
         }
 
         function showDirectory() {
