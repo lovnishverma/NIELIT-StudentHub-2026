@@ -1135,86 +1135,107 @@
 
     <script src="config.js"></script>
 
-    <script>
-        // CONFIGURATION
-        const SHEET_URL = CONFIG.SHEET_URL;
+ <script src="config.js"></script>
 
-        // STATE
+    <script>
+        // --- 1. SAFE CONFIGURATION ---
+        // Prevents crash if config.js is missing
+        const SHEET_URL = (typeof CONFIG !== 'undefined' && CONFIG.SHEET_URL) 
+            ? CONFIG.SHEET_URL 
+            : ''; // Fallback to empty string so script continues
+
+        // --- 2. STATE MANAGEMENT ---
         let currentPage = 1;
         let currentList = [];
         let isLoading = false;
         let hasMoreProfiles = true;
         let currentSearchTerm = '';
         let searchTimeout = null;
-
-        // [NEW] Search State
         let profileIndex = [];
         let profileFuse;
+        
+        // Safe User Parsing
+        let currentUser = null;
+        try {
+            currentUser = JSON.parse(localStorage.getItem('studenthub_user'));
+        } catch (e) {
+            console.error("User data error", e);
+        }
 
-        let currentUser = JSON.parse(localStorage.getItem('studenthub_user'));
         let currentCommentProjectId = null;
         let currentShareProjectId = null;
         let currentShareProjectTitle = null;
 
-        // INITIALIZATION
-// UPDATED INITIALIZATION FUNCTION
-window.onload = async () => {
-    // 1. Load Data
-    loadProfileIndex();
-    fetchStats();
-    fetchTrending();
+        // --- 3. MAIN INITIALIZATION (Runs when page is ready) ---
+        window.onload = async () => {
+            console.log("🚀 StudentHub Loading...");
 
-    // 2. Handle Login State
-    if (currentUser) {
-        const btn = document.getElementById('loginBtn');
-        if (btn) btn.textContent = 'Go to Feed';
-    } else {
-        const cta = document.getElementById('guest-cta');
-        if (cta) cta.style.display = 'block';
-    }
-
-    // 3. Handle Deep Links
-    const params = new URLSearchParams(window.location.search);
-    const targetEmail = params.get('email');
-
-    if (targetEmail) {
-        await loadProfileByEmail(targetEmail);
-    } else {
-        showDirectory();
-    }
-
-    // 4. CHAT WIDGET SETUP (Now safe to run!)
-    const toggleBtn = document.getElementById('toggle-chat');
-    const chatWindow = document.getElementById('chat-window');
-    
-    if (toggleBtn && chatWindow) {
-        toggleBtn.onclick = () => {
-            const isHidden = chatWindow.classList.contains('hidden') || chatWindow.style.display === 'none';
-            if (isHidden) {
-                chatWindow.classList.remove('hidden');
-                chatWindow.style.display = 'flex';
-                // Focus input when opened
-                setTimeout(() => document.getElementById('chat-input').focus(), 100);
+            // A. Load Data (Only if URL exists)
+            if (SHEET_URL) {
+                loadProfileIndex();
+                fetchStats();
+                fetchTrending();
             } else {
-                chatWindow.classList.add('hidden');
-                chatWindow.style.display = 'none';
+                console.warn("⚠️ config.js missing or invalid. Data features disabled.");
+            }
+
+            // B. Handle Login State
+            if (currentUser) {
+                const btn = document.getElementById('loginBtn');
+                if (btn) btn.textContent = 'Go to Feed';
+            } else {
+                const cta = document.getElementById('guest-cta');
+                if (cta) cta.style.display = 'block';
+            }
+
+            // C. Handle Deep Links
+            const params = new URLSearchParams(window.location.search);
+            const targetEmail = params.get('email');
+
+            if (targetEmail && SHEET_URL) {
+                await loadProfileByEmail(targetEmail);
+            } else {
+                showDirectory();
+            }
+
+            // --- D. CHAT WIDGET SETUP (The Fix!) ---
+            const toggleBtn = document.getElementById('toggle-chat');
+            const chatWindow = document.getElementById('chat-window');
+            const sendBtn = document.getElementById('send-chat');
+            const chatInput = document.getElementById('chat-input');
+            
+            if (toggleBtn && chatWindow) {
+                console.log("✅ Chat Widget Initialized");
+                toggleBtn.onclick = () => {
+                    const isHidden = chatWindow.classList.contains('hidden') || chatWindow.style.display === 'none';
+                    if (isHidden) {
+                        chatWindow.classList.remove('hidden');
+                        chatWindow.style.display = 'flex';
+                        // Focus input slightly after opening for mobile keyboard handling
+                        setTimeout(() => {
+                            if(chatInput) chatInput.focus();
+                        }, 100);
+                    } else {
+                        chatWindow.classList.add('hidden');
+                        chatWindow.style.display = 'none';
+                    }
+                };
+            } else {
+                console.error("❌ Chat Widget Elements Not Found!");
+            }
+
+            if (sendBtn) sendBtn.onclick = askAssistant;
+            if (chatInput) {
+                chatInput.onkeypress = (e) => {
+                    if (e.key === 'Enter') askAssistant();
+                };
             }
         };
-    }
 
-    const sendBtn = document.getElementById('send-chat');
-    const chatInput = document.getElementById('chat-input');
+        // --- 4. CORE FUNCTIONS ---
 
-    if (sendBtn) sendBtn.onclick = askAssistant;
-    if (chatInput) {
-        chatInput.onkeypress = (e) => {
-            if (e.key === 'Enter') askAssistant();
-        };
-    }
-};
-
-        // [NEW] Load lightweight profile index
         async function loadProfileIndex() {
+            if (!SHEET_URL) return;
             const grid = document.getElementById('profilesGrid');
             grid.innerHTML = '<div style="grid-column: 1/-1; text-align: center; padding: 5rem 1rem;"><div class="loader"></div><p style="color: var(--text-secondary);">Loading directory...</p></div>';
 
@@ -1224,57 +1245,44 @@ window.onload = async () => {
 
                 if (json.status === 'success') {
                     profileIndex = json.data;
-
-                    // Initialize Fuse.js
                     const options = {
                         keys: ['name', 'major', 'university'],
                         threshold: 0.3,
                         ignoreLocation: true
                     };
                     profileFuse = new Fuse(profileIndex, options);
-
-                    // Initial render (show all or first 50)
                     renderDirectory(profileIndex.slice(0, 24));
                 }
             } catch (e) {
                 console.error("Index load failed", e);
-                document.getElementById('profilesGrid').innerHTML =
-                    '<div style="text-align:center; padding: 2rem; color: var(--text-secondary);">Directory unavailable. Please refresh the page.</div>';
+                grid.innerHTML = '<div style="text-align:center; padding: 2rem; color: var(--text-secondary);">Directory unavailable.</div>';
             }
         }
 
-        // [UPDATED] Client-side search logic
         function handleProfileSearch(term) {
-            const grid = document.getElementById('profilesGrid');
             const loadMoreBtn = document.getElementById('loadMoreContainer');
-
             if (!term || term.trim() === '') {
-                // Show default list (first 24)
                 renderDirectory(profileIndex.slice(0, 24));
                 if (loadMoreBtn) loadMoreBtn.style.display = 'block';
                 return;
             }
-
             if (!profileFuse) return;
-
             const results = profileFuse.search(term);
             const items = results.map(r => r.item);
             renderDirectory(items);
-
-            if (loadMoreBtn) loadMoreBtn.style.display = 'none'; // Hide pagination in search mode
+            if (loadMoreBtn) loadMoreBtn.style.display = 'none';
         }
 
-        // [UPDATED] Apply Filter Logic (Client-side)
         function applyFilter(btn, term) {
             document.querySelectorAll('.filter-chip').forEach(c => c.classList.remove('active'));
             if (btn) btn.classList.add('active');
-
             const input = document.querySelector('.search-input');
             input.value = term;
             handleProfileSearch(term);
         }
 
         async function fetchStats() {
+            if (!SHEET_URL) return;
             try {
                 const res = await fetch(`${SHEET_URL}?action=getStats`);
                 const json = await res.json();
@@ -1285,8 +1293,8 @@ window.onload = async () => {
             } catch (e) { console.error("Stats error", e); }
         }
 
-        // [NEW] FETCH TRENDING
         async function fetchTrending() {
+            if (!SHEET_URL) return;
             try {
                 const res = await fetch(`${SHEET_URL}?action=getTrending`);
                 const json = await res.json();
@@ -1335,9 +1343,9 @@ window.onload = async () => {
         }
 
         async function loadProfileByEmail(email) {
+            if (!SHEET_URL) return;
             try {
                 const userParam = currentUser ? `&userEmail=${encodeURIComponent(currentUser.email)}` : '';
-                // Add &t=timestamp to force fresh data
                 const res = await fetch(`${SHEET_URL}?action=getProfile&email=${encodeURIComponent(email)}${userParam}&t=${Date.now()}`);
                 const json = await res.json();
 
@@ -1354,7 +1362,6 @@ window.onload = async () => {
             }
         }
 
-        // [UPDATED] Render Directory (Used by Index & Search)
         function renderDirectory(chunk, append = false) {
             const grid = document.getElementById('profilesGrid');
             if (!append) grid.innerHTML = '';
@@ -1389,15 +1396,10 @@ window.onload = async () => {
                 grid.innerHTML = html;
             }
 
-            // Simple pagination for "All Students" view
             const oldBtn = document.getElementById('loadMoreContainer');
             if (oldBtn) oldBtn.remove();
 
-            // Logic: if search is empty AND we haven't shown all from profileIndex
             if (document.querySelector('.search-input').value === '' && profileIndex.length > chunk.length) {
-                // For client-side simple view, we just show a button that renders the REST
-                // Or we could implement true client-side pagination.
-                // For simplicity:
                 if (chunk.length < profileIndex.length) {
                     grid.insertAdjacentHTML('beforeend', `
                         <div id="loadMoreContainer" style="grid-column: 1/-1; text-align: center; padding: 2.5rem;">
@@ -1422,7 +1424,6 @@ window.onload = async () => {
             loadProfileByEmail(email);
         }
 
-        // --- UPDATED: Restored Buttons & Added Like ---
         async function showPortfolio(profile) {
             document.getElementById('directoryView').classList.add('hidden');
             document.getElementById('portfolioView').classList.remove('hidden');
@@ -1435,21 +1436,17 @@ window.onload = async () => {
                     ${escapeHtml(profile.major)} ${profile.university ? '@ ' + escapeHtml(profile.university) : ''}
                 </p>
                 <div style="margin-bottom: 2.5rem; display: flex; flex-wrap: wrap; justify-content: center; gap: 1rem;">
-                    
                     <button class="social-link ${profile.isLiked ? 'active' : ''}" 
                             onclick="likeProfile('${profile.email}', this)"
                             style="cursor: pointer; display: flex; align-items: center; gap: 5px; ${profile.isLiked ? 'background: #fee2e2; border-color: #ef4444; color: #ef4444;' : ''}">
                         ❤️ <span style="font-weight: 700;">${profile.likes || 0}</span>
                     </button>
-
                     ${profile.linkedin ? `<a href="${profile.linkedin}" target="_blank" class="social-link">🔗 LinkedIn</a>` : ''}
                     ${profile.github ? `<a href="${profile.github}" target="_blank" class="social-link">💻 GitHub</a>` : ''}
                     ${profile.resume ? `<a href="${profile.resume}" target="_blank" class="social-link" style="background: #ffeb3b; color: #333; border-color: #fbc02d;">📄 Download Resume</a>` : ''}
-                    
                     <button onclick="shareProfile('${escapeHtml(profile.name).replace(/'/g, "\\'")}', '${profile.email}')" class="social-link" style="cursor: pointer; background: white; color: var(--primary);">
                         📤 Share Profile
                     </button>
-                    
                     <a href="mailto:${profile.email}" class="social-link">📧 Email</a>
                 </div>
                 <div style="max-width: 700px; margin: 0 auto; line-height: 1.8; color: var(--text-primary); background: var(--background); padding: 2.5rem; border-radius: 16px; text-align: left; border: 2px solid var(--border);">
@@ -1461,13 +1458,14 @@ window.onload = async () => {
             const list = document.getElementById('userProjects');
             list.innerHTML = '<div style="text-align:center; padding:3rem;"><div class="loader"></div><p>Loading projects...</p></div>';
 
+            if (!SHEET_URL) {
+                list.innerHTML = '<p style="text-align:center;">Project loading disabled (Missing Config).</p>';
+                return;
+            }
+
             try {
-                // 1. Define who is asking (User Email)
                 const userParam = currentUser ? `&userEmail=${encodeURIComponent(currentUser.email)}` : '';
-
-                // 2. Add userParam to the URL so the server checks your likes
                 const res = await fetch(`${SHEET_URL}?action=getProjects&searchTerm=${encodeURIComponent(profile.name)}${userParam}&t=${Date.now()}`);
-
                 const json = await res.json();
 
                 if (json.status === 'success') {
@@ -1596,6 +1594,7 @@ window.onload = async () => {
             currentCommentProjectId = id;
             openModal('comments');
             document.getElementById('commentsList').innerHTML = '<div style="text-align:center; padding:2rem;"><div class="loader" style="width:30px; height:30px; border-width:3px;"></div></div>';
+            if (!SHEET_URL) return;
             const res = await fetch(`${SHEET_URL}?action=getComments&projectId=${id}`);
             const json = await res.json();
             if (json.data.length === 0) {
@@ -1625,6 +1624,7 @@ window.onload = async () => {
         function closeModal(id) { document.getElementById(id + 'Modal').classList.remove('active'); }
 
         async function postData(action, payload) {
+            if (!SHEET_URL) return { status: 'error', data: 'Config missing' };
             return fetch(SHEET_URL, {
                 method: 'POST',
                 body: JSON.stringify({ action, ...payload })
@@ -1674,86 +1674,59 @@ window.onload = async () => {
             btn.textContent = '✓ Copied';
             setTimeout(() => { btn.textContent = originalText || 'Copy'; }, 2000);
         }
-// Toggle Chat Window
-async function askAssistant() {
-    const input = document.getElementById('chat-input');
-    const history = document.getElementById('chat-history');
-    const message = input.value.trim();
-    
-    if (!message) return;
 
-    // Append User Message
-    history.innerHTML += `<div style="background: var(--accent); color: white; padding: 8px 12px; border-radius: 12px; align-self: flex-end; margin-bottom: 5px;">${message}</div>`;
-    input.value = '';
+        // --- 5. AI ASSISTANT FUNCTION ---
+        // Toggle Chat Window
+        async function askAssistant() {
+            const input = document.getElementById('chat-input');
+            const history = document.getElementById('chat-history');
+            const message = input.value.trim();
+            
+            if (!message) return;
 
-    // Create and append Typing Indicator
-    const typingId = 'typing-' + Date.now();
-    const typingBubble = `
-        <div id="${typingId}" class="typing" style="background: var(--background); border-radius: 12px; align-self: flex-start; margin-bottom: 10px;">
-            <div class="dot"></div>
-            <div class="dot"></div>
-            <div class="dot"></div>
-        </div>`;
-    history.innerHTML += typingBubble;
-    history.scrollTop = history.scrollHeight;
+            // Append User Message
+            history.innerHTML += `<div style="background: var(--accent); color: white; padding: 8px 12px; border-radius: 12px; align-self: flex-end; margin-bottom: 5px;">${message}</div>`;
+            input.value = '';
 
-    try {
-        const response = await fetch("https://lovnishverma-nielit-assistant.hf.space/call/chat_with_bot", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ data: [message] })
-        });
-        
-        const json = await response.json();
-        const eventId = json.event_id;
+            // Create and append Typing Indicator
+            const typingId = 'typing-' + Date.now();
+            const typingBubble = `
+                <div id="${typingId}" class="typing" style="background: var(--background); border-radius: 12px; align-self: flex-start; margin-bottom: 10px;">
+                    <div class="dot"></div>
+                    <div class="dot"></div>
+                    <div class="dot"></div>
+                </div>`;
+            history.innerHTML += typingBubble;
+            history.scrollTop = history.scrollHeight;
 
-        const resultResponse = await fetch(`https://lovnishverma-nielit-assistant.hf.space/call/chat_with_bot/${eventId}`);
-        const resultText = await resultResponse.text();
-        
-        // Remove typing indicator before showing response
-        const indicator = document.getElementById(typingId);
-        if (indicator) indicator.remove();
+            try {
+                const response = await fetch("https://lovnishverma-nielit-assistant.hf.space/call/chat_with_bot", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ data: [message] })
+                });
+                
+                const json = await response.json();
+                const eventId = json.event_id;
 
-        const botResponse = resultText.split('data: ')[1]?.split('\n')[0].replace(/"/g, '');
+                const resultResponse = await fetch(`https://lovnishverma-nielit-assistant.hf.space/call/chat_with_bot/${eventId}`);
+                const resultText = await resultResponse.text();
+                
+                // Remove typing indicator before showing response
+                const indicator = document.getElementById(typingId);
+                if (indicator) indicator.remove();
 
-        history.innerHTML += `<div style="background: var(--background); padding: 8px 12px; border-radius: 12px; align-self: flex-start; margin-bottom: 10px;">${botResponse || "I'm having trouble connecting right now."}</div>`;
-        history.scrollTop = history.scrollHeight;
-    } catch (error) {
-        console.error("Chat Error:", error);
-        const indicator = document.getElementById(typingId);
-        if (indicator) indicator.remove();
-        history.innerHTML += `<div style="color: red; font-size: 0.8rem; align-self: center;">Connection error. Please try again.</div>`;
-    }
-}
-    // --- ADD THIS TO THE END OF YOUR SCRIPT TAG ---
+                const botResponse = resultText.split('data: ')[1]?.split('\n')[0].replace(/"/g, '');
 
-    // 1. Activate the Toggle Button
-    const toggleBtn = document.getElementById('toggle-chat');
-    const chatWindow = document.getElementById('chat-window');
-    
-    if (toggleBtn && chatWindow) {
-        toggleBtn.onclick = () => {
-            const isHidden = chatWindow.classList.contains('hidden') || chatWindow.style.display === 'none';
-            if (isHidden) {
-                chatWindow.classList.remove('hidden');
-                chatWindow.style.display = 'flex';
-            } else {
-                chatWindow.classList.add('hidden');
-                chatWindow.style.display = 'none';
+                history.innerHTML += `<div style="background: var(--background); padding: 8px 12px; border-radius: 12px; align-self: flex-start; margin-bottom: 10px;">${botResponse || "I'm having trouble connecting right now."}</div>`;
+                history.scrollTop = history.scrollHeight;
+            } catch (error) {
+                console.error("Chat Error:", error);
+                const indicator = document.getElementById(typingId);
+                if (indicator) indicator.remove();
+                history.innerHTML += `<div style="color: red; font-size: 0.8rem; align-self: center;">Connection error. Please try again.</div>`;
             }
-        };
-    }
-
-    // 2. Activate the Send Button and Enter Key
-    const sendBtn = document.getElementById('send-chat');
-    const chatInput = document.getElementById('chat-input');
-
-    if (sendBtn) sendBtn.onclick = askAssistant;
-    if (chatInput) {
-        chatInput.onkeypress = (e) => {
-            if (e.key === 'Enter') askAssistant();
-        };
-    }    
+        }
     </script>
 
     <div id="chat-widget-container" style="position: fixed; bottom: 80px; right: 20px; z-index: 2000;">
