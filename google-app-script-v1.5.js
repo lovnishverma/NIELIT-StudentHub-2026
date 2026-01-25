@@ -451,6 +451,10 @@ function signup(data) {
     data.name, cleanEmail, data.university, data.major, 
     '', '', '', data.profilePicture, new Date().toISOString(), '', 0 
   ]);
+
+  // [UPDATED] Clear the cache so the new user appears in search immediately
+  CacheService.getScriptCache().remove('profile_index');
+
   return createResponse('success', { ...data, password: '' });
 }
 
