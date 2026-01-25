@@ -49,8 +49,10 @@ function handleRequest(e, method) {
     switch (action) {
       case 'getProjects':
         return getProjectsPaginated(params.userEmail, params.page, params.searchTerm);
-      case 'getSearchIndex': // [NEW] Added for Client-Side Search
+      case 'getSearchIndex': 
         return getSearchIndex();
+      case 'getProfileIndex': // [NEW] Correctly placed inside switch
+        return getProfileIndex();
       case 'getTrending': 
         return getTrendingProjects(); 
       case 'getProfiles':
@@ -106,8 +108,7 @@ function getTrendingProjects() {
   return createResponse('success', projects);
 }
 
-// [NEW] LIGHTWEIGHT SEARCH INDEX
-// Returns only essential text data to keep payload tiny (~50kb instead of 5MB)
+// [NEW] LIGHTWEIGHT SEARCH INDEX (For Projects)
 function getSearchIndex() {
   const cache = CacheService.getScriptCache();
   const cachedIndex = cache.get('search_index');
@@ -119,8 +120,6 @@ function getSearchIndex() {
   const sheet = getOrCreateSheet(PROJECTS_SHEET);
   const data = sheet.getDataRange().getValues();
   
-  // Map ONLY essential columns needed for search
-  // Indices: ID=0, Author=1, Title=4, Tech=7, Category=11, Timestamp=10
   const searchData = data.slice(1).map(row => ({
     id: row[0],
     title: row[4],
@@ -128,25 +127,50 @@ function getSearchIndex() {
     tech: row[7],
     category: row[11],
     timestamp: row[10] 
-  })).reverse(); // Newest first
+  })).reverse(); 
 
   const response = { status: 'success', data: searchData };
   const jsonString = JSON.stringify(response);
   
-  // Cache for 6 hours (21600 seconds) since historical project text rarely changes
   cache.put('search_index', jsonString, 21600); 
+
+  return ContentService.createTextOutput(jsonString).setMimeType(ContentService.MimeType.JSON);
+}
+
+// [NEW] LIGHTWEIGHT PROFILE INDEX (For Students)
+function getProfileIndex() {
+  const cache = CacheService.getScriptCache();
+  const cachedIndex = cache.get('profile_index');
+  
+  if (cachedIndex) {
+    return ContentService.createTextOutput(cachedIndex).setMimeType(ContentService.MimeType.JSON);
+  }
+
+  const sheet = getOrCreateSheet(PROFILES_SHEET);
+  const data = sheet.getDataRange().getValues();
+  
+  // Map ONLY essential columns to keep payload tiny
+  const searchData = data.slice(1).map(row => ({
+    name: row[0],
+    email: row[1],
+    university: row[2],
+    major: row[3],
+    profilePicture: row[7],
+    likes: parseInt(row[10]) || 0
+  }));
+
+  const jsonString = JSON.stringify({ status: 'success', data: searchData });
+  
+  cache.put('profile_index', jsonString, 21600); 
 
   return ContentService.createTextOutput(jsonString).setMimeType(ContentService.MimeType.JSON);
 }
 
 // [OPTIMIZED] "Reverse-Range" Strategy + Caching
 function getProjectsPaginated(currentUserEmail, page, searchTerm) {
-  // 1. Check RAM Cache (Speed up generic page loads)
   const cacheKey = searchTerm ? `search_${searchTerm}_${page}` : `feed_${page}`;
   const cache = CacheService.getScriptCache();
   
-  // Only serve from cache if no user is logged in (to avoid showing wrong "Like" buttons)
-  // or implement more complex cache logic. For now, we cache generic public views.
   if (!currentUserEmail) {
     const cachedResult = cache.get(cacheKey);
     if (cachedResult) {
@@ -161,23 +185,14 @@ function getProjectsPaginated(currentUserEmail, page, searchTerm) {
   let totalProjects = 0;
   let hasMore = false;
 
-  // 2. Fetch Logic
   if (!searchTerm || searchTerm.trim() === '') {
-    // SCENARIO A: Standard Feed (Reverse Range Optimization)
-    // No sorting needed because 'appendRow' ensures chronological order.
-    // We just read from the bottom up.
-    
     totalProjects = Math.max(0, lastRow - 1);
     const pageNum = parseInt(page) || 1;
-    
-    // Calculate range: Row 2 is oldest. LastRow is newest.
-    // Page 1: (lastRow - 19) to lastRow
     const endRow = lastRow - ((pageNum - 1) * PAGE_SIZE);
     const startRow = Math.max(2, endRow - PAGE_SIZE + 1);
     
     if (endRow >= 2) {
       const numRows = (endRow - startRow) + 1;
-      // FETCH ONLY ~20 ROWS (Not 500,000)
       const data = sheet.getRange(startRow, 1, numRows, sheet.getLastColumn()).getValues();
       const headers = sheet.getRange(1, 1, 1, sheet.getLastColumn()).getValues()[0];
       
@@ -186,18 +201,15 @@ function getProjectsPaginated(currentUserEmail, page, searchTerm) {
         headers.forEach((h, i) => p[h] = row[i]);
         return p;
       });
-      projects.reverse(); // Newest first
+      projects.reverse();
       hasMore = startRow > 2;
     }
   } else {
-    // SCENARIO B: Search (Must scan, but this is rarer)
     const data = sheet.getDataRange().getValues();
     const headers = data[0];
     const term = searchTerm.toLowerCase();
     
     let allMatches = data.slice(1).filter(row => {
-      // Adjust indices based on column order: 
-      // Title=4, Description=5, Tech=7, Author=1, Category=11
       const title = String(row[4]||'').toLowerCase(); 
       const author = String(row[1]||'').toLowerCase();
       const tech = String(row[7]||'').toLowerCase();
@@ -221,8 +233,6 @@ function getProjectsPaginated(currentUserEmail, page, searchTerm) {
     hasMore = (startIndex + PAGE_SIZE) < totalProjects;
   }
 
-  // 3. Optimized Data Attachment (Comments & Upvotes)
-  // We read the comments sheet ONCE, not 20 times.
   let commentCounts = {};
   const cSheet = getOrCreateSheet(COMMENTS_SHEET);
   const cData = cSheet.getDataRange().getValues();
@@ -258,7 +268,6 @@ function getProjectsPaginated(currentUserEmail, page, searchTerm) {
   
   const jsonString = JSON.stringify({ status: 'success', data: responseData });
 
-  // Cache result for 10 minutes if public (no user specific data)
   if (!currentUserEmail) {
     cache.put(cacheKey, jsonString, 600); 
   }
@@ -637,7 +646,6 @@ function getCommentCount(pid) {
 }
 
 // [NEW] CRON JOB FUNCTION
-// Instructions: Go to Triggers -> Add Trigger -> updateTrendingCache -> Time-driven -> Every 1 Hour
 function updateTrendingCache() {
   const pSheet = getOrCreateSheet(PROJECTS_SHEET);
   const cSheet = getOrCreateSheet(COMMENTS_SHEET);
