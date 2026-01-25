@@ -52,7 +52,7 @@ Current solutions for institutional knowledge management bifurcate into two cate
 
 `NIELIT StudentHub` advances the field of **Frugal Computing** by demonstrating that "serverless" does not imply "cloud-vendor dependent billing." By leveraging the free tiers of massive-scale commodity providers through a novel API gateway, it offers a fourth alternative: full data ownership and limitless lifespan with zero recurring cost.
 
-# Software architecture
+# Software design
 
 ## 1. Frontend: Progressive Web Application
 
@@ -116,7 +116,7 @@ The system includes a security protocol that transparently upgrades legacy hash 
 | Algorithmic Efficiency | **O(1) (Optimized)** | O(1) (Indexed) | O(N) |
 | Data Ownership | ✅ Full | ✅ Full | ❌ Vendor Locked |
 
-# Use cases and impact
+# Research impact
 
 **Target Audience**: Researchers in ICT4D (Information and Communication Technologies for Development), frugal engineering practitioners, and administrators in resource-constrained educational or government institutions.
 
