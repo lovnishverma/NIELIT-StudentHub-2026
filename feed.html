@@ -10,29 +10,8 @@
         rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.6.2"></script>
     <link rel="icon" type="image/x-icon" href="logo.png">
-    <meta name="description"
-        content="Browse the latest student projects, trending innovations, and community updates from NIELIT Ropar on the StudentHub Feed.">
-    <meta name="keywords"
-        content="NIELIT Ropar Feed, Student Projects, Project Feed, Engineering Trends, StudentHub Activity, NIELIT Community, Latest Projects">
-    <meta name="author" content="NIELIT Ropar">
-    <meta name="robots" content="index, follow">
+    <meta name="description" content="Browse the latest student projects, trending innovations, and community updates from NIELIT Ropar on the StudentHub Feed.">
     <meta name="theme-color" content="#003366">
-
-    <meta property="og:type" content="website">
-    <meta property="og:url" content="https://nielitropar.github.io/feed.html">
-    <meta property="og:site_name" content="NIELIT StudentHub">
-    <meta property="og:title" content="StudentHub Feed - Discover Latest Projects">
-    <meta property="og:description"
-        content="See what's trending at NIELIT Ropar. Explore new student projects, connect with peers, and stay updated with the latest innovations.">
-    <meta property="og:image" content="https://nielitropar.github.io/logo.png">
-
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:site" content="@NIELITRopar">
-    <meta name="twitter:title" content="StudentHub Feed - Discover Latest Projects">
-    <meta name="twitter:description"
-        content="See what's trending at NIELIT Ropar. Explore new student projects and community updates.">
-    <meta name="twitter:image" content="https://nielitropar.github.io/logo.png">
-
 
     <style>
         :root {
@@ -52,871 +31,125 @@
             --shadow-lg: 0 10px 40px rgba(0, 51, 102, 0.15);
         }
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            -webkit-tap-highlight-color: transparent;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+        body { font-family: 'Poppins', sans-serif; background: var(--background); color: var(--text-primary); line-height: 1.6; overflow-x: hidden; width: 100%; }
 
-        body {
-            font-family: 'Poppins', sans-serif;
-            background: var(--background);
-            color: var(--text-primary);
-            line-height: 1.6;
-            overflow-x: hidden;
-        }
+        /* Navigation */
+        nav.desktop-nav { background: var(--card-bg); box-shadow: var(--shadow-sm); position: sticky; top: 0; z-index: 1000; backdrop-filter: blur(10px); }
+        .nav-container { max-width: 1200px; margin: 0 auto; padding: 1rem 2rem; display: flex; justify-content: space-between; align-items: center; }
+        .logo { font-family: 'Playfair Display', serif; font-size: 1.5rem; font-weight: 900; color: var(--primary); display: flex; align-items: center; gap: 0.5rem; text-decoration: none; }
+        .logo::before { content: '🎓'; font-size: 1.8rem; }
+        .nav-links { display: flex; gap: 2rem; align-items: center; }
+        .nav-link { color: var(--text-secondary); text-decoration: none; font-weight: 500; padding: 0.5rem 1rem; border-radius: 8px; position: relative; transition: 0.3s; }
+        .nav-link:hover { color: var(--accent); background: rgba(0, 102, 204, 0.05); }
+        .nav-link.active { color: var(--accent); font-weight: 700; }
+        .nav-link.active::after { content: ''; position: absolute; bottom: 0; left: 50%; transform: translateX(-50%); width: 30px; height: 3px; background: var(--accent); border-radius: 3px; }
 
-        /* Navigation (Desktop) */
-        nav.desktop-nav {
-            background: var(--card-bg);
-            box-shadow: var(--shadow-sm);
-            position: sticky;
-            top: 0;
-            z-index: 1000;
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
-        }
-
-        .nav-container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 1rem 2rem;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .logo {
-            font-family: 'Playfair Display', serif;
-            font-size: 1.5rem;
-            font-weight: 900;
-            color: var(--primary);
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            white-space: nowrap;
-            text-decoration: none;
-        }
-
-        .logo::before {
-            content: '🎓';
-            font-size: 1.8rem;
-        }
-
-        .nav-links {
-            display: flex;
-            gap: 2rem;
-            align-items: center;
-        }
-
-        .nav-link {
-            color: var(--text-secondary);
-            text-decoration: none;
-            font-weight: 500;
-            transition: all 0.3s ease;
-            padding: 0.5rem 1rem;
-            border-radius: 8px;
-            position: relative;
-        }
-
-        .nav-link:hover {
-            color: var(--accent);
-            background: rgba(0, 102, 204, 0.05);
-        }
-
-        .nav-link.active {
-            color: var(--accent);
-            font-weight: 700;
-        }
-
-        .nav-link.active::after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 30px;
-            height: 3px;
-            background: var(--accent);
-            border-radius: 3px;
-        }
-
-        /* Mobile Bottom Navigation */
-        .mobile-bottom-nav {
-            display: none;
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            background: var(--card-bg);
-            box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
-            justify-content: space-around;
-            padding: 0.8rem 0.5rem;
-            padding-bottom: env(safe-area-inset-bottom);
-            z-index: 1001;
-            border-top: 1px solid var(--border);
-        }
-
-        .mobile-nav-item {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            text-decoration: none;
-            color: var(--text-secondary);
-            font-size: 0.7rem;
-            font-weight: 600;
-            padding: 0.3rem 0.8rem;
-            border-radius: 12px;
-            transition: all 0.3s ease;
-            min-width: 65px;
-        }
-
-        .mobile-nav-icon {
-            font-size: 1.4rem;
-            margin-bottom: 4px;
-        }
-
-        .mobile-nav-item.active {
-            color: var(--accent);
-            background: rgba(0, 102, 204, 0.1);
-        }
+        /* Mobile Nav */
+        .mobile-bottom-nav { display: none; position: fixed; bottom: 0; left: 0; width: 100%; background: var(--card-bg); box-shadow: 0 -2px 10px rgba(0,0,0,0.1); justify-content: space-around; padding: 0.8rem 0.5rem; z-index: 1001; border-top: 1px solid var(--border); }
+        .mobile-nav-item { display: flex; flex-direction: column; align-items: center; text-decoration: none; color: var(--text-secondary); font-size: 0.7rem; font-weight: 600; padding: 0.3rem 0.8rem; border-radius: 12px; min-width: 65px; }
+        .mobile-nav-icon { font-size: 1.4rem; margin-bottom: 4px; }
+        .mobile-nav-item.active { color: var(--accent); background: rgba(0, 102, 204, 0.1); }
 
         /* Layout */
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 2rem;
-            min-height: 80vh;
-        }
-
-        .main-layout {
-            display: grid;
-            grid-template-columns: 280px 1fr 300px;
-            gap: 2rem;
-        }
-
-        /* Cards */
-        .card {
-            background: var(--card-bg);
-            border-radius: 16px;
-            padding: 1.5rem;
-            box-shadow: var(--shadow-sm);
-            margin-bottom: 1.5rem;
-            transition: all 0.3s ease;
-            width: 100%;
-        }
-
-        .card:hover {
-            box-shadow: var(--shadow-md);
-        }
-
-        .sidebar-card {
-            position: sticky;
-            top: 100px;
-            height: fit-content;
-        }
-
-        /* Enhanced Profile Sidebar */
-        .profile-sidebar {
-            text-align: center;
-            background: linear-gradient(135deg, rgba(0, 51, 102, 0.05), rgba(0, 102, 204, 0.05));
-            border: 2px solid var(--border);
-        }
-
-        .profile-header {
-            position: relative;
-            padding-bottom: 1rem;
-            margin-bottom: 1rem;
-            border-bottom: 2px solid var(--border);
-        }
+        .container { max-width: 1200px; margin: 0 auto; padding: 2rem; min-height: 80vh; }
+        .main-layout { display: grid; grid-template-columns: 260px 1fr 300px; gap: 2rem; align-items: start; }
+        
+        .card { background: var(--card-bg); border-radius: 16px; padding: 1.5rem; box-shadow: var(--shadow-sm); margin-bottom: 1.5rem; width: 100%; }
+        .sidebar-card { position: sticky; top: 100px; height: fit-content; }
+        .profile-sidebar { text-align: center; background: linear-gradient(135deg, rgba(0, 51, 102, 0.05), rgba(0, 102, 204, 0.05)); border: 2px solid var(--border); }
+        .profile-header { position: relative; padding-bottom: 1rem; margin-bottom: 1rem; border-bottom: 2px solid var(--border); }
 
         /* Project Card */
-        .project-card {
-            animation: fadeIn 0.5s ease-out;
-            border: 1px solid var(--border);
-            transition: all 0.3s ease;
-        }
-
-        .project-card:hover {
-            transform: translateY(-4px);
-            box-shadow: var(--shadow-lg);
-            border-color: var(--accent);
-        }
-
-        .project-header {
-            display: flex;
-            gap: 1rem;
-            margin-bottom: 1rem;
-            align-items: center;
-        }
-
-        .avatar {
-            width: 48px;
-            height: 48px;
-            border-radius: 50%;
-            object-fit: cover;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            border: 2px solid white;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-            flex-shrink: 0;
-        }
-
-        .big-avatar {
-            width: 100px;
-            height: 100px;
-            margin: 0 auto 1rem;
-            border: 4px solid var(--accent);
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-        }
-
-        .project-title {
-            font-size: 1.25rem;
-            font-weight: 700;
-            color: var(--primary);
-            margin-bottom: 0.5rem;
-            line-height: 1.3;
-            word-break: break-word;
-        }
-
-        .project-description {
-            color: var(--text-secondary);
-            margin-bottom: 1rem;
-            line-height: 1.6;
-            word-wrap: break-word;
-        }
-
-        /* Enhanced Project Image */
-        .project-image {
-            width: 100%;
-            max-width: 100%;
-            height: 300px;
-            object-fit: cover;
-            border-radius: 12px;
-            margin: 1rem 0;
-            display: block;
-            border: 1px solid var(--border);
-            transition: all 0.3s ease;
-        }
-
-        .project-card:hover .project-image {
-            transform: scale(1.02);
-        }
-
-        .project-footer {
-            display: flex;
-            gap: 0.8rem;
-            padding-top: 1rem;
-            border-top: 1px solid var(--border);
-            align-items: center;
-            flex-wrap: wrap;
-        }
-
-        .action-btn {
-            background: none;
-            border: none;
-            cursor: pointer;
-            color: var(--text-secondary);
-            display: flex;
-            align-items: center;
-            gap: 5px;
-            font-weight: 600;
-            font-family: 'Poppins', sans-serif;
-            transition: all 0.2s ease;
-            padding: 0.5rem 0.8rem;
-            border-radius: 8px;
-            font-size: 0.9rem;
-        }
-
-        .action-btn:hover,
-        .action-btn.active {
-            color: var(--accent);
-            background: rgba(0, 102, 204, 0.05);
-        }
-
-        .action-btn.active {
-            background: rgba(0, 102, 204, 0.1);
-        }
-
-        .tech-badge {
-            margin-left: auto;
-            font-size: 0.8rem;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            padding: 4px 12px;
-            border-radius: 20px;
-            font-weight: 600;
-            white-space: nowrap;
-        }
-
-        /* Footer */
-        .site-footer {
-            text-align: center;
-            padding: 3rem 2rem;
-            background: var(--card-bg);
-            border-top: 1px solid var(--border);
-            color: var(--text-secondary);
-            font-size: 0.9rem;
-            margin-top: 3rem;
-        }
-
-        .footer-logo {
-            max-width: 200px;
-            margin: 0 auto 1rem;
-            opacity: 0.8;
-        }
-
-        /* Auth Pages */
-        .auth-page {
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background: var(--gradient-primary);
-            padding: 1rem;
-            position: relative;
-            overflow: hidden;
-            z-index: 2000;
-        }
-
-        .auth-page::before {
-            content: '';
-            position: absolute;
-            width: 300px;
-            height: 300px;
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 50%;
-            top: -100px;
-            right: -100px;
-        }
-
-        .auth-page::after {
-            content: '';
-            position: absolute;
-            width: 400px;
-            height: 400px;
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 50%;
-            bottom: -150px;
-            left: -150px;
-        }
-
-        .auth-box {
-            background: white;
-            padding: 3rem;
-            border-radius: 20px;
-            width: 100%;
-            max-width: 450px;
-            text-align: center;
-            box-shadow: var(--shadow-lg);
-            position: relative;
-            z-index: 1;
-            animation: slideUp 0.5s ease-out;
-        }
-
-        @keyframes slideUp {
-            from {
-                opacity: 0;
-                transform: translateY(30px);
-            }
-
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        .form-group {
-            margin-bottom: 1.2rem;
-            text-align: left;
-        }
-
-        .form-group label {
-            display: block;
-            font-weight: 600;
-            margin-bottom: 0.5rem;
-            font-size: 0.9rem;
-            color: var(--text-primary);
-        }
-
-        .form-input {
-            width: 100%;
-            padding: 0.875rem;
-            border: 2px solid var(--border);
-            border-radius: 10px;
-            font-family: inherit;
-            font-size: 0.95rem;
-            transition: all 0.3s ease;
-            -webkit-appearance: none;
-        }
-
-        .form-input:focus {
-            outline: none;
-            border-color: var(--accent);
-            box-shadow: 0 0 0 3px rgba(0, 102, 204, 0.1);
-        }
-
-        /* Buttons */
-        .btn {
-            padding: 0.875rem 1.75rem;
-            border-radius: 10px;
-            border: none;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            font-size: 0.95rem;
-            font-family: 'Poppins', sans-serif;
-            display: inline-flex;
-            justify-content: center;
-            align-items: center;
-            gap: 0.5rem;
-            text-decoration: none;
-        }
-
-        .btn-primary {
-            background: var(--gradient-primary);
-            color: white;
-            box-shadow: 0 4px 12px rgba(0, 102, 204, 0.3);
-        }
-
-        .btn-primary:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(0, 102, 204, 0.4);
-        }
-
-        .btn-primary:active {
-            transform: translateY(0);
-        }
-
-        .btn-secondary {
-            background: #F3F4F6;
-            color: var(--text-primary);
-        }
-
-        .btn-secondary:hover {
-            background: #E5E7EB;
-        }
-
-        .btn-ghost {
-            background: transparent;
-            color: var(--text-secondary);
-        }
-
-        .btn-ghost:hover {
-            background: rgba(0, 0, 0, 0.05);
-        }
-
-        /* Search */
-        .search-container {
-            margin-bottom: 2rem;
-        }
-
-        .search-input {
-            width: 100%;
-            padding: 1rem 1.25rem;
-            border: 2px solid var(--border);
-            border-radius: 12px;
-            font-size: 1rem;
-            transition: all 0.3s ease;
-            background: white;
-            -webkit-appearance: none;
-        }
-
-        .search-input:focus {
-            outline: none;
-            border-color: var(--accent);
-            box-shadow: 0 0 0 3px rgba(0, 102, 204, 0.1);
-        }
-
-        .search-input::placeholder {
-            color: var(--text-secondary);
-        }
-
-        /* new  */
-        .search-result-card {
-            background: white;
-            padding: 1.2rem;
-            border-radius: 12px;
-            margin-bottom: 1rem;
-            border: 1px solid var(--border);
-            cursor: pointer;
-            transition: all 0.2s;
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-        }
-
-        .search-result-card:hover {
-            border-color: var(--accent);
-            transform: translateX(5px);
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-        }
-
-        .search-icon-placeholder {
-            width: 45px;
-            height: 45px;
-            background: rgba(0, 102, 204, 0.1);
-            color: var(--accent);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.2rem;
-            flex-shrink: 0;
-        }
-
-        /* Modal */
-        .modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.6);
-            z-index: 3000;
-            align-items: center;
-            justify-content: center;
-            backdrop-filter: blur(4px);
-            padding: 1rem;
-        }
-
-        .modal.active {
-            display: flex;
-        }
-
-        .modal-content {
-            background: white;
-            padding: 2rem;
-            border-radius: 20px;
-            width: 100%;
-            max-width: 600px;
-            max-height: 90vh;
-            overflow-y: auto;
-            box-shadow: var(--shadow-lg);
-            animation: modalSlide 0.3s ease-out;
-            margin: 0 1rem;
-        }
-
-        @keyframes modalSlide {
-            from {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        .modal-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 1.5rem;
-        }
-
-        .modal-close {
-            background: none;
-            border: none;
-            font-size: 1.5rem;
-            cursor: pointer;
-            color: var(--text-secondary);
-            padding: 0.5rem;
-            border-radius: 8px;
-            transition: all 0.2s;
-        }
-
-        .modal-close:hover {
-            background: rgba(0, 0, 0, 0.05);
-            color: var(--text-primary);
-        }
-
-        /* Trending Section */
-        .trending-item {
-            margin-bottom: 1rem;
-            padding: 1rem;
-            border-radius: 12px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            border: 1px solid transparent;
-        }
-
-        .trending-item:hover {
-            background: rgba(0, 102, 204, 0.05);
-            border-color: var(--accent);
-            transform: translateX(5px);
-        }
-
-        /* MOBILE TRENDING STYLES (NEW) */
-        .mobile-trending-container {
-            margin-bottom: 1.5rem;
-        }
-
-        .mobile-trending-list {
-            display: flex;
-            gap: 1rem;
-            overflow-x: auto;
-            padding-bottom: 0.5rem;
-            -webkit-overflow-scrolling: touch;
-            scrollbar-width: none;
-        }
-
-        .mobile-trending-list::-webkit-scrollbar {
-            display: none;
-        }
-
-        .mobile-trend-card {
-            min-width: 240px;
-            max-width: 240px;
-            background: white;
-            padding: 1rem;
-            border-radius: 16px;
-            box-shadow: var(--shadow-sm);
-            border: 1px solid var(--border);
-            flex-shrink: 0;
-            transition: transform 0.2s;
-            cursor: pointer;
-        }
-
-        .mobile-trend-card:hover {
-            transform: translateY(-2px);
-            border-color: var(--accent);
-        }
-
-        .hidden-desktop {
-            display: none;
-        }
-
-        /* Utils */
-        .hidden {
-            display: none !important;
-        }
-
-        .loading {
-            text-align: center;
-            padding: 3rem;
-            color: var(--text-secondary);
-        }
-
-        .loading-spinner {
-            font-size: 3rem;
-            animation: spin 2s linear infinite;
-        }
-
-        @keyframes spin {
-            from {
-                transform: rotate(0deg);
-            }
-
-            to {
-                transform: rotate(360deg);
-            }
-        }
-
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        /* Comment Section */
-        .comment-item {
-            margin-bottom: 1rem;
-            background: #F9FAFB;
-            padding: 1rem;
-            border-radius: 12px;
-            border-left: 3px solid var(--accent);
-        }
-
-        .comment-author {
-            font-size: 0.85rem;
-            font-weight: 600;
-            color: var(--primary);
-            margin-bottom: 0.25rem;
-        }
-
-        .comment-text {
-            color: var(--text-primary);
-            line-height: 1.5;
-            font-size: 0.95rem;
-            word-wrap: break-word;
-        }
-
-        /* RESPONSIVE BREAKPOINTS */
-
-        @media (max-width: 1200px) {
-            .main-layout {
-                grid-template-columns: 260px 1fr 280px;
-                gap: 1.5rem;
-            }
-        }
-
-        @media (max-width: 968px) {
-            .main-layout {
-                grid-template-columns: 1fr;
-                gap: 1.5rem;
-                display: flex;
-                flex-direction: column;
-            }
-
-            .sidebar-card,
-            .right-sidebar {
-                display: none;
-            }
-
-            /* Show mobile trending on small screens */
-            .hidden-desktop {
-                display: block;
-            }
-
-            .nav-links {
-                display: none;
-            }
-
-            .mobile-bottom-nav {
-                display: flex;
-            }
-
-            .container {
-                padding: 1rem;
-                padding-bottom: 100px;
-            }
-
-            .site-footer {
-                padding-bottom: 120px;
-            }
-
-            .project-image {
-                height: 250px;
-            }
-
-            .nav-container {
-                padding: 1rem;
-            }
-        }
-
-        @media (max-width: 480px) {
-
-            .auth-box {
-                padding: 1.5rem;
-                margin: 0 1rem;
-            }
-
-            .logo {
-                font-size: 1.3rem;
-            }
-
-            .project-title {
-                font-size: 1.1rem;
-            }
-
-            .project-footer {
-                gap: 0.5rem;
-            }
-
-            .action-btn {
-                padding: 0.4rem 0.6rem;
-                font-size: 0.8rem;
-            }
-
-            .tech-badge {
-                font-size: 0.7rem;
-                padding: 3px 8px;
-            }
-
-            .mobile-nav-item {
-                font-size: 0.6rem;
-                min-width: 55px;
-            }
-
-            .mobile-nav-icon {
-                font-size: 1.2rem;
-            }
-
-            .card {
-                padding: 1rem;
-            }
-
-            .project-image {
-                height: 200px;
-                margin: 0.5rem 0;
-            }
-
-            .modal-content {
-                padding: 1.5rem;
-                margin: 0.5rem;
-            }
-
-            h1.logo {
-                font-size: 2rem !important;
-            }
-
-            input,
-            select,
-            textarea {
-                font-size: 16px !important;
-            }
-        }
-
-        html {
-            scroll-behavior: smooth;
-        }
-
-        ::-webkit-scrollbar {
-            width: 8px;
-        }
-
-        ::-webkit-scrollbar-track {
-            background: var(--background);
-        }
-
-        ::-webkit-scrollbar-thumb {
-            background: #cbd5e1;
-            border-radius: 5px;
-        }
-
-        ::-webkit-scrollbar-thumb:hover {
-            background: var(--text-secondary);
-        }
+        .project-card { animation: fadeIn 0.5s ease-out; border: 1px solid var(--border); transition: 0.3s; }
+        .project-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-md); border-color: var(--accent); }
+        .project-header { display: flex; gap: 1rem; margin-bottom: 1rem; align-items: center; }
+        .avatar { width: 48px; height: 48px; border-radius: 50%; object-fit: cover; border: 2px solid white; box-shadow: 0 2px 8px rgba(0,0,0,0.1); flex-shrink: 0; background: #ddd; }
+        .big-avatar { width: 100px; height: 100px; margin: 0 auto 1rem; border: 4px solid var(--accent); }
+        .project-title { font-size: 1.25rem; font-weight: 700; color: var(--primary); margin-bottom: 0.5rem; line-height: 1.3; word-break: break-word; }
+        .project-description { color: var(--text-secondary); margin-bottom: 1rem; line-height: 1.6; word-wrap: break-word; }
+        .project-image { width: 100%; height: 300px; object-fit: cover; border-radius: 12px; margin: 1rem 0; border: 1px solid var(--border); }
+        
+        /* Buttons & Footer */
+        .project-footer { display: flex; gap: 0.8rem; padding-top: 1rem; border-top: 1px solid var(--border); align-items: center; flex-wrap: wrap; }
+        .action-btn { background: none; border: none; cursor: pointer; color: var(--text-secondary); display: flex; align-items: center; gap: 5px; font-weight: 600; padding: 0.5rem 0.8rem; border-radius: 8px; font-size: 0.9rem; font-family: inherit; }
+        .action-btn:hover, .action-btn.active { color: var(--accent); background: rgba(0, 102, 204, 0.05); }
+        .tech-badge { margin-left: auto; font-size: 0.8rem; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 4px 12px; border-radius: 20px; font-weight: 600; }
+        
+        .site-footer { text-align: center; padding: 3rem 2rem; background: var(--card-bg); border-top: 1px solid var(--border); color: var(--text-secondary); font-size: 0.9rem; margin-top: 3rem; }
+        .footer-logo { max-width: 200px; margin: 0 auto 1rem; opacity: 0.8; }
+
+        /* Inputs & Modals */
+        .form-group { margin-bottom: 1.2rem; text-align: left; }
+        .form-group label { display: block; font-weight: 600; margin-bottom: 0.5rem; font-size: 0.9rem; }
+        .form-input { width: 100%; padding: 0.875rem; border: 2px solid var(--border); border-radius: 10px; font-family: inherit; font-size: 0.95rem; }
+        .form-input:focus { outline: none; border-color: var(--accent); box-shadow: 0 0 0 3px rgba(0, 102, 204, 0.1); }
+        
+        .btn { padding: 0.875rem 1.75rem; border-radius: 10px; border: none; font-weight: 600; cursor: pointer; font-family: inherit; display: inline-flex; align-items: center; gap: 0.5rem; text-decoration: none; justify-content: center; transition: 0.3s; }
+        .btn-primary { background: var(--gradient-primary); color: white; box-shadow: 0 4px 12px rgba(0, 102, 204, 0.3); }
+        .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(0, 102, 204, 0.4); }
+        .btn-secondary { background: #F3F4F6; color: #1A1A1A; }
+        .btn-secondary:hover { background: #E5E7EB; }
+        .btn-ghost { background: transparent; color: #6B7280; }
+        .btn-ghost:hover { background: rgba(0,0,0,0.05); }
+        
+        .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); z-index: 3000; align-items: center; justify-content: center; backdrop-filter: blur(4px); padding: 1rem; }
+        .modal.active { display: flex; }
+        .modal-content { background: white; padding: 2rem; border-radius: 20px; width: 100%; max-width: 600px; max-height: 90vh; overflow-y: auto; box-shadow: 0 10px 40px rgba(0,0,0,0.2); animation: modalSlide 0.3s ease-out; margin: 0 1rem; }
+        .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; }
+        .modal-close { background: none; border: none; font-size: 1.5rem; cursor: pointer; color: var(--text-secondary); }
+        
+        /* Auth */
+        .auth-page { min-height: 100vh; display: flex; align-items: center; justify-content: center; background: var(--gradient-primary); padding: 1rem; }
+        .auth-box { background: white; padding: 3rem; border-radius: 20px; width: 100%; max-width: 450px; text-align: center; box-shadow: 0 10px 40px rgba(0,0,0,0.2); animation: slideUp 0.5s ease-out; }
+        .hidden { display: none !important; }
+        
+        /* Feed Components */
+        .search-container { margin-bottom: 2rem; }
+        .search-result-card { background: white; padding: 1.2rem; border-radius: 12px; margin-bottom: 1rem; border: 1px solid var(--border); cursor: pointer; display: flex; align-items: center; gap: 1rem; transition: 0.2s; }
+        .search-result-card:hover { border-color: var(--accent); transform: translateX(5px); }
+        .search-icon-placeholder { width: 45px; height: 45px; background: rgba(0, 102, 204, 0.1); color: var(--accent); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; flex-shrink: 0; }
+        
+        .trending-item { margin-bottom: 1rem; padding: 1rem; border-radius: 12px; cursor: pointer; transition: 0.2s; border: 1px solid transparent; }
+        .trending-item:hover { background: rgba(0,102,204,0.05); transform: translateX(5px); border-color: var(--accent); }
+        .mobile-trending-container { margin-bottom: 1.5rem; }
+        .mobile-trending-list { display: flex; gap: 1rem; overflow-x: auto; padding-bottom: 0.5rem; scrollbar-width: none; }
+        .mobile-trend-card { min-width: 240px; background: white; padding: 1rem; border-radius: 16px; border: 1px solid var(--border); cursor: pointer; }
+        
+        .hidden-desktop { display: none; }
+        .loading { text-align: center; padding: 3rem; color: var(--text-secondary); }
+        .loading-spinner { font-size: 3rem; animation: spin 2s linear infinite; }
+        
+        /* Comments */
+        .comment-item { margin-bottom: 1rem; background: #F9FAFB; padding: 1rem; border-radius: 12px; border-left: 3px solid var(--accent); }
+        .comment-author { font-size: 0.85rem; font-weight: 600; color: var(--primary); margin-bottom: 0.25rem; }
+        .comment-text { color: var(--text-primary); line-height: 1.5; font-size: 0.95rem; }
 
         /* App Download Button */
-        .app-download-btn {
-            display: inline-flex;
-            align-items: center;
-            gap: 10px;
-            background: #1a1a1a;
-            color: #ffffff !important;
-            padding: 10px 20px;
-            border-radius: 50px;
-            text-decoration: none;
-            font-weight: 500;
-            font-size: 0.9rem;
-            margin-top: 1.5rem;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-            border: 1px solid transparent;
+        .app-download-btn { display: inline-flex; align-items: center; gap: 10px; background: #1a1a1a; color: #ffffff !important; padding: 10px 20px; border-radius: 50px; text-decoration: none; font-weight: 500; font-size: 0.9rem; margin-top: 1.5rem; transition: 0.3s; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); }
+        .app-download-btn:hover { transform: translateY(-3px); background: var(--accent); }
+
+        /* Animations */
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes modalSlide { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes slideUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+        
+        /* Responsive Fixes */
+        @media (max-width: 1100px) {
+            .main-layout { grid-template-columns: 1fr; display: flex; flex-direction: column; }
+            .sidebar-card, .right-sidebar { display: none; }
+            .nav-links { display: none; }
+            .mobile-bottom-nav { display: flex; }
+            .hidden-desktop { display: block; }
+            .container { padding: 1rem; padding-bottom: 100px; }
+        }
+        @media (max-width: 480px) {
+            .auth-box { padding: 1.5rem; margin: 0 1rem; }
+            h1.logo { font-size: 2rem !important; }
         }
 
-        .app-download-btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
-            background: var(--accent);
-            border-color: var(--accent);
-        }
-
-        .app-icon {
-            font-size: 1.2rem;
-        }
-
-        /* AI Insight Badge Styling */
+        /* AI Badge */
         .ai-insight-badge {
             background: rgba(16, 185, 129, 0.08);
             border: 1px solid var(--success);
@@ -932,14 +165,14 @@
             line-height: 1.4;
         }
 
-        /* ================= CHATBOT STYLES ================= */
+        /* ================= CHATBOT STYLES (FIXED) ================= */
         .chat-fab {
             position: fixed;
             bottom: 20px;
             right: 20px;
             width: 60px;
             height: 60px;
-            background: var(--gradient-primary);
+            background: var(--primary); /* NIELIT Blue */
             border-radius: 50%;
             box-shadow: 0 4px 15px rgba(0, 51, 102, 0.4);
             display: flex;
@@ -948,12 +181,10 @@
             cursor: pointer;
             z-index: 2000;
             color: white;
-            font-size: 1.8rem;
             transition: all 0.3s ease;
         }
-        .chat-fab:hover {
-            transform: scale(1.1);
-        }
+        .chat-fab:hover { transform: scale(1.1); background: var(--accent); }
+        .chat-fab svg { width: 30px; height: 30px; fill: white; }
         
         .chat-window {
             display: none;
@@ -964,19 +195,17 @@
             height: 500px;
             background: white;
             border-radius: 20px;
-            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
             z-index: 2000;
             flex-direction: column;
             overflow: hidden;
             border: 1px solid var(--border);
             animation: slideUp 0.3s ease-out;
         }
-        .chat-window.active {
-            display: flex;
-        }
+        .chat-window.active { display: flex; }
         
         .chat-header {
-            background: var(--gradient-primary);
+            background: var(--primary);
             color: white;
             padding: 1rem;
             display: flex;
@@ -989,26 +218,26 @@
             overflow-y: auto;
             display: flex;
             flex-direction: column;
-            gap: 10px;
+            gap: 12px;
             background: #f9fafb;
         }
         .chat-message {
-            max-width: 80%;
-            padding: 10px 14px;
+            max-width: 85%;
+            padding: 12px 16px;
             border-radius: 12px;
-            font-size: 0.9rem;
-            line-height: 1.4;
+            font-size: 0.95rem;
+            line-height: 1.5;
         }
         .chat-message.bot {
-            background: white;
-            color: var(--text-primary);
+            background: #F3F4F6; /* Solid light gray background */
+            color: #1F2937;      /* Dark text for visibility */
             align-self: flex-start;
-            border: 1px solid var(--border);
             border-bottom-left-radius: 2px;
+            border: 1px solid #E5E7EB;
         }
         .chat-message.user {
-            background: var(--accent);
-            color: white;
+            background: var(--accent); /* NIELIT Blue Accent */
+            color: #FFFFFF;            /* White text */
             align-self: flex-end;
             border-bottom-right-radius: 2px;
         }
@@ -1020,7 +249,6 @@
             background: white;
         }
         
-        /* Chatbot Project Card */
         .chat-project-card {
             background: white;
             padding: 10px;
@@ -1030,19 +258,12 @@
             cursor: pointer;
             transition: 0.2s;
             margin-top: 5px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
         }
-        .chat-project-card:hover {
-            border-color: var(--accent);
-            background: #f0f7ff;
-        }
+        .chat-project-card:hover { border-color: var(--accent); background: #f0f7ff; }
         
         @media (max-width: 480px) {
-            .chat-window {
-                width: 90%;
-                right: 5%;
-                bottom: 80px;
-                height: 60vh;
-            }
+            .chat-window { width: 90%; right: 5%; bottom: 80px; height: 60vh; }
         }
     </style>
 </head>
@@ -1065,8 +286,7 @@
                 <button type="submit" class="btn btn-primary" style="width: 100%; margin-top: 1rem;">Log In</button>
             </form>
             <p style="margin-top: 2rem; font-size: 0.9rem;">
-                No account? <a href="#" onclick="toggleAuth('signup')"
-                    style="color: var(--accent); font-weight: 600; text-decoration: none;">Sign up</a>
+                No account? <a href="#" onclick="toggleAuth('signup')" style="color: var(--accent); font-weight: 600; text-decoration: none;">Sign up</a>
             </p>
         </div>
     </div>
@@ -1090,8 +310,7 @@
                 </div>
                 <div class="form-group">
                     <label>Password</label>
-                    <input type="password" id="signupPass" class="form-input" required minlength="6"
-                        placeholder="Minimum 6 characters">
+                    <input type="password" id="signupPass" class="form-input" required minlength="6" placeholder="Minimum 6 characters">
                 </div>
                 <div class="form-group">
                     <label>Major / Stream</label>
@@ -1100,8 +319,7 @@
                 <button type="submit" class="btn btn-primary" style="width: 100%; margin-top: 1rem;">Sign Up</button>
             </form>
             <p style="margin-top: 1.5rem;">
-                <a href="#" onclick="toggleAuth('login')"
-                    style="color: var(--text-secondary); text-decoration: none; font-weight: 500;">← Back to Login</a>
+                <a href="#" onclick="toggleAuth('login')" style="color: var(--text-secondary); text-decoration: none; font-weight: 500;">← Back to Login</a>
             </p>
         </div>
     </div>
@@ -1130,17 +348,14 @@
                             <h3 id="sideName" style="margin-bottom: 0.25rem;">User</h3>
                             <p id="sideMajor" style="color: var(--text-secondary); font-size: 0.9rem;">Student</p>
                         </div>
-                        <button class="btn btn-secondary" onclick="openMyProfilePage()"
-                            style="width: 100%; margin-bottom: 0.75rem;">📁 My Projects</button>
-                        <button class="btn btn-ghost" onclick="openModal('editProfile')" style="width: 100%">✏️ Edit
-                            Profile</button>
+                        <button class="btn btn-secondary" onclick="openMyProfilePage()" style="width: 100%; margin-bottom: 0.75rem;">📁 My Projects</button>
+                        <button class="btn btn-ghost" onclick="openModal('editProfile')" style="width: 100%">✏️ Edit Profile</button>
                     </div>
                 </aside>
 
                 <main>
                     <div class="mobile-trending-container hidden-desktop">
-                        <h3
-                            style="margin-bottom: 0.8rem; font-size: 1.2rem; display: flex; align-items: center; gap: 0.5rem; color: var(--primary);">
+                        <h3 style="margin-bottom: 0.8rem; font-size: 1.2rem; display: flex; align-items: center; gap: 0.5rem; color: var(--primary);">
                             🔥 <span>Trending Now</span>
                         </h3>
                         <div id="mobileTrendingList" class="mobile-trending-list">
@@ -1149,12 +364,10 @@
                     </div>
 
                     <div class="search-container">
-                        <input type="text" id="searchInput" class="search-input" placeholder="🔍 Search projects..."
-                            onkeyup="handleSearch(this.value)">
+                        <input type="text" id="searchInput" class="search-input" placeholder="🔍 Search projects..." onkeyup="handleSearch(this.value)">
                     </div>
 
-                    <div
-                        style="display:flex; gap:10px; overflow-x:auto; padding-bottom:10px; margin-bottom:1rem; -webkit-overflow-scrolling:touch; scrollbar-width: none;">
+                    <div style="display:flex; gap:10px; overflow-x:auto; padding-bottom:10px; margin-bottom:1rem; -webkit-overflow-scrolling:touch; scrollbar-width: none;">
                         <button onclick="filterCategory(this, 'All')" class="action-btn active filter-btn">All</button>
                         <button onclick="filterCategory(this, 'Web Development')" class="action-btn filter-btn">Web Dev</button>
                         <button onclick="filterCategory(this, 'Mobile App')" class="action-btn filter-btn">App</button>
@@ -1189,57 +402,42 @@
 
         <footer class="site-footer">
             <div class="footer-logo">
-                <p style="font-size: 1.2rem; font-weight: 700; color: var(--primary); margin-bottom: 0.5rem;">
-                    🎓 NIELIT Ropar
-                </p>
+                <p style="font-size: 1.2rem; font-weight: 700; color: var(--primary); margin-bottom: 0.5rem;">🎓 NIELIT Ropar</p>
             </div>
-
             <p>&copy; 2026 <strong>StudentHub</strong>. All rights reserved.</p>
-
-            <p
-                style="font-size: 0.8rem; margin: 0.5rem 0; opacity: 0.7; max-width: 300px; margin-left: auto; margin-right: auto;">
+            <p style="font-size: 0.8rem; margin: 0.5rem 0; opacity: 0.7; max-width: 300px; margin-left: auto; margin-right: auto;">
                 National Institute of Electronics & Information Technology
             </p>
-
-            <a href="https://github.com/nielitropar/nielitropar.github.io/releases/tag/v1.0" target="_blank"
-                class="app-download-btn">
+            <a href="https://github.com/nielitropar/nielitropar.github.io/releases/tag/v1.0" target="_blank" class="app-download-btn">
                 <span class="app-icon">🤖</span>
                 <span>Download Android App</span>
             </a>
         </footer>
 
         <nav class="mobile-bottom-nav">
-            <a href="#" onclick="showSection('feed'); return false;" class="mobile-nav-item active">
-                <span class="mobile-nav-icon">🏠</span>
-                <span>Feed</span>
-            </a>
-            <a href="index.html" class="mobile-nav-item">
-                <span class="mobile-nav-icon">👥</span>
-                <span>Profiles</span>
-            </a>
-            <a href="#" onclick="openModal('project'); return false;" class="mobile-nav-item">
-                <span class="mobile-nav-icon">➕</span>
-                <span>Post</span>
-            </a>
-            <a href="#" onclick="openMyProfile(); return false;" class="mobile-nav-item">
-                <span class="mobile-nav-icon">👤</span>
-                <span>Me</span>
-            </a>
+            <a href="#" onclick="showSection('feed'); return false;" class="mobile-nav-item active"><span class="mobile-nav-icon">🏠</span><span>Feed</span></a>
+            <a href="index.html" class="mobile-nav-item"><span class="mobile-nav-icon">👥</span><span>Profiles</span></a>
+            <a href="#" onclick="openModal('project'); return false;" class="mobile-nav-item"><span class="mobile-nav-icon">➕</span><span>Post</span></a>
+            <a href="#" onclick="openMyProfile(); return false;" class="mobile-nav-item"><span class="mobile-nav-icon">👤</span><span>Me</span></a>
         </nav>
     </div>
 
-    <div class="chat-fab" onclick="toggleChat()">🤖</div>
+    <div class="chat-fab" onclick="toggleChat()">
+        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm0 14H6l-2 2V4h16v12z"/>
+        </svg>
+    </div>
     
     <div class="chat-window" id="chatWindow">
         <div class="chat-header">
             <div>
                 <span style="font-weight:700;">StudentHub AI</span>
-                <div style="font-size:0.7rem; opacity:0.9;">Ask me to find projects!</div>
+                <div style="font-size:0.75rem; opacity:0.9;">Assistant</div>
             </div>
-            <span onclick="toggleChat()" style="cursor:pointer; font-size:1.2rem;">&times;</span>
+            <span onclick="toggleChat()" style="cursor:pointer; font-size:1.5rem;">&times;</span>
         </div>
         <div class="chat-body" id="chatBody">
-            <div class="chat-message bot">Hi! I'm the StudentHub AI. Ask me to find specific projects, like "Find me a robotics project" or "Who works on React?".</div>
+            <div class="chat-message bot">Hi! I'm the StudentHub AI assistant. Ask me to find projects like "Find me a robotics project" or "Who works on React?".</div>
         </div>
         <div class="chat-input-area">
             <input type="text" id="chatInput" class="form-input" style="margin-bottom:0;" placeholder="Type your request..." onkeypress="handleChatKey(event)">
@@ -1249,18 +447,13 @@
 
     <div id="userMenuModal" class="modal">
         <div class="modal-content" style="text-align: center;">
-            <div class="modal-header">
-                <h2>Menu</h2>
-                <button class="modal-close" onclick="closeModal('userMenu')">&times;</button>
-            </div>
+            <div class="modal-header"><h2>Menu</h2><button class="modal-close" onclick="closeModal('userMenu')">&times;</button></div>
             <img id="menuAvatar" src="" class="avatar big-avatar">
             <h3 id="menuName">User</h3>
             <p id="menuMajor" style="color: var(--text-secondary); margin-bottom: 1.5rem;">Student</p>
-
             <div style="display: flex; flex-direction: column; gap: 1rem;">
                 <button class="btn btn-secondary" onclick="openMyProfilePage()">📁 My Projects</button>
-                <button class="btn btn-primary" onclick="closeModal('userMenu'); openModal('editProfile')">✏️ Edit
-                    Profile</button>
+                <button class="btn btn-primary" onclick="closeModal('userMenu'); openModal('editProfile')">✏️ Edit Profile</button>
                 <button class="btn btn-ghost" onclick="logout()" style="color: #ef4444;">🚪 Logout</button>
             </div>
         </div>
@@ -1268,10 +461,7 @@
 
     <div id="projectModal" class="modal">
         <div class="modal-content">
-            <div class="modal-header">
-                <h2>Share Project</h2>
-                <button class="modal-close" onclick="closeModal('project')">&times;</button>
-            </div>
+            <div class="modal-header"><h2>Share Project</h2><button class="modal-close" onclick="closeModal('project')">&times;</button></div>
             <form onsubmit="handlePostProject(event)">
                 <div class="form-group">
                     <label>📸 Project Image</label>
@@ -1283,8 +473,7 @@
                 </div>
                 <div class="form-group">
                     <label>Description</label>
-                    <textarea id="postDesc" class="form-input" rows="4" required
-                        placeholder="Describe your project..."></textarea>
+                    <textarea id="postDesc" class="form-input" rows="4" required placeholder="Describe your project..."></textarea>
                 </div>
                 <div class="form-group">
                     <label>🔗 Link (GitHub/Demo)</label>
@@ -1321,51 +510,16 @@
 
     <div id="editProfileModal" class="modal">
         <div class="modal-content">
-            <div class="modal-header">
-                <h2>Edit Profile</h2>
-                <button class="modal-close" onclick="closeModal('editProfile')">&times;</button>
-            </div>
+            <div class="modal-header"><h2>Edit Profile</h2><button class="modal-close" onclick="closeModal('editProfile')">&times;</button></div>
             <form onsubmit="handleEditProfile(event)">
-                <div class="form-group">
-                    <label>📸 New Profile Picture</label>
-                    <input type="file" id="editPic" class="form-input" accept="image/*">
-                </div>
-                <div class="form-group">
-                    <label>Full Name</label>
-                    <input type="text" id="editName" class="form-input" required>
-                </div>
-                <div class="form-group">
-                    <label>University</label>
-                    <input type="text" id="editUni" class="form-input" placeholder="NIELIT Ropar">
-                </div>
-                <div class="form-group">
-                    <label>Major</label>
-                    <input type="text" id="editMajorInput" class="form-input" placeholder="Computer Science">
-                </div>
-                <div class="form-group">
-                    <label>Bio</label>
-                    <textarea id="editBio" class="form-input" rows="3"
-                        placeholder="Tell us about yourself..."></textarea>
-                </div>
-
-                <div class="form-group">
-                    <label>📄 Resume (PDF)</label>
-                    <div style="display: flex; gap: 10px; align-items: center;">
-                        <input type="file" id="editResumeFile" class="form-input" accept=".pdf">
-                        <a id="currentResumeLink" href="#" target="_blank" class="btn-ghost hidden"
-                            style="font-size: 0.8rem; white-space: nowrap;">View Current</a>
-                    </div>
-                    <small style="color: var(--text-secondary);">Upload a PDF file (Max 5MB)</small>
-                </div>
-
-                <div class="form-group">
-                    <label>🔗 LinkedIn</label>
-                    <input type="url" id="editLinked" class="form-input" placeholder="https://linkedin.com/in/...">
-                </div>
-                <div class="form-group">
-                    <label>🔗 GitHub</label>
-                    <input type="url" id="editGit" class="form-input" placeholder="https://github.com/...">
-                </div>
+                <div class="form-group"><label>📸 New Profile Picture</label><input type="file" id="editPic" class="form-input" accept="image/*"></div>
+                <div class="form-group"><label>Full Name</label><input type="text" id="editName" class="form-input" required></div>
+                <div class="form-group"><label>University</label><input type="text" id="editUni" class="form-input" placeholder="NIELIT Ropar"></div>
+                <div class="form-group"><label>Major</label><input type="text" id="editMajorInput" class="form-input" placeholder="Computer Science"></div>
+                <div class="form-group"><label>Bio</label><textarea id="editBio" class="form-input" rows="3" placeholder="Tell us about yourself..."></textarea></div>
+                <div class="form-group"><label>📄 Resume (PDF)</label><div style="display: flex; gap: 10px; align-items: center;"><input type="file" id="editResumeFile" class="form-input" accept=".pdf"><a id="currentResumeLink" href="#" target="_blank" class="btn-ghost hidden" style="font-size: 0.8rem; white-space: nowrap;">View Current</a></div></div>
+                <div class="form-group"><label>🔗 LinkedIn</label><input type="url" id="editLinked" class="form-input" placeholder="https://linkedin.com/in/..."></div>
+                <div class="form-group"><label>🔗 GitHub</label><input type="url" id="editGit" class="form-input" placeholder="https://github.com/..."></div>
                 <div style="display: flex; gap: 1rem; justify-content: flex-end; margin-top: 1.5rem;">
                     <button type="button" class="btn btn-ghost" onclick="closeModal('editProfile')">Cancel</button>
                     <button type="submit" class="btn btn-primary">Save</button>
@@ -1376,15 +530,10 @@
 
     <div id="commentsModal" class="modal">
         <div class="modal-content">
-            <div class="modal-header">
-                <h3>💬 Comments</h3>
-                <button class="modal-close" onclick="closeModal('comments')">&times;</button>
-            </div>
-            <div id="commentsList" style="margin-bottom: 1.5rem; max-height: 400px; overflow-y: auto;">
-            </div>
+            <div class="modal-header"><h3>💬 Comments</h3><button class="modal-close" onclick="closeModal('comments')">&times;</button></div>
+            <div id="commentsList" style="margin-bottom: 1.5rem; max-height: 400px; overflow-y: auto;"></div>
             <div style="display: flex; gap: 0.75rem;">
-                <input type="text" id="commentInput" class="form-input" placeholder="Write a comment..."
-                    style="flex: 1;">
+                <input type="text" id="commentInput" class="form-input" placeholder="Write a comment..." style="flex: 1;">
                 <button onclick="submitComment()" class="btn btn-primary">Post</button>
             </div>
         </div>
@@ -1392,43 +541,19 @@
 
     <div id="shareProjectModal" class="modal">
         <div class="modal-content">
-            <div class="modal-header">
-                <h2>📤 Share Project</h2>
-                <button class="modal-close" onclick="closeModal('shareProject')">&times;</button>
-            </div>
-
+            <div class="modal-header"><h2>📤 Share Project</h2><button class="modal-close" onclick="closeModal('shareProject')">&times;</button></div>
             <div style="margin-bottom: 1.5rem;">
-                <p style="color: var(--text-secondary); margin-bottom: 1rem;">
-                    Share this project with anyone - even those without an account!
-                </p>
-                <div
-                    style="display: flex; gap: 0.5rem; padding: 1rem; background: var(--background); border-radius: 8px; border: 2px solid var(--border);">
-                    <input type="text" id="shareProjectLink" readonly class="form-input"
-                        style="flex: 1; font-size: 0.85rem; font-family: monospace; padding: 0.5rem;">
-                    <button onclick="copyShareLink()" class="btn btn-primary" id="copyShareBtn"
-                        style="white-space: nowrap;">
-                        📋 Copy
-                    </button>
+                <p style="color: var(--text-secondary); margin-bottom: 1rem;">Share this project with anyone!</p>
+                <div style="display: flex; gap: 0.5rem; padding: 1rem; background: var(--background); border-radius: 8px; border: 2px solid var(--border);">
+                    <input type="text" id="shareProjectLink" readonly class="form-input" style="flex: 1; font-size: 0.85rem; font-family: monospace; padding: 0.5rem;">
+                    <button onclick="copyShareLink()" class="btn btn-primary" id="copyShareBtn" style="white-space: nowrap;">📋 Copy</button>
                 </div>
             </div>
-
             <div style="display: grid; gap: 0.75rem;">
-                <button onclick="shareViaEmail()" class="btn btn-secondary"
-                    style="width: 100%; justify-content: flex-start;">
-                    📧 Share via Email
-                </button>
-                <button onclick="shareViaWhatsApp()" class="btn btn-secondary"
-                    style="width: 100%; justify-content: flex-start;">
-                    💬 Share on WhatsApp
-                </button>
-                <button onclick="shareViaTwitter()" class="btn btn-secondary"
-                    style="width: 100%; justify-content: flex-start;">
-                    🐦 Share on Twitter
-                </button>
-                <button onclick="shareViaLinkedIn()" class="btn btn-secondary"
-                    style="width: 100%; justify-content: flex-start;">
-                    💼 Share on LinkedIn
-                </button>
+                <button onclick="shareViaEmail()" class="btn btn-secondary" style="width: 100%; justify-content: flex-start;">📧 Share via Email</button>
+                <button onclick="shareViaWhatsApp()" class="btn btn-secondary" style="width: 100%; justify-content: flex-start;">💬 Share on WhatsApp</button>
+                <button onclick="shareViaTwitter()" class="btn btn-secondary" style="width: 100%; justify-content: flex-start;">🐦 Share on Twitter</button>
+                <button onclick="shareViaLinkedIn()" class="btn btn-secondary" style="width: 100%; justify-content: flex-start;">💼 Share on LinkedIn</button>
             </div>
         </div>
     </div>
@@ -1437,49 +562,33 @@
 
     <script type="module">
         import { pipeline, env } from 'https://cdn.jsdelivr.net/npm/@xenova/transformers@2.17.1';
-        
-        // Disable local model checks to force CDN usage
         env.allowLocalModels = false;
-
-        // Initialize Feature Extractor (Semantic Embedding Model)
         window.TalentAI = await pipeline('feature-extraction', 'Xenova/all-MiniLM-L6-v2');
         console.log("Semantic AI Engine Ready");
     </script>
 
     <script>
-        // CONFIGURATION
         const SHEET_URL = CONFIG.SHEET_URL;
         const CLOUDINARY_NAME = CONFIG.CLOUDINARY_NAME;
         const CLOUDINARY_PRESET = CONFIG.CLOUDINARY_PRESET;
 
-        // STATE
         let currentUser = JSON.parse(localStorage.getItem('studenthub_user'));
         let currentCommentProjectId = null;
         let currentPage = 1;
         let currentSearchTerm = '';
         let hasMoreProjects = true;
         let isLoading = false;
-        let searchTimeout = null;
-
-        // [NEW] Search State
         let searchIndex = [];
         let fuse;
 
-        // INIT
         window.onload = () => {
             if (currentUser) {
                 showApp();
-                if (localStorage.getItem('openPostModal')) {
-                    localStorage.removeItem('openPostModal');
-                    openModal('project');
-                }
+                if (localStorage.getItem('openPostModal')) { localStorage.removeItem('openPostModal'); openModal('project'); }
                 loadSearchIndex();
-            } else {
-                toggleAuth('login');
-            }
+            } else { toggleAuth('login'); }
         };
 
-        // --- AUTH ---
         function toggleAuth(view) {
             document.getElementById('loginPage').classList.toggle('hidden', view !== 'login');
             document.getElementById('signupPage').classList.toggle('hidden', view !== 'signup');
@@ -1490,190 +599,81 @@
             document.getElementById('loginPage').classList.add('hidden');
             document.getElementById('signupPage').classList.add('hidden');
             document.getElementById('mainApp').classList.remove('hidden');
-
             document.getElementById('sideName').textContent = currentUser.name;
             document.getElementById('sideMajor').textContent = currentUser.major || 'Student';
             document.getElementById('sideAvatar').src = currentUser.profilePicture || 'default-avatar.png';
-
-            // Pre-fill Edit Profile Form
             document.getElementById('editName').value = currentUser.name;
             document.getElementById('editUni').value = currentUser.university || '';
             document.getElementById('editMajorInput').value = currentUser.major || '';
             document.getElementById('editBio').value = currentUser.bio || '';
             document.getElementById('editLinked').value = currentUser.linkedin || '';
             document.getElementById('editGit').value = currentUser.github || '';
-
-            const resumeLinkBtn = document.getElementById('currentResumeLink');
-            if (currentUser.resume) {
-                resumeLinkBtn.href = currentUser.resume;
-                resumeLinkBtn.classList.remove('hidden');
-                resumeLinkBtn.textContent = "📄 View Current Resume";
-            } else {
-                resumeLinkBtn.classList.add('hidden');
-            }
-
+            const rLink = document.getElementById('currentResumeLink');
+            if(currentUser.resume) { rLink.href=currentUser.resume; rLink.classList.remove('hidden'); }
             loadProjects();
             fetchTrending();
         }
 
-        function showSection(section) {
-            if (section === 'feed') {
-                window.scrollTo(0, 0);
-            }
-        }
+        function showSection(section) { if (section === 'feed') window.scrollTo(0, 0); }
 
         async function handleLogin(e) {
             e.preventDefault();
-            const email = document.getElementById('loginEmail').value;
-            const password = document.getElementById('loginPass').value;
-            const btn = e.target.querySelector('button[type="submit"]');
-
-            const originalText = btn.textContent;
-            btn.textContent = 'Verifying...';
-            btn.disabled = true;
-
+            const btn = e.target.querySelector('button');
+            const orig = btn.textContent; btn.textContent='...'; btn.disabled=true;
             try {
-                const res = await fetch(`${SHEET_URL}?action=login&email=${email}&password=${password}`);
+                const res = await fetch(`${SHEET_URL}?action=login&email=${document.getElementById('loginEmail').value}&password=${document.getElementById('loginPass').value}`);
                 const json = await res.json();
-                if (json.status === 'success') completeAuth(json.data);
-                else {
-                    alert(json.data);
-                    btn.textContent = originalText;
-                    btn.disabled = false;
-                }
-            } catch (err) {
-                alert('Login failed. Check console.');
-                console.error(err);
-                btn.textContent = originalText;
-                btn.disabled = false;
-            }
+                if(json.status==='success') completeAuth(json.data); else { alert(json.data); btn.textContent=orig; btn.disabled=false; }
+            } catch(err) { alert('Error'); btn.textContent=orig; btn.disabled=false; }
         }
 
         async function handleSignup(e) {
             e.preventDefault();
-            const btn = e.target.querySelector('button[type="submit"]');
-            btn.textContent = 'Creating Account...';
-            btn.disabled = true;
-
+            const btn = e.target.querySelector('button'); btn.textContent='...'; btn.disabled=true;
             const file = document.getElementById('signupPic').files[0];
-            let picUrl = '';
-            if (file) picUrl = await uploadImage(file);
-
-            const data = {
-                name: document.getElementById('signupName').value,
-                email: document.getElementById('signupEmail').value,
-                password: document.getElementById('signupPass').value,
-                major: document.getElementById('signupMajor').value,
-                profilePicture: picUrl
-            };
-
+            let picUrl = ''; if (file) picUrl = await uploadImage(file);
+            const data = { name: document.getElementById('signupName').value, email: document.getElementById('signupEmail').value, password: document.getElementById('signupPass').value, major: document.getElementById('signupMajor').value, profilePicture: picUrl };
             const res = await postData('signup', { data });
-            if (res.status === 'success') completeAuth(data);
-            else {
-                alert(res.data);
-                btn.textContent = 'Sign Up';
-                btn.disabled = false;
-            }
+            if(res.status==='success') completeAuth(data); else { alert(res.data); btn.textContent='Sign Up'; btn.disabled=false; }
         }
 
-        function completeAuth(user) {
-            currentUser = user;
-            localStorage.setItem('studenthub_user', JSON.stringify(user));
-            showApp();
-        }
+        function completeAuth(user) { currentUser = user; localStorage.setItem('studenthub_user', JSON.stringify(user)); showApp(); }
+        function logout() { if(confirm('Logout?')) { localStorage.removeItem('studenthub_user'); location.reload(); } }
 
-        function logout() {
-            if (confirm('Are you sure you want to logout?')) {
-                localStorage.removeItem('studenthub_user');
-                location.reload();
-            }
-        }
-
-        // --- PROJECTS (SERVER-SIDE PAGINATION) ---
         async function loadProjects(append = false) {
-            if (isLoading) return;
-            isLoading = true;
-
-            if (!append) {
-                currentPage = 1;
-                hasMoreProjects = true;
-            }
-
+            if (isLoading) return; isLoading = true;
+            if (!append) { currentPage = 1; hasMoreProjects = true; }
             try {
-                const emailParam = currentUser ? `&userEmail=${encodeURIComponent(currentUser.email)}` : '';
-                const searchParam = currentSearchTerm ? `&searchTerm=${encodeURIComponent(currentSearchTerm)}` : '';
-
-                const res = await fetch(`${SHEET_URL}?action=getProjects&page=${currentPage}${emailParam}${searchParam}`);
+                const res = await fetch(`${SHEET_URL}?action=getProjects&page=${currentPage}&userEmail=${encodeURIComponent(currentUser.email)}${currentSearchTerm ? `&searchTerm=${encodeURIComponent(currentSearchTerm)}` : ''}`);
                 const json = await res.json();
-
                 if (json.status === 'success') {
-                    const { items, hasMore } = json.data;
-                    hasMoreProjects = hasMore;
-
-                    if (!append) {
-                        await renderProjects(items, false);
-                    } else {
-                        await renderProjects(items, true);
-                    }
+                    hasMoreProjects = json.data.hasMore;
+                    if(!append) await renderProjects(json.data.items, false); else await renderProjects(json.data.items, true);
                 }
-            } catch (err) {
-                console.error('Load error:', err);
-            } finally {
-                isLoading = false;
-            }
+            } catch(e){console.error(e);} finally { isLoading = false; }
         }
 
         async function fetchTrending() {
             try {
                 const res = await fetch(`${SHEET_URL}?action=getTrending`);
                 const json = await res.json();
-
-                const desktopContainer = document.getElementById('trendingList');
-                const mobileContainer = document.getElementById('mobileTrendingList');
-
-                if (json.status === 'success' && json.data.length > 0) {
-                    const desktopHtml = json.data.map((p, i) => `
-                        <div class="trending-item" onclick="window.location.href='index.html?email=${p.authorEmail}'">
-                            <div style="display: flex; gap: 0.5rem; align-items: start;">
-                                <span style="font-size: 1.2rem; font-weight: 700; color: var(--accent);">${i + 1}</span>
-                                <div style="flex: 1;">
-                                    <div style="font-weight: 600; font-size: 0.9rem; color: var(--primary); line-height: 1.3;">${escapeHtml(p.title)}</div>
-                                    <div style="font-size: 0.75rem; color: var(--text-secondary); margin-top: 0.25rem;">
-                                        👍 ${p.upvotes} • 💬 ${p.commentCount}
-                                    </div>
-                                </div>
-                            </div>
-                        </div>`).join('');
-
-                    if (desktopContainer) desktopContainer.innerHTML = desktopHtml;
-
-                    const mobileHtml = json.data.map((p, i) => `
-                        <div class="mobile-trend-card" onclick="window.location.href='index.html?email=${p.authorEmail}'">
-                            <div style="display:flex; justify-content:space-between; margin-bottom:0.5rem;">
-                                <span style="font-size: 0.8rem; font-weight: 800; color: var(--accent); background: rgba(0,102,204,0.1); padding: 2px 8px; border-radius: 10px;">#${i + 1}</span>
-                                <span style="font-size: 0.75rem; color: var(--text-secondary);">👍 ${p.upvotes}</span>
-                            </div>
-                            <div style="font-weight: 600; color: var(--primary); font-size: 0.95rem; margin-bottom: 0.25rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">${escapeHtml(p.title)}</div>
-                            <div style="font-size: 0.75rem; color: var(--text-secondary);">by ${escapeHtml(p.authorName)}</div>
-                        </div>`).join('');
-
-                    if (mobileContainer) mobileContainer.innerHTML = mobileHtml;
+                if (json.status === 'success') {
+                    document.getElementById('trendingList').innerHTML = json.data.map((p,i)=>`<div class="trending-item" onclick="window.location.href='index.html?email=${p.authorEmail}'"><div style="display:flex;gap:0.5rem;"><span style="font-weight:700;color:var(--accent)">${i+1}</span><div><div style="font-weight:600;font-size:0.9rem">${escapeHtml(p.title)}</div><div style="font-size:0.75rem;color:gray">👍 ${p.upvotes} • 💬 ${p.commentCount}</div></div></div></div>`).join('');
+                    document.getElementById('mobileTrendingList').innerHTML = json.data.map(p=>`<div class="mobile-trend-card" onclick="window.location.href='index.html?email=${p.authorEmail}'"><div style="font-weight:600;font-size:0.9rem">${escapeHtml(p.title)}</div><div style="font-size:0.75rem">👍 ${p.upvotes}</div></div>`).join('');
                 }
-            } catch (e) {
-                console.error("Trend error", e);
-            }
+            } catch(e){}
         }
 
-        // --- AI LOGIC: SEMANTIC MATCHING ---
+        // --- AI LOGIC ---
         const ROLE_DEFINITIONS = {
-            "Full Stack Developer": "Web development, React, HTML, CSS, Node.js, Python, Django, SQL, MongoDB, building websites.",
-            "AI/ML Engineer": "Machine learning, artificial intelligence, deep learning, Python, TensorFlow, PyTorch, computer vision, NLP.",
-            "Android/iOS Developer": "Mobile apps, Java, Kotlin, Swift, Flutter, React Native, smartphone applications.",
-            "IoT & Robotics": "Arduino, Raspberry Pi, embedded systems, hardware, sensors, drones, automation, circuits.",
-            "Data Scientist": "Data analysis, statistics, pandas, visualization, SQL, big data, insights.",
-            "Cloud & DevOps": "AWS, Azure, Docker, Kubernetes, CI/CD, cloud computing, server management.",
+            "Full Stack Developer": "Web development, React, HTML, CSS, Node.js, Python, Django, SQL, MongoDB.",
+            "AI/ML Engineer": "Machine learning, AI, deep learning, Python, TensorFlow, PyTorch, computer vision, NLP.",
+            "Android/iOS Developer": "Mobile apps, Java, Kotlin, Swift, Flutter, React Native.",
+            "IoT & Robotics": "Arduino, Raspberry Pi, embedded systems, hardware, sensors, drones, automation.",
+            "Data Scientist": "Data analysis, statistics, pandas, visualization, SQL, big data.",
+            "Cloud & DevOps": "AWS, Azure, Docker, Kubernetes, CI/CD, cloud computing.",
             "Game Developer": "Unity, Unreal Engine, C#, C++, game design, 3D graphics.",
-            "Blockchain Developer": "Smart contracts, Solidity, Ethereum, Web3, crypto, decentralized apps.",
+            "Blockchain": "Smart contracts, Solidity, Ethereum, Web3, crypto, decentralized apps.",
             "Cybersecurity": "Ethical hacking, penetration testing, network security, cryptography."
         };
 
@@ -1699,72 +699,45 @@
                 const s = cosineSimilarity(pOut.data, vec);
                 if(s > max) { max = s; best = role; }
             }
-            // Lowered threshold to 0.18 to show insights for more projects
             return (max > 0.18) ? { role: best, score: Math.round(max*100) } : null;
         }
 
-        async function renderProjects(list, append = false) {
+        async function renderProjects(list, append) {
             const container = document.getElementById('projectsList');
-            if (!append) container.innerHTML = '';
-            if (list.length === 0 && !append) {
-                container.innerHTML = '<div class="card" style="text-align: center; padding: 3rem;"><p style="color: var(--text-secondary); font-size: 1.1rem;">No projects found.</p></div>';
-                return;
-            }
+            if(!append) container.innerHTML = '';
+            if(list.length===0 && !append) { container.innerHTML='<div class="card" style="text-align:center;padding:2rem;">No projects.</div>'; return; }
 
-            // Parallel AI processing
-            const projectsWithAI = await Promise.all(list.map(async p => {
-                const text = `${p.title}. ${p.description}. ${p.tech}`;
-                const insight = await getSemanticInsight(text);
+            const wAI = await Promise.all(list.map(async p => {
+                const insight = await getSemanticInsight(`${p.title} ${p.description} ${p.tech} ${p.category}`);
                 return { ...p, talentInsight: insight };
             }));
 
-            const html = projectsWithAI.map(p => `
+            const html = wAI.map(p => `
                 <div class="project-card card">
-                    ${p.talentInsight ? `
-                    <div class="ai-insight-badge">
-                        <span>🚀</span>
-                        <span>AI Insight: Strong match for <strong>${p.talentInsight.role}</strong> (${p.talentInsight.score}% match)</span>
-                    </div>` : ''}
-
+                    ${p.talentInsight ? `<div class="ai-insight-badge"><span>🚀</span><span>AI: Matched <strong>${p.talentInsight.role}</strong> (${p.talentInsight.score}%)</span></div>` : ''}
                     <div class="project-header">
-                        <img src="${p.authorPicture || 'default-avatar.png'}" class="avatar">
-                        <div style="flex: 1; min-width: 0;">
-                            <div style="font-weight: 600; cursor: pointer; color: var(--primary);" onclick="window.location.href='index.html?email=${p.authorEmail}'">${escapeHtml(p.authorName)}</div>
-                            <div style="font-size: 0.8rem; color: var(--text-secondary);">${formatDate(p.timestamp)}</div>
-                        </div>
+                        <img src="${p.authorPicture||'default-avatar.png'}" class="avatar">
+                        <div style="flex:1;"><div style="font-weight:600;cursor:pointer;color:var(--primary)" onclick="window.location.href='index.html?email=${p.authorEmail}'">${escapeHtml(p.authorName)}</div><div style="font-size:0.8rem;color:gray">${formatDate(p.timestamp)}</div></div>
                     </div>
                     <div class="project-title">${escapeHtml(p.title)}</div>
                     <div class="project-description">${escapeHtml(p.description)}</div>
-                    ${p.projectImage ? `<img src="${p.projectImage}" class="project-image" loading="lazy">` : ''}
+                    ${p.projectImage ? `<img src="${p.projectImage}" class="project-image">` : ''}
                     <div class="project-footer">
-                        <span style="font-size:0.75rem; background: rgba(0, 102, 204, 0.1); color: var(--accent); padding:4px 10px; border-radius:12px; font-weight:600;">${escapeHtml(p.category || 'Other')}</span>
-                        <button class="action-btn ${p.isLiked ? 'active' : ''}" onclick="upvote('${p.id}', this)">👍 <span>${p.upvotes}</span></button>
-                        <button class="action-btn" onclick="openComments('${p.id}')">💬 <span>${p.commentCount || 0}</span></button>
-                        <button class="action-btn" onclick="shareProject('${p.id}', '${escapeHtml(p.title).replace(/'/g, "\\'")}')">📤 Share</button>
-                        ${p.link ? `<a href="${p.link}" target="_blank" class="action-btn">🔗 Code</a>` : ''}
-                        <span class="tech-badge">${escapeHtml(p.tech || 'Tech')}</span>
+                        <span style="font-size:0.75rem;background:rgba(0,102,204,0.1);color:var(--accent);padding:4px 10px;border-radius:12px;">${escapeHtml(p.category||'Other')}</span>
+                        <button class="action-btn ${p.isLiked?'active':''}" onclick="upvote('${p.id}',this)">👍 <span>${p.upvotes}</span></button>
+                        <button class="action-btn" onclick="openComments('${p.id}')">💬 <span>${p.commentCount||0}</span></button>
+                        <button class="action-btn" onclick="shareProject('${p.id}','${escapeHtml(p.title).replace(/'/g,"\\'")}')">📤 Share</button>
+                        ${p.link?`<a href="${p.link}" target="_blank" class="action-btn">🔗 Code</a>`:''}
+                        <span class="tech-badge">${escapeHtml(p.tech||'Tech')}</span>
                     </div>
                 </div>
             `).join('');
-
-            if (append) {
-                const loadMoreBtn = document.getElementById('loadMoreContainer');
-                if (loadMoreBtn) loadMoreBtn.insertAdjacentHTML('beforebegin', html);
-                else container.insertAdjacentHTML('beforeend', html);
-            } else {
-                container.innerHTML = html;
-            }
-            updateLoadMoreButton();
-        }
-
-        function updateLoadMoreButton() {
-            const container = document.getElementById('projectsList');
-            const existingBtn = document.getElementById('loadMoreContainer');
-            if (existingBtn) existingBtn.remove();
-
-            if (hasMoreProjects && !isLoading) {
-                container.insertAdjacentHTML('beforeend', `<div id="loadMoreContainer" style="text-align: center; padding: 2rem;"><button onclick="loadMore()" class="btn btn-secondary">Load More</button></div>`);
-            }
+            
+            if(append) document.getElementById('loadMoreContainer')?.insertAdjacentHTML('beforebegin', html);
+            else container.innerHTML = html;
+            
+            const btn = document.getElementById('loadMoreContainer'); if(btn) btn.remove();
+            if(hasMoreProjects && !isLoading) container.insertAdjacentHTML('beforeend', `<div id="loadMoreContainer" style="text-align:center;padding:2rem;"><button onclick="loadMore()" class="btn btn-secondary">Load More</button></div>`);
         }
 
         function loadMore() { currentPage++; loadProjects(true); }
@@ -1773,15 +746,14 @@
             try {
                 const res = await fetch(`${SHEET_URL}?action=getSearchIndex`);
                 const json = await res.json();
-                if (json.status === 'success') {
+                if(json.status==='success') {
                     searchIndex = json.data;
-                    fuse = new Fuse(searchIndex, { keys: ['title', 'authorName', 'tech', 'category', 'description'], threshold: 0.3 });
+                    fuse = new Fuse(searchIndex, { keys: ['title', 'authorName', 'tech', 'category', 'description'], threshold: 0.4, minMatchCharLength: 3 });
                 }
-            } catch (e) { console.error(e); }
+            } catch(e){}
         }
 
-        // ======================= CHATBOT LOGIC =======================
-        
+        // ======================= CHATBOT LOGIC (FIXED) =======================
         function toggleChat() {
             const win = document.getElementById('chatWindow');
             win.classList.toggle('active');
@@ -1800,42 +772,38 @@
             
             const botMsgId = addMessage("Thinking...", 'bot');
             
-            let results = [];
-            let reply = "";
-
-            if (!fuse) {
-                updateMessage(botMsgId, "I'm still loading the database. Give me a sec!");
+            // SMALL TALK FILTER
+            const lower = txt.toLowerCase();
+            const greetings = ['hi', 'hello', 'hey', 'sup', 'greetings', 'help'];
+            if (greetings.includes(lower)) {
+                updateMessage(botMsgId, "Hello! 👋 I'm here to help you find projects. Try searching for 'Python', 'Web', or 'Robotics'.");
                 return;
             }
 
-            // 1. Semantic Intent Check (Reusing existing AI function)
+            if (!fuse) { updateMessage(botMsgId, "Loading database..."); return; }
+
             const intent = await getSemanticInsight(txt); 
+            const shortTech = ['ai', 'ml', 'c', 'r', 'go', 'js', 'ui', 'ux'];
+            let fuseResults = [];
+            if (txt.length > 2 || shortTech.includes(lower)) {
+                fuseResults = fuse.search(txt).slice(0, 3).map(r => r.item);
+            }
             
-            // 2. Keyword Search
-            const fuseResults = fuse.search(txt).slice(0, 3).map(r => r.item);
-            
-            // 3. Logic to combine results
+            let results = [];
+            let reply = "";
+
             if (fuseResults.length > 0) {
                 results = fuseResults;
-                reply = `I found ${results.length} specific project(s) for "${txt}":`;
+                reply = `I found ${results.length} project(s):`;
             } else if (intent && intent.score > 20) {
-                // If keywords fail, check if user asked for a general category (e.g. "flying" -> Robotics)
                 results = searchIndex.filter(p => (p.category && p.category.includes(intent.role)) || (p.description && p.description.includes(intent.role))).slice(0, 3);
-                if (results.length > 0) {
-                    reply = `No exact matches, but this sounds like a <strong>${intent.role}</strong> request. Check these out:`;
-                } else {
-                    reply = `That sounds like a <strong>${intent.role}</strong> topic, but I couldn't find any projects yet.`;
-                }
+                if (results.length > 0) reply = `No exact match, but here are <strong>${intent.role}</strong> projects:`;
+                else reply = `That sounds like <strong>${intent.role}</strong>, but I found no projects.`;
             } else {
-                reply = "I couldn't find any matching projects. Try searching for technologies like 'React' or 'Python'.";
+                reply = "No matching projects found. Try different keywords.";
             }
 
-            const resultHtml = results.map(p => `
-                <div class="chat-project-card" onclick="window.location.href='project.html?id=${p.id}'">
-                    <div style="font-weight:600;">${escapeHtml(p.title)}</div>
-                    <div style="color:#666;font-size:0.75rem;">by ${escapeHtml(p.authorName)}</div>
-                </div>
-            `).join('');
+            const resultHtml = results.map(p => `<div class="chat-project-card" onclick="window.location.href='project.html?id=${p.id}'"><div style="font-weight:600;">${escapeHtml(p.title)}</div><div style="color:#666;font-size:0.75rem;">by ${escapeHtml(p.authorName)}</div></div>`).join('');
             
             updateMessage(botMsgId, reply + resultHtml);
         }
@@ -1852,160 +820,72 @@
             return id;
         }
 
-        function updateMessage(id, html) {
-            document.getElementById(id).innerHTML = html;
-        }
+        function updateMessage(id, html) { document.getElementById(id).innerHTML = html; }
 
         // =============================================================
 
         function handleSearch(term) {
             const container = document.getElementById('projectsList');
-            const loadMoreBtn = document.getElementById('loadMoreContainer');
-            if (!term || term.trim() === '') {
-                currentSearchTerm = '';
-                if (loadMoreBtn) loadMoreBtn.style.display = 'block';
-                if (container.dataset.mode === 'search') { container.dataset.mode = 'feed'; loadProjects(false); }
+            const loadBtn = document.getElementById('loadMoreContainer');
+            if (!term) {
+                currentSearchTerm = ''; if(loadBtn) loadBtn.style.display='block';
+                if(container.dataset.mode==='search') { container.dataset.mode='feed'; loadProjects(false); }
                 return;
             }
-            container.dataset.mode = 'search';
-            if (loadMoreBtn) loadMoreBtn.style.display = 'none';
-            if (!fuse) { container.innerHTML = '<div class="loading">Loading...</div>'; return; }
-            const results = fuse.search(term);
-            renderSearchResults(results);
-        }
-
-        function renderSearchResults(results) {
-            const container = document.getElementById('projectsList');
-            if (results.length === 0) { container.innerHTML = '<div class="card"><p>No results.</p></div>'; return; }
-            container.innerHTML = results.map(r => `
-                <div class="search-result-card" onclick="window.location.href='project.html?id=${r.item.id}'">
-                    <div class="search-icon-placeholder">🚀</div>
-                    <div style="flex: 1;">
-                        <div style="font-weight: 700; color: var(--primary);">${escapeHtml(r.item.title)}</div>
-                        <div style="font-size: 0.85rem; color: var(--text-secondary);">by ${escapeHtml(r.item.authorName)}</div>
-                    </div>
-                </div>`).join('');
+            container.dataset.mode='search';
+            if(loadBtn) loadBtn.style.display='none';
+            if(!fuse) return;
+            const res = fuse.search(term).map(r=>r.item);
+            container.innerHTML = res.length ? res.map(p=>`<div class="search-result-card" onclick="window.location.href='project.html?id=${p.id}'"><div class="search-icon-placeholder">🚀</div><div style="flex:1;"><div style="font-weight:700;color:var(--primary)">${escapeHtml(p.title)}</div><div style="font-size:0.85rem;color:#666">by ${escapeHtml(p.authorName)}</div></div></div>`).join('') : '<div class="card">No results.</div>';
         }
 
         function filterCategory(btn, cat) {
-            document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
-            btn.classList.add('active');
-            currentSearchTerm = (cat === 'All') ? '' : cat;
-            loadProjects(false);
+            document.querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('active')); btn.classList.add('active');
+            currentSearchTerm = (cat==='All')?'':cat; loadProjects(false);
         }
 
         async function handlePostProject(e) {
-            e.preventDefault();
-            const btn = e.target.querySelector('button[type="submit"]');
-            btn.textContent = 'Posting...'; btn.disabled = true;
-            const file = document.getElementById('postImage').files[0];
-            let imgUrl = ''; if (file) imgUrl = await uploadImage(file);
-            const project = {
-                id: Date.now().toString(),
-                authorName: currentUser.name,
-                authorEmail: currentUser.email,
-                authorPicture: currentUser.profilePicture,
-                title: document.getElementById('postTitle').value,
-                description: document.getElementById('postDesc').value,
-                link: document.getElementById('postLink').value,
-                tech: document.getElementById('postTech').value,
-                category: document.getElementById('postCategory').value,
-                projectImage: imgUrl
-            };
-            await postData('addProject', { data: project });
-            closeModal('project');
-            e.target.reset();
-            btn.textContent = 'Post'; btn.disabled = false;
-            loadProjects(false);
+            e.preventDefault(); const btn = e.target.querySelector('button[type="submit"]'); btn.textContent='...'; btn.disabled=true;
+            const file = document.getElementById('postImage').files[0]; let imgUrl = ''; if(file) imgUrl = await uploadImage(file);
+            const p = { id:Date.now().toString(), authorName:currentUser.name, authorEmail:currentUser.email, authorPicture:currentUser.profilePicture, title:document.getElementById('postTitle').value, description:document.getElementById('postDesc').value, link:document.getElementById('postLink').value, tech:document.getElementById('postTech').value, category:document.getElementById('postCategory').value, projectImage:imgUrl };
+            await postData('addProject', { data: p }); closeModal('project'); e.target.reset(); btn.textContent='Post'; btn.disabled=false; loadProjects(false);
         }
 
         async function handleEditProfile(e) {
-            e.preventDefault();
-            const btn = e.target.querySelector('button[type="submit"]');
-            btn.textContent = 'Saving...'; btn.disabled = true;
-            const imgFile = document.getElementById('editPic').files[0];
-            let picUrl = currentUser.profilePicture;
-            if (imgFile) picUrl = await uploadImage(imgFile);
-            const resumeFile = document.getElementById('editResumeFile').files[0];
-            let resumeUrl = currentUser.resume || '';
-            if (resumeFile) resumeUrl = await uploadFile(resumeFile);
-            const updatedData = { ...currentUser, name: document.getElementById('editName').value, university: document.getElementById('editUni').value, major: document.getElementById('editMajorInput').value, bio: document.getElementById('editBio').value, linkedin: document.getElementById('editLinked').value, github: document.getElementById('editGit').value, profilePicture: picUrl, resume: resumeUrl };
-            await postData('updateProfile', { data: updatedData });
-            currentUser = updatedData;
-            localStorage.setItem('studenthub_user', JSON.stringify(currentUser));
-            closeModal('editProfile');
-            btn.textContent = 'Save'; btn.disabled = false;
-            showApp();
+            e.preventDefault(); const btn = e.target.querySelector('button[type="submit"]'); btn.textContent='...'; btn.disabled=true;
+            const f1=document.getElementById('editPic').files[0], f2=document.getElementById('editResumeFile').files[0];
+            let pUrl=currentUser.profilePicture, rUrl=currentUser.resume||'';
+            if(f1) pUrl=await uploadImage(f1); if(f2) rUrl=await uploadFile(f2);
+            const u = { ...currentUser, name:document.getElementById('editName').value, university:document.getElementById('editUni').value, major:document.getElementById('editMajorInput').value, bio:document.getElementById('editBio').value, linkedin:document.getElementById('editLinked').value, github:document.getElementById('editGit').value, profilePicture:pUrl, resume:rUrl };
+            await postData('updateProfile', { data: u }); currentUser=u; localStorage.setItem('studenthub_user', JSON.stringify(u)); closeModal('editProfile'); btn.textContent='Save'; btn.disabled=false; showApp();
         }
 
-        function openMyProfile() { if (window.innerWidth <= 968) { document.getElementById('menuAvatar').src = currentUser.profilePicture || 'default-avatar.png'; document.getElementById('menuName').textContent = currentUser.name; openModal('userMenu'); } else openMyProfilePage(); }
-        function openMyProfilePage() { window.location.href = `index.html?email=${currentUser.email}`; }
-
+        function openMyProfile() { if(window.innerWidth<=968) { document.getElementById('menuAvatar').src=currentUser.profilePicture||'default-avatar.png'; document.getElementById('menuName').textContent=currentUser.name; openModal('userMenu'); } else openMyProfilePage(); }
+        function openMyProfilePage() { window.location.href=`index.html?email=${currentUser.email}`; }
+        
         async function upvote(id, btn) {
-            if (!currentUser) return alert('Please log in.');
-            const countSpan = btn.querySelector('span');
-            let currentCount = parseInt(countSpan.textContent) || 0;
-            const isLiked = btn.classList.contains('active');
-            btn.classList.toggle('active');
-            countSpan.textContent = isLiked ? currentCount - 1 : currentCount + 1;
-            await postData('toggleUpvote', { projectId: id, userEmail: currentUser.email });
+            if(!currentUser) return alert('Login first.');
+            const sp=btn.querySelector('span'); let c=parseInt(sp.textContent)||0; btn.classList.toggle('active');
+            sp.textContent=btn.classList.contains('active')?c+1:c-1;
+            await postData('toggleUpvote', { projectId:id, userEmail:currentUser.email });
         }
 
-        async function openComments(id) {
-            currentCommentProjectId = id;
-            openModal('comments');
-            document.getElementById('commentsList').innerHTML = '<p>Loading...</p>';
-            const res = await fetch(`${SHEET_URL}?action=getComments&projectId=${id}`);
-            const json = await res.json();
-            if (json.data.length === 0) document.getElementById('commentsList').innerHTML = '<p>No comments.</p>';
-            else document.getElementById('commentsList').innerHTML = json.data.map(c => `<div class="comment-item"><div class="comment-author">${escapeHtml(c.authorName)}</div><div class="comment-text">${escapeHtml(c.comment)}</div></div>`).join('');
-        }
+        async function openComments(id) { currentCommentProjectId=id; openModal('comments'); document.getElementById('commentsList').innerHTML='<p>Loading...</p>'; const res=await fetch(`${SHEET_URL}?action=getComments&projectId=${id}`); const json=await res.json(); document.getElementById('commentsList').innerHTML=json.data.length?json.data.map(c=>`<div class="comment-item"><div class="comment-author">${escapeHtml(c.authorName)}</div><div class="comment-text">${escapeHtml(c.comment)}</div></div>`).join(''):'<p>No comments.</p>'; }
+        async function submitComment() { const t=document.getElementById('commentInput').value.trim(); if(!t)return; await postData('addComment', { data:{id:Date.now().toString(), projectId:currentCommentProjectId, authorName:currentUser.name, authorEmail:currentUser.email, comment:t}}); document.getElementById('commentInput').value=''; openComments(currentCommentProjectId); }
 
-        async function submitComment() {
-            const txt = document.getElementById('commentInput').value.trim();
-            if (!txt) return;
-            await postData('addComment', { data: { id: Date.now().toString(), projectId: currentCommentProjectId, authorName: currentUser.name, authorEmail: currentUser.email, comment: txt } });
-            document.getElementById('commentInput').value = '';
-            openComments(currentCommentProjectId);
-        }
-
-        function escapeHtml(t) { return t ? t.replace(/</g, "&lt;").replace(/>/g, "&gt;") : ''; }
-        function formatDate(ts) { 
-            const d = new Date(ts);
-            const diff = (new Date() - d) / (1000 * 60 * 60 * 24);
-            if (diff < 1) return 'Today';
-            if (diff < 2) return 'Yesterday';
-            return d.toLocaleDateString();
-        }
-        function closeModal(id) { document.getElementById(id + 'Modal').classList.remove('active'); }
-        function openModal(id) { document.getElementById(id + 'Modal').classList.add('active'); }
-        async function postData(a, p) { return fetch(SHEET_URL, { method: 'POST', body: JSON.stringify({ action: a, ...p }) }).then(r => r.json()); }
-        async function uploadImage(f) { 
-            const fd = new FormData(); fd.append('file', f); fd.append('upload_preset', CLOUDINARY_PRESET);
-            return fetch(`https://api.cloudinary.com/v1_1/${CLOUDINARY_NAME}/image/upload`, { method: 'POST', body: fd }).then(r => r.json()).then(d => d.secure_url);
-        }
-        async function uploadFile(f) {
-            const fd = new FormData(); fd.append('file', f); fd.append('upload_preset', CLOUDINARY_PRESET);
-            return fetch(`https://api.cloudinary.com/v1_1/${CLOUDINARY_NAME}/auto/upload`, { method: 'POST', body: fd }).then(r => r.json()).then(d => d.secure_url);
-        }
-
-        function shareProject(id, title) {
-            currentShareProjectId = id; currentShareProjectTitle = title;
-            const shareLink = `${window.location.origin}${window.location.pathname.replace('feed.html', 'project.html')}?id=${id}`;
-            document.getElementById('shareProjectLink').value = shareLink;
-            openModal('shareProject');
-        }
-        function copyShareLink() {
-            const input = document.getElementById('shareProjectLink');
-            input.select(); document.execCommand('copy');
-            const btn = document.getElementById('copyShareBtn');
-            btn.textContent = '✓ Copied!'; setTimeout(() => btn.textContent = '📋 Copy', 2000);
-        }
-        function shareViaEmail() { window.open(`mailto:?subject=Project&body=${encodeURIComponent(document.getElementById('shareProjectLink').value)}`); }
-        function shareViaWhatsApp() { window.open(`whatsapp://send?text=${encodeURIComponent(document.getElementById('shareProjectLink').value)}`); }
-        function shareViaTwitter() { window.open(`https://twitter.com/intent/tweet?url=${encodeURIComponent(document.getElementById('shareProjectLink').value)}`); }
-        function shareViaLinkedIn() { window.open(`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(document.getElementById('shareProjectLink').value)}`); }
+        function escapeHtml(t){return t?t.replace(/</g,"&lt;").replace(/>/g,"&gt;"):''}
+        function formatDate(t){const d=new Date(t),n=new Date(); return Math.floor((n-d)/86400000)<7 ? Math.floor((n-d)/86400000)+'d ago' : d.toLocaleDateString();}
+        function closeModal(id){document.getElementById(id+'Modal').classList.remove('active')}
+        function openModal(id){document.getElementById(id+'Modal').classList.add('active')}
+        async function postData(a,p){return fetch(SHEET_URL,{method:'POST',body:JSON.stringify({action:a,...p})}).then(r=>r.json())}
+        async function uploadImage(f){const d=new FormData();d.append('file',f);d.append('upload_preset',CLOUDINARY_PRESET); return fetch(`https://api.cloudinary.com/v1_1/${CLOUDINARY_NAME}/image/upload`,{method:'POST',body:d}).then(r=>r.json()).then(x=>x.secure_url)}
+        async function uploadFile(f){const d=new FormData();d.append('file',f);d.append('upload_preset',CLOUDINARY_PRESET); return fetch(`https://api.cloudinary.com/v1_1/${CLOUDINARY_NAME}/auto/upload`,{method:'POST',body:d}).then(r=>r.json()).then(x=>x.secure_url)}
+        function shareProject(id,t){ document.getElementById('shareProjectLink').value=`${window.location.origin}${window.location.pathname.replace('feed.html','project.html')}?id=${id}`; openModal('shareProject'); }
+        function copyShareLink(){const i=document.getElementById('shareProjectLink');i.select();document.execCommand('copy');const b=document.getElementById('copyShareBtn');b.textContent='✓';setTimeout(()=>b.textContent='Copy',2000);}
+        function shareViaEmail(){window.open(`mailto:?subject=Project&body=${encodeURIComponent(document.getElementById('shareProjectLink').value)}`)}
+        function shareViaWhatsApp(){window.open(`whatsapp://send?text=${encodeURIComponent(document.getElementById('shareProjectLink').value)}`)}
+        function shareViaLinkedIn(){window.open(`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(document.getElementById('shareProjectLink').value)}`)}
+        function shareViaTwitter(){window.open(`https://twitter.com/intent/tweet?url=${encodeURIComponent(document.getElementById('shareProjectLink').value)}`)}
     </script>
 </body>
-
 </html>
