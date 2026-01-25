@@ -8,9 +8,12 @@
     <link
         href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Playfair+Display:wght@700;900&display=swap"
         rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.6.2"></script>
     <link rel="icon" type="image/x-icon" href="logo.png">
-    <meta name="description" content="Browse the latest student projects, trending innovations, and community updates from NIELIT Ropar on the StudentHub Feed.">
-    <meta name="keywords" content="NIELIT Ropar Feed, Student Projects, Project Feed, Engineering Trends, StudentHub Activity, NIELIT Community, Latest Projects">
+    <meta name="description"
+        content="Browse the latest student projects, trending innovations, and community updates from NIELIT Ropar on the StudentHub Feed.">
+    <meta name="keywords"
+        content="NIELIT Ropar Feed, Student Projects, Project Feed, Engineering Trends, StudentHub Activity, NIELIT Community, Latest Projects">
     <meta name="author" content="NIELIT Ropar">
     <meta name="robots" content="index, follow">
     <meta name="theme-color" content="#003366">
@@ -19,16 +22,18 @@
     <meta property="og:url" content="https://nielitropar.github.io/feed.html">
     <meta property="og:site_name" content="NIELIT StudentHub">
     <meta property="og:title" content="StudentHub Feed - Discover Latest Projects">
-    <meta property="og:description" content="See what's trending at NIELIT Ropar. Explore new student projects, connect with peers, and stay updated with the latest innovations.">
+    <meta property="og:description"
+        content="See what's trending at NIELIT Ropar. Explore new student projects, connect with peers, and stay updated with the latest innovations.">
     <meta property="og:image" content="https://nielitropar.github.io/logo.png">
 
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:site" content="@NIELITRopar">
     <meta name="twitter:title" content="StudentHub Feed - Discover Latest Projects">
-    <meta name="twitter:description" content="See what's trending at NIELIT Ropar. Explore new student projects and community updates.">
+    <meta name="twitter:description"
+        content="See what's trending at NIELIT Ropar. Explore new student projects and community updates.">
     <meta name="twitter:image" content="https://nielitropar.github.io/logo.png">
 
-    
+
     <style>
         :root {
             /* NIELIT Theme Colors */
@@ -323,11 +328,12 @@
             font-size: 0.9rem;
         }
 
-        .action-btn:hover, .action-btn.active {
+        .action-btn:hover,
+        .action-btn.active {
             color: var(--accent);
             background: rgba(0, 102, 204, 0.05);
         }
-        
+
         .action-btn.active {
             background: rgba(0, 102, 204, 0.1);
         }
@@ -526,6 +532,39 @@
             color: var(--text-secondary);
         }
 
+        /* new  */
+        .search-result-card {
+            background: white;
+            padding: 1.2rem;
+            border-radius: 12px;
+            margin-bottom: 1rem;
+            border: 1px solid var(--border);
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .search-result-card:hover {
+            border-color: var(--accent);
+            transform: translateX(5px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+        }
+
+        .search-icon-placeholder {
+            width: 45px;
+            height: 45px;
+            background: rgba(0, 102, 204, 0.1);
+            color: var(--accent);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            flex-shrink: 0;
+        }
+
         /* Modal */
         .modal {
             display: none;
@@ -614,7 +653,7 @@
         .mobile-trending-container {
             margin-bottom: 1.5rem;
         }
-        
+
         .mobile-trending-list {
             display: flex;
             gap: 1rem;
@@ -623,7 +662,7 @@
             -webkit-overflow-scrolling: touch;
             scrollbar-width: none;
         }
-        
+
         .mobile-trending-list::-webkit-scrollbar {
             display: none;
         }
@@ -862,13 +901,13 @@
             font-size: 0.9rem;
             margin-top: 1.5rem;
             transition: all 0.3s ease;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
             border: 1px solid transparent;
         }
 
         .app-download-btn:hover {
             transform: translateY(-3px);
-            box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
             background: var(--accent);
             border-color: var(--accent);
         }
@@ -876,7 +915,6 @@
         .app-icon {
             font-size: 1.2rem;
         }
-        
     </style>
 </head>
 
@@ -919,8 +957,7 @@
                 </div>
                 <div class="form-group">
                     <label>Email Address</label>
-                    <input type="email" id="signupEmail" class="form-input" required
-                        placeholder="student@nielit.ac.in">
+                    <input type="email" id="signupEmail" class="form-input" required placeholder="student@nielit.ac.in">
                 </div>
                 <div class="form-group">
                     <label>Password</label>
@@ -948,7 +985,7 @@
                 </a>
                 <div class="nav-links">
                     <a href="#" onclick="showSection('feed'); return false;" class="nav-link active">Feed</a>
-                    <a href="index.html" class="nav-link">Profiles</a> 
+                    <a href="index.html" class="nav-link">Profiles</a>
                     <button class="btn btn-primary" onclick="openModal('project')">📝 Post Project</button>
                     <button class="btn-ghost" onclick="logout()">Logout</button>
                 </div>
@@ -973,7 +1010,8 @@
 
                 <main>
                     <div class="mobile-trending-container hidden-desktop">
-                        <h3 style="margin-bottom: 0.8rem; font-size: 1.2rem; display: flex; align-items: center; gap: 0.5rem; color: var(--primary);">
+                        <h3
+                            style="margin-bottom: 0.8rem; font-size: 1.2rem; display: flex; align-items: center; gap: 0.5rem; color: var(--primary);">
                             🔥 <span>Trending Now</span>
                         </h3>
                         <div id="mobileTrendingList" class="mobile-trending-list">
@@ -986,13 +1024,17 @@
                             onkeyup="handleSearch(this.value)">
                     </div>
 
-                    <div style="display:flex; gap:10px; overflow-x:auto; padding-bottom:10px; margin-bottom:1rem; -webkit-overflow-scrolling:touch; scrollbar-width: none;">
+                    <div
+                        style="display:flex; gap:10px; overflow-x:auto; padding-bottom:10px; margin-bottom:1rem; -webkit-overflow-scrolling:touch; scrollbar-width: none;">
                         <button onclick="filterCategory(this, 'All')" class="action-btn active filter-btn">All</button>
-                        <button onclick="filterCategory(this, 'Web Development')" class="action-btn filter-btn">Web Dev</button>
+                        <button onclick="filterCategory(this, 'Web Development')" class="action-btn filter-btn">Web
+                            Dev</button>
                         <button onclick="filterCategory(this, 'Mobile App')" class="action-btn filter-btn">App</button>
                         <button onclick="filterCategory(this, 'AI / ML')" class="action-btn filter-btn">AI/ML</button>
-                        <button onclick="filterCategory(this, 'IoT & Hardware')" class="action-btn filter-btn">IoT</button>
-                        <button onclick="filterCategory(this, 'Blockchain')" class="action-btn filter-btn">Blockchain</button>
+                        <button onclick="filterCategory(this, 'IoT & Hardware')"
+                            class="action-btn filter-btn">IoT</button>
+                        <button onclick="filterCategory(this, 'Blockchain')"
+                            class="action-btn filter-btn">Blockchain</button>
                         <button onclick="filterCategory(this, 'Other')" class="action-btn filter-btn">Other</button>
                     </div>
 
@@ -1021,15 +1063,17 @@
                     🎓 NIELIT Ropar
                 </p>
             </div>
-            
+
             <p>&copy; 2026 <strong>StudentHub</strong>. All rights reserved.</p>
-            
-            <p style="font-size: 0.8rem; margin: 0.5rem 0; opacity: 0.7; max-width: 300px; margin-left: auto; margin-right: auto;">
+
+            <p
+                style="font-size: 0.8rem; margin: 0.5rem 0; opacity: 0.7; max-width: 300px; margin-left: auto; margin-right: auto;">
                 National Institute of Electronics & Information Technology
             </p>
 
-            <a href="https://github.com/nielitropar/nielitropar.github.io/releases/tag/v1.0" target="_blank" class="app-download-btn">
-                <span class="app-icon">🤖</span> 
+            <a href="https://github.com/nielitropar/nielitropar.github.io/releases/tag/v1.0" target="_blank"
+                class="app-download-btn">
+                <span class="app-icon">🤖</span>
                 <span>Download Android App</span>
             </a>
         </footer>
@@ -1154,11 +1198,12 @@
                     <label>📄 Resume (PDF)</label>
                     <div style="display: flex; gap: 10px; align-items: center;">
                         <input type="file" id="editResumeFile" class="form-input" accept=".pdf">
-                        <a id="currentResumeLink" href="#" target="_blank" class="btn-ghost hidden" style="font-size: 0.8rem; white-space: nowrap;">View Current</a>
+                        <a id="currentResumeLink" href="#" target="_blank" class="btn-ghost hidden"
+                            style="font-size: 0.8rem; white-space: nowrap;">View Current</a>
                     </div>
                     <small style="color: var(--text-secondary);">Upload a PDF file (Max 5MB)</small>
                 </div>
-                
+
                 <div class="form-group">
                     <label>🔗 LinkedIn</label>
                     <input type="url" id="editLinked" class="form-input" placeholder="https://linkedin.com/in/...">
@@ -1197,30 +1242,37 @@
                 <h2>📤 Share Project</h2>
                 <button class="modal-close" onclick="closeModal('shareProject')">&times;</button>
             </div>
-            
+
             <div style="margin-bottom: 1.5rem;">
                 <p style="color: var(--text-secondary); margin-bottom: 1rem;">
                     Share this project with anyone - even those without an account!
                 </p>
-                <div style="display: flex; gap: 0.5rem; padding: 1rem; background: var(--background); border-radius: 8px; border: 2px solid var(--border);">
-                    <input type="text" id="shareProjectLink" readonly class="form-input" style="flex: 1; font-size: 0.85rem; font-family: monospace; padding: 0.5rem;">
-                    <button onclick="copyShareLink()" class="btn btn-primary" id="copyShareBtn" style="white-space: nowrap;">
+                <div
+                    style="display: flex; gap: 0.5rem; padding: 1rem; background: var(--background); border-radius: 8px; border: 2px solid var(--border);">
+                    <input type="text" id="shareProjectLink" readonly class="form-input"
+                        style="flex: 1; font-size: 0.85rem; font-family: monospace; padding: 0.5rem;">
+                    <button onclick="copyShareLink()" class="btn btn-primary" id="copyShareBtn"
+                        style="white-space: nowrap;">
                         📋 Copy
                     </button>
                 </div>
             </div>
 
             <div style="display: grid; gap: 0.75rem;">
-                <button onclick="shareViaEmail()" class="btn btn-secondary" style="width: 100%; justify-content: flex-start;">
+                <button onclick="shareViaEmail()" class="btn btn-secondary"
+                    style="width: 100%; justify-content: flex-start;">
                     📧 Share via Email
                 </button>
-                <button onclick="shareViaWhatsApp()" class="btn btn-secondary" style="width: 100%; justify-content: flex-start;">
+                <button onclick="shareViaWhatsApp()" class="btn btn-secondary"
+                    style="width: 100%; justify-content: flex-start;">
                     💬 Share on WhatsApp
                 </button>
-                <button onclick="shareViaTwitter()" class="btn btn-secondary" style="width: 100%; justify-content: flex-start;">
+                <button onclick="shareViaTwitter()" class="btn btn-secondary"
+                    style="width: 100%; justify-content: flex-start;">
                     🐦 Share on Twitter
                 </button>
-                <button onclick="shareViaLinkedIn()" class="btn btn-secondary" style="width: 100%; justify-content: flex-start;">
+                <button onclick="shareViaLinkedIn()" class="btn btn-secondary"
+                    style="width: 100%; justify-content: flex-start;">
                     💼 Share on LinkedIn
                 </button>
             </div>
@@ -1244,6 +1296,10 @@
         let isLoading = false;
         let searchTimeout = null;
 
+        // [NEW] Search State
+        let searchIndex = [];
+        let fuse;
+
         // INIT
         window.onload = () => {
             if (currentUser) {
@@ -1252,6 +1308,8 @@
                     localStorage.removeItem('openPostModal');
                     openModal('project');
                 }
+                // [NEW] Load the search index in the background
+                loadSearchIndex();
             } else {
                 toggleAuth('login');
             }
@@ -1280,7 +1338,7 @@
             document.getElementById('editBio').value = currentUser.bio || '';
             document.getElementById('editLinked').value = currentUser.linkedin || '';
             document.getElementById('editGit').value = currentUser.github || '';
-            
+
             const resumeLinkBtn = document.getElementById('currentResumeLink');
             if (currentUser.resume) {
                 resumeLinkBtn.href = currentUser.resume;
@@ -1305,7 +1363,7 @@
             const email = document.getElementById('loginEmail').value;
             const password = document.getElementById('loginPass').value;
             const btn = e.target.querySelector('button[type="submit"]');
-            
+
             const originalText = btn.textContent;
             btn.textContent = 'Verifying...';
             btn.disabled = true;
@@ -1380,21 +1438,21 @@
             try {
                 const emailParam = currentUser ? `&userEmail=${encodeURIComponent(currentUser.email)}` : '';
                 const searchParam = currentSearchTerm ? `&searchTerm=${encodeURIComponent(currentSearchTerm)}` : '';
-                
+
                 const res = await fetch(`${SHEET_URL}?action=getProjects&page=${currentPage}${emailParam}${searchParam}`);
                 const json = await res.json();
-                
+
                 if (json.status === 'success') {
                     const { items, hasMore } = json.data;
                     hasMoreProjects = hasMore;
-                    
+
                     if (!append) {
                         renderProjects(items, false);
                     } else {
                         renderProjects(items, true);
                     }
                 }
-            } catch(err) {
+            } catch (err) {
                 console.error('Load error:', err);
             } finally {
                 isLoading = false;
@@ -1406,10 +1464,10 @@
             try {
                 const res = await fetch(`${SHEET_URL}?action=getTrending`);
                 const json = await res.json();
-                
+
                 const desktopContainer = document.getElementById('trendingList');
                 const mobileContainer = document.getElementById('mobileTrendingList');
-                
+
                 if (json.status === 'success' && json.data.length > 0) {
                     // Desktop HTML (Vertical List)
                     const desktopHtml = json.data.map((p, i) => `
@@ -1425,7 +1483,7 @@
                             </div>
                         </div>
                     `).join('');
-                    
+
                     if (desktopContainer) desktopContainer.innerHTML = desktopHtml;
 
                     // Mobile HTML (Horizontal Cards)
@@ -1454,7 +1512,7 @@
 
         function renderProjects(list, append = false) {
             const container = document.getElementById('projectsList');
-            
+
             if (!append) container.innerHTML = '';
 
             if (list.length === 0 && !append) {
@@ -1525,13 +1583,86 @@
             loadProjects(true);
         }
 
-        // Search with debounce
+        // [NEW] Fetch the lightweight index
+        async function loadSearchIndex() {
+            try {
+                const res = await fetch(`${SHEET_URL}?action=getSearchIndex`);
+                const json = await res.json();
+
+                if (json.status === 'success') {
+                    searchIndex = json.data;
+
+                    // Configure Fuse.js
+                    const options = {
+                        keys: ['title', 'authorName', 'tech', 'category', 'description'],
+                        threshold: 0.3, // 0.0 = exact match, 1.0 = loose match
+                        ignoreLocation: true
+                    };
+                    fuse = new Fuse(searchIndex, options);
+                    console.log("Search index loaded:", searchIndex.length, "items");
+                }
+            } catch (e) { console.error("Index load failed", e); }
+        }
+
+        // [UPDATED] Handle Search Logic
         function handleSearch(term) {
-            clearTimeout(searchTimeout);
-            searchTimeout = setTimeout(() => {
-                currentSearchTerm = term;
-                loadProjects(false);
-            }, 500);
+            const container = document.getElementById('projectsList');
+            const loadMoreBtn = document.getElementById('loadMoreContainer');
+
+            // 1. If search is empty, go back to the standard Feed
+            if (!term || term.trim() === '') {
+                currentSearchTerm = '';
+                if (loadMoreBtn) loadMoreBtn.style.display = 'block';
+
+                // Only reload if we were previously searching to avoid flickering
+                if (container.dataset.mode === 'search') {
+                    container.dataset.mode = 'feed';
+                    loadProjects(false); // Reload normal feed
+                }
+                return;
+            }
+
+            // 2. Perform Client-Side Search (Instant)
+            container.dataset.mode = 'search';
+            if (loadMoreBtn) loadMoreBtn.style.display = 'none';
+
+            if (!fuse) {
+                container.innerHTML = '<div class="loading">Loading search index...</div>';
+                return;
+            }
+
+            const results = fuse.search(term);
+            renderSearchResults(results);
+        }
+
+        // [NEW] Render simplified search results
+        function renderSearchResults(results) {
+            const container = document.getElementById('projectsList');
+
+            if (results.length === 0) {
+                container.innerHTML = '<div class="card" style="text-align: center; padding: 2rem; color: var(--text-secondary);">No projects found matching that term.</div>';
+                return;
+            }
+
+            const html = results.map(r => {
+                const p = r.item;
+                return `
+        <div class="search-result-card" onclick="window.location.href='index.html?email=${p.authorEmail}'">
+            <div class="search-icon-placeholder">🚀</div>
+            <div style="flex: 1;">
+                <div style="font-weight: 700; color: var(--primary); font-size: 1.05rem;">${escapeHtml(p.title)}</div>
+                <div style="font-size: 0.85rem; color: var(--text-secondary); margin-top: 2px;">
+                    by ${escapeHtml(p.authorName)} • <span style="color: var(--accent);">${escapeHtml(p.category)}</span>
+                </div>
+            </div>
+            <div style="background: #f1f5f9; padding: 4px 10px; border-radius: 8px; font-size: 0.75rem; color: #64748b; font-weight: 600;">
+                ${escapeHtml(p.tech).substring(0, 20)}${p.tech.length > 20 ? '...' : ''}
+            </div>
+        </div>
+        `;
+            }).join('');
+
+            container.innerHTML = html;
         }
 
         function filterCategory(btn, cat) {
@@ -1604,7 +1735,7 @@
 
             currentUser = { ...currentUser, ...updatedData };
             localStorage.setItem('studenthub_user', JSON.stringify(currentUser));
-            
+
             closeModal('editProfile');
             btn.textContent = 'Save';
             btn.disabled = false;
@@ -1629,31 +1760,31 @@
 
         async function upvote(id, btn) {
             if (!currentUser) return alert('Please log in to upvote.');
-            
+
             const countSpan = btn.querySelector('span');
             let currentCount = parseInt(countSpan.textContent) || 0;
             const isLiked = btn.classList.contains('active');
-            
+
             btn.classList.toggle('active');
             countSpan.textContent = isLiked ? currentCount - 1 : currentCount + 1;
-            
+
             try {
-                const res = await postData('toggleUpvote', { 
-                    projectId: id, 
-                    userEmail: currentUser.email 
+                const res = await postData('toggleUpvote', {
+                    projectId: id,
+                    userEmail: currentUser.email
                 });
-                
+
                 if (res.status === 'success') {
                     countSpan.textContent = res.data.newCount;
                     if (res.data.action === 'added') btn.classList.add('active');
                     else btn.classList.remove('active');
                 } else {
-                    btn.classList.toggle('active'); 
+                    btn.classList.toggle('active');
                     countSpan.textContent = currentCount;
                     alert('Error upvoting: ' + res.data);
                 }
             } catch (err) {
-                btn.classList.toggle('active'); 
+                btn.classList.toggle('active');
                 countSpan.textContent = currentCount;
                 console.error(err);
             }
@@ -1775,13 +1906,13 @@
         function shareProject(projectId, projectTitle) {
             currentShareProjectId = projectId;
             currentShareProjectTitle = projectTitle;
-            
+
             const path = window.location.pathname.substring(0, window.location.pathname.lastIndexOf('/') + 1);
             const baseUrl = window.location.origin + path;
-            
+
             const shareLink = `${baseUrl}project.html?id=${projectId}`;
             document.getElementById('shareProjectLink').value = shareLink;
-            
+
             openModal('shareProject');
         }
 
@@ -1789,15 +1920,15 @@
             const input = document.getElementById('shareProjectLink');
             input.select();
             input.setSelectionRange(0, 99999);
-            
+
             try {
                 document.execCommand('copy');
-                
+
                 const btn = document.getElementById('copyShareBtn');
                 const originalText = btn.innerHTML;
                 btn.innerHTML = '✓ Copied!';
                 btn.style.background = 'var(--success)';
-                
+
                 setTimeout(() => {
                     btn.innerHTML = originalText;
                     btn.style.background = '';
@@ -1817,7 +1948,7 @@
         function shareViaWhatsApp() {
             const shareLink = document.getElementById('shareProjectLink').value;
             const text = encodeURIComponent(`Check out this project on NIELIT StudentHub: ${currentShareProjectTitle}\n\n${shareLink}`);
-            
+
             if (/Android|webOS|iPhone|iPad|iPod/i.test(navigator.userAgent)) {
                 window.open(`whatsapp://send?text=${text}`);
             } else {
