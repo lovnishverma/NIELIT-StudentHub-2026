@@ -77,41 +77,45 @@
 <td width="50%">
 
 ### ⚡ Performance Optimizations
-- **Reverse-Range Pagination**: Reads only 20 rows instead of entire database
-- **Constant-Time Retrieval**: O(1) performance regardless of database size
-- **Background Worker**: Trending calculations run hourly via cron
-- **Multi-Level Caching**: 10-minute RAM cache + browser localStorage
-- **99.9% Efficiency Gain**: Eliminated full-table scans
+
+* **Instant Search (Fuse.js)**: 0ms latency client-side fuzzy search
+* **Search Index Caching**: Lightweight index cached in RAM for 6 hours
+* **Reverse-Range Pagination**: Reads only 20 rows instead of entire database
+* **Background Worker**: Trending calculations run hourly via cron
+* **99.9% Efficiency Gain**: Eliminated full-table scans
 
 </td>
 <td width="50%">
 
 ### 🔥 Smart Trending Algorithm
-- **Time-Decay Scoring**: Fair ranking prevents old projects from dominating
-- **Weighted Engagement**: Upvotes×2 + Comments×3
-- **Freshness First**: Recent high-engagement projects rise naturally
-- **Gravity Decay Formula**: Score = (Engagement) / √(DaysOld + 1)
-- **8x Faster Response**: ~300ms vs ~2500ms (v1.4)
+
+* **Time-Decay Scoring**: Fair ranking prevents old projects from dominating
+* **Weighted Engagement**: Upvotes×2 + Comments×3
+* **Freshness First**: Recent high-engagement projects rise naturally
+* **Gravity Decay Formula**: Score = (Engagement) / √(DaysOld + 1)
+* **8x Faster Response**: ~300ms vs ~2500ms (v1.4)
 
 </td>
 </tr>
 <tr>
 <td width="50%">
 
-### ❤️ Profile Likes System  
-- **Peer Recognition**: Students can acknowledge each other's work
-- **Individual Tracking**: Separate ProfileLikes sheet prevents duplicates
-- **Real-time Updates**: Instant count synchronization
-- **Self-Like Prevention**: Cannot like own profile
+### ❤️ Profile Likes System
+
+* **Peer Recognition**: Students can acknowledge each other's work
+* **Individual Tracking**: Separate ProfileLikes sheet prevents duplicates
+* **Real-time Updates**: Instant count synchronization
+* **Self-Like Prevention**: Cannot like own profile
 
 </td>
 <td width="50%">
 
 ### 🔐 Enhanced Security
-- **Salted Password Hashing**: SHA-256 + `NIELIT_STUDENTHUB_SECURE_SALT_2026`
-- **Auto-Migration Protocol**: Legacy passwords upgraded on login
-- **Backward Compatible**: No user disruption during upgrade
-- **Self-Healing Crypto**: Opportunistic security improvements
+
+* **Salted Password Hashing**: SHA-256 + `NIELIT_STUDENTHUB_SECURE_SALT_2026`
+* **Auto-Migration Protocol**: Legacy passwords upgraded on login
+* **Backward Compatible**: No user disruption during upgrade
+* **Self-Healing Crypto**: Opportunistic security improvements
 
 </td>
 </tr>
@@ -119,19 +123,21 @@
 <td width="50%">
 
 ### 🗂️ Project Categories
-- **7 Categories**: Web Dev, Mobile, AI/ML, IoT, Blockchain, Cybersecurity, Other
-- **Filter Chips**: Quick category-based search on feed
-- **Better Organization**: Enhanced project discoverability
-- **Visual Badges**: Color-coded category indicators
+
+* **7 Categories**: Web Dev, Mobile, AI/ML, IoT, Blockchain, Cybersecurity, Other
+* **Filter Chips**: Quick category-based search on feed
+* **Better Organization**: Enhanced project discoverability
+* **Visual Badges**: Color-coded category indicators
 
 </td>
 <td width="50%">
 
 ### 📄 Resume Upload
-- **PDF Support**: Upload resumes via Cloudinary
-- **Download Button**: Accessible on user profiles
-- **Professional Branding**: Enhance student portfolios
-- **5MB Limit**: Cloudinary validation
+
+* **PDF Support**: Upload resumes via Cloudinary
+* **Download Button**: Accessible on user profiles
+* **Professional Branding**: Enhance student portfolios
+* **5MB Limit**: Cloudinary validation
 
 </td>
 </tr>
@@ -139,19 +145,21 @@
 <td width="50%">
 
 ### 📤 Public Sharing
-- **Guest Access**: Project.html works without login
-- **Direct Links**: Share specific projects via URL
-- **Social Integration**: WhatsApp, Twitter, LinkedIn, Email
-- **Deep Linking**: Email query parameters for profiles
+
+* **Guest Access**: Project.html works without login
+* **Direct Links**: Share specific projects via URL
+* **Social Integration**: WhatsApp, Twitter, LinkedIn, Email
+* **Deep Linking**: Email query parameters for profiles
 
 </td>
 <td width="50%">
 
 ### 📊 Database Schema Update
-- **7 Sheets Total**: Added TrendingCache sheet
-- **ProfileLikes Sheet**: Tracks profile acknowledgments
-- **Optimized Queries**: Reduced N+1 problems
-- **Comment Mapping**: Single-pass comment counts
+
+* **7 Sheets Total**: Added TrendingCache sheet
+* **ProfileLikes Sheet**: Tracks profile acknowledgments
+* **Optimized Queries**: Reduced N+1 problems
+* **Comment Mapping**: Single-pass comment counts
 
 </td>
 </tr>
