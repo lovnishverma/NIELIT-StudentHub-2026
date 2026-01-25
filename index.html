@@ -1157,29 +1157,61 @@
         let currentShareProjectTitle = null;
 
         // INITIALIZATION
-        window.onload = async () => {
-            // [NEW] Load optimized index instead of standard fetch
-            loadProfileIndex();
+// UPDATED INITIALIZATION FUNCTION
+window.onload = async () => {
+    // 1. Load Data
+    loadProfileIndex();
+    fetchStats();
+    fetchTrending();
 
-            fetchStats();
-            fetchTrending();
+    // 2. Handle Login State
+    if (currentUser) {
+        const btn = document.getElementById('loginBtn');
+        if (btn) btn.textContent = 'Go to Feed';
+    } else {
+        const cta = document.getElementById('guest-cta');
+        if (cta) cta.style.display = 'block';
+    }
 
-            if (currentUser) {
-                const btn = document.getElementById('loginBtn');
-                if (btn) btn.textContent = 'Go to Feed';
+    // 3. Handle Deep Links
+    const params = new URLSearchParams(window.location.search);
+    const targetEmail = params.get('email');
+
+    if (targetEmail) {
+        await loadProfileByEmail(targetEmail);
+    } else {
+        showDirectory();
+    }
+
+    // 4. CHAT WIDGET SETUP (Now safe to run!)
+    const toggleBtn = document.getElementById('toggle-chat');
+    const chatWindow = document.getElementById('chat-window');
+    
+    if (toggleBtn && chatWindow) {
+        toggleBtn.onclick = () => {
+            const isHidden = chatWindow.classList.contains('hidden') || chatWindow.style.display === 'none';
+            if (isHidden) {
+                chatWindow.classList.remove('hidden');
+                chatWindow.style.display = 'flex';
+                // Focus input when opened
+                setTimeout(() => document.getElementById('chat-input').focus(), 100);
             } else {
-                document.getElementById('guest-cta').style.display = 'block';
-            }
-
-            const params = new URLSearchParams(window.location.search);
-            const targetEmail = params.get('email');
-
-            if (targetEmail) {
-                await loadProfileByEmail(targetEmail);
-            } else {
-                showDirectory();
+                chatWindow.classList.add('hidden');
+                chatWindow.style.display = 'none';
             }
         };
+    }
+
+    const sendBtn = document.getElementById('send-chat');
+    const chatInput = document.getElementById('chat-input');
+
+    if (sendBtn) sendBtn.onclick = askAssistant;
+    if (chatInput) {
+        chatInput.onkeypress = (e) => {
+            if (e.key === 'Enter') askAssistant();
+        };
+    }
+};
 
         // [NEW] Load lightweight profile index
         async function loadProfileIndex() {
