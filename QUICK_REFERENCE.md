@@ -320,7 +320,7 @@ Your site: `https://USERNAME.github.io/REPO/`
 
 ---
 
-**Quick Help:** For detailed instructions, see [README.md](https://www.google.com/search?q=README.md) or [SETUP_GUIDE.md](https://www.google.com/search?q=SETUP_GUIDE.md)
+**Quick Help:** For detailed instructions, see [README.md](https://github.com/nielitropar/nielitropar.github.io/blob/main/README.md) or [SETUP_GUIDE.md](https://github.com/nielitropar/nielitropar.github.io/blob/main/SETUP_GUIDE.md)
 
 **Need Support?** Check browser console first, then [GitHub Issues](https://github.com/nielitropar/nielitropar.github.io/issues)
 
@@ -328,6 +328,6 @@ Your site: `https://USERNAME.github.io/REPO/`
 
 ---
 
-[⬆ Back to Top](https://www.google.com/search?q=%23nielit-studenthub---quick-reference-card-v151)
+[⬆ Back to Top](NIELIT StudentHub - Quick Reference Card (v1.5.1))
 
 
