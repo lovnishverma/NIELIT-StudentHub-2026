@@ -49,6 +49,8 @@ function handleRequest(e, method) {
     switch (action) {
       case 'getProjects':
         return getProjectsPaginated(params.userEmail, params.page, params.searchTerm);
+      case 'getSearchIndex': // [NEW] Added for Client-Side Search
+        return getSearchIndex();
       case 'getTrending': 
         return getTrendingProjects(); 
       case 'getProfiles':
@@ -102,6 +104,39 @@ function getTrendingProjects() {
   });
   
   return createResponse('success', projects);
+}
+
+// [NEW] LIGHTWEIGHT SEARCH INDEX
+// Returns only essential text data to keep payload tiny (~50kb instead of 5MB)
+function getSearchIndex() {
+  const cache = CacheService.getScriptCache();
+  const cachedIndex = cache.get('search_index');
+  
+  if (cachedIndex) {
+    return ContentService.createTextOutput(cachedIndex).setMimeType(ContentService.MimeType.JSON);
+  }
+
+  const sheet = getOrCreateSheet(PROJECTS_SHEET);
+  const data = sheet.getDataRange().getValues();
+  
+  // Map ONLY essential columns needed for search
+  // Indices: ID=0, Author=1, Title=4, Tech=7, Category=11, Timestamp=10
+  const searchData = data.slice(1).map(row => ({
+    id: row[0],
+    title: row[4],
+    authorName: row[1],
+    tech: row[7],
+    category: row[11],
+    timestamp: row[10] 
+  })).reverse(); // Newest first
+
+  const response = { status: 'success', data: searchData };
+  const jsonString = JSON.stringify(response);
+  
+  // Cache for 6 hours (21600 seconds) since historical project text rarely changes
+  cache.put('search_index', jsonString, 21600); 
+
+  return ContentService.createTextOutput(jsonString).setMimeType(ContentService.MimeType.JSON);
 }
 
 // [OPTIMIZED] "Reverse-Range" Strategy + Caching
