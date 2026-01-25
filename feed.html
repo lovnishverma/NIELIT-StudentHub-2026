@@ -33,7 +33,6 @@
         content="See what's trending at NIELIT Ropar. Explore new student projects and community updates.">
     <meta name="twitter:image" content="https://nielitropar.github.io/logo.png">
 
-
     <style>
         :root {
             /* NIELIT Theme Colors */
@@ -915,6 +914,22 @@
         .app-icon {
             font-size: 1.2rem;
         }
+
+        /* NEW: AI Insight Badge Styling */
+        .ai-insight-badge {
+            background: rgba(16, 185, 129, 0.08);
+            border: 1px solid var(--success);
+            color: #065f46;
+            padding: 10px 14px;
+            border-radius: 12px;
+            margin-bottom: 1.25rem;
+            font-size: 0.85rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            animation: fadeIn 0.8s ease-out;
+            line-height: 1.4;
+        }
     </style>
 </head>
 
@@ -1281,6 +1296,13 @@
 
     <script src="config.js"></script>
 
+    <script type="module">
+        import { pipeline } from 'https://cdn.jsdelivr.net/npm/@xenova/transformers@2.17.1';
+        // Changed model to MobileBERT for better zero-shot reasoning
+        window.TalentAI = await pipeline('zero-shot-classification', 'Xenova/mobilebert-uncased-mnli');
+        console.log("Enhanced AI Talent Engine Ready");
+    </script>
+
     <script>
         // CONFIGURATION
         const SHEET_URL = CONFIG.SHEET_URL;
@@ -1446,10 +1468,11 @@
                     const { items, hasMore } = json.data;
                     hasMoreProjects = hasMore;
 
+                    // UPDATED: Must use await here because renderProjects is now async
                     if (!append) {
-                        renderProjects(items, false);
+                        await renderProjects(items, false);
                     } else {
-                        renderProjects(items, true);
+                        await renderProjects(items, true);
                     }
                 }
             } catch (err) {
@@ -1510,7 +1533,32 @@
             }
         }
 
-        function renderProjects(list, append = false) {
+        // [ENHANCED AI LOGIC]
+        async function getTalentInsight(desc, tech) {
+            if (!window.TalentAI) return null;
+
+            // Expanded professional roles
+            const roles = ['Cloud Architect', 'Full-Stack Developer', 'Embedded Systems Engineer', 'Data Scientist', 'Cybersecurity Analyst', 'DevOps Specialist', 'Blockchain Developer'];
+
+            try {
+                // IMPORTANT: Added hypothesis_template for higher accuracy
+                // This improves zero-shot classification significantly for MobileBERT
+                const output = await window.TalentAI(
+                    `Project description: ${desc}. Key technologies: ${tech}`,
+                    roles,
+                    { hypothesis_template: "This project demonstrates the skills of a {}." }
+                );
+
+                // Return result only if confidence is decent (>25%) to avoid random guessing
+                if (output.scores[0] > 0.25) {
+                    return { role: output.labels[0], score: Math.round(output.scores[0] * 100) };
+                }
+                return null;
+            } catch (e) { return null; }
+        }
+
+        // UPDATED: Now async to handle AI processing
+        async function renderProjects(list, append = false) {
             const container = document.getElementById('projectsList');
 
             if (!append) container.innerHTML = '';
@@ -1520,8 +1568,20 @@
                 return;
             }
 
-            const html = list.map(p => `
+            // Process AI insights in parallel for faster rendering
+            const projectsWithAI = await Promise.all(list.map(async p => {
+                const insight = await getTalentInsight(p.description, p.tech);
+                return { ...p, talentInsight: insight };
+            }));
+
+            const html = projectsWithAI.map(p => `
                 <div class="project-card card">
+                    ${p.talentInsight ? `
+                    <div class="ai-insight-badge">
+                        <span>🚀</span>
+                        <span>AI Talent Insight: This project demonstrates <strong>${p.talentInsight.role}</strong> competencies (${p.talentInsight.score}% match).</span>
+                    </div>` : ''}
+
                     <div class="project-header">
                         <img src="${p.authorPicture || 'default-avatar.png'}" class="avatar">
                         <div style="flex: 1; min-width: 0;">
