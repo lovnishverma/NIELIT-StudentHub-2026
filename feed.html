@@ -5,9 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>NIELIT StudentHub - Feed</title>
-    <link
-        href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Playfair+Display:wght@700;900&display=swap"
-        rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Playfair+Display:wght@700;900&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.6.2"></script>
     <link rel="icon" type="image/x-icon" href="logo.png">
     <meta name="theme-color" content="#003366">
@@ -29,12 +27,7 @@
             --shadow-md: 0 4px 16px rgba(0, 51, 102, 0.12);
         }
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            -webkit-tap-highlight-color: transparent;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
 
         body {
             font-family: 'Poppins', sans-serif;
@@ -56,7 +49,7 @@
         }
 
         .nav-container {
-            max-width: 1200px;
+            max-width: 1280px;
             margin: 0 auto;
             padding: 1rem 2rem;
             display: flex;
@@ -74,18 +67,9 @@
             gap: 0.5rem;
             text-decoration: none;
         }
+        .logo::before { content: '🎓'; font-size: 1.8rem; }
 
-        .logo::before {
-            content: '🎓';
-            font-size: 1.8rem;
-        }
-
-        .nav-links {
-            display: flex;
-            gap: 2rem;
-            align-items: center;
-        }
-
+        .nav-links { display: flex; gap: 2rem; align-items: center; }
         .nav-link {
             color: var(--text-secondary);
             text-decoration: none;
@@ -95,80 +79,26 @@
             position: relative;
             transition: 0.3s;
         }
-
-        .nav-link:hover {
-            color: var(--accent);
-            background: rgba(0, 102, 204, 0.05);
-        }
-
-        .nav-link.active {
-            color: var(--accent);
-            font-weight: 700;
-        }
-
+        .nav-link:hover { color: var(--accent); background: rgba(0, 102, 204, 0.05); }
+        .nav-link.active { color: var(--accent); font-weight: 700; }
         .nav-link.active::after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 30px;
-            height: 3px;
-            background: var(--accent);
-            border-radius: 3px;
-        }
-
-        /* Mobile Nav */
-        .mobile-bottom-nav {
-            display: none;
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            background: var(--card-bg);
-            box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
-            justify-content: space-around;
-            padding: 0.8rem 0.5rem;
-            z-index: 1001;
-            border-top: 1px solid var(--border);
-        }
-
-        .mobile-nav-item {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            text-decoration: none;
-            color: var(--text-secondary);
-            font-size: 0.7rem;
-            font-weight: 600;
-            padding: 0.3rem 0.8rem;
-            border-radius: 12px;
-            min-width: 65px;
-        }
-
-        .mobile-nav-icon {
-            font-size: 1.4rem;
-            margin-bottom: 4px;
-        }
-
-        .mobile-nav-item.active {
-            color: var(--accent);
-            background: rgba(0, 102, 204, 0.1);
+            content: ''; position: absolute; bottom: 0; left: 50%; transform: translateX(-50%);
+            width: 30px; height: 3px; background: var(--accent); border-radius: 3px;
         }
 
         /* Layout - FIXED OVERFLOW ISSUE */
         .container {
-            max-width: 1200px;
+            max-width: 1280px;
             margin: 0 auto;
             padding: 2rem;
             min-height: 80vh;
         }
 
-        /* Adjusted grid columns and gap to prevent overflow */
         .main-layout {
             display: grid;
-            grid-template-columns: 240px 1fr 260px;
-            gap: 1.5rem;
+            /* Critical Fix: minmax(0, 1fr) prevents content from blowing out width */
+            grid-template-columns: 250px minmax(0, 1fr) 280px; 
+            gap: 2rem;
             align-items: start;
         }
 
@@ -179,656 +109,160 @@
             box-shadow: var(--shadow-sm);
             margin-bottom: 1.5rem;
             width: 100%;
-        }
-
-        .sidebar-card {
-            position: sticky;
-            top: 100px;
-            height: fit-content;
-        }
-
-        .profile-sidebar {
-            text-align: center;
-            background: linear-gradient(135deg, rgba(0, 51, 102, 0.05), rgba(0, 102, 204, 0.05));
-            border: 2px solid var(--border);
-        }
-
-        .profile-header {
-            position: relative;
-            padding-bottom: 1rem;
-            margin-bottom: 1rem;
-            border-bottom: 2px solid var(--border);
-        }
-
-        /* Project Card */
-        .project-card {
-            animation: fadeIn 0.5s ease-out;
-            border: 1px solid var(--border);
-            transition: 0.3s;
-        }
-
-        .project-card:hover {
-            transform: translateY(-4px);
-            box-shadow: var(--shadow-md);
-            border-color: var(--accent);
-        }
-
-        .project-header {
-            display: flex;
-            gap: 1rem;
-            margin-bottom: 1rem;
-            align-items: center;
-        }
-
-        .avatar {
-            width: 48px;
-            height: 48px;
-            border-radius: 50%;
-            object-fit: cover;
-            border: 2px solid white;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-            flex-shrink: 0;
-            background: #ddd;
-        }
-
-        .big-avatar {
-            width: 100px;
-            height: 100px;
-            margin: 0 auto 1rem;
-            border: 4px solid var(--accent);
-        }
-
-        .project-title {
-            font-size: 1.25rem;
-            font-weight: 700;
-            color: var(--primary);
-            margin-bottom: 0.5rem;
-            line-height: 1.3;
-            word-break: break-word;
-        }
-
-        .project-description {
-            color: var(--text-secondary);
-            margin-bottom: 1rem;
-            line-height: 1.6;
-            word-wrap: break-word;
-        }
-
-        .project-image {
-            width: 100%;
-            height: 300px;
-            object-fit: cover;
-            border-radius: 12px;
-            margin: 1rem 0;
             border: 1px solid var(--border);
         }
 
-        /* Buttons & Footer */
-        .project-footer {
-            display: flex;
-            gap: 0.8rem;
-            padding-top: 1rem;
-            border-top: 1px solid var(--border);
-            align-items: center;
-            flex-wrap: wrap;
-        }
+        .sidebar-card { position: sticky; top: 100px; height: fit-content; }
+        .profile-sidebar { text-align: center; background: linear-gradient(135deg, rgba(0, 51, 102, 0.05), rgba(0, 102, 204, 0.05)); border: 2px solid var(--border); }
+        .profile-header { position: relative; padding-bottom: 1rem; margin-bottom: 1rem; border-bottom: 2px solid var(--border); }
 
-        .action-btn {
-            background: none;
-            border: none;
-            cursor: pointer;
-            color: var(--text-secondary);
-            display: flex;
-            align-items: center;
-            gap: 5px;
-            font-weight: 600;
-            padding: 0.5rem 0.8rem;
-            border-radius: 8px;
-            font-size: 0.9rem;
-            font-family: inherit;
-        }
+        .avatar { width: 48px; height: 48px; border-radius: 50%; object-fit: cover; border: 2px solid white; box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); flex-shrink: 0; background: #ddd; }
+        .big-avatar { width: 100px; height: 100px; margin: 0 auto 1rem; border: 4px solid var(--accent); }
 
-        .action-btn:hover,
-        .action-btn.active {
-            color: var(--accent);
-            background: rgba(0, 102, 204, 0.05);
-        }
-
-        .tech-badge {
-            margin-left: auto;
-            font-size: 0.8rem;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            padding: 4px 12px;
-            border-radius: 20px;
-            font-weight: 600;
-        }
-
-        .site-footer {
-            text-align: center;
-            padding: 3rem 2rem;
-            background: var(--card-bg);
-            border-top: 1px solid var(--border);
-            color: var(--text-secondary);
-            font-size: 0.9rem;
-            margin-top: 3rem;
-        }
-
-        .footer-logo {
-            max-width: 200px;
-            margin: 0 auto 1rem;
-            opacity: 0.8;
-        }
-
-        /* Inputs & Modals */
-        .form-input {
-            width: 100%;
-            padding: 0.875rem;
-            border: 2px solid var(--border);
-            border-radius: 10px;
-            font-family: inherit;
-            font-size: 0.95rem;
-        }
-
-        .form-input:focus {
-            outline: none;
-            border-color: var(--accent);
-            box-shadow: 0 0 0 3px rgba(0, 102, 204, 0.1);
-        }
-
-        .btn {
-            padding: 0.875rem 1.75rem;
-            border-radius: 10px;
-            border: none;
-            font-weight: 600;
-            cursor: pointer;
-            font-family: inherit;
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-            text-decoration: none;
-            justify-content: center;
-            transition: 0.3s;
-        }
-
-        .btn-primary {
-            background: var(--gradient-primary);
-            color: white;
-            box-shadow: 0 4px 12px rgba(0, 102, 204, 0.3);
-        }
-
-        .btn-primary:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(0, 102, 204, 0.4);
-        }
-
-        .btn-secondary {
-            background: #F3F4F6;
-            color: #1A1A1A;
-        }
-
-        .btn-secondary:hover {
-            background: #E5E7EB;
-        }
-
-        .btn-ghost {
-            background: transparent;
-            color: #6B7280;
-        }
-
-        .btn-ghost:hover {
-            background: rgba(0, 0, 0, 0.05);
-        }
-
-        .modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.6);
-            z-index: 3000;
-            align-items: center;
-            justify-content: center;
-            backdrop-filter: blur(4px);
-            padding: 1rem;
-        }
-
-        .modal.active {
-            display: flex;
-        }
-
-        .modal-content {
+        /* Search Bar - REDESIGNED */
+        .search-container { margin-bottom: 1.5rem; position: relative; }
+        
+        .search-wrapper {
             background: white;
-            padding: 2rem;
-            border-radius: 20px;
-            width: 100%;
-            max-width: 600px;
-            max-height: 90vh;
-            overflow-y: auto;
-            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
-            animation: modalSlide 0.3s ease-out;
-            margin: 0 1rem;
-        }
-
-        .modal-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 1.5rem;
-        }
-
-        .modal-close {
-            background: none;
-            border: none;
-            font-size: 1.5rem;
-            cursor: pointer;
-            color: var(--text-secondary);
-        }
-
-        /* Auth & Search */
-        .auth-page {
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background: var(--gradient-primary);
-            padding: 1rem;
-        }
-
-        .auth-box {
-            background: white;
-            padding: 3rem;
-            border-radius: 20px;
-            width: 100%;
-            max-width: 450px;
-            text-align: center;
-            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
-            animation: slideUp 0.5s ease-out;
-        }
-
-        .hidden {
-            display: none !important;
-        }
-
-        .search-container {
-            margin-bottom: 2rem;
-        }
-
-        .search-result-card {
-            background: white;
-            padding: 1.2rem;
-            border-radius: 12px;
-            margin-bottom: 1rem;
-            border: 1px solid var(--border);
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-            transition: 0.2s;
-        }
-
-        .search-result-card:hover {
-            border-color: var(--accent);
-            transform: translateX(5px);
-        }
-
-        .search-icon-placeholder {
-            width: 45px;
-            height: 45px;
-            background: rgba(0, 102, 204, 0.1);
-            color: var(--accent);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.2rem;
-            flex-shrink: 0;
-        }
-
-        .trending-item {
-            margin-bottom: 1rem;
-            padding: 1rem;
-            border-radius: 12px;
-            cursor: pointer;
-            transition: 0.2s;
-            border: 1px solid transparent;
-        }
-
-        .trending-item:hover {
-            background: rgba(0, 102, 204, 0.05);
-            transform: translateX(5px);
-            border-color: var(--accent);
-        }
-
-        .mobile-trending-container {
-            margin-bottom: 1.5rem;
-        }
-
-        .mobile-trending-list {
-            display: flex;
-            gap: 1rem;
-            overflow-x: auto;
-            padding-bottom: 0.5rem;
-            scrollbar-width: none;
-        }
-
-        .mobile-trend-card {
-            min-width: 240px;
-            background: white;
-            padding: 1rem;
-            border-radius: 16px;
-            border: 1px solid var(--border);
-            cursor: pointer;
-        }
-
-        .hidden-desktop {
-            display: none;
-        }
-
-        .loading {
-            text-align: center;
-            padding: 3rem;
-            color: var(--text-secondary);
-        }
-
-        .loading-spinner {
-            font-size: 3rem;
-            animation: spin 2s linear infinite;
-        }
-
-        /* Comments */
-        .comment-item {
-            margin-bottom: 1rem;
-            background: #F9FAFB;
-            padding: 1rem;
-            border-radius: 12px;
-            border-left: 3px solid var(--accent);
-        }
-
-        .comment-author {
-            font-size: 0.85rem;
-            font-weight: 600;
-            color: var(--primary);
-            margin-bottom: 0.25rem;
-        }
-
-        .comment-text {
-            color: var(--text-primary);
-            line-height: 1.5;
-            font-size: 0.95rem;
-        }
-
-        /* App Download Button */
-        .app-download-btn {
-            display: inline-flex;
-            align-items: center;
-            gap: 10px;
-            background: #1a1a1a;
-            color: #ffffff !important;
-            padding: 10px 20px;
             border-radius: 50px;
-            text-decoration: none;
-            font-weight: 500;
-            font-size: 0.9rem;
-            margin-top: 1.5rem;
-            transition: 0.3s;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-        }
-
-        .app-download-btn:hover {
-            transform: translateY(-3px);
-            background: var(--accent);
-        }
-
-        /* Animations */
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        @keyframes modalSlide {
-            from {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        @keyframes slideUp {
-            from {
-                opacity: 0;
-                transform: translateY(30px);
-            }
-
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        @keyframes spin {
-            from {
-                transform: rotate(0deg);
-            }
-
-            to {
-                transform: rotate(360deg);
-            }
-        }
-
-        /* Responsive Fixes - Breakpoint Increased to 1200px */
-        @media (max-width: 1200px) {
-            .main-layout {
-                grid-template-columns: 1fr;
-                display: flex;
-                flex-direction: column;
-            }
-
-            .sidebar-card,
-            .right-sidebar {
-                display: none;
-            }
-
-            .nav-links {
-                display: none;
-            }
-
-            .mobile-bottom-nav {
-                display: flex;
-            }
-
-            .hidden-desktop {
-                display: block;
-            }
-
-            .container {
-                padding: 1rem;
-                padding-bottom: 100px;
-            }
-        }
-
-        @media (max-width: 480px) {
-            .auth-box {
-                padding: 1.5rem;
-                margin: 0 1rem;
-            }
-
-            h1.logo {
-                font-size: 2rem !important;
-            }
-        }
-
-        /* AI Badge */
-        .ai-insight-badge {
-            background: rgba(16, 185, 129, 0.08);
-            border: 1px solid var(--success);
-            color: #065f46;
-            padding: 10px 14px;
-            border-radius: 12px;
-            margin-bottom: 1.25rem;
-            font-size: 0.85rem;
+            padding: 5px 20px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            border: 2px solid var(--border);
             display: flex;
             align-items: center;
-            gap: 10px;
-            animation: fadeIn 0.8s ease-out;
-            line-height: 1.4;
-        }
-
-        /* ================= CHATBOT STYLES (FIXED) ================= */
-        .chat-fab {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            width: 60px;
-            height: 60px;
-            background: var(--primary);
-            /* NIELIT Blue */
-            border-radius: 50%;
-            box-shadow: 0 4px 15px rgba(0, 51, 102, 0.4);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            z-index: 2000;
-            color: white;
             transition: all 0.3s ease;
         }
 
-        .chat-fab:hover {
-            transform: scale(1.1);
-            background: var(--accent);
-        }
-
-        .chat-fab svg {
-            width: 30px;
-            height: 30px;
-            fill: white;
-        }
-
-        .chat-window {
-            display: none;
-            position: fixed;
-            bottom: 90px;
-            right: 20px;
-            width: 350px;
-            height: 500px;
-            background: white;
-            border-radius: 20px;
-            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
-            z-index: 2000;
-            flex-direction: column;
-            overflow: hidden;
-            border: 1px solid var(--border);
-            animation: slideUp 0.3s ease-out;
-        }
-
-        .chat-window.active {
-            display: flex;
-        }
-
-        .chat-header {
-            background: var(--primary);
-            color: white;
-            padding: 1rem;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .chat-body {
-            flex: 1;
-            padding: 1rem;
-            overflow-y: auto;
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-            background: #f9fafb;
-        }
-
-        .chat-message {
-            max-width: 85%;
-            padding: 12px 16px;
-            border-radius: 12px;
-            font-size: 0.95rem;
-            line-height: 1.5;
-        }
-
-        .chat-message.bot {
-            background: #F3F4F6;
-            /* Solid light gray background */
-            color: #1F2937;
-            /* Dark text for visibility */
-            align-self: flex-start;
-            border-bottom-left-radius: 2px;
-            border: 1px solid #E5E7EB;
-        }
-
-        .chat-message.user {
-            background: var(--accent);
-            /* NIELIT Blue Accent */
-            color: #FFFFFF;
-            /* White text */
-            align-self: flex-end;
-            border-bottom-right-radius: 2px;
-        }
-
-        .chat-input-area {
-            padding: 1rem;
-            border-top: 1px solid var(--border);
-            display: flex;
-            gap: 8px;
-            background: white;
-        }
-
-        .chat-project-card {
-            background: white;
-            padding: 12px;
-            border-radius: 10px;
-            border: 1px solid var(--border);
-            font-size: 0.9rem;
-            cursor: pointer;
-            transition: 0.2s;
-            margin-top: 5px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
-        }
-
-        .chat-project-card:hover {
+        .search-wrapper:focus-within {
             border-color: var(--accent);
-            background: #f0f7ff;
+            box-shadow: 0 4px 20px rgba(0, 102, 204, 0.15);
+            transform: translateY(-1px);
         }
 
-        /* Force Text Colors in Chat Card */
-        .chat-project-card .chat-title {
-            font-weight: 700;
-            color: var(--primary);
-            margin-bottom: 2px;
+        .search-icon { font-size: 1.2rem; color: var(--text-secondary); margin-right: 10px; }
+
+        .search-input {
+            width: 100%;
+            border: none;
+            outline: none;
+            padding: 10px 0;
+            font-size: 1rem;
+            font-family: inherit;
+            color: var(--text-primary);
+            background: transparent;
         }
 
-        .chat-project-card .chat-author {
-            color: #666;
-            font-size: 0.8rem;
-        }
+        .search-input::placeholder { color: #9ca3af; }
 
-        @media (max-width: 480px) {
-            .chat-window {
-                width: 90%;
-                right: 5%;
-                bottom: 80px;
-                height: 60vh;
+        /* Filters - Matching Categories */
+        .filter-scroll-container {
+            display: flex;
+            gap: 10px;
+            overflow-x: auto;
+            padding-bottom: 10px;
+            margin-bottom: 1.5rem;
+            -webkit-overflow-scrolling: touch;
+            scrollbar-width: none;
+        }
+        .filter-scroll-container::-webkit-scrollbar { display: none; }
+
+        .filter-btn {
+            white-space: nowrap;
+            padding: 0.6rem 1.2rem;
+            border-radius: 50px;
+            background: white;
+            border: 1px solid var(--border);
+            color: var(--text-secondary);
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-size: 0.9rem;
+        }
+        
+        .filter-btn:hover { border-color: var(--accent); color: var(--accent); }
+        .filter-btn.active { background: var(--accent); color: white; border-color: var(--accent); box-shadow: 0 4px 10px rgba(0,102,204,0.2); }
+
+        /* Project Card */
+        .project-card { animation: fadeIn 0.5s ease-out; transition: 0.3s; overflow: hidden; }
+        .project-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-md); border-color: var(--accent); }
+        .project-header { display: flex; gap: 1rem; margin-bottom: 1rem; align-items: center; }
+        
+        .project-title { font-size: 1.25rem; font-weight: 700; color: var(--primary); margin-bottom: 0.5rem; line-height: 1.3; }
+        .project-description { color: var(--text-secondary); margin-bottom: 1rem; line-height: 1.6; word-wrap: break-word; }
+        
+        .project-image { width: 100%; height: 300px; object-fit: cover; border-radius: 12px; margin: 1rem 0; border: 1px solid var(--border); }
+
+        .project-footer { display: flex; gap: 0.8rem; padding-top: 1rem; border-top: 1px solid var(--border); align-items: center; flex-wrap: wrap; }
+
+        .action-btn {
+            background: none; border: none; cursor: pointer; color: var(--text-secondary);
+            display: flex; align-items: center; gap: 5px; font-weight: 600; padding: 0.5rem 0.8rem;
+            border-radius: 8px; font-size: 0.9rem; transition: 0.2s;
+        }
+        .action-btn:hover, .action-btn.active { color: var(--accent); background: rgba(0, 102, 204, 0.05); }
+        .action-btn.active { background: rgba(0, 102, 204, 0.1); }
+        
+        .tech-badge { margin-left: auto; font-size: 0.8rem; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 4px 12px; border-radius: 20px; font-weight: 600; }
+
+        /* Trending */
+        .trending-item { margin-bottom: 1rem; padding: 0.8rem; border-radius: 12px; cursor: pointer; transition: 0.2s; border: 1px solid transparent; display: flex; align-items: center; gap: 10px; }
+        .trending-item:hover { background: rgba(0, 102, 204, 0.05); transform: translateX(5px); border-color: var(--accent); }
+        
+        /* Mobile Specifics */
+        .mobile-bottom-nav { display: none; position: fixed; bottom: 0; left: 0; width: 100%; background: var(--card-bg); box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1); justify-content: space-around; padding: 0.8rem 0.5rem; z-index: 1001; border-top: 1px solid var(--border); }
+        .mobile-nav-item { display: flex; flex-direction: column; align-items: center; text-decoration: none; color: var(--text-secondary); font-size: 0.7rem; font-weight: 600; padding: 0.3rem; border-radius: 12px; }
+        .mobile-nav-item.active { color: var(--accent); background: rgba(0, 102, 204, 0.1); }
+        .mobile-nav-icon { font-size: 1.4rem; margin-bottom: 2px; }
+
+        .hidden-desktop { display: none; }
+        .mobile-trending-list { display: flex; gap: 1rem; overflow-x: auto; padding-bottom: 0.5rem; scrollbar-width: none; }
+        .mobile-trend-card { min-width: 240px; background: white; padding: 1rem; border-radius: 16px; border: 1px solid var(--border); cursor: pointer; box-shadow: var(--shadow-sm); }
+
+        /* Buttons & Forms */
+        .btn-primary { background: var(--gradient-primary); color: white; border: none; padding: 0.8rem 1.5rem; border-radius: 10px; font-weight: 600; cursor: pointer; transition: 0.3s; box-shadow: 0 4px 12px rgba(0, 102, 204, 0.3); }
+        .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(0, 102, 204, 0.4); }
+        .btn-secondary { background: #F3F4F6; color: #1A1A1A; border: none; padding: 0.8rem 1.5rem; border-radius: 10px; font-weight: 600; cursor: pointer; }
+        .btn-ghost { background: transparent; color: #6B7280; border: none; padding: 0.5rem 1rem; cursor: pointer; }
+        
+        .form-input { width: 100%; padding: 0.8rem; border: 2px solid var(--border); border-radius: 10px; font-family: inherit; margin-bottom: 1rem; }
+        .form-input:focus { outline: none; border-color: var(--accent); box-shadow: 0 0 0 3px rgba(0, 102, 204, 0.1); }
+
+        /* Modals */
+        .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); z-index: 3000; align-items: center; justify-content: center; backdrop-filter: blur(4px); }
+        .modal.active { display: flex; }
+        .modal-content { background: white; padding: 2rem; border-radius: 20px; width: 90%; max-width: 600px; max-height: 90vh; overflow-y: auto; animation: slideUp 0.3s ease-out; }
+        .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; }
+        
+        /* Utils */
+        .hidden { display: none !important; }
+        .loading { text-align: center; padding: 3rem; color: var(--text-secondary); }
+        .loading-spinner { font-size: 3rem; animation: spin 2s linear infinite; }
+        
+        @keyframes slideUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+
+        /* Search Results Styles */
+        .search-result-card { background: white; padding: 1rem; border-radius: 12px; margin-bottom: 1rem; border: 1px solid var(--border); cursor: pointer; display: flex; align-items: center; gap: 1rem; transition: 0.2s; }
+        .search-result-card:hover { border-color: var(--accent); transform: translateX(5px); }
+        .search-icon-placeholder { width: 40px; height: 40px; background: rgba(0, 102, 204, 0.1); color: var(--accent); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; flex-shrink: 0; }
+
+        /* Responsive Breakpoints */
+        @media (max-width: 1200px) {
+            .main-layout { 
+                grid-template-columns: 240px 1fr; /* Hide right sidebar on medium screens */
             }
+            .right-sidebar { display: none; }
+        }
+
+        @media (max-width: 968px) {
+            .main-layout { display: flex; flex-direction: column; gap: 1.5rem; }
+            .sidebar-card, .nav-links { display: none; }
+            .mobile-bottom-nav, .hidden-desktop { display: flex; }
+            .hidden-desktop { flex-direction: column; width: 100%; }
+            .container { padding: 1rem; padding-bottom: 100px; }
+            .project-image { height: 200px; }
+            .search-wrapper { border-radius: 12px; } /* Less round on mobile */
         }
     </style>
 </head>
@@ -837,72 +271,41 @@
 
     <div id="loginPage" class="auth-page">
         <div class="auth-box">
-            <img src="logo.png" alt="StudentHub" style="width: 150px; height: auto;">
-            <p style="color: var(--text-secondary); margin-bottom: 2rem; font-weight: 500;">NIELIT Ropar</p>
+            <img src="logo.png" alt="StudentHub" style="width: 150px; height: auto; margin-bottom: 1rem;">
+            <p style="color: var(--text-secondary); margin-bottom: 2rem;">NIELIT Ropar</p>
             <form onsubmit="handleLogin(event)">
-                <div class="form-group">
-                    <label>Email Address</label>
-                    <input type="email" id="loginEmail" class="form-input" required placeholder="student@nielit.gov.in">
-                </div>
-                <div class="form-group">
-                    <label>Password</label>
-                    <input type="password" id="loginPass" class="form-input" required placeholder="Enter your password">
-                </div>
-                <button type="submit" class="btn btn-primary" style="width: 100%; margin-top: 1rem;">Log In</button>
+                <div class="form-group"><label>Email</label><input type="email" id="loginEmail" class="form-input" required placeholder="student@nielit.gov.in"></div>
+                <div class="form-group"><label>Password</label><input type="password" id="loginPass" class="form-input" required></div>
+                <button type="submit" class="btn btn-primary" style="width: 100%;">Log In</button>
             </form>
-            <p style="margin-top: 2rem; font-size: 0.9rem;">
-                No account? <a href="#" onclick="toggleAuth('signup')"
-                    style="color: var(--accent); font-weight: 600; text-decoration: none;">Sign up</a>
-            </p>
+            <p style="margin-top: 1.5rem;">No account? <a href="#" onclick="toggleAuth('signup')" style="color: var(--accent); font-weight: 600;">Sign up</a></p>
         </div>
     </div>
 
     <div id="signupPage" class="auth-page hidden">
         <div class="auth-box">
-            <h2 style="margin-bottom: 0.5rem; font-size: 1.8rem;">Create Account</h2>
-            <p style="color: var(--text-secondary); margin-bottom: 2rem;">Join the NIELIT community</p>
+            <h2 style="margin-bottom: 0.5rem;">Create Account</h2>
             <form onsubmit="handleSignup(event)">
-                <div class="form-group">
-                    <label>Profile Picture</label>
-                    <input type="file" id="signupPic" class="form-input" accept="image/*">
-                </div>
-                <div class="form-group">
-                    <label>Full Name</label>
-                    <input type="text" id="signupName" class="form-input" required placeholder="Sarwan Singh">
-                </div>
-                <div class="form-group">
-                    <label>Email Address</label>
-                    <input type="email" id="signupEmail" class="form-input" required placeholder="student@nielit.ac.in">
-                </div>
-                <div class="form-group">
-                    <label>Password</label>
-                    <input type="password" id="signupPass" class="form-input" required minlength="6"
-                        placeholder="Minimum 6 characters">
-                </div>
-                <div class="form-group">
-                    <label>Major / Stream</label>
-                    <input type="text" id="signupMajor" class="form-input" placeholder="e.g. Computer Science">
-                </div>
-                <button type="submit" class="btn btn-primary" style="width: 100%; margin-top: 1rem;">Sign Up</button>
+                <div class="form-group"><label>Profile Pic</label><input type="file" id="signupPic" class="form-input" accept="image/*"></div>
+                <div class="form-group"><label>Name</label><input type="text" id="signupName" class="form-input" required></div>
+                <div class="form-group"><label>Email</label><input type="email" id="signupEmail" class="form-input" required></div>
+                <div class="form-group"><label>Password</label><input type="password" id="signupPass" class="form-input" required></div>
+                <div class="form-group"><label>Stream</label><input type="text" id="signupMajor" class="form-input" placeholder="e.g. CSE"></div>
+                <button type="submit" class="btn btn-primary" style="width: 100%;">Sign Up</button>
             </form>
-            <p style="margin-top: 1.5rem;">
-                <a href="#" onclick="toggleAuth('login')"
-                    style="color: var(--text-secondary); text-decoration: none; font-weight: 500;">← Back to Login</a>
-            </p>
+            <p style="margin-top: 1rem;"><a href="#" onclick="toggleAuth('login')">Back to Login</a></p>
         </div>
     </div>
 
     <div id="mainApp" class="hidden">
         <nav class="desktop-nav">
             <div class="nav-container">
-                <a href="index.html" class="logo">
-                    <img src="logo.png" alt="StudentHub" style="height: 40px; width: auto;">
-                </a>
+                <a href="index.html" class="logo"><img src="logo.png" style="height: 40px;"> StudentHub</a>
                 <div class="nav-links">
                     <a href="#" onclick="showSection('feed'); return false;" class="nav-link active">Feed</a>
                     <a href="index.html" class="nav-link">Profiles</a>
                     <button class="btn btn-primary" onclick="openModal('project')">📝 Post Project</button>
-                    <button class="btn-ghost" onclick="logout()">Logout</button>
+                    <button class="btn btn-ghost" onclick="logout()">Logout</button>
                 </div>
             </div>
         </nav>
@@ -916,135 +319,58 @@
                             <h3 id="sideName" style="margin-bottom: 0.25rem;">User</h3>
                             <p id="sideMajor" style="color: var(--text-secondary); font-size: 0.9rem;">Student</p>
                         </div>
-                        <button class="btn btn-secondary" onclick="openMyProfilePage()"
-                            style="width: 100%; margin-bottom: 0.75rem;">📁 My Projects</button>
-                        <button class="btn btn-ghost" onclick="openModal('editProfile')" style="width: 100%">✏️ Edit
-                            Profile</button>
+                        <button class="btn btn-secondary" onclick="openMyProfilePage()" style="width: 100%; margin-bottom: 0.75rem;">📁 My Projects</button>
+                        <button class="btn btn-ghost" onclick="openModal('editProfile')" style="width: 100%">✏️ Edit Profile</button>
                     </div>
                 </aside>
 
                 <main>
                     <div class="mobile-trending-container hidden-desktop">
-                        <h3
-                            style="margin-bottom: 0.8rem; font-size: 1.2rem; display: flex; align-items: center; gap: 0.5rem; color: var(--primary);">
-                            🔥 <span>Trending Now</span>
-                        </h3>
+                        <h3 style="margin-bottom: 0.8rem; display: flex; align-items: center; gap: 0.5rem;">🔥 Trending Now</h3>
                         <div id="mobileTrendingList" class="mobile-trending-list">
                             <div class="loading" style="padding: 1rem; width:100%;">⏳</div>
                         </div>
                     </div>
 
                     <div class="search-container">
-                        <input type="text" id="searchInput" class="search-input" placeholder="🔍 Search projects..."
-                            onkeyup="handleSearch(this.value)">
+                        <div class="search-wrapper">
+                            <span class="search-icon">🔍</span>
+                            <input type="text" id="searchInput" class="search-input" placeholder="Search projects, technologies..." onkeyup="handleSearch(this.value)">
+                        </div>
                     </div>
 
-                    <div
-                        style="display:flex; gap:10px; overflow-x:auto; padding-bottom:10px; margin-bottom:1rem; -webkit-overflow-scrolling:touch; scrollbar-width: none;">
-                        <button onclick="filterCategory(this, 'All')" class="action-btn active filter-btn">All</button>
-                        <button onclick="filterCategory(this, 'Web Development')" class="action-btn filter-btn">Web
-                            Dev</button>
-                        <button onclick="filterCategory(this, 'Mobile App')" class="action-btn filter-btn">App</button>
-                        <button onclick="filterCategory(this, 'AI / ML')" class="action-btn filter-btn">AI/ML</button>
-                        <button onclick="filterCategory(this, 'Cloud & DevOps')"
-                            class="action-btn filter-btn">Cloud</button>
-                        <button onclick="filterCategory(this, 'Data Science')"
-                            class="action-btn filter-btn">Data</button>
-                        <button onclick="filterCategory(this, 'IoT & Hardware')"
-                            class="action-btn filter-btn">IoT</button>
-                        <button onclick="filterCategory(this, 'Robotics')"
-                            class="action-btn filter-btn">Robotics</button>
-                        <button onclick="filterCategory(this, 'Game Development')" class="action-btn filter-btn">Game
-                            Dev</button>
-                        <button onclick="filterCategory(this, 'AR / VR')" class="action-btn filter-btn">AR/VR</button>
-                        <button onclick="filterCategory(this, 'Blockchain')" class="action-btn filter-btn">Web3</button>
-                    </div>
+                    <div id="categoryFilters" class="filter-scroll-container"></div>
 
                     <div id="projectsList">
-                        <div class="loading">
-                            <div class="loading-spinner">⏳</div>
-                            <p style="margin-top: 1rem; font-size: 1.1rem; font-weight: 500;">Loading...</p>
-                        </div>
+                        <div class="loading"><div class="loading-spinner">⏳</div><p>Loading...</p></div>
                     </div>
                 </main>
 
                 <aside class="right-sidebar">
                     <div class="card">
-                        <h3 style="margin-bottom: 1rem; display: flex; align-items: center; gap: 0.5rem;">
-                            🔥 <span>Trending</span>
-                        </h3>
+                        <h3 style="margin-bottom: 1rem;">🔥 Trending</h3>
                         <div id="trendingList"></div>
                     </div>
                 </aside>
             </div>
         </div>
 
-        <footer class="site-footer">
-            <div class="footer-logo">
-                <p style="font-size: 1.2rem; font-weight: 700; color: var(--primary); margin-bottom: 0.5rem;">🎓 NIELIT
-                    Ropar</p>
-            </div>
-            <p>&copy; 2026 <strong>StudentHub</strong>. All rights reserved.</p>
-            <p
-                style="font-size: 0.8rem; margin: 0.5rem 0; opacity: 0.7; max-width: 300px; margin-left: auto; margin-right: auto;">
-                National Institute of Electronics & Information Technology
-            </p>
-            <a href="https://github.com/nielitropar/nielitropar.github.io/releases/tag/v1.0" target="_blank"
-                class="app-download-btn">
-                <span class="app-icon">🤖</span>
-                <span>Download Android App</span>
-            </a>
-        </footer>
-
         <nav class="mobile-bottom-nav">
-            <a href="#" onclick="showSection('feed'); return false;" class="mobile-nav-item active"><span
-                    class="mobile-nav-icon">🏠</span><span>Feed</span></a>
-            <a href="index.html" class="mobile-nav-item"><span
-                    class="mobile-nav-icon">👥</span><span>Profiles</span></a>
-            <a href="#" onclick="openModal('project'); return false;" class="mobile-nav-item"><span
-                    class="mobile-nav-icon">➕</span><span>Post</span></a>
-            <a href="#" onclick="openMyProfile(); return false;" class="mobile-nav-item"><span
-                    class="mobile-nav-icon">👤</span><span>Me</span></a>
+            <a href="#" onclick="showSection('feed'); return false;" class="mobile-nav-item active"><span class="mobile-nav-icon">🏠</span><span>Feed</span></a>
+            <a href="index.html" class="mobile-nav-item"><span class="mobile-nav-icon">👥</span><span>Profiles</span></a>
+            <a href="#" onclick="openModal('project'); return false;" class="mobile-nav-item"><span class="mobile-nav-icon">➕</span><span>Post</span></a>
+            <a href="#" onclick="openMyProfile(); return false;" class="mobile-nav-item"><span class="mobile-nav-icon">👤</span><span>Me</span></a>
         </nav>
-    </div>
-
-    <div class="chat-fab" onclick="toggleChat()">
-        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-            <path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm0 14H6l-2 2V4h16v12z" />
-        </svg>
-    </div>
-
-    <div class="chat-window" id="chatWindow">
-        <div class="chat-header">
-            <div>
-                <span style="font-weight:700;">StudentHub AI</span>
-                <div style="font-size:0.75rem; opacity:0.9;">Assistant</div>
-            </div>
-            <span onclick="toggleChat()" style="cursor:pointer; font-size:1.5rem;">&times;</span>
-        </div>
-        <div class="chat-body" id="chatBody">
-            <div class="chat-message bot">Hi! I'm the StudentHub AI assistant. Ask me to find projects like "Find me a
-                robotics project" or "Who works on React?".</div>
-        </div>
-        <div class="chat-input-area">
-            <input type="text" id="chatInput" class="form-input" style="margin-bottom:0;"
-                placeholder="Type your request..." onkeypress="handleChatKey(event)">
-            <button onclick="sendChatMessage()" class="btn btn-primary" style="padding:0 1rem;">➤</button>
-        </div>
     </div>
 
     <div id="userMenuModal" class="modal">
         <div class="modal-content" style="text-align: center;">
-            <div class="modal-header">
-                <h2>Menu</h2><button class="modal-close" onclick="closeModal('userMenu')">&times;</button>
-            </div>
+            <div class="modal-header"><h2>Menu</h2><button class="modal-close" onclick="closeModal('userMenu')">&times;</button></div>
             <img id="menuAvatar" src="" class="avatar big-avatar">
             <h3 id="menuName">User</h3>
-            <p id="menuMajor" style="color: var(--text-secondary); margin-bottom: 1.5rem;">Student</p>
-            <div style="display: flex; flex-direction: column; gap: 1rem;">
+            <div style="display: flex; flex-direction: column; gap: 1rem; margin-top: 1rem;">
                 <button class="btn btn-secondary" onclick="openMyProfilePage()">📁 My Projects</button>
-                <button class="btn btn-primary" onclick="closeModal('userMenu'); openModal('editProfile')">✏️ Edit
-                    Profile</button>
+                <button class="btn btn-primary" onclick="closeModal('userMenu'); openModal('editProfile')">✏️ Edit Profile</button>
                 <button class="btn btn-ghost" onclick="logout()" style="color: #ef4444;">🚪 Logout</button>
             </div>
         </div>
@@ -1052,99 +378,47 @@
 
     <div id="projectModal" class="modal">
         <div class="modal-content">
-            <div class="modal-header">
-                <h2>Share Project</h2><button class="modal-close" onclick="closeModal('project')">&times;</button>
-            </div>
+            <div class="modal-header"><h2>Share Project</h2><button class="modal-close" onclick="closeModal('project')">&times;</button></div>
             <form onsubmit="handlePostProject(event)">
-                <div class="form-group">
-                    <label>📸 Project Image</label>
-                    <input type="file" id="postImage" class="form-input" accept="image/*">
-                </div>
-                <div class="form-group">
-                    <label>Project Title</label>
-                    <input type="text" id="postTitle" class="form-input" required placeholder="My Awesome Project">
-                </div>
-                <div class="form-group">
-                    <label>Description</label>
-                    <textarea id="postDesc" class="form-input" rows="4" required
-                        placeholder="Describe your project..."></textarea>
-                </div>
-                <div class="form-group">
-                    <label>🔗 Link (GitHub/Demo)</label>
-                    <input type="url" id="postLink" class="form-input" placeholder="https://">
-                </div>
+                <div class="form-group"><label>📸 Project Image</label><input type="file" id="postImage" class="form-input" accept="image/*"></div>
+                <div class="form-group"><label>Project Title</label><input type="text" id="postTitle" class="form-input" required placeholder="My Awesome Project"></div>
+                <div class="form-group"><label>Description</label><textarea id="postDesc" class="form-input" rows="4" required placeholder="Describe your project..."></textarea></div>
+                <div class="form-group"><label>🔗 Link (GitHub/Demo)</label><input type="url" id="postLink" class="form-input" placeholder="https://"></div>
+                
                 <div class="form-group">
                     <label>Category</label>
-                    <select id="postCategory" class="form-input" style="background: white;">
-                        <option value="Web Development">Web Development</option>
-                        <option value="Mobile App">Mobile App</option>
-                        <option value="AI / ML">AI / ML</option>
-                        <option value="Cloud & DevOps">Cloud & DevOps</option>
-                        <option value="Data Science">Data Science</option>
-                        <option value="IoT & Hardware">IoT & Hardware</option>
-                        <option value="Robotics">Robotics</option>
-                        <option value="Game Development">Game Development</option>
-                        <option value="AR / VR">AR / VR</option>
-                        <option value="Blockchain">Blockchain</option>
-                        <option value="Cybersecurity">Cybersecurity</option>
-                        <option value="Other">Other</option>
-                    </select>
+                    <select id="postCategory" class="form-input" style="background: white;"></select>
                 </div>
-                <div class="form-group">
-                    <label>Tech Stack</label>
-                    <input type="text" id="postTech" class="form-input" placeholder="React, Python...">
-                </div>
-                <div style="display: flex; gap: 1rem; justify-content: flex-end; margin-top: 1.5rem;">
-                    <button type="button" class="btn btn-ghost" onclick="closeModal('project')">Cancel</button>
-                    <button type="submit" class="btn btn-primary">Post</button>
-                </div>
+                
+                <div class="form-group"><label>Tech Stack</label><input type="text" id="postTech" class="form-input" placeholder="React, Python..."></div>
+                <button type="submit" class="btn btn-primary" style="width:100%; margin-top:1rem;">Post Project</button>
             </form>
         </div>
     </div>
 
     <div id="editProfileModal" class="modal">
         <div class="modal-content">
-            <div class="modal-header">
-                <h2>Edit Profile</h2><button class="modal-close" onclick="closeModal('editProfile')">&times;</button>
-            </div>
+            <div class="modal-header"><h2>Edit Profile</h2><button class="modal-close" onclick="closeModal('editProfile')">&times;</button></div>
             <form onsubmit="handleEditProfile(event)">
-                <div class="form-group"><label>📸 New Profile Picture</label><input type="file" id="editPic"
-                        class="form-input" accept="image/*"></div>
-                <div class="form-group"><label>Full Name</label><input type="text" id="editName" class="form-input"
-                        required></div>
-                <div class="form-group"><label>University</label><input type="text" id="editUni" class="form-input"
-                        placeholder="NIELIT Ropar"></div>
-                <div class="form-group"><label>Major</label><input type="text" id="editMajorInput" class="form-input"
-                        placeholder="Computer Science"></div>
-                <div class="form-group"><label>Bio</label><textarea id="editBio" class="form-input" rows="3"
-                        placeholder="Tell us about yourself..."></textarea></div>
-                <div class="form-group"><label>📄 Resume (PDF)</label>
-                    <div style="display: flex; gap: 10px; align-items: center;"><input type="file" id="editResumeFile"
-                            class="form-input" accept=".pdf"><a id="currentResumeLink" href="#" target="_blank"
-                            class="btn-ghost hidden" style="font-size: 0.8rem; white-space: nowrap;">View Current</a>
-                    </div>
-                </div>
-                <div class="form-group"><label>🔗 LinkedIn</label><input type="url" id="editLinked" class="form-input"
-                        placeholder="https://linkedin.com/in/..."></div>
-                <div class="form-group"><label>🔗 GitHub</label><input type="url" id="editGit" class="form-input"
-                        placeholder="https://github.com/..."></div>
-                <div style="display: flex; gap: 1rem; justify-content: flex-end; margin-top: 1.5rem;">
-                    <button type="button" class="btn btn-ghost" onclick="closeModal('editProfile')">Cancel</button>
-                    <button type="submit" class="btn btn-primary">Save</button>
-                </div>
+                <div class="form-group"><label>New Pic</label><input type="file" id="editPic" class="form-input" accept="image/*"></div>
+                <div class="form-group"><label>Name</label><input type="text" id="editName" class="form-input" required></div>
+                <div class="form-group"><label>University</label><input type="text" id="editUni" class="form-input"></div>
+                <div class="form-group"><label>Major</label><input type="text" id="editMajorInput" class="form-input"></div>
+                <div class="form-group"><label>Bio</label><textarea id="editBio" class="form-input" rows="3"></textarea></div>
+                <div class="form-group"><label>Resume (PDF)</label><input type="file" id="editResumeFile" class="form-input" accept=".pdf"> <a id="currentResumeLink" href="#" target="_blank" class="hidden" style="font-size:0.8rem;">View Current</a></div>
+                <div class="form-group"><label>LinkedIn</label><input type="url" id="editLinked" class="form-input"></div>
+                <div class="form-group"><label>GitHub</label><input type="url" id="editGit" class="form-input"></div>
+                <button type="submit" class="btn btn-primary" style="width:100%;">Save</button>
             </form>
         </div>
     </div>
 
     <div id="commentsModal" class="modal">
         <div class="modal-content">
-            <div class="modal-header">
-                <h3>💬 Comments</h3><button class="modal-close" onclick="closeModal('comments')">&times;</button>
-            </div>
+            <div class="modal-header"><h3>💬 Comments</h3><button class="modal-close" onclick="closeModal('comments')">&times;</button></div>
             <div id="commentsList" style="margin-bottom: 1.5rem; max-height: 400px; overflow-y: auto;"></div>
             <div style="display: flex; gap: 0.75rem;">
-                <input type="text" id="commentInput" class="form-input" placeholder="Write a comment..."
-                    style="flex: 1; margin-bottom:0;">
+                <input type="text" id="commentInput" class="form-input" style="margin-bottom:0;" placeholder="Write a comment...">
                 <button onclick="submitComment()" class="btn btn-primary">Post</button>
             </div>
         </div>
@@ -1152,33 +426,29 @@
 
     <div id="shareProjectModal" class="modal">
         <div class="modal-content">
-            <div class="modal-header">
-                <h2>📤 Share Project</h2><button class="modal-close"
-                    onclick="closeModal('shareProject')">&times;</button>
+            <div class="modal-header"><h2>📤 Share</h2><button class="modal-close" onclick="closeModal('shareProject')">&times;</button></div>
+            <div style="margin-bottom:1.5rem;"><input type="text" id="shareProjectLink" readonly class="form-input" style="font-family:monospace;"><button onclick="copyShareLink()" class="btn btn-primary" id="copyShareBtn" style="width:100%; margin-top:5px;">📋 Copy Link</button></div>
+            <div style="display:grid; gap:0.5rem;">
+                <button onclick="shareViaWhatsApp()" class="btn btn-secondary">WhatsApp</button>
+                <button onclick="shareViaLinkedIn()" class="btn btn-secondary">LinkedIn</button>
+                <button onclick="shareViaTwitter()" class="btn btn-secondary">Twitter</button>
             </div>
-            <div style="margin-bottom:1.5rem;"><input type="text" id="shareProjectLink" readonly class="form-input"
-                    style="font-family:monospace;"><button onclick="copyShareLink()" class="btn btn-primary"
-                    id="copyShareBtn">📋 Copy</button></div>
-            <button onclick="shareViaWhatsApp()" class="btn btn-secondary"
-                style="width:100%;margin-bottom:0.5rem;">WhatsApp</button>
-            <button onclick="shareViaLinkedIn()" class="btn btn-secondary" style="width:100%;">LinkedIn</button>
         </div>
     </div>
 
     <script src="config.js"></script>
 
-    <script type="module">
-        import { pipeline, env } from 'https://cdn.jsdelivr.net/npm/@xenova/transformers@2.17.1';
-        env.allowLocalModels = false;
-        // Load Semantic Model
-        window.TalentAI = await pipeline('feature-extraction', 'Xenova/all-MiniLM-L6-v2');
-        console.log("Semantic AI Engine Ready");
-    </script>
-
     <script>
         const SHEET_URL = CONFIG.SHEET_URL;
         const CLOUDINARY_NAME = CONFIG.CLOUDINARY_NAME;
         const CLOUDINARY_PRESET = CONFIG.CLOUDINARY_PRESET;
+
+        // SINGLE SOURCE OF TRUTH FOR CATEGORIES
+        const PROJECT_CATEGORIES = [
+            "Web Development", "Mobile App", "AI / ML", "Cloud & DevOps", 
+            "Data Science", "IoT & Hardware", "Robotics", "Game Development", 
+            "AR / VR", "Blockchain", "Cybersecurity", "Other"
+        ];
 
         let currentUser = JSON.parse(localStorage.getItem('studenthub_user'));
         let currentCommentProjectId = null;
@@ -1188,6 +458,7 @@
         let isLoading = false;
         let searchIndex = [];
         let fuse;
+        let searchTimeout = null;
 
         window.onload = () => {
             if (currentUser) {
@@ -1195,9 +466,26 @@
                 if (localStorage.getItem('openPostModal')) { localStorage.removeItem('openPostModal'); openModal('project'); }
                 loadSearchIndex();
             } else { toggleAuth('login'); }
+            
+            // INJECT CATEGORIES ON LOAD
+            populateCategories();
         };
 
-        // --- AUTH & BASIC UI ---
+        function populateCategories() {
+            // 1. Filter Chips
+            const filterContainer = document.getElementById('categoryFilters');
+            let filterHtml = `<button onclick="filterCategory(this, 'All')" class="filter-btn active">All</button>`;
+            PROJECT_CATEGORIES.forEach(cat => {
+                filterHtml += `<button onclick="filterCategory(this, '${cat}')" class="filter-btn">${cat}</button>`;
+            });
+            filterContainer.innerHTML = filterHtml;
+
+            // 2. Post Project Dropdown
+            const select = document.getElementById('postCategory');
+            select.innerHTML = PROJECT_CATEGORIES.map(cat => `<option value="${cat}">${cat}</option>`).join('');
+        }
+
+        // --- AUTH ---
         function toggleAuth(view) {
             document.getElementById('loginPage').classList.toggle('hidden', view !== 'login');
             document.getElementById('signupPage').classList.toggle('hidden', view !== 'signup');
@@ -1208,49 +496,44 @@
             document.getElementById('loginPage').classList.add('hidden');
             document.getElementById('signupPage').classList.add('hidden');
             document.getElementById('mainApp').classList.remove('hidden');
+            
             document.getElementById('sideName').textContent = currentUser.name;
             document.getElementById('sideMajor').textContent = currentUser.major || 'Student';
             document.getElementById('sideAvatar').src = currentUser.profilePicture || 'default-avatar.png';
 
-            // Edit Profile Pre-fill
+            // Edit Prefill
             document.getElementById('editName').value = currentUser.name;
             document.getElementById('editUni').value = currentUser.university || '';
             document.getElementById('editMajorInput').value = currentUser.major || '';
             document.getElementById('editBio').value = currentUser.bio || '';
             document.getElementById('editLinked').value = currentUser.linkedin || '';
             document.getElementById('editGit').value = currentUser.github || '';
-            const rLink = document.getElementById('currentResumeLink');
-            if (currentUser.resume) { rLink.href = currentUser.resume; rLink.classList.remove('hidden'); }
+            if (currentUser.resume) document.getElementById('currentResumeLink').href = currentUser.resume;
 
             loadProjects();
             fetchTrending();
         }
 
-        function showSection(section) { if (section === 'feed') window.scrollTo(0, 0); }
-
         async function handleLogin(e) {
-            e.preventDefault();
-            const btn = e.target.querySelector('button');
-            const orig = btn.textContent; btn.textContent = '...'; btn.disabled = true;
+            e.preventDefault(); const btn = e.target.querySelector('button'); const orig = btn.textContent; btn.textContent = '...'; btn.disabled = true;
             try {
                 const res = await fetch(`${SHEET_URL}?action=login&email=${document.getElementById('loginEmail').value}&password=${document.getElementById('loginPass').value}`);
                 const json = await res.json();
-                if (json.status === 'success') completeAuth(json.data); else { alert(json.data); btn.textContent = orig; btn.disabled = false; }
-            } catch (err) { alert('Error'); btn.textContent = orig; btn.disabled = false; }
+                if (json.status === 'success') { currentUser = json.data; localStorage.setItem('studenthub_user', JSON.stringify(currentUser)); showApp(); }
+                else { alert(json.data); btn.textContent = orig; btn.disabled = false; }
+            } catch (err) { alert('Error'); btn.disabled = false; }
         }
 
         async function handleSignup(e) {
-            e.preventDefault();
-            const btn = e.target.querySelector('button'); btn.textContent = '...'; btn.disabled = true;
-            const file = document.getElementById('signupPic').files[0];
-            let picUrl = ''; if (file) picUrl = await uploadImage(file);
+            e.preventDefault(); const btn = e.target.querySelector('button'); btn.textContent = '...'; btn.disabled = true;
+            const file = document.getElementById('signupPic').files[0]; let picUrl = ''; if (file) picUrl = await uploadImage(file);
             const data = { name: document.getElementById('signupName').value, email: document.getElementById('signupEmail').value, password: document.getElementById('signupPass').value, major: document.getElementById('signupMajor').value, profilePicture: picUrl };
             const res = await postData('signup', { data });
-            if (res.status === 'success') completeAuth(data); else { alert(res.data); btn.textContent = 'Sign Up'; btn.disabled = false; }
+            if (res.status === 'success') { currentUser = data; localStorage.setItem('studenthub_user', JSON.stringify(data)); showApp(); }
+            else { alert(res.data); btn.disabled = false; }
         }
 
-        function completeAuth(user) { currentUser = user; localStorage.setItem('studenthub_user', JSON.stringify(user)); showApp(); }
-        function logout() { if (confirm('Logout?')) { localStorage.removeItem('studenthub_user'); location.reload(); } }
+        function logout() { if(confirm('Logout?')) { localStorage.removeItem('studenthub_user'); location.reload(); } }
 
         // --- PROJECTS ---
         async function loadProjects(append = false) {
@@ -1261,7 +544,7 @@
                 const json = await res.json();
                 if (json.status === 'success') {
                     hasMoreProjects = json.data.hasMore;
-                    if (!append) await renderProjects(json.data.items, false); else await renderProjects(json.data.items, true);
+                    renderProjects(json.data.items, append);
                 }
             } catch (e) { console.error(e); } finally { isLoading = false; }
         }
@@ -1271,72 +554,29 @@
                 const res = await fetch(`${SHEET_URL}?action=getTrending`);
                 const json = await res.json();
                 if (json.status === 'success') {
-                    document.getElementById('trendingList').innerHTML = json.data.map((p, i) => `<div class="trending-item" onclick="window.location.href='index.html?email=${p.authorEmail}'"><div style="display:flex;gap:0.5rem;"><span style="font-weight:700;color:var(--accent)">${i + 1}</span><div><div style="font-weight:600;font-size:0.9rem">${escapeHtml(p.title)}</div><div style="font-size:0.75rem;color:gray">👍 ${p.upvotes}</div></div></div></div>`).join('');
-                    document.getElementById('mobileTrendingList').innerHTML = json.data.map(p => `<div class="mobile-trend-card" onclick="window.location.href='index.html?email=${p.authorEmail}'"><div style="font-weight:600;font-size:0.9rem">${escapeHtml(p.title)}</div><div style="font-size:0.75rem">👍 ${p.upvotes}</div></div>`).join('');
+                    const html = json.data.map((p, i) => `<div class="trending-item" onclick="window.location.href='project.html?id=${p.id}'"><span style="font-weight:700;color:var(--accent)">${i+1}</span><div><div style="font-weight:600;font-size:0.9rem">${escapeHtml(p.title)}</div><div style="font-size:0.75rem;color:gray">👍 ${p.upvotes}</div></div></div>`).join('');
+                    document.getElementById('trendingList').innerHTML = html;
+                    document.getElementById('mobileTrendingList').innerHTML = json.data.map(p => `<div class="mobile-trend-card" onclick="window.location.href='project.html?id=${p.id}'"><div style="font-weight:600;font-size:0.9rem">${escapeHtml(p.title)}</div><div style="font-size:0.75rem">👍 ${p.upvotes}</div></div>`).join('');
                 }
-            } catch (e) { }
+            } catch (e) {}
         }
 
-        // --- AI & SEARCH ---
-        const ROLE_DEFINITIONS = {
-            "Full Stack Developer": "Web development, React, HTML, CSS, Node.js, Python, Django, SQL, MongoDB, building websites.",
-            "AI/ML Engineer": "Machine learning, artificial intelligence, deep learning, Python, TensorFlow, PyTorch, computer vision, NLP.",
-            "Android/iOS Developer": "Mobile apps, Java, Kotlin, Swift, Flutter, React Native, smartphone applications.",
-            "IoT & Robotics": "Arduino, Raspberry Pi, embedded systems, hardware, sensors, drones, automation, circuits.",
-            "Data Scientist": "Data analysis, statistics, pandas, visualization, SQL, big data, insights.",
-            "Cloud & DevOps": "AWS, Azure, Docker, Kubernetes, CI/CD, cloud computing, server management.",
-            "Game Developer": "Unity, Unreal Engine, C#, C++, game design, 3D graphics.",
-            "Blockchain Developer": "Smart contracts, Solidity, Ethereum, Web3, crypto, decentralized apps.",
-            "Cybersecurity": "Ethical hacking, penetration testing, network security, cryptography."
-        };
-
-        function cosineSimilarity(a, b) {
-            let dot = 0, magA = 0, magB = 0;
-            for (let i = 0; i < a.length; i++) { dot += a[i] * b[i]; magA += a[i] * a[i]; magB += b[i] * b[i]; }
-            return dot / (Math.sqrt(magA) * Math.sqrt(magB));
-        }
-
-        let roleEmbeddings = null;
-        async function getSemanticInsight(text) {
-            if (!window.TalentAI) return null;
-            if (!roleEmbeddings) {
-                roleEmbeddings = {};
-                for (const [role, desc] of Object.entries(ROLE_DEFINITIONS)) {
-                    const out = await window.TalentAI(desc, { pooling: 'mean', normalize: true });
-                    roleEmbeddings[role] = out.data;
-                }
-            }
-            const pOut = await window.TalentAI(text, { pooling: 'mean', normalize: true });
-            let best = null, max = -1;
-            for (const [role, vec] of Object.entries(roleEmbeddings)) {
-                const s = cosineSimilarity(pOut.data, vec);
-                if (s > max) { max = s; best = role; }
-            }
-            return (max > 0.18) ? { role: best, score: Math.round(max * 100) } : null;
-        }
-
-        async function renderProjects(list, append) {
+        function renderProjects(list, append) {
             const container = document.getElementById('projectsList');
             if (!append) container.innerHTML = '';
-            if (list.length === 0 && !append) { container.innerHTML = '<div class="card" style="text-align:center;padding:2rem;">No projects.</div>'; return; }
-
-            const wAI = await Promise.all(list.map(async p => {
-                const insight = await getSemanticInsight(`${p.title} ${p.description} ${p.tech} ${p.category}`);
-                return { ...p, talentInsight: insight };
-            }));
-
-            const html = wAI.map(p => `
+            if (list.length === 0 && !append) { container.innerHTML = '<div class="card" style="text-align:center;padding:2rem;">No projects found.</div>'; return; }
+            
+            const html = list.map(p => `
                 <div class="project-card card">
-                    ${p.talentInsight ? `<div class="ai-insight-badge"><span>🚀</span><span>AI: Matched <strong>${p.talentInsight.role}</strong> (${p.talentInsight.score}%)</span></div>` : ''}
                     <div class="project-header">
                         <img src="${p.authorPicture || 'default-avatar.png'}" class="avatar">
                         <div style="flex:1;"><div style="font-weight:600;cursor:pointer;color:var(--primary)" onclick="window.location.href='index.html?email=${p.authorEmail}'">${escapeHtml(p.authorName)}</div><div style="font-size:0.8rem;color:gray">${formatDate(p.timestamp)}</div></div>
                     </div>
                     <div class="project-title">${escapeHtml(p.title)}</div>
                     <div class="project-description">${escapeHtml(p.description)}</div>
-                    ${p.projectImage ? `<img src="${p.projectImage}" class="project-image">` : ''}
+                    ${p.projectImage ? `<img src="${p.projectImage}" class="project-image" loading="lazy">` : ''}
                     <div class="project-footer">
-                        <span style="font-size:0.75rem;background:rgba(0,102,204,0.1);color:var(--accent);padding:4px 10px;border-radius:12px;">${escapeHtml(p.category || 'Other')}</span>
+                        <span style="font-size:0.75rem;background:rgba(0,102,204,0.1);color:var(--accent);padding:4px 10px;border-radius:12px;font-weight:600;">${escapeHtml(p.category || 'Other')}</span>
                         <button class="action-btn ${p.isLiked ? 'active' : ''}" onclick="upvote('${p.id}',this)">👍 <span>${p.upvotes}</span></button>
                         <button class="action-btn" onclick="openComments('${p.id}')">💬 <span>${p.commentCount || 0}</span></button>
                         <button class="action-btn" onclick="shareProject('${p.id}','${escapeHtml(p.title).replace(/'/g, "\\'")}')">📤 Share</button>
@@ -1346,11 +586,11 @@
                 </div>
             `).join('');
 
-            if (append) document.getElementById('loadMoreContainer')?.insertAdjacentHTML('beforebegin', html);
+            if (append) container.insertAdjacentHTML('beforeend', html);
             else container.innerHTML = html;
 
-            const btn = document.getElementById('loadMoreContainer'); if (btn) btn.remove();
-            if (hasMoreProjects && !isLoading) container.insertAdjacentHTML('beforeend', `<div id="loadMoreContainer" style="text-align:center;padding:2rem;"><button onclick="loadMore()" class="btn btn-secondary">Load More</button></div>`);
+            document.getElementById('loadMoreContainer')?.remove();
+            if (hasMoreProjects) container.insertAdjacentHTML('beforeend', `<div id="loadMoreContainer" style="text-align:center;padding:2rem;"><button onclick="loadMore()" class="btn btn-secondary">Load More</button></div>`);
         }
 
         function loadMore() { currentPage++; loadProjects(true); }
@@ -1361,112 +601,31 @@
                 const json = await res.json();
                 if (json.status === 'success') {
                     searchIndex = json.data;
-                    fuse = new Fuse(searchIndex, { keys: ['title', 'authorName', 'tech', 'category', 'description'], threshold: 0.4 });
+                    fuse = new Fuse(searchIndex, { keys: ['title', 'authorName', 'tech', 'category', 'description'], threshold: 0.3 });
                 }
-            } catch (e) { }
+            } catch (e) {}
         }
-
-        // ======================= CHATBOT LOGIC (FIXED) =======================
-
-        function toggleChat() {
-            const win = document.getElementById('chatWindow');
-            win.classList.toggle('active');
-            if (win.classList.contains('active')) document.getElementById('chatInput').focus();
-        }
-
-        function handleChatKey(e) { if (e.key === 'Enter') sendChatMessage(); }
-
-        async function sendChatMessage() {
-            const input = document.getElementById('chatInput');
-            const txt = input.value.trim();
-            if (!txt) return;
-
-            addMessage(txt, 'user');
-            input.value = '';
-
-            const botMsgId = addMessage("Thinking...", 'bot');
-
-            // SMALL TALK FILTER
-            const lower = txt.toLowerCase();
-            const greetings = ['hi', 'hello', 'hey', 'sup', 'greetings', 'help'];
-            if (greetings.includes(lower)) {
-                updateMessage(botMsgId, "Hello! 👋 I'm here to help you find projects. Try searching for specific tech like 'Python' or 'React', or ask me about 'Robotics'.");
-                return;
-            }
-
-            if (!fuse) {
-                updateMessage(botMsgId, "I'm still loading the database. Give me a sec!");
-                return;
-            }
-
-            // Semantic Intent Check
-            const intent = await getSemanticInsight(txt);
-
-            // Keyword Search (Fuse.js)
-            const shortTech = ['ai', 'ml', 'c', 'r', 'go', 'js', 'ui', 'ux'];
-            let fuseResults = [];
-            if (txt.length > 2 || shortTech.includes(lower)) {
-                fuseResults = fuse.search(txt).slice(0, 3).map(r => r.item);
-            }
-
-            let results = [];
-            let reply = "";
-
-            if (fuseResults.length > 0) {
-                results = fuseResults;
-                reply = `I found ${results.length} specific project(s) for "${txt}":`;
-            } else if (intent && intent.score > 20) {
-                results = searchIndex.filter(p => (p.category && p.category.includes(intent.role)) || (p.description && p.description.includes(intent.role))).slice(0, 3);
-                if (results.length > 0) {
-                    reply = `No exact matches, but this sounds like a <strong>${intent.role}</strong> request. Check these out:`;
-                } else {
-                    reply = `That sounds like a <strong>${intent.role}</strong> topic, but I couldn't find any projects yet.`;
-                }
-            } else {
-                reply = "I couldn't find any matching projects. Try searching for technologies like 'React', 'Python', or 'Arduino'.";
-            }
-
-            const resultHtml = results.map(p => `
-                <div class="chat-project-card" onclick="window.location.href='project.html?id=${p.id}'">
-                    <div class="chat-title">${escapeHtml(p.title)}</div>
-                    <div class="chat-author">by ${escapeHtml(p.authorName)}</div>
-                </div>
-            `).join('');
-
-            updateMessage(botMsgId, reply + resultHtml);
-        }
-
-        function addMessage(text, type) {
-            const body = document.getElementById('chatBody');
-            const id = 'msg-' + Date.now();
-            const div = document.createElement('div');
-            div.className = `chat-message ${type}`;
-            div.id = id;
-            div.innerHTML = text;
-            body.appendChild(div);
-            body.scrollTop = body.scrollHeight;
-            return id;
-        }
-
-        function updateMessage(id, html) {
-            document.getElementById(id).innerHTML = html;
-        }
-
-        // =============================================================
 
         function handleSearch(term) {
-            const container = document.getElementById('projectsList');
-            const loadBtn = document.getElementById('loadMoreContainer');
-            if (!term) {
-                currentSearchTerm = ''; if (loadBtn) loadBtn.style.display = 'block';
-                if (container.dataset.mode === 'search') { container.dataset.mode = 'feed'; loadProjects(false); }
-                return;
-            }
-            container.dataset.mode = 'search';
-            if (loadBtn) loadBtn.style.display = 'none';
-            if (!fuse) return;
-            const res = fuse.search(term).map(r => r.item);
-            container.innerHTML = res.length ? res.map(p => `<div class="search-result-card" onclick="window.location.href='project.html?id=${p.id}'"><div class="search-icon-placeholder">🚀</div><div style="flex:1;"><div style="font-weight:700;color:var(--primary)">${escapeHtml(p.title)}</div><div style="font-size:0.85rem;color:#666">by ${escapeHtml(p.authorName)}</div></div></div>`).join('') : '<div class="card">No results.</div>';
+            clearTimeout(searchTimeout);
+            searchTimeout = setTimeout(() => {
+                const container = document.getElementById('projectsList');
+                const btn = document.getElementById('loadMoreContainer');
+                if (!term) { currentSearchTerm = ''; if (btn) btn.style.display='block'; if(container.dataset.mode === 'search') { container.dataset.mode = 'feed'; loadProjects(false); } return; }
+                
+                container.dataset.mode = 'search'; if (btn) btn.style.display='none';
+                if (!fuse) return;
+                const results = fuse.search(term).map(r => r.item);
+                
+                container.innerHTML = results.length ? results.map(p => `
+                    <div class="search-result-card" onclick="window.location.href='project.html?id=${p.id}'">
+                        <div class="search-icon-placeholder">🚀</div>
+                        <div style="flex:1;">
+                            <div style="font-weight:700;color:var(--primary)">${escapeHtml(p.title)}</div>
+                            <div style="font-size:0.85rem;color:#666">by ${escapeHtml(p.authorName)} • <span style="color:var(--accent)">${escapeHtml(p.category)}</span></div>
+                        </div>
+                    </div>`).join('') : '<div class="card" style="text-align:center;">No matching projects.</div>';
+            }, 300);
         }
 
         function filterCategory(btn, cat) {
@@ -1475,14 +634,14 @@
         }
 
         async function handlePostProject(e) {
-            e.preventDefault(); const btn = e.target.querySelector('button[type="submit"]'); btn.textContent = '...'; btn.disabled = true;
+            e.preventDefault(); const btn = e.target.querySelector('button[type="submit"]'); btn.textContent = 'Posting...'; btn.disabled = true;
             const file = document.getElementById('postImage').files[0]; let imgUrl = ''; if (file) imgUrl = await uploadImage(file);
             const p = { id: Date.now().toString(), authorName: currentUser.name, authorEmail: currentUser.email, authorPicture: currentUser.profilePicture, title: document.getElementById('postTitle').value, description: document.getElementById('postDesc').value, link: document.getElementById('postLink').value, tech: document.getElementById('postTech').value, category: document.getElementById('postCategory').value, projectImage: imgUrl };
             await postData('addProject', { data: p }); closeModal('project'); e.target.reset(); btn.textContent = 'Post'; btn.disabled = false; loadProjects(false);
         }
 
         async function handleEditProfile(e) {
-            e.preventDefault(); const btn = e.target.querySelector('button[type="submit"]'); btn.textContent = '...'; btn.disabled = true;
+            e.preventDefault(); const btn = e.target.querySelector('button[type="submit"]'); btn.textContent = 'Saving...'; btn.disabled = true;
             const f1 = document.getElementById('editPic').files[0], f2 = document.getElementById('editResumeFile').files[0];
             let pUrl = currentUser.profilePicture, rUrl = currentUser.resume || '';
             if (f1) pUrl = await uploadImage(f1); if (f2) rUrl = await uploadFile(f2);
@@ -1492,15 +651,8 @@
 
         function openMyProfile() { if (window.innerWidth <= 968) { document.getElementById('menuAvatar').src = currentUser.profilePicture || 'default-avatar.png'; document.getElementById('menuName').textContent = currentUser.name; openModal('userMenu'); } else openMyProfilePage(); }
         function openMyProfilePage() { window.location.href = `index.html?email=${currentUser.email}`; }
-
-        async function upvote(id, btn) {
-            if (!currentUser) return alert('Login first.');
-            const sp = btn.querySelector('span'); let c = parseInt(sp.textContent) || 0; btn.classList.toggle('active');
-            sp.textContent = btn.classList.contains('active') ? c + 1 : c - 1;
-            await postData('toggleUpvote', { projectId: id, userEmail: currentUser.email });
-        }
-
-        async function openComments(id) { currentCommentProjectId = id; openModal('comments'); document.getElementById('commentsList').innerHTML = '<p>Loading...</p>'; const res = await fetch(`${SHEET_URL}?action=getComments&projectId=${id}`); const json = await res.json(); document.getElementById('commentsList').innerHTML = json.data.length ? json.data.map(c => `<div class="comment-item"><div class="comment-author">${escapeHtml(c.authorName)}</div><div class="comment-text">${escapeHtml(c.comment)}</div></div>`).join('') : '<p>No comments.</p>'; }
+        async function upvote(id, btn) { const sp = btn.querySelector('span'); let c = parseInt(sp.textContent) || 0; btn.classList.toggle('active'); sp.textContent = btn.classList.contains('active') ? c + 1 : c - 1; await postData('toggleUpvote', { projectId: id, userEmail: currentUser.email }); }
+        async function openComments(id) { currentCommentProjectId = id; openModal('comments'); document.getElementById('commentsList').innerHTML = '<p>Loading...</p>'; const res = await fetch(`${SHEET_URL}?action=getComments&projectId=${id}`); const json = await res.json(); document.getElementById('commentsList').innerHTML = json.data.map(c => `<div class="comment-item"><div class="comment-author">${escapeHtml(c.authorName)}</div><div class="comment-text">${escapeHtml(c.comment)}</div></div>`).join(''); }
         async function submitComment() { const t = document.getElementById('commentInput').value.trim(); if (!t) return; await postData('addComment', { data: { id: Date.now().toString(), projectId: currentCommentProjectId, authorName: currentUser.name, authorEmail: currentUser.email, comment: t } }); document.getElementById('commentInput').value = ''; openComments(currentCommentProjectId); }
 
         function escapeHtml(t) { return t ? t.replace(/</g, "&lt;").replace(/>/g, "&gt;") : '' }
@@ -1511,11 +663,11 @@
         async function uploadImage(f) { const d = new FormData(); d.append('file', f); d.append('upload_preset', CLOUDINARY_PRESET); return fetch(`https://api.cloudinary.com/v1_1/${CLOUDINARY_NAME}/image/upload`, { method: 'POST', body: d }).then(r => r.json()).then(x => x.secure_url) }
         async function uploadFile(f) { const d = new FormData(); d.append('file', f); d.append('upload_preset', CLOUDINARY_PRESET); return fetch(`https://api.cloudinary.com/v1_1/${CLOUDINARY_NAME}/auto/upload`, { method: 'POST', body: d }).then(r => r.json()).then(x => x.secure_url) }
         function shareProject(id, t) { document.getElementById('shareProjectLink').value = `${window.location.origin}${window.location.pathname.replace('feed.html', 'project.html')}?id=${id}`; openModal('shareProject'); }
-        function copyShareLink() { const i = document.getElementById('shareProjectLink'); i.select(); document.execCommand('copy'); const b = document.getElementById('copyShareBtn'); b.textContent = '✓'; setTimeout(() => b.textContent = 'Copy', 2000); }
-        function shareViaEmail() { window.open(`mailto:?subject=Project&body=${encodeURIComponent(document.getElementById('shareProjectLink').value)}`) }
+        function copyShareLink() { const i = document.getElementById('shareProjectLink'); i.select(); document.execCommand('copy'); }
+        function shareViaEmail() { window.open(`mailto:?subject=Check out this project&body=${encodeURIComponent(document.getElementById('shareProjectLink').value)}`) }
         function shareViaWhatsApp() { window.open(`whatsapp://send?text=${encodeURIComponent(document.getElementById('shareProjectLink').value)}`) }
-        function shareViaLinkedIn() { window.open(`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(document.getElementById('shareProjectLink').value)}`) }
         function shareViaTwitter() { window.open(`https://twitter.com/intent/tweet?url=${encodeURIComponent(document.getElementById('shareProjectLink').value)}`) }
+        function shareViaLinkedIn() { window.open(`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(document.getElementById('shareProjectLink').value)}`) }
     </script>
 </body>
 
