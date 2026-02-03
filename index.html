@@ -33,6 +33,7 @@
     <link rel="icon" type="image/x-icon" href="logo.png">
     <style>
         :root {
+            /* NIELIT Theme Colors */
             --primary: #003366;
             --secondary: #FF6B35;
             --accent: #0066CC;
@@ -291,7 +292,7 @@
             font-weight: 600;
         }
 
-        /* TRENDING SECTION STYLES - [NEW] */
+        /* TRENDING SECTION STYLES */
         .trending-wrapper {
             max-width: 1280px;
             margin: -3rem auto 3rem auto;
@@ -395,8 +396,6 @@
             border-radius: 50%;
             object-fit: cover;
         }
-
-        /* END TRENDING STYLES */
 
         .container {
             max-width: 1280px;
@@ -1137,6 +1136,15 @@
 
         // INITIALIZATION
         window.onload = async () => {
+            // [SECURITY FIX] Check if user exists but has no token (Old Session)
+            if (currentUser && !currentUser.token) {
+                console.log("Migration: Logging out old session to get new security token.");
+                localStorage.removeItem('studenthub_user');
+                currentUser = null;
+                window.location.reload();
+                return;
+            }
+
             // [NEW] Load optimized index instead of standard fetch
             loadProfileIndex();
 
@@ -1454,9 +1462,11 @@
             }
 
             try {
+                // [SECURITY FIX] Add Token
                 const res = await postData('toggleProfileLike', {
                     targetEmail: targetEmail,
-                    userEmail: currentUser.email
+                    userEmail: currentUser.email,
+                    token: currentUser.token 
                 });
 
                 if (res.status === 'success') {
@@ -1522,7 +1532,8 @@
             countSpan.textContent = isLiked ? currentCount - 1 : currentCount + 1;
 
             try {
-                const res = await postData('toggleUpvote', { projectId: id, userEmail: currentUser.email });
+                // [SECURITY FIX] Add Token
+                const res = await postData('toggleUpvote', { projectId: id, userEmail: currentUser.email, token: currentUser.token });
                 if (res.status === 'success') {
                     countSpan.textContent = res.data.newCount;
                     if (res.data.action === 'added') btn.classList.add('active');
@@ -1562,7 +1573,8 @@
             if (!currentUser) return alert('Please log in to comment.');
             const txt = document.getElementById('commentInput').value.trim();
             if (!txt) return;
-            const data = { id: Date.now().toString(), projectId: currentCommentProjectId, authorName: currentUser.name, authorEmail: currentUser.email, comment: txt };
+            // [SECURITY FIX] Add Token
+            const data = { id: Date.now().toString(), projectId: currentCommentProjectId, authorName: currentUser.name, authorEmail: currentUser.email, comment: txt, token: currentUser.token };
             await postData('addComment', { data });
             document.getElementById('commentInput').value = '';
             openComments(currentCommentProjectId);
@@ -1578,7 +1590,17 @@
             }).then(r => r.json());
         }
 
-        function escapeHtml(text) { return text ? text.replace(/</g, "&lt;").replace(/>/g, "&gt;") : ''; }
+        // [SECURITY FIX] Improved Escape Function to prevent XSS
+        function escapeHtml(text) { 
+            if (!text) return '';
+            return text
+                .replace(/&/g, "&amp;")
+                .replace(/</g, "&lt;")
+                .replace(/>/g, "&gt;")
+                .replace(/"/g, "&quot;")
+                .replace(/'/g, "&#039;");
+        }
+
         function formatDate(timestamp) {
             const date = new Date(timestamp);
             return date.toLocaleDateString(undefined, { month: 'short', day: 'numeric' });
