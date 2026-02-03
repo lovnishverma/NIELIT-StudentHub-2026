@@ -1370,6 +1370,15 @@
 
         // INIT
         window.onload = () => {
+            // [SECURITY FIX] Check if user exists but has no token (Old Session)
+            if (currentUser && !currentUser.token) {
+                console.log("Migration: Logging out old session to get new security token.");
+                localStorage.removeItem('studenthub_user');
+                currentUser = null;
+                window.location.reload();
+                return;
+            }
+
             if (currentUser) {
                 showApp();
                 if (localStorage.getItem('openPostModal')) {
@@ -1515,8 +1524,19 @@
             };
 
             const res = await postData('signup', { data });
-            if (res.status === 'success') completeAuth(data);
-            else {
+            
+            if (res.status === 'success') {
+                // [SECURITY FIX] Auto-Login to get the Session Token
+                const loginRes = await fetch(`${SHEET_URL}?action=login&email=${encodeURIComponent(data.email)}&password=${encodeURIComponent(data.password)}`);
+                const loginJson = await loginRes.json();
+                
+                if (loginJson.status === 'success') {
+                    completeAuth(loginJson.data); // Contains the new TOKEN
+                } else {
+                    alert("Account created, but auto-login failed. Please log in manually.");
+                    toggleAuth('login');
+                }
+            } else {
                 alert(res.data);
                 btn.textContent = 'Sign Up';
                 btn.disabled = false;
@@ -1806,7 +1826,8 @@
                 link: document.getElementById('postLink').value,
                 tech: document.getElementById('postTech').value,
                 category: document.getElementById('postCategory').value,
-                projectImage: imgUrl
+                projectImage: imgUrl,
+                token: currentUser.token // [SECURITY FIX] Add Token
             };
 
             await postData('addProject', { data: project });
@@ -1852,7 +1873,8 @@
                 linkedin: document.getElementById('editLinked').value,
                 github: document.getElementById('editGit').value,
                 profilePicture: picUrl,
-                resume: resumeUrl
+                resume: resumeUrl,
+                token: currentUser.token // [SECURITY FIX] Add Token
             };
 
             await postData('updateProfile', { data: updatedData });
@@ -1968,7 +1990,8 @@
             btn.classList.toggle('active');
             countSpan.textContent = isLiked ? currentCount - 1 : currentCount + 1;
             try {
-                const res = await postData('toggleUpvote', { projectId: id, userEmail: currentUser.email });
+                // [SECURITY FIX] Add Token
+                const res = await postData('toggleUpvote', { projectId: id, userEmail: currentUser.email, token: currentUser.token });
                 if (res.status === 'success') {
                     countSpan.textContent = res.data.newCount;
                     if (res.data.action === 'added') btn.classList.add('active');
@@ -2000,16 +2023,23 @@
         async function submitComment() {
             const txt = document.getElementById('commentInput').value.trim();
             if (!txt) return;
-            const data = { id: Date.now().toString(), projectId: currentCommentProjectId, authorName: currentUser.name, authorEmail: currentUser.email, comment: txt };
+            // [SECURITY FIX] Add Token
+            const data = { id: Date.now().toString(), projectId: currentCommentProjectId, authorName: currentUser.name, authorEmail: currentUser.email, comment: txt, token: currentUser.token };
             await postData('addComment', { data });
             document.getElementById('commentInput').value = '';
             openComments(currentCommentProjectId);
         }
 
         // --- HELPERS ---
+        // [SECURITY FIX] Improved Escape Function to prevent XSS
         function escapeHtml(text) {
             if (!text) return '';
-            return text.replace(/</g, "&lt;").replace(/>/g, "&gt;");
+            return text
+                .replace(/&/g, "&amp;")
+                .replace(/</g, "&lt;")
+                .replace(/>/g, "&gt;")
+                .replace(/"/g, "&quot;")
+                .replace(/'/g, "&#039;");
         }
 
         function formatDate(timestamp) {
