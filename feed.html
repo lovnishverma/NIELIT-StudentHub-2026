@@ -183,8 +183,10 @@
         }
 
         /* Layout */
+        /* Layout */
         .container {
-            max-width: 1200px;
+            max-width: 1400px;
+            /* Increased slightly for better spacing on large screens */
             margin: 0 auto;
             padding: 2rem;
             min-height: 80vh;
@@ -192,11 +194,14 @@
 
         .main-layout {
             display: grid;
-            grid-template-columns: 280px 1fr 300px;
+            /* CHANGE: Use minmax so sidebars can shrink slightly on medium screens */
+            grid-template-columns: 260px 1fr 280px;
             gap: 2rem;
+            align-items: start;
+            /* Prevents stretching if one column is long */
         }
 
-        /* Cards */
+        /* Ensure images and content inside cards don't overflow */
         .card {
             background: var(--card-bg);
             border-radius: 16px;
@@ -205,6 +210,57 @@
             margin-bottom: 1.5rem;
             transition: all 0.3s ease;
             width: 100%;
+            box-sizing: border-box;
+            /* Crucial for padding calculation */
+            overflow: hidden;
+            /* Prevents inner content from breaking layout */
+        }
+
+        /* RESPONSIVE BREAKPOINTS */
+
+        /* Tablet / Small Desktop: Hide Right Sidebar or Stack it */
+        @media (max-width: 1100px) {
+            .main-layout {
+                /* Drop right sidebar, keep left and main feed */
+                grid-template-columns: 240px 1fr;
+            }
+
+            .right-sidebar {
+                display: none;
+                /* Hide trending on medium screens (it will show in mobile view logic if you add it) */
+            }
+
+            /* Show mobile trending container on medium screens too if right sidebar is hidden */
+            .hidden-desktop {
+                display: block;
+            }
+        }
+
+        /* Mobile: Single Column */
+        @media (max-width: 768px) {
+            .main-layout {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+            }
+
+            .sidebar-card {
+                display: none;
+                /* Hide left profile sidebar on mobile */
+            }
+
+            .nav-links {
+                display: none;
+            }
+
+            .mobile-bottom-nav {
+                display: flex;
+            }
+
+            .container {
+                padding: 1rem;
+                padding-bottom: 80px;
+                /* Space for bottom nav */
+            }
         }
 
         .card:hover {
@@ -212,6 +268,12 @@
         }
 
         .sidebar-card {
+            position: sticky;
+            top: 100px;
+            height: fit-content;
+        }
+
+        .right-sidebar {
             position: sticky;
             top: 100px;
             height: fit-content;
@@ -1330,7 +1392,7 @@
         </div>
     </div>
 
-<script src="config.js"></script>
+    <script src="config.js"></script>
 
     <script>
         // CONFIGURATION
@@ -1456,7 +1518,7 @@
 
             // Get Course Dropdown Value
             const course = document.getElementById('signupCourse').value;
-            
+
             if (!course) {
                 alert("Please select a Course / Stream");
                 btn.textContent = 'Sign Up';
@@ -1472,7 +1534,7 @@
 
             const file = document.getElementById('signupPic').files[0];
             let picUrl = '';
-            
+
             // Try uploading if file exists
             if (file) {
                 try {
@@ -1480,7 +1542,7 @@
                     if (!picUrl) {
                         // If upload failed but returned null (handled error), continue without pic
                         console.warn("Continuing signup without profile picture due to upload error.");
-                        picUrl = ''; 
+                        picUrl = '';
                     }
                 } catch (err) {
                     console.error("Critical upload error:", err);
@@ -1495,7 +1557,7 @@
                 name: document.getElementById('signupName').value,
                 email: document.getElementById('signupEmail').value,
                 password: document.getElementById('signupPass').value,
-                major: combinedMajor, 
+                major: combinedMajor,
                 profilePicture: picUrl
             };
 
@@ -1687,7 +1749,7 @@
                     searchIndex = json.data;
                     const options = {
                         keys: ['title', 'authorName', 'tech', 'category', 'description'],
-                        threshold: 0.3, 
+                        threshold: 0.3,
                         ignoreLocation: true
                     };
                     fuse = new Fuse(searchIndex, options);
@@ -1767,12 +1829,12 @@
 
             const file = document.getElementById('postImage').files[0];
             let imgUrl = '';
-            
+
             if (file) {
                 try {
                     imgUrl = await uploadImage(file);
                     if (!imgUrl) throw new Error("Upload failed");
-                } catch(err) {
+                } catch (err) {
                     alert("Failed to upload project image. Please try again.");
                     btn.textContent = 'Post';
                     btn.disabled = false;
@@ -1981,9 +2043,9 @@
             formData.append('upload_preset', CLOUDINARY_PRESET);
 
             try {
-                const res = await fetch(`https://api.cloudinary.com/v1_1/${CLOUDINARY_NAME}/image/upload`, { 
-                    method: 'POST', 
-                    body: formData 
+                const res = await fetch(`https://api.cloudinary.com/v1_1/${CLOUDINARY_NAME}/image/upload`, {
+                    method: 'POST',
+                    body: formData
                 });
 
                 if (!res.ok) {
