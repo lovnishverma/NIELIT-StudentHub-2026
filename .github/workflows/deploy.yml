@@ -23,8 +23,8 @@ jobs:
         run: |
           echo "const CONFIG = {" > config.js
           echo "    SHEET_URL: '${{ secrets.APP_SHEET_URL }}'," >> config.js
-          echo "    CLOUDINARY_NAME: '${{ secrets.APP_CLOUD_NAME }}'," >> config.js
-          echo "    CLOUDINARY_PRESET: '${{ secrets.APP_CLOUD_PRESET }}'" >> config.js
+          echo "    CLOUDINARY_NAME: '${{ secrets.CLOUDINARY_NAME }}'," >> config.js
+          echo "    CLOUDINARY_PRESET: '${{ secrets.CLOUDINARY_PRESET }}'" >> config.js
           echo "};" >> config.js
 
       - name: Setup Pages
