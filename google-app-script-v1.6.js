@@ -105,9 +105,10 @@ function createSession(email) {
   const token = Utilities.getUuid();
   const sessionSheet = getOrCreateSheet(SESSIONS_SHEET);
   
-  // Set expiration (24 hours from now)
+  // Set expiration to 100 years from now (Effectively never expires)
   const now = new Date();
-  const expiresAt = new Date(now.getTime() + (24 * 60 * 60 * 1000)).toISOString();
+  // 100 years * 365 days * 24 hours * 60 mins * 60 secs * 1000 ms
+  const expiresAt = new Date(now.getTime() + (100 * 365 * 24 * 60 * 60 * 1000)).toISOString();
   
   sessionSheet.appendRow([token, email, expiresAt]);
   return token;
