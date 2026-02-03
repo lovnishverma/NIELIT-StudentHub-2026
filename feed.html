@@ -1356,6 +1356,17 @@
 
         // STATE
         let currentUser = JSON.parse(localStorage.getItem('studenthub_user'));
+
+        // [IMMEDIATE SECURITY CHECK]
+        // This runs immediately, before the page finishes loading
+        if (currentUser && !currentUser.token) {
+            alert("Security Update: Your session has expired. Please log in again to verify your account.");
+            localStorage.removeItem('studenthub_user');
+            currentUser = null;
+            window.location.reload(); // Reloads page, which will now show Login screen
+        }
+        // ----------------------------------
+
         let currentCommentProjectId = null;
         let currentPage = 1;
         let currentSearchTerm = '';
@@ -1370,15 +1381,6 @@
 
         // INIT
         window.onload = () => {
-            // [SECURITY FIX] Check if user exists but has no token (Old Session)
-            if (currentUser && !currentUser.token) {
-                console.log("Migration: Logging out old session to get new security token.");
-                localStorage.removeItem('studenthub_user');
-                currentUser = null;
-                window.location.reload();
-                return;
-            }
-
             if (currentUser) {
                 showApp();
                 if (localStorage.getItem('openPostModal')) {
