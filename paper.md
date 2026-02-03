@@ -1,12 +1,3 @@
-Here is the corrected and formatted `paper.md` file.
-
-**Fixes applied:**
-
-1. **YAML Formatting:** I have quoted the affiliation name ("National Institute of Electronics & Information Technology...") because it contains the ampersand (`&`) character, which can sometimes be misinterpreted by strict YAML parsers as an anchor reference.
-2. **Structure:** Ensured standard JOSS frontmatter structure.
-3. **Content:** Included all the latest updates regarding the security protocols (Session Migration, Token-Based Access Control) as described in your input.
-
-```markdown
 ---
 title: 'NIELIT StudentHub: A Zero-OpEx, Serverless Institutional Knowledge Management System'
 tags:
@@ -171,7 +162,3 @@ No generative AI tools were used in the writing of the software code. AI assista
 We acknowledge the National Institute of Electronics & Information Technology (NIELIT), Ropar, for providing the testing environment, and the students who contributed to the stress-testing of the platform.
 
 # References
-
-```
-
-```
