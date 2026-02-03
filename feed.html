@@ -412,6 +412,8 @@
             position: relative;
             z-index: 1;
             animation: slideUp 0.5s ease-out;
+            max-height: 90vh;
+            overflow-y: auto;
         }
 
         @keyframes slideUp {
@@ -750,6 +752,40 @@
             word-wrap: break-word;
         }
 
+        /* NEW STYLES FOR SIGNUP FILTERS */
+        .skills-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 5px;
+        }
+
+        .skill-chip {
+            background: white;
+            border: 2px solid var(--border);
+            border-radius: 12px;
+            padding: 8px 16px;
+            font-size: 0.9rem;
+            cursor: pointer;
+            color: var(--text-secondary);
+            font-weight: 500;
+            transition: all 0.2s ease;
+            user-select: none;
+        }
+
+        .skill-chip:hover {
+            border-color: var(--accent);
+            transform: translateY(-2px);
+        }
+
+        .skill-chip.active {
+            background: rgba(0, 102, 204, 0.1);
+            border-color: var(--accent);
+            color: var(--accent);
+            font-weight: 700;
+            box-shadow: 0 4px 8px rgba(0, 102, 204, 0.15);
+        }
+
         /* RESPONSIVE BREAKPOINTS */
 
         @media (max-width: 1200px) {
@@ -964,10 +1000,25 @@
                     <input type="password" id="signupPass" class="form-input" required minlength="6"
                         placeholder="Minimum 6 characters">
                 </div>
+
                 <div class="form-group">
-                    <label>Major / Stream</label>
-                    <input type="text" id="signupMajor" class="form-input" placeholder="e.g. Computer Science">
+                    <label>Course / Stream</label>
+                    <select id="signupCourse" class="form-input" style="background: white;" required>
+                        <option value="" disabled selected>Select your course</option>
+                        <option value="B.TECH">💻 B.TECH</option>
+                        <option value="M.TECH">🎓 M.TECH</option>
+                        <option value="NIELIT">⚡ NIELIT</option>
+                    </select>
                 </div>
+
+                <div class="form-group">
+                    <label>Interests / Skills</label>
+                    <div class="skills-container">
+                        <div class="skill-chip" onclick="toggleSkill(this, 'AIML')">🤖 AIML</div>
+                        <div class="skill-chip" onclick="toggleSkill(this, 'Python')">🐍 Python</div>
+                    </div>
+                </div>
+
                 <button type="submit" class="btn btn-primary" style="width: 100%; margin-top: 1rem;">Sign Up</button>
             </form>
             <p style="margin-top: 1.5rem;">
@@ -1295,6 +1346,7 @@
         let hasMoreProjects = true;
         let isLoading = false;
         let searchTimeout = null;
+        let selectedSkills = []; // Stores the selected skills during signup
 
         // [NEW] Search State
         let searchIndex = [];
@@ -1385,11 +1437,39 @@
             }
         }
 
+        // --- NEW SKILL TOGGLE FUNCTION ---
+        function toggleSkill(element, skill) {
+            element.classList.toggle('active');
+            if (selectedSkills.includes(skill)) {
+                selectedSkills = selectedSkills.filter(s => s !== skill);
+            } else {
+                selectedSkills.push(skill);
+            }
+        }
+
+        // --- UPDATED SIGNUP HANDLER ---
         async function handleSignup(e) {
             e.preventDefault();
             const btn = e.target.querySelector('button[type="submit"]');
             btn.textContent = 'Creating Account...';
             btn.disabled = true;
+
+            // Get Course Dropdown Value
+            const course = document.getElementById('signupCourse').value;
+            
+            if (!course) {
+                alert("Please select a Course / Stream");
+                btn.textContent = 'Sign Up';
+                btn.disabled = false;
+                return;
+            }
+
+            // Combine Course and Skills for the 'major' field to ensure home page filtering works
+            // Example Result: "B.TECH (AIML, Python)"
+            let combinedMajor = course;
+            if (selectedSkills.length > 0) {
+                combinedMajor += ` (${selectedSkills.join(', ')})`;
+            }
 
             const file = document.getElementById('signupPic').files[0];
             let picUrl = '';
@@ -1399,7 +1479,7 @@
                 name: document.getElementById('signupName').value,
                 email: document.getElementById('signupEmail').value,
                 password: document.getElementById('signupPass').value,
-                major: document.getElementById('signupMajor').value,
+                major: combinedMajor, // Using the combined string here
                 profilePicture: picUrl
             };
 
