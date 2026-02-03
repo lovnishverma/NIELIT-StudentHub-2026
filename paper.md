@@ -1,32 +1,38 @@
----
+Here is the corrected and formatted `paper.md` file.
 
+**Fixes applied:**
+
+1. **YAML Formatting:** I have quoted the affiliation name ("National Institute of Electronics & Information Technology...") because it contains the ampersand (`&`) character, which can sometimes be misinterpreted by strict YAML parsers as an anchor reference.
+2. **Structure:** Ensured standard JOSS frontmatter structure.
+3. **Content:** Included all the latest updates regarding the security protocols (Session Migration, Token-Based Access Control) as described in your input.
+
+```markdown
+---
 title: 'NIELIT StudentHub: A Zero-OpEx, Serverless Institutional Knowledge Management System'
 tags:
-
-* JavaScript
-* Google Apps Script
-* serverless architecture
-* frugal engineering
-* distributed systems
-* knowledge management
-* google sheets
-* social graphs
-* portfolio management
+  - JavaScript
+  - Google Apps Script
+  - serverless architecture
+  - frugal engineering
+  - distributed systems
+  - knowledge management
+  - google sheets
+  - social graphs
+  - portfolio management
 authors:
-* name: Lovnish Verma
-orcid: 0009-0009-3992-030X
-equal-contrib: true
-affiliation: 1
-* name: Sarwan Singh
-orcid: 0000-0001-7062-2129
-equal-contrib: true
-affiliation: 1
+  - name: Lovnish Verma
+    orcid: 0009-0009-3992-030X
+    equal-contrib: true
+    affiliation: 1
+  - name: Sarwan Singh
+    orcid: 0000-0001-7062-2129
+    equal-contrib: true
+    affiliation: 1
 affiliations:
-* name: National Institute of Electronics & Information Technology (NIELIT), Ropar, India
-index: 1
+ - name: "National Institute of Electronics & Information Technology (NIELIT), Ropar, India"
+   index: 1
 date: 24 January 2026
 bibliography: paper.bib
-
 ---
 
 # Summary
@@ -49,9 +55,9 @@ There is a lack of open-source frameworks that bridge the gap between rigid "No-
 
 Current solutions for institutional knowledge management bifurcate into two categories, neither of which addresses the Zero-OpEx requirement:
 
-1. **Commercial SaaS & LMS:** Platforms like Blackboard, Canvas, or LinkedIn provide robust features but lack data sovereignty and impose high licensing fees ($10k+/year). They function as "walled gardens," restricting API access and long-term data portability.
-2. **Traditional Open Source:** Systems like DSpace or custom MERN stacks offer sovereignty but shift the burden to infrastructure management. They require continuous server uptime, security patching, and database administration, which are resource-intensive.
-3. **No-Code/Low-Code Tools:** Solutions like Glide or Airtable offer rapid deployment but suffer from strict row limits (often <25,000 records) and steep pricing tiers for API access [@Glide:2024].
+1.  **Commercial SaaS & LMS:** Platforms like Blackboard, Canvas, or LinkedIn provide robust features but lack data sovereignty and impose high licensing fees ($10k+/year). They function as "walled gardens," restricting API access and long-term data portability.
+2.  **Traditional Open Source:** Systems like DSpace or custom MERN stacks offer sovereignty but shift the burden to infrastructure management. They require continuous server uptime, security patching, and database administration, which are resource-intensive.
+3.  **No-Code/Low-Code Tools:** Solutions like Glide or Airtable offer rapid deployment but suffer from strict row limits (often <25,000 records) and steep pricing tiers for API access [@Glide:2024].
 
 `NIELIT StudentHub` advances the field of **Frugal Computing** by demonstrating that "serverless" does not imply "cloud-vendor dependent billing." By leveraging the free tiers of massive-scale commodity providers through a novel API gateway, it offers a fourth alternative: full data ownership and limitless lifespan with zero recurring cost.
 
@@ -64,7 +70,6 @@ Built with vanilla HTML5/CSS3/JavaScript (zero dependencies) to ensure long-term
 ## 2. Middleware: Serverless API Gateway
 
 A custom Google Apps Script implementation handles 14 RESTful endpoints. It acts as an abstraction layer, converting raw HTTP requests into structured CRUD operations on the underlying sheet-based storage, adhering to the "Serverless" architectural pattern where operational logic is fully decoupled from infrastructure management [@Roberts:2016].
-
 * **Security:** Implements **Token-Based Access Control** to mitigate Broken Access Control vulnerabilities (OWASP Top 10). The system generates persistent session tokens (configurable expiration up to 100 years) stored in a dedicated `Sessions` registry. Critical write operations (`updateProfile`, `addProject`, `toggleUpvote`) are gate-kept by a `verifySession` middleware that validates the token-identity pair before execution, alongside SHA-256 salted hashing for password storage.
 
 ## 3. Persistence: Hyper-Converged Data Store
@@ -81,11 +86,13 @@ Media assets are offloaded to Cloudinary (utilizing auto-format WebP compression
 
 To manage content relevance in a distributed social graph without a dedicated recommendation engine, we implemented a gravity-based decay algorithm inspired by Hacker News [@HackerNews:Algorithm]:
 
-Where  represents upvotes and  comments. The denominator  ensures that older high-ranking content gradually yields to fresh content. This calculation is offloaded to a background worker (Time-Driven Trigger) to maintain sub-second API response times.
+$$S_p = \frac{(2 \cdot U_p) + (3 \cdot C_p)}{\sqrt{\Delta t + 1}}$$
+
+Where $U_p$ represents upvotes and $C_p$ comments. The denominator $\sqrt{\Delta t + 1}$ ensures that older high-ranking content gradually yields to fresh content. This calculation is offloaded to a background worker (Time-Driven Trigger) to maintain sub-second API response times.
 
 ## 2. Reverse-Range Pagination
 
-Standard Apps Script implementations suffer from  read times as datasets grow. We introduced a **Reverse-Range Strategy** that exploits the append-only nature of the dataset:
+Standard Apps Script implementations suffer from $O(N)$ read times as datasets grow. We introduced a **Reverse-Range Strategy** that exploits the append-only nature of the dataset:
 
 ```javascript
 const lastRow = sheet.getLastRow();
@@ -150,7 +157,7 @@ The system includes a dual-layer security protocol. First, it transparently upgr
   title = {NIELIT StudentHub: A Zero-OpEx, Serverless Institutional Knowledge Management System},
   year = {2026},
   publisher = {GitHub},
-  url = {https://github.com/nielitropar/nielitropar.github.io}
+  url = {[https://github.com/nielitropar/nielitropar.github.io](https://github.com/nielitropar/nielitropar.github.io)}
 }
 
 ```
@@ -164,3 +171,7 @@ No generative AI tools were used in the writing of the software code. AI assista
 We acknowledge the National Institute of Electronics & Information Technology (NIELIT), Ropar, for providing the testing environment, and the students who contributed to the stress-testing of the platform.
 
 # References
+
+```
+
+```
